@@ -1,75 +1,141 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "origin_hero_image_rK8aQQ": {
+      "type": "origin-hero-image",
+      "name": "Origin Hero (Campaign)",
+      "settings": {
+        "image_desktop": "shopify://shop_images/27F1BEFC-C530-4BBE-A2DD-93348C78BA30.png",
+        "image_mobile": "shopify://shop_images/DF6C23B4-0CE4-4F33-B1A9-F0EF792CDA38.png",
+        "height_desktop": 750,
+        "heading": "Cruise 2026 Collection",
+        "button_text": "SHOP NOW",
+        "button_link": "",
+        "text_color": "#FFFFFF",
+        "overlay_opacity": 20
+      }
+    },
+    "origin_section_heading_LRyUdm": {
+      "type": "origin-section-heading",
+      "name": "Origin Section Heading",
+      "settings": {
+        "heading": "GIFTS CURATED BY THE HOUSE",
+        "text_alignment": "center",
+        "padding_top": 80,
+        "padding_bottom": 40,
+        "text_color": "#000000"
+      }
+    },
+    "origin_marquee_MhwXkK": {
+      "type": "origin-marquee",
+      "disabled": true,
+      "name": "Origin Marquee",
+      "settings": {
+        "text": "COMPLIMENTARY SHIPPING ON ALL ORDERS OVER $500  —  ORIGIN SPRING/SUMMER 25  —  WORLDWIDE DELIVERY",
+        "bg_color": "#000000",
+        "text_color": "#ffffff",
+        "speed": 40
+      }
+    },
+    "gucci_grid_8G6xe9": {
+      "type": "gucci-grid",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "collection_block_tfQDRa": {
+          "type": "collection_block",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "image": "shopify://shop_images/3F38CF77-2D0D-4D19-A0CD-867ECF5590CA.png",
+            "heading": "CATEGORY",
+            "link": ""
           }
         },
-        "button": {
-          "type": "buttons",
+        "collection_block_P9micx": {
+          "type": "collection_block",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "image": "shopify://shop_images/82DC3915-DC57-454B-9A7B-D0392F7BEBCC.png",
+            "heading": "CATEGORY",
+            "link": ""
+          }
+        },
+        "collection_block_VxN3iK": {
+          "type": "collection_block",
+          "settings": {
+            "image": "shopify://shop_images/03A32D6A-1B5C-42AD-BD6D-6C8EE9E21BFA.png",
+            "heading": "CATEGORY",
+            "link": ""
+          }
+        },
+        "collection_block_EgQ3PY": {
+          "type": "collection_block",
+          "settings": {
+            "image": "shopify://shop_images/1E2EBA60-CA10-45FF-9B91-9EDA1E115776.png",
+            "heading": "CATEGORY",
+            "link": ""
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "collection_block_tfQDRa",
+        "collection_block_P9micx",
+        "collection_block_VxN3iK",
+        "collection_block_EgQ3PY"
       ],
+      "name": "Gucci Grid (4-Col Origin)",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "grid_gap": 20,
+        "side_padding": 40,
+        "top_padding": 60,
+        "text_color": "#000000"
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "origin_split_mCWFfX": {
+      "type": "origin-split",
+      "blocks": {
+        "banner_eVL3hP": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/6C3148A9-DA27-4A02-AC30-7056607A3F6E.png",
+            "heading": "GIFTS FOR HER",
+            "button_label": "SHOP NOW",
+            "link": ""
+          }
+        },
+        "banner_EGNtWW": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/57664DF6-7C42-44C0-B7BC-BCF3D910139C.png",
+            "heading": "GIFTS FOR HER",
+            "button_label": "SHOP NOW",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "banner_eVL3hP",
+        "banner_EGNtWW"
+      ],
+      "name": "Origin Split (50/50)",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "gap": 10,
+        "height_desktop": 700,
+        "side_padding": 0,
+        "padding_bottom": 60,
+        "text_color": "#ffffff"
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "origin_hero_image_rK8aQQ",
+    "origin_section_heading_LRyUdm",
+    "origin_marquee_MhwXkK",
+    "gucci_grid_8G6xe9",
+    "origin_split_mCWFfX"
   ]
 }
