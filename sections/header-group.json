@@ -13,6 +13,7 @@
   "sections": {
     "header": {
       "type": "header",
+      "disabled": true,
       "settings": {
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
@@ -55,10 +56,21 @@
         "enable_country_selector": false,
         "enable_language_selector": false
       }
+    },
+    "origin_header_hxf8EN": {
+      "type": "origin-header",
+      "name": "Origin Header V4 (Final)",
+      "settings": {
+        "logo_width": 160,
+        "padding_top": 20,
+        "padding_side": 40,
+        "menu": "origin-menu"
+      }
     }
   },
   "order": [
     "header",
-    "announcement_bar_Pmqzea"
+    "announcement_bar_Pmqzea",
+    "origin_header_hxf8EN"
   ]
 }
