@@ -163,9 +163,22 @@
         "mobile_content_alignment": "center",
         "show_text_below": true
       }
+    },
+    "editorial_spotlight_xjEVgn": {
+      "type": "editorial-spotlight",
+      "name": "Editorial Spotlight",
+      "settings": {
+        "height_desktop": 750,
+        "heading": "Cruise 2026 Collection",
+        "button_text": "SHOP NOW",
+        "button_link": "",
+        "text_color": "#FFFFFF",
+        "overlay_opacity": 10
+      }
     }
   },
   "order": [
+    "editorial_spotlight_xjEVgn",
     "origin_section_heading_LRyUdm",
     "origin_marquee_MhwXkK",
     "gucci_grid_8G6xe9",
