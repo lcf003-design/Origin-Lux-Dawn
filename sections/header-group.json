@@ -57,7 +57,7 @@
         "enable_language_selector": false
       }
     },
-    "origin_header_Pc7j8M": {
+    "origin_header_9a9fBB": {
       "type": "origin-header",
       "name": "Origin Header V4 (Final)",
       "settings": {
@@ -71,6 +71,6 @@
   "order": [
     "header",
     "announcement_bar_Pmqzea",
-    "origin_header_Pc7j8M"
+    "origin_header_9a9fBB"
   ]
 }
