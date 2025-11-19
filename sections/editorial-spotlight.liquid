@@ -83,7 +83,8 @@
       <img src="{{ section.settings.image_desktop | image_url: width: 2000 }}" 
            class="hero-img desktop-img" 
            loading="eager" 
-           alt="{{ section.settings.heading }}">
+           alt="{{ section.settings.heading }}"
+           width="2000" height="1000"> 
     {% else %}
       {{ 'lifestyle-1' | placeholder_svg_tag: 'hero-img placeholder' }}
     {% endif %}
@@ -92,7 +93,8 @@
       <img src="{{ section.settings.image_mobile | image_url: width: 1000 }}" 
            class="hero-img mobile-img" 
            loading="eager" 
-           alt="{{ section.settings.heading }}">
+           alt="{{ section.settings.heading }}"
+           width="1000" height="1500"> 
     {% endif %}
   </div>
 
@@ -125,7 +127,9 @@
   }
 
   .hero-img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
+    width: 100%; height: 100%; 
+    object-fit: cover; /* Ensures image fills the space */
+    display: block;
   }
 
   .mobile-img { display: none; }
@@ -134,7 +138,7 @@
     position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none;
   }
 
-  /* CONTENT */
+/* CONTENT */
   .hero-content {
     position: relative; z-index: 3;
     transform: translateY(30px);
@@ -171,7 +175,7 @@
     transform: scale(1.05);
   }
 
-  /* MOBILE */
+/* MOBILE */
   @media screen and (max-width: 768px) {
     .editorial-spotlight-wrapper { height: 85vh; }
     .desktop-img { display: none; }
