@@ -13,12 +13,25 @@
       "type": "origin-hero-image",
       "name": "Origin Hero (Campaign)",
       "settings": {
+        "image_desktop": "shopify://shop_images/27F1BEFC-C530-4BBE-A2DD-93348C78BA30.png",
+        "image_mobile": "shopify://shop_images/DF6C23B4-0CE4-4F33-B1A9-F0EF792CDA38.png",
         "height_desktop": 750,
         "heading": "Cruise 2026 Collection",
         "button_text": "SHOP NOW",
         "button_link": "",
         "text_color": "#FFFFFF",
-        "overlay_opacity": 10
+        "overlay_opacity": 20
+      }
+    },
+    "origin_section_heading_LRyUdm": {
+      "type": "origin-section-heading",
+      "name": "Origin Section Heading",
+      "settings": {
+        "heading": "GIFTS CURATED BY THE HOUSE",
+        "text_alignment": "center",
+        "padding_top": 80,
+        "padding_bottom": 40,
+        "text_color": "#000000"
       }
     },
     "origin_marquee_MhwXkK": {
@@ -38,6 +51,7 @@
         "collection_block_tfQDRa": {
           "type": "collection_block",
           "settings": {
+            "image": "shopify://shop_images/3F38CF77-2D0D-4D19-A0CD-867ECF5590CA.png",
             "heading": "CATEGORY",
             "link": ""
           }
@@ -45,6 +59,7 @@
         "collection_block_P9micx": {
           "type": "collection_block",
           "settings": {
+            "image": "shopify://shop_images/82DC3915-DC57-454B-9A7B-D0392F7BEBCC.png",
             "heading": "CATEGORY",
             "link": ""
           }
@@ -52,6 +67,7 @@
         "collection_block_VxN3iK": {
           "type": "collection_block",
           "settings": {
+            "image": "shopify://shop_images/03A32D6A-1B5C-42AD-BD6D-6C8EE9E21BFA.png",
             "heading": "CATEGORY",
             "link": ""
           }
@@ -59,6 +75,7 @@
         "collection_block_EgQ3PY": {
           "type": "collection_block",
           "settings": {
+            "image": "shopify://shop_images/1E2EBA60-CA10-45FF-9B91-9EDA1E115776.png",
             "heading": "CATEGORY",
             "link": ""
           }
@@ -84,6 +101,7 @@
         "banner_eVL3hP": {
           "type": "banner",
           "settings": {
+            "image": "shopify://shop_images/6C3148A9-DA27-4A02-AC30-7056607A3F6E.png",
             "heading": "GIFTS FOR HER",
             "button_label": "SHOP NOW",
             "link": ""
@@ -92,6 +110,7 @@
         "banner_EGNtWW": {
           "type": "banner",
           "settings": {
+            "image": "shopify://shop_images/57664DF6-7C42-44C0-B7BC-BCF3D910139C.png",
             "heading": "GIFTS FOR HER",
             "button_label": "SHOP NOW",
             "link": ""
@@ -109,17 +128,6 @@
         "side_padding": 0,
         "padding_bottom": 60,
         "text_color": "#ffffff"
-      }
-    },
-    "origin_section_heading_LRyUdm": {
-      "type": "origin-section-heading",
-      "name": "Origin Section Heading",
-      "settings": {
-        "heading": "GIFTS CURATED BY THE HOUSE",
-        "text_alignment": "center",
-        "padding_top": 80,
-        "padding_bottom": 40,
-        "text_color": "#000000"
       }
     }
   },
