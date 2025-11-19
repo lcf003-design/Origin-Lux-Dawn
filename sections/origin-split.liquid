@@ -1,7 +1,11 @@
 {% schema %}
 {
-  "name": "Origin Split V2 (Spaced)",
+  "name": "Origin Split V3 (Padding)",
   "settings": [
+    {
+      "type": "header",
+      "content": "LAYOUT"
+    },
     {
       "type": "range",
       "id": "gap",
@@ -11,6 +15,20 @@
       "unit": "px",
       "label": "Gap Between Images",
       "default": 10
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 400,
+      "max": 900,
+      "step": 50,
+      "unit": "px",
+      "label": "Desktop Height",
+      "default": 650
+    },
+    {
+      "type": "header",
+      "content": "SPACING"
     },
     {
       "type": "range",
@@ -24,13 +42,18 @@
     },
     {
       "type": "range",
-      "id": "height_desktop",
-      "min": 400,
-      "max": 800,
-      "step": 50,
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
       "unit": "px",
-      "label": "Desktop Height",
-      "default": 600
+      "label": "Bottom Spacing",
+      "default": 60,
+      "info": "Space between this section and the footer."
+    },
+    {
+      "type": "header",
+      "content": "CONTENT"
     },
     {
       "type": "color",
@@ -72,7 +95,7 @@
   ],
   "presets": [
     {
-      "name": "Origin Split V2 (Spaced)",
+      "name": "Origin Split V3 (Padding)",
       "blocks": [
         { "type": "banner" },
         { "type": "banner" }
@@ -106,15 +129,18 @@
 <style>
   .origin-split-wrapper {
     background: #fff;
-    padding: 0 {{ section.settings.side_padding }}px; /* Side padding */
     width: 100%;
+    /* Dynamic Spacing Control */
+    padding-left: {{ section.settings.side_padding }}px;
+    padding-right: {{ section.settings.side_padding }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px; 
   }
 
   .origin-split-container {
     display: flex;
     width: 100%;
     height: {{ section.settings.height_desktop }}px;
-    gap: {{ section.settings.gap }}px; /* The Gap in the middle */
+    gap: {{ section.settings.gap }}px;
   }
 
   .split-item {
