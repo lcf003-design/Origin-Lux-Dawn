@@ -9,33 +9,16 @@
  */
 {
   "sections": {
-    "featured_collection": {
-      "type": "featured-collection",
-      "disabled": true,
+    "origin_hero_image_rK8aQQ": {
+      "type": "origin-hero-image",
+      "name": "Origin Hero (Campaign)",
       "settings": {
-        "collection": "all",
-        "products_to_show": 8,
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 44,
-        "padding_bottom": 36
+        "height_desktop": 750,
+        "heading": "Cruise 2026 Collection",
+        "button_text": "SHOP NOW",
+        "button_link": "",
+        "text_color": "#FFFFFF",
+        "overlay_opacity": 10
       }
     },
     "origin_marquee_MhwXkK": {
@@ -45,7 +28,7 @@
       "settings": {
         "text": "COMPLIMENTARY SHIPPING ON ALL ORDERS OVER $500  —  ORIGIN SPRING/SUMMER 25  —  WORLDWIDE DELIVERY",
         "bg_color": "#000000",
-        "text_color": "#FFFFFF",
+        "text_color": "#ffffff",
         "speed": 40
       }
     },
@@ -89,8 +72,9 @@
       ],
       "name": "Gucci Grid (4-Col Origin)",
       "settings": {
-        "title": "THE COLLECTIONS",
-        "border_color": "#000000",
+        "grid_gap": 20,
+        "side_padding": 40,
+        "top_padding": 60,
         "text_color": "#000000"
       }
     },
@@ -120,13 +104,28 @@
       ],
       "name": "Origin Split (50/50)",
       "settings": {
+        "gap": 10,
         "height_desktop": 700,
-        "text_color": "#FFFFFF"
+        "side_padding": 0,
+        "padding_bottom": 60,
+        "text_color": "#ffffff"
+      }
+    },
+    "origin_section_heading_LRyUdm": {
+      "type": "origin-section-heading",
+      "name": "Origin Section Heading",
+      "settings": {
+        "heading": "GIFTS CURATED BY THE HOUSE",
+        "text_alignment": "center",
+        "padding_top": 80,
+        "padding_bottom": 40,
+        "text_color": "#000000"
       }
     }
   },
   "order": [
-    "featured_collection",
+    "origin_hero_image_rK8aQQ",
+    "origin_section_heading_LRyUdm",
     "origin_marquee_MhwXkK",
     "gucci_grid_8G6xe9",
     "origin_split_mCWFfX"
