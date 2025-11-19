@@ -1,0 +1,132 @@
+{% schema %}
+{
+  "name": "Gucci Grid (Origin)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "THE COLLECTIONS"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Grid Lines Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_block",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (Portrait 4:5)"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "CATEGORY"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gucci Grid (Origin)",
+      "blocks": [
+        { "type": "collection_block" },
+        { "type": "collection_block" },
+        { "type": "collection_block" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div class="gucci-wrapper">
+  {% if section.settings.title != blank %}
+    <div class="gucci-header">
+      <h2>{{ section.settings.title }}</h2>
+    </div>
+  {% endif %}
+
+  <div class="gucci-grid">
+    {% for block in section.blocks %}
+      <a href="{{ block.settings.link }}" class="gucci-item">
+        <div class="img-box">
+          {% if block.settings.image %}
+            {{ block.settings.image | image_url: width: 1000 | image_tag: class: 'g-img', loading: 'lazy' }}
+          {% else %}
+            {{ 'collection-1' | placeholder_svg_tag: 'g-img placeholder' }}
+          {% endif %}
+        </div>
+        <div class="label-box">
+          <span class="g-label">{{ block.settings.heading }}</span>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .gucci-wrapper { border-bottom: 1px solid {{ section.settings.border_color }}; }
+  
+  .gucci-header {
+    padding: 2rem; text-align: center;
+    border-bottom: 1px solid {{ section.settings.border_color }};
+  }
+  .gucci-header h2 {
+    font-size: 1rem; letter-spacing: 0.2em; margin: 0;
+    color: {{ section.settings.text_color }}; text-transform: uppercase;
+  }
+
+  .gucci-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 Columns */
+    gap: 1px; /* The Border Width */
+    background-color: {{ section.settings.border_color }};
+  }
+
+  .gucci-item {
+    position: relative; display: block; background: #f4f4f4;
+    aspect-ratio: 4 / 5; /* Portrait Mode */
+    text-decoration: none; overflow: hidden;
+  }
+
+  .img-box { width: 100%; height: 100%; overflow: hidden; }
+  .g-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+  .placeholder { background: #ddd; }
+  
+  /* Hover Effect */
+  .gucci-item:hover .g-img { transform: scale(1.05); }
+
+  .label-box {
+    position: absolute; bottom: 0; left: 0; width: 100%; padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+    pointer-events: none;
+  }
+  .g-label {
+    color: #fff; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
+    border-bottom: 1px solid transparent; transition: border-color 0.3s;
+  }
+  .gucci-item:hover .g-label { border-bottom: 1px solid #fff; }
+
+  @media screen and (max-width: 768px) {
+    .gucci-grid { grid-template-columns: 1fr; } /* 1 Column on Mobile */
+  }
+</style>
