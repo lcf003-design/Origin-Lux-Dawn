@@ -35,7 +35,8 @@
       "type": "origin-header",
       "name": "Origin Header (Luxury)",
       "settings": {
-        "logo_width": 120,
+        "logo": "shopify://shop_images/OIB_Monkey.svg",
+        "logo_width": 170,
         "menu": "main-menu"
       }
     }
