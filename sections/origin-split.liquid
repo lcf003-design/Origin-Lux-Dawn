@@ -1,0 +1,197 @@
+{% schema %}
+{
+  "name": "Origin Split (50/50)",
+  "class": "section-origin-split",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 400,
+      "max": 900,
+      "step": 50,
+      "unit": "px",
+      "label": "Desktop Height",
+      "default": 700
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "GIFTS FOR HER"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "SHOP NOW"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin Split (50/50)",
+      "blocks": [
+        { "type": "banner" },
+        { "type": "banner" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div class="origin-split-container">
+  {% for block in section.blocks %}
+    <div class="split-item">
+      <a href="{{ block.settings.link }}" class="split-link">
+        <div class="split-image-wrapper">
+          {% if block.settings.image %}
+            {{ block.settings.image | image_url: width: 1400 | image_tag: class: 'split-img', loading: 'lazy' }}
+          {% else %}
+            {{ 'collection-1' | placeholder_svg_tag: 'split-img placeholder' }}
+          {% endif %}
+        </div>
+        
+        <div class="split-content">
+          <h3 class="split-heading">{{ block.settings.heading }}</h3>
+          <span class="split-btn">{{ block.settings.button_label }}</span>
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
+<style>
+  .section-origin-split {
+    width: 100%;
+    border-bottom: 1px solid #000; /* Tiny divider line */
+  }
+
+  .origin-split-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: {{ section.settings.height_desktop }}px;
+  }
+
+  .split-item {
+    flex: 1;
+    position: relative;
+    height: 100%;
+    min-width: 50%; /* Forces 50/50 split */
+    overflow: hidden;
+    border-right: 1px solid #fff; /* Separator line */
+  }
+  
+  .split-item:last-child {
+    border-right: none;
+  }
+
+  .split-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    position: relative;
+  }
+
+  /* IMAGE HANDLING */
+  .split-image-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .split-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .placeholder { background: #ccc; }
+
+  /* HOVER ZOOM */
+  .split-item:hover .split-img {
+    transform: scale(1.03);
+  }
+
+  /* CONTENT POSITIONING (Bottom Center like Gucci) */
+  .split-content {
+    position: absolute;
+    bottom: 3rem;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+    color: {{ section.settings.text_color }};
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .split-heading {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    text-transform: capitalize; /* Gucci uses Title Case for these */
+    letter-spacing: 0;
+    font-family: var(--font-heading-family);
+  }
+
+  .split-btn {
+    display: inline-block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    background: rgba(255,255,255,0.2); /* Glass effect button */
+    backdrop-filter: blur(5px);
+    padding: 12px 24px;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.4);
+    transition: all 0.3s ease;
+  }
+
+  .split-item:hover .split-btn {
+    background: #fff;
+    color: #000;
+  }
+
+  /* MOBILE ADJUSTMENTS */
+  @media screen and (max-width: 768px) {
+    .origin-split-container {
+      height: auto;
+      flex-direction: column;
+    }
+    .split-item {
+      min-width: 100%;
+      height: 500px; /* Vertical stack on phone */
+      border-right: none;
+      border-bottom: 1px solid #fff;
+    }
+  }
+</style>
