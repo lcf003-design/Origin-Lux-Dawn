@@ -8,8 +8,16 @@
  * ------------------------------------------------------------
  */
 {
-  "name": "header-group",
+  "name": "t:sections.header.name",
   "type": "header",
-  "sections": {},
-  "order": []
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "header"
+  ]
 }
