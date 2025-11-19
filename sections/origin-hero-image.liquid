@@ -1,0 +1,186 @@
+{% schema %}
+{
+  "name": "Origin Hero (Campaign)",
+  "class": "section-origin-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop Image",
+      "info": "High Res (2000px+)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Image",
+      "info": "Portrait Mode (9:16)"
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Desktop Height",
+      "default": 750
+    },
+    {
+      "type": "header",
+      "content": "TEXT"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Cruise 2026 Collection"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "COLORS"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "label": "Black Overlay",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin Hero (Campaign)"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="origin-hero-wrapper">
+  <div class="hero-bg">
+    <div class="overlay" style="background: rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }})"></div>
+    
+    {% if section.settings.image_desktop %}
+      <img src="{{ section.settings.image_desktop | image_url: width: 2000 }}" 
+           class="hero-img desktop-img" 
+           loading="eager" 
+           alt="{{ section.settings.heading }}">
+    {% else %}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'hero-img placeholder' }}
+    {% endif %}
+
+    {% if section.settings.image_mobile %}
+      <img src="{{ section.settings.image_mobile | image_url: width: 1000 }}" 
+           class="hero-img mobile-img" 
+           loading="eager" 
+           alt="{{ section.settings.heading }}">
+    {% endif %}
+  </div>
+
+  <div class="hero-content">
+    <h2 class="hero-title">{{ section.settings.heading }}</h2>
+    
+    {% if section.settings.button_text != blank %}
+      <a href="{{ section.settings.button_link }}" class="hero-btn">
+        {{ section.settings.button_text }}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  .origin-hero-wrapper {
+    position: relative;
+    width: 100%;
+    height: {{ section.settings.height_desktop }}px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* BACKGROUND */
+  .hero-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+  }
+
+  .hero-img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+
+  .mobile-img { display: none; }
+
+  .overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none;
+  }
+
+  /* CONTENT */
+  .hero-content {
+    position: relative; z-index: 3;
+    transform: translateY(30px);
+    max-width: 800px;
+    padding: 0 20px;
+  }
+
+  .hero-title {
+    font-family: var(--font-heading-family);
+    font-size: 3rem;
+    color: {{ section.settings.text_color }};
+    margin-bottom: 2rem;
+    font-weight: 400;
+    line-height: 1.2;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+  }
+
+  /* THE WHITE BUTTON */
+  .hero-btn {
+    display: inline-block;
+    background: #FFFFFF;
+    color: #000000;
+    text-decoration: none;
+    padding: 15px 30px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: transform 0.3s ease;
+    border: none;
+  }
+
+  .hero-btn:hover {
+    transform: scale(1.05);
+  }
+
+  /* MOBILE */
+  @media screen and (max-width: 768px) {
+    .origin-hero-wrapper { height: 85vh; }
+    .desktop-img { display: none; }
+    .mobile-img { display: block; }
+    
+    {% if section.settings.image_mobile == blank %}
+      .desktop-img { display: block; }
+    {% endif %}
+
+    .hero-title { font-size: 2rem; }
+  }
+</style>
