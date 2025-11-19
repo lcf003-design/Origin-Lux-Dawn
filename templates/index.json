@@ -9,15 +9,16 @@
  */
 {
   "sections": {
-    "origin_section_heading_LRyUdm": {
-      "type": "origin-section-heading",
-      "name": "Origin Section Heading",
+    "editorial_spotlight_xjEVgn": {
+      "type": "editorial-spotlight",
+      "name": "Editorial Spotlight",
       "settings": {
-        "heading": "GIFTS CURATED BY THE HOUSE",
-        "text_alignment": "center",
-        "padding_top": 80,
-        "padding_bottom": 40,
-        "text_color": "#000000"
+        "height_desktop": 750,
+        "heading": "Cruise 2026 Collection",
+        "button_text": "SHOP NOW",
+        "button_link": "",
+        "text_color": "#ffffff",
+        "overlay_opacity": 10
       }
     },
     "origin_marquee_MhwXkK": {
@@ -115,74 +116,12 @@
         "padding_bottom": 60,
         "text_color": "#ffffff"
       }
-    },
-    "image_banner_Y7HKJ4": {
-      "type": "image-banner",
-      "blocks": {
-        "heading_9AABJT": {
-          "type": "heading",
-          "settings": {
-            "heading": "Image banner",
-            "heading_size": "h1"
-          }
-        },
-        "text_FRGVTp": {
-          "type": "text",
-          "settings": {
-            "text": "Give customers details about the banner image(s) or content on the template.",
-            "text_style": "body"
-          }
-        },
-        "buttons_EyVPF9": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Button label",
-            "button_link_1": "",
-            "button_style_secondary_1": false,
-            "button_label_2": "Button label",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_9AABJT",
-        "text_FRGVTp",
-        "buttons_EyVPF9"
-      ],
-      "name": "t:sections.image-banner.presets.name",
-      "settings": {
-        "image_overlay_opacity": 0,
-        "image_height": "medium",
-        "image_behavior": "none",
-        "desktop_content_position": "middle-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": true,
-        "color_scheme": "",
-        "stack_images_on_mobile": true,
-        "mobile_content_alignment": "center",
-        "show_text_below": true
-      }
-    },
-    "editorial_spotlight_xjEVgn": {
-      "type": "editorial-spotlight",
-      "name": "Editorial Spotlight",
-      "settings": {
-        "height_desktop": 750,
-        "heading": "Cruise 2026 Collection",
-        "button_text": "SHOP NOW",
-        "button_link": "",
-        "text_color": "#FFFFFF",
-        "overlay_opacity": 10
-      }
     }
   },
   "order": [
     "editorial_spotlight_xjEVgn",
-    "origin_section_heading_LRyUdm",
     "origin_marquee_MhwXkK",
     "gucci_grid_8G6xe9",
-    "origin_split_mCWFfX",
-    "image_banner_Y7HKJ4"
+    "origin_split_mCWFfX"
   ]
 }
