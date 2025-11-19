@@ -1,27 +1,27 @@
 {% schema %}
 {
-  "name": "Origin Footer (Grand)",
+  "name": "Origin Footer V3 (Clean)",
   "settings": [
     {
       "type": "header",
-      "content": "The Big Branding"
+      "content": "BRANDING"
     },
     {
       "type": "text",
       "id": "brand_name",
       "label": "Big Logo Text",
       "default": "ORIGIN",
-      "info": "Leave blank if you want to use an image."
+      "info": "The massive text at the bottom."
     },
     {
       "type": "image_picker",
       "id": "brand_logo",
       "label": "Big Logo Image (Optional)",
-      "info": "Upload a very wide, high-res logo (PNG/SVG)."
+      "info": "Replaces text. Use a wide, white PNG."
     },
     {
       "type": "header",
-      "content": "Navigation"
+      "content": "NAVIGATION"
     },
     {
       "type": "link_list",
@@ -31,12 +31,22 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "SOCIAL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show Social Icons",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "DESIGN"
     },
     {
       "type": "color",
       "id": "bg_color",
-      "label": "Background",
+      "label": "Background Color",
       "default": "#000000"
     },
     {
@@ -44,11 +54,21 @@
       "id": "text_color",
       "label": "Text Color",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Spacing",
+      "default": 60
     }
   ],
   "presets": [
     {
-      "name": "Origin Footer (Grand)"
+      "name": "Origin Footer V3 (Clean)"
     }
   ]
 }
@@ -58,6 +78,7 @@
   
   <div class="footer-top">
     <div class="footer-grid">
+      
       {% if section.settings.menu != blank %}
         {% for link in linklists[section.settings.menu].links %}
           <div class="footer-col">
@@ -76,19 +97,42 @@
       <div class="footer-col newsletter-col">
         <h4 class="footer-heading">NEWSLETTER</h4>
         <p class="newsletter-text">Subscribe for exclusive access.</p>
-        {% form 'customer' %}
+        {% form 'customer', class: 'newsletter-form-wrap' %}
           <input type="hidden" name="contact[tags]" value="newsletter">
-          <div class="newsletter-form">
+          <div class="newsletter-input-group">
             <input type="email" name="contact[email]" class="newsletter-input" placeholder="EMAIL ADDRESS" required>
-            <button type="submit" class="newsletter-btn">→</button>
+            <button type="submit" class="newsletter-btn">JOIN</button>
           </div>
         {% endform %}
       </div>
     </div>
+  </div>
+
+  <div class="footer-utility-bar">
     
-    <div class="footer-legal-row">
-      <span>&copy; {{ 'now' | date: "%Y" }} {{ shop.name | upcase }}. ALL RIGHTS RESERVED.</span>
+    <div class="utility-left">
+      {% if section.settings.show_social %}
+        <div class="social-icons">
+           {%- if settings.social_instagram_link != blank -%}
+            <a href="{{ settings.social_instagram_link }}" class="social-link">INSTAGRAM</a>
+           {%- endif -%}
+           {%- if settings.social_tiktok_link != blank -%}
+            <a href="{{ settings.social_tiktok_link }}" class="social-link">TIKTOK</a>
+           {%- endif -%}
+           {%- if settings.social_facebook_link != blank -%}
+            <a href="{{ settings.social_facebook_link }}" class="social-link">FACEBOOK</a>
+           {%- endif -%}
+           {%- if settings.social_youtube_link != blank -%}
+            <a href="{{ settings.social_youtube_link }}" class="social-link">YOUTUBE</a>
+           {%- endif -%}
+        </div>
+      {% endif %}
     </div>
+
+    <div class="utility-right">
+      <span class="copyright-text">&copy; {{ 'now' | date: "%Y" }} {{ shop.name | upcase }}. ALL RIGHTS RESERVED.</span>
+    </div>
+
   </div>
 
   <div class="footer-branding">
@@ -102,120 +146,89 @@
 </footer>
 
 <style>
+  /* GLOBAL */
   .origin-footer {
     background-color: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
-    padding-top: 4rem;
+    padding-top: {{ section.settings.padding_top }}px;
     overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.1);
   }
 
-  /* TOP SECTION: LINKS */
-  .footer-top {
-    padding: 0 2rem;
-    margin-bottom: 4rem;
-  }
-
+  /* 1. TOP GRID - MENUS */
+  .footer-top { padding: 0 2rem; margin-bottom: 4rem; }
   .footer-grid {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 3rem;
-    max-width: 1400px;
-    margin: 0 auto;
+    display: flex; flex-wrap: wrap; gap: 4rem; justify-content: space-between;
+    max-width: 1600px; margin: 0 auto;
   }
-
-  .footer-col {
-    flex: 1;
-    min-width: 150px;
-  }
-
+  .footer-col { min-width: 140px; }
+  
   .footer-heading {
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    opacity: 0.6;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 1.5rem; opacity: 0.6; font-weight: 600; /* Made slightly bolder/brighter */
   }
 
-  .footer-sublinks {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .footer-sublinks li {
-    margin-bottom: 0.8rem;
-  }
-
+  .footer-sublinks { list-style: none; padding: 0; margin: 0; }
+  .footer-sublinks li { margin-bottom: 0.8rem; }
   .footer-sublinks a {
-    color: {{ section.settings.text_color }};
-    text-decoration: none;
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
-    transition: opacity 0.3s;
+    color: {{ section.settings.text_color }}; text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase;
+    transition: all 0.3s; opacity: 0.9; /* Brighter default state */
   }
-
-  .footer-sublinks a:hover { opacity: 0.6; }
+  .footer-sublinks a:hover { opacity: 1; text-decoration: underline; }
 
   /* NEWSLETTER */
+  .newsletter-col { flex: 1.5; max-width: 400px; }
+  .newsletter-text { font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.8; }
+  .newsletter-input-group { display: flex; border-bottom: 1px solid {{ section.settings.text_color }}; }
   .newsletter-input {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid {{ section.settings.text_color }};
-    color: {{ section.settings.text_color }};
-    padding: 10px 0;
-    width: 100%;
-    outline: none;
-    text-transform: uppercase;
-    font-size: 0.85rem;
+    background: transparent; border: none; color: white; width: 100%;
+    padding: 12px 0; outline: none; text-transform: uppercase; font-size: 0.9rem;
   }
-  
   .newsletter-btn {
-    background: none; border: none; color: {{ section.settings.text_color }}; cursor: pointer; font-size: 1.2rem;
+    background: transparent; border: none; color: white; cursor: pointer;
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 10px;
+  }
+  .newsletter-btn:hover { opacity: 0.7; }
+
+  /* 2. UTILITY BAR */
+  .footer-utility-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 2rem 2rem 1rem 2rem; /* Less bottom padding to hug the logo */
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
   }
   
-  .newsletter-form { display: flex; align-items: center; }
-
-  /* COPYRIGHT */
-  .footer-legal-row {
-    margin-top: 4rem;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    opacity: 0.5;
-    letter-spacing: 0.1em;
-    text-align: center;
+  .utility-left { flex: 1; }
+  .utility-right { flex: 1; text-align: right; opacity: 0.6; }
+  
+  .social-link {
+    color: white; text-decoration: none; margin-right: 25px; opacity: 0.8; transition: opacity 0.3s;
   }
+  .social-link:hover { opacity: 1; }
 
-  /* THE MASSIVE LOGO SECTION */
+  /* 3. MASSIVE BRANDING */
   .footer-branding {
-    width: 100%;
-    line-height: 0.8;
-    text-align: center;
-    padding-bottom: 0; /* Flush to bottom */
-    overflow: hidden;
+    width: 100%; line-height: 0.75; text-align: center;
+    padding-bottom: 0; overflow: hidden; margin-top: 0.5rem;
   }
-
+  
   .huge-logo-text {
     font-family: var(--font-heading-family);
-    font-size: 21vw; /* This is the magic. It scales with the viewport width */
-    margin: 0;
-    padding: 0;
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    user-select: none;
-    display: block;
-    transform: translateY(10%); /* Tucks it slightly for that magazine look */
+    font-size: 24vw; /* MASSIVE */
+    margin: 0; padding: 0; letter-spacing: -0.04em;
+    text-transform: uppercase; white-space: nowrap; display: block;
+    color: {{ section.settings.text_color }}; 
+    opacity: 1; /* Force Full Brightness */
+    transform: translateY(8%); 
   }
-
-  .huge-logo-img {
-    width: 100%;
-    display: block;
-  }
+  
+  .huge-logo-img { width: 100%; display: block; }
 
   /* MOBILE */
   @media screen and (max-width: 768px) {
-    .footer-grid { flex-direction: column; gap: 2rem; }
-    .huge-logo-text { font-size: 19vw; }
+    .footer-grid { flex-direction: column; gap: 2.5rem; }
+    .footer-utility-bar { flex-direction: column-reverse; gap: 1.5rem; text-align: center; }
+    .utility-right { text-align: center; }
+    .huge-logo-text { font-size: 21vw; }
   }
 </style>
