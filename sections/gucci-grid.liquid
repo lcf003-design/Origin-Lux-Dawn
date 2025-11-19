@@ -1,6 +1,6 @@
 {% schema %}
 {
-  "name": "Gucci Grid (Origin)",
+  "name": "Gucci Grid (4-Col Origin)",
   "settings": [
     {
       "type": "text",
@@ -47,8 +47,9 @@
   ],
   "presets": [
     {
-      "name": "Gucci Grid (Origin)",
+      "name": "Gucci Grid (4-Col Origin)",
       "blocks": [
+        { "type": "collection_block" },
         { "type": "collection_block" },
         { "type": "collection_block" },
         { "type": "collection_block" }
@@ -70,7 +71,7 @@
       <a href="{{ block.settings.link }}" class="gucci-item">
         <div class="img-box">
           {% if block.settings.image %}
-            {{ block.settings.image | image_url: width: 1000 | image_tag: class: 'g-img', loading: 'lazy' }}
+            {{ block.settings.image | image_url: width: 800 | image_tag: class: 'g-img', loading: 'lazy' }}
           {% else %}
             {{ 'collection-1' | placeholder_svg_tag: 'g-img placeholder' }}
           {% endif %}
@@ -91,13 +92,14 @@
     border-bottom: 1px solid {{ section.settings.border_color }};
   }
   .gucci-header h2 {
-    font-size: 1rem; letter-spacing: 0.2em; margin: 0;
+    font-size: 0.9rem; letter-spacing: 0.2em; margin: 0;
     color: {{ section.settings.text_color }}; text-transform: uppercase;
   }
 
   .gucci-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 Columns */
+    /* CHANGED TO 4 COLUMNS HERE */
+    grid-template-columns: repeat(4, 1fr); 
     gap: 1px; /* The Border Width */
     background-color: {{ section.settings.border_color }};
   }
@@ -119,14 +121,17 @@
     position: absolute; bottom: 0; left: 0; width: 100%; padding: 1.5rem;
     background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
     pointer-events: none;
+    display: flex; justify-content: center; /* Center text */
   }
   .g-label {
-    color: #fff; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #fff; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
     border-bottom: 1px solid transparent; transition: border-color 0.3s;
   }
   .gucci-item:hover .g-label { border-bottom: 1px solid #fff; }
 
+  /* MOBILE: 2 Columns (like Instagram) or 1 Column? */
+  /* Let's do 2 columns on mobile for the 4-col layout to keep it tight */
   @media screen and (max-width: 768px) {
-    .gucci-grid { grid-template-columns: 1fr; } /* 1 Column on Mobile */
+    .gucci-grid { grid-template-columns: repeat(2, 1fr); } 
   }
 </style>
