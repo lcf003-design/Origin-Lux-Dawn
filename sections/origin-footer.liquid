@@ -1,0 +1,221 @@
+{% schema %}
+{
+  "name": "Origin Footer (Grand)",
+  "settings": [
+    {
+      "type": "header",
+      "content": "The Big Branding"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Big Logo Text",
+      "default": "ORIGIN",
+      "info": "Leave blank if you want to use an image."
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_logo",
+      "label": "Big Logo Image (Optional)",
+      "info": "Upload a very wide, high-res logo (PNG/SVG)."
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Footer Menu",
+      "default": "footer"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin Footer (Grand)"
+    }
+  ]
+}
+{% endschema %}
+
+<footer class="origin-footer">
+  
+  <div class="footer-top">
+    <div class="footer-grid">
+      {% if section.settings.menu != blank %}
+        {% for link in linklists[section.settings.menu].links %}
+          <div class="footer-col">
+            <h4 class="footer-heading">{{ link.title }}</h4>
+            {% if link.links != blank %}
+              <ul class="footer-sublinks">
+                {% for sublink in link.links %}
+                  <li><a href="{{ sublink.url }}">{{ sublink.title }}</a></li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="footer-col newsletter-col">
+        <h4 class="footer-heading">NEWSLETTER</h4>
+        <p class="newsletter-text">Subscribe for exclusive access.</p>
+        {% form 'customer' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="newsletter-form">
+            <input type="email" name="contact[email]" class="newsletter-input" placeholder="EMAIL ADDRESS" required>
+            <button type="submit" class="newsletter-btn">→</button>
+          </div>
+        {% endform %}
+      </div>
+    </div>
+    
+    <div class="footer-legal-row">
+      <span>&copy; {{ 'now' | date: "%Y" }} {{ shop.name | upcase }}. ALL RIGHTS RESERVED.</span>
+    </div>
+  </div>
+
+  <div class="footer-branding">
+    {% if section.settings.brand_logo != blank %}
+      {{ section.settings.brand_logo | image_url: width: 3000 | image_tag: class: 'huge-logo-img', loading: 'lazy' }}
+    {% else %}
+      <h1 class="huge-logo-text">{{ section.settings.brand_name }}</h1>
+    {% endif %}
+  </div>
+
+</footer>
+
+<style>
+  .origin-footer {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding-top: 4rem;
+    overflow: hidden;
+  }
+
+  /* TOP SECTION: LINKS */
+  .footer-top {
+    padding: 0 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .footer-grid {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .footer-col {
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .footer-heading {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0.6;
+  }
+
+  .footer-sublinks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-sublinks li {
+    margin-bottom: 0.8rem;
+  }
+
+  .footer-sublinks a {
+    color: {{ section.settings.text_color }};
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    transition: opacity 0.3s;
+  }
+
+  .footer-sublinks a:hover { opacity: 0.6; }
+
+  /* NEWSLETTER */
+  .newsletter-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid {{ section.settings.text_color }};
+    color: {{ section.settings.text_color }};
+    padding: 10px 0;
+    width: 100%;
+    outline: none;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+  }
+  
+  .newsletter-btn {
+    background: none; border: none; color: {{ section.settings.text_color }}; cursor: pointer; font-size: 1.2rem;
+  }
+  
+  .newsletter-form { display: flex; align-items: center; }
+
+  /* COPYRIGHT */
+  .footer-legal-row {
+    margin-top: 4rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    opacity: 0.5;
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+
+  /* THE MASSIVE LOGO SECTION */
+  .footer-branding {
+    width: 100%;
+    line-height: 0.8;
+    text-align: center;
+    padding-bottom: 0; /* Flush to bottom */
+    overflow: hidden;
+  }
+
+  .huge-logo-text {
+    font-family: var(--font-heading-family);
+    font-size: 21vw; /* This is the magic. It scales with the viewport width */
+    margin: 0;
+    padding: 0;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    user-select: none;
+    display: block;
+    transform: translateY(10%); /* Tucks it slightly for that magazine look */
+  }
+
+  .huge-logo-img {
+    width: 100%;
+    display: block;
+  }
+
+  /* MOBILE */
+  @media screen and (max-width: 768px) {
+    .footer-grid { flex-direction: column; gap: 2rem; }
+    .huge-logo-text { font-size: 19vw; }
+  }
+</style>
