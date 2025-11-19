@@ -1,18 +1,36 @@
 {% schema %}
 {
-  "name": "Gucci Grid (4-Col Origin)",
+  "name": "Gucci Grid V2 (Clean)",
   "settings": [
     {
-      "type": "text",
-      "id": "title",
-      "label": "Title",
-      "default": "THE COLLECTIONS"
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Space Between Items",
+      "default": 20
     },
     {
-      "type": "color",
-      "id": "border_color",
-      "label": "Grid Lines Color",
-      "default": "#000000"
+      "type": "range",
+      "id": "side_padding",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Side Padding (Left/Right)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Top/Bottom Padding",
+      "default": 60
     },
     {
       "type": "color",
@@ -29,13 +47,13 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image (Portrait 4:5)"
+          "label": "Image (Square or Portrait)"
         },
         {
           "type": "text",
           "id": "heading",
           "label": "Heading",
-          "default": "CATEGORY"
+          "default": "Handbags"
         },
         {
           "type": "url",
@@ -47,7 +65,7 @@
   ],
   "presets": [
     {
-      "name": "Gucci Grid (4-Col Origin)",
+      "name": "Gucci Grid V2 (Clean)",
       "blocks": [
         { "type": "collection_block" },
         { "type": "collection_block" },
@@ -60,12 +78,6 @@
 {% endschema %}
 
 <div class="gucci-wrapper">
-  {% if section.settings.title != blank %}
-    <div class="gucci-header">
-      <h2>{{ section.settings.title }}</h2>
-    </div>
-  {% endif %}
-
   <div class="gucci-grid">
     {% for block in section.blocks %}
       <a href="{{ block.settings.link }}" class="gucci-item">
@@ -76,7 +88,7 @@
             {{ 'collection-1' | placeholder_svg_tag: 'g-img placeholder' }}
           {% endif %}
         </div>
-        <div class="label-box">
+        <div class="text-box">
           <span class="g-label">{{ block.settings.heading }}</span>
         </div>
       </a>
@@ -85,53 +97,63 @@
 </div>
 
 <style>
-  .gucci-wrapper { border-bottom: 1px solid {{ section.settings.border_color }}; }
-  
-  .gucci-header {
-    padding: 2rem; text-align: center;
-    border-bottom: 1px solid {{ section.settings.border_color }};
-  }
-  .gucci-header h2 {
-    font-size: 0.9rem; letter-spacing: 0.2em; margin: 0;
-    color: {{ section.settings.text_color }}; text-transform: uppercase;
+  .gucci-wrapper {
+    background-color: #ffffff;
+    padding: {{ section.settings.top_padding }}px {{ section.settings.side_padding }}px;
   }
 
   .gucci-grid {
     display: grid;
-    /* CHANGED TO 4 COLUMNS HERE */
-    grid-template-columns: repeat(4, 1fr); 
-    gap: 1px; /* The Border Width */
-    background-color: {{ section.settings.border_color }};
+    grid-template-columns: repeat(4, 1fr); /* 4 Columns like photo */
+    gap: {{ section.settings.grid_gap }}px; /* The Padding between items */
   }
 
   .gucci-item {
-    position: relative; display: block; background: #f4f4f4;
-    aspect-ratio: 4 / 5; /* Portrait Mode */
-    text-decoration: none; overflow: hidden;
+    display: block;
+    text-decoration: none;
   }
 
-  .img-box { width: 100%; height: 100%; overflow: hidden; }
-  .g-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
-  .placeholder { background: #ddd; }
+  /* IMAGE */
+  .img-box {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Square look like the photo, or change to 4/5 */
+    overflow: hidden;
+    margin-bottom: 15px; /* Space between image and text */
+    background: #f4f4f4;
+  }
+
+  .g-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* or contain if you want the whole shoe visible with white space */
+    transition: transform 0.5s ease;
+  }
   
-  /* Hover Effect */
-  .gucci-item:hover .g-img { transform: scale(1.05); }
-
-  .label-box {
-    position: absolute; bottom: 0; left: 0; width: 100%; padding: 1.5rem;
-    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
-    pointer-events: none;
-    display: flex; justify-content: center; /* Center text */
+  .gucci-item:hover .g-img {
+    transform: scale(1.03); /* Gentle zoom */
   }
+
+  /* TEXT BELOW */
+  .text-box {
+    text-align: center;
+  }
+
   .g-label {
-    color: #fff; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
-    border-bottom: 1px solid transparent; transition: border-color 0.3s;
+    color: {{ section.settings.text_color }};
+    font-family: var(--font-body-family);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: capitalize; /* "Handbags" instead of "HANDBAGS" */
   }
-  .gucci-item:hover .g-label { border-bottom: 1px solid #fff; }
+  
+  .placeholder { background: #eee; }
 
-  /* MOBILE: 2 Columns (like Instagram) or 1 Column? */
-  /* Let's do 2 columns on mobile for the 4-col layout to keep it tight */
+  /* MOBILE */
   @media screen and (max-width: 768px) {
-    .gucci-grid { grid-template-columns: repeat(2, 1fr); } 
+    .gucci-grid {
+      grid-template-columns: repeat(2, 1fr); /* 2 per row on mobile */
+      gap: 10px;
+    }
+    .gucci-wrapper { padding: 20px 10px; }
   }
 </style>
