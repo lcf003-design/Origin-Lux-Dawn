@@ -1,0 +1,87 @@
+{% schema %}
+{
+  "name": "Origin Marquee",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement Text",
+      "default": "COMPLIMENTARY SHIPPING ON ALL ORDERS OVER $500  —  ORIGIN SPRING/SUMMER 25  —  WORLDWIDE DELIVERY"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "s",
+      "label": "Scroll Speed (Lower is Faster)",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin Marquee"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="origin-marquee" role="marquee">
+  <div class="marquee-track">
+    <span class="marquee-content">{{ section.settings.text }} &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;</span>
+    <span class="marquee-content">{{ section.settings.text }} &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;</span>
+    <span class="marquee-content">{{ section.settings.text }} &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;</span>
+    <span class="marquee-content">{{ section.settings.text }} &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;</span>
+  </div>
+</div>
+
+<style>
+  .origin-marquee {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 8px 0; /* Very thin luxury look */
+    position: relative;
+    z-index: 50;
+    font-size: 10px; /* Tiny "legal" style font */
+    text-transform: uppercase;
+    letter-spacing: 0.2em; /* Wide spacing */
+    font-family: var(--font-body-family);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .marquee-track {
+    display: inline-block;
+    animation: marquee-scroll {{ section.settings.speed }}s linear infinite;
+    will-change: transform; /* Smooth performance */
+  }
+
+  .marquee-content {
+    display: inline-block;
+  }
+
+  /* THE ANIMATION */
+  @keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-25%); } /* Shifts based on the 4 duplicates */
+  }
+
+  /* Pause on hover (Optional UX touch) */
+  .origin-marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+</style>

@@ -1,0 +1,261 @@
+{% schema %}
+{
+  "name": "Origin Footer V5 (Pure)",
+  "settings": [
+    {
+      "type": "header",
+      "content": "BRANDING"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Big Logo Text",
+      "default": "ORIGIN",
+      "info": "Keep it short for max impact."
+    },
+    {
+      "type": "range",
+      "id": "logo_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "vw",
+      "label": "Logo Size",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "NAVIGATION"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Footer Menu",
+      "default": "footer"
+    },
+    {
+      "type": "header",
+      "content": "SOCIAL MEDIA"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show Social Icons",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "To add social links, go to Theme Settings (Gear Icon) > Social Media."
+    },
+    {
+      "type": "header",
+      "content": "DESIGN"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Spacing",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin Footer V5 (Pure)"
+    }
+  ]
+}
+{% endschema %}
+
+<footer class="origin-footer">
+  
+  <div class="footer-top">
+    <div class="footer-grid">
+      
+      <div class="footer-links-area">
+        {% if section.settings.menu != blank %}
+          {% for link in linklists[section.settings.menu].links %}
+            <div class="footer-col">
+              {% if link.links != blank %}
+                <h4 class="footer-heading">{{ link.title }}</h4>
+                <ul class="footer-sublinks">
+                  {% for sublink in link.links %}
+                    <li><a href="{{ sublink.url }}">{{ sublink.title }}</a></li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <a href="{{ link.url }}" class="footer-stand-alone-link">{{ link.title }}</a>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <div class="footer-col newsletter-col">
+        <h4 class="footer-heading">NEWSLETTER</h4>
+        <p class="newsletter-text">Subscribe for exclusive access.</p>
+        {% form 'customer', class: 'newsletter-form-wrap' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="newsletter-input-group">
+            <input type="email" name="contact[email]" class="newsletter-input" placeholder="EMAIL ADDRESS" required>
+            <button type="submit" class="newsletter-btn">JOIN</button>
+          </div>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-utility-bar">
+    
+    <div class="utility-left">
+      {% if section.settings.show_social %}
+        <div class="social-icons">
+           <span class="social-label">FOLLOW US: &nbsp;</span>
+           {%- if settings.social_instagram_link != blank -%}
+            <a href="{{ settings.social_instagram_link }}" class="social-link">INSTAGRAM</a>
+           {%- endif -%}
+           {%- if settings.social_tiktok_link != blank -%}
+            <a href="{{ settings.social_tiktok_link }}" class="social-link">TIKTOK</a>
+           {%- endif -%}
+           {%- if settings.social_facebook_link != blank -%}
+            <a href="{{ settings.social_facebook_link }}" class="social-link">FACEBOOK</a>
+           {%- endif -%}
+           {%- if settings.social_youtube_link != blank -%}
+            <a href="{{ settings.social_youtube_link }}" class="social-link">YOUTUBE</a>
+           {%- endif -%}
+           {%- if settings.social_twitter_link != blank -%}
+            <a href="{{ settings.social_twitter_link }}" class="social-link">X</a>
+           {%- endif -%}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="utility-right">
+      <span class="copyright-text">&copy; {{ 'now' | date: "%Y" }} {{ shop.name | upcase }}. ALL RIGHTS RESERVED.</span>
+    </div>
+
+  </div>
+
+  <div class="footer-branding">
+    <h1 class="huge-logo-text" style="font-size: {{ section.settings.logo_size }}vw;">
+      {{ section.settings.brand_name }}
+    </h1>
+  </div>
+
+</footer>
+
+<style>
+  /* GLOBAL COLORS - FORCE WHITE */
+  .origin-footer {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }} !important;
+    padding-top: {{ section.settings.padding_top }}px;
+    overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.3); /* Brighter Top Border */
+  }
+
+  /* TEXT BASE STYLES */
+  .origin-footer h1, 
+  .origin-footer h2, 
+  .origin-footer h3, 
+  .origin-footer h4, 
+  .origin-footer p, 
+  .origin-footer a, 
+  .origin-footer span, 
+  .origin-footer input {
+    color: {{ section.settings.text_color }} !important;
+    opacity: 1 !important; /* FORCE MAX VISIBILITY */
+  }
+
+  /* 1. TOP GRID */
+  .footer-top { padding: 0 2rem; margin-bottom: 4rem; }
+  .footer-grid {
+    display: flex; flex-wrap: wrap; gap: 4rem; justify-content: space-between;
+    max-width: 1600px; margin: 0 auto;
+  }
+  
+  .footer-links-area { display: flex; gap: 4rem; flex-wrap: wrap; flex: 2; }
+  .footer-col { min-width: 140px; }
+  
+  .footer-heading {
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 1.5rem; font-weight: 700;
+  }
+
+  .footer-sublinks { list-style: none; padding: 0; margin: 0; }
+  .footer-sublinks li { margin-bottom: 0.8rem; }
+  .footer-sublinks a, .footer-stand-alone-link {
+    text-decoration: none; font-size: 0.85rem; letter-spacing: 0.05em; 
+    text-transform: uppercase; display: block; margin-bottom: 0.8rem;
+  }
+  .footer-sublinks a:hover, .footer-stand-alone-link:hover { text-decoration: underline; }
+
+  /* NEWSLETTER */
+  .newsletter-col { flex: 1; max-width: 400px; }
+  .newsletter-text { font-size: 0.85rem; margin-bottom: 1rem; }
+  
+  .newsletter-input-group { display: flex; border-bottom: 1px solid #FFFFFF; }
+  
+  .newsletter-input {
+    background: transparent; border: none; width: 100%;
+    padding: 12px 0; outline: none; text-transform: uppercase; font-size: 0.9rem;
+  }
+  /* Force Placeholder to be White */
+  .newsletter-input::placeholder { color: #FFFFFF; opacity: 1; }
+  
+  .newsletter-btn {
+    background: transparent; border: none; cursor: pointer;
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 10px; font-weight: 700;
+  }
+
+  /* 2. UTILITY BAR */
+  .footer-utility-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 2rem 2rem 1rem 2rem;
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    border-top: 1px solid rgba(255,255,255,0.3); /* Brighter Line */
+  }
+  
+  .utility-left { flex: 1; }
+  .utility-right { flex: 1; text-align: right; }
+  
+  .social-link { text-decoration: none; margin-right: 20px; font-weight: 600; }
+
+  /* 3. MASSIVE BRANDING */
+  .footer-branding {
+    width: 100%; line-height: 0.75; text-align: center;
+    padding-bottom: 0; overflow: hidden; margin-top: 1rem;
+  }
+  
+  .huge-logo-text {
+    font-family: var(--font-heading-family);
+    margin: 0; padding: 0; letter-spacing: -0.04em;
+    text-transform: uppercase; white-space: nowrap; display: block;
+    transform: translateY(8%);
+  }
+
+  /* MOBILE */
+  @media screen and (max-width: 768px) {
+    .footer-grid { flex-direction: column; gap: 3rem; }
+    .footer-links-area { flex-direction: column; gap: 1rem; }
+    .footer-utility-bar { flex-direction: column-reverse; gap: 1.5rem; text-align: center; }
+    .utility-right { text-align: center; }
+    /* Force Logo to fit on mobile */
+    .huge-logo-text { font-size: 18vw !important; } 
+  }
+</style>
