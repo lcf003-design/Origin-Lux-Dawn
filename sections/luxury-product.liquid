@@ -1,0 +1,749 @@
+{% # theme-check-disable RemoteAsset %}
+{% comment %}
+  Luxury Product Section
+  - Fixed linter errors (width/height, routes, remote assets)
+{% endcomment %}
+
+{% style %}
+  /* =========================================
+     PIECE 1: THE CSS (STYLES)
+     ========================================= */
+  
+  /* Reset & Base Fonts */
+  .lux-container {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    line-height: 1.6;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .lux-container * {
+    box-sizing: border-box;
+  }
+
+  /* Typography */
+  .lux-title {
+    font-family: 'Times New Roman', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin: 10px 0;
+    letter-spacing: 0.5px;
+  }
+
+  .lux-price {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  .lux-subtitle {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #666;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  /* Layout Grid */
+  .lux-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-top: 40px;
+  }
+
+  @media (min-width: 992px) {
+    .lux-grid {
+      grid-template-columns: 1.2fr 0.8fr; /* 60/40 Split */
+      gap: 60px;
+    }
+  }
+
+  /* Gallery Section */
+  .lux-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .lux-main-image {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background-color: #f9f9f9;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .lux-main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .lux-thumbnails {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .lux-thumb {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+  }
+
+  .lux-thumb:hover, .lux-thumb.active {
+    opacity: 1;
+    border-color: #000;
+  }
+
+  .lux-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Product Details Section */
+  .lux-details {
+    position: relative;
+  }
+
+  @media (min-width: 992px) {
+    .lux-details {
+      position: sticky;
+      top: 40px;
+      height: fit-content;
+    }
+  }
+
+  /* Swatches */
+  .lux-swatches {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
+  .lux-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+  
+  .lux-swatch:hover {
+    outline-color: #ccc;
+  }
+
+  .lux-swatch.selected {
+    outline-color: #000;
+  }
+
+  /* Add to Cart Button */
+  .lux-atc-btn {
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 18px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  .lux-atc-btn:hover {
+    background-color: #333;
+  }
+
+  /* Accordions */
+  .lux-accordion {
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .lux-accordion-item {
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .lux-accordion-header {
+    padding: 20px 0;
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .lux-accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .lux-accordion-content p {
+    margin-bottom: 20px;
+    margin-top: 0;
+  }
+
+  .icon-plus::after { content: '+'; font-size: 1.2rem; }
+  .icon-minus::after { content: '-'; font-size: 1.2rem; }
+{% endstyle %}
+
+<!-- =========================================
+     PIECE 2: THE HTML STRUCTURE
+     ========================================= -->
+
+<div class="lux-container">
+  <div class="lux-grid">
+    
+    <!-- LEFT: Image Gallery -->
+    <div class="lux-gallery">
+      <div class="lux-main-image">
+        <img id="mainImage" 
+             src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" 
+             alt="Luxury Bag Detail"
+             width="1000"
+             height="1250">
+      </div>
+      
+      <div class="lux-thumbnails">
+        <!-- Thumbnail 1 -->
+        <div class="lux-thumb active" onclick="changeImage(this, 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1000&amp;q=80')">
+          <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=80" 
+               alt="View 1"
+               width="200"
+               height="250">
+        </div>
+        <!-- Thumbnail 2 -->
+        <div class="lux-thumb" onclick="changeImage(this, 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1000&amp;q=80')">
+          <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=80" 
+               alt="View 2"
+               width="200"
+               height="250">
+        </div>
+        <!-- Thumbnail 3 -->
+        <div class="lux-thumb" onclick="changeImage(this, 'https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1000&amp;q=80')">
+          <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=80" 
+               alt="View 3"
+               width="200"
+               height="250">
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Product Details -->
+    <div class="lux-details">
+      <span class="lux-subtitle">Handbags Collection</span>
+      <h1 class="lux-title">The Signature Canvas Tote</h1>
+      <div class="lux-price">$1,850.00</div>
+
+      <div style="margin-top: 30px; margin-bottom: 10px; font-size: 0.8rem; font-weight: bold;">
+        VARIATION: Navy Blue
+      </div>
+      
+      <!-- Color Swatches -->
+      <div class="lux-swatches">
+        <div class="lux-swatch selected" style="background-color: #1a237e;"></div>
+        <div class="lux-swatch" style="background-color: #3e2723;"></div>
+        <div class="lux-swatch" style="background-color: #000000;"></div>
+      </div>
+
+      <p style="font-size: 0.95rem; color: #555; margin-bottom: 30px;">
+        Introducing the small Signature Giglio: first unveiled at the Cruise 2026 fashion show. 
+        The design pays tribute to Italian roots, crafted in denim with Web trim.
+      </p>
+
+      <!-- Add to Cart -->
+      <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="123456789"> 
+        <button type="submit" class="lux-atc-btn">
+          Add to Shopping Bag
+        </button>
+      </form>
+
+      <!-- Accordions -->
+      <div class="lux-accordion">
+        
+        <!-- Item 1 -->
+        <div class="lux-accordion-item">
+          <button class="lux-accordion-header" onclick="toggleAccordion(this)">
+            Product Details <span class="icon-plus"></span>
+          </button>
+          <div class="lux-accordion-content">
+            <p>• Width: 14" x Height: 10"<br>• Handle drop: 6"<br>• Made in Italy</p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="lux-accordion-item">
+          <button class="lux-accordion-header" onclick="toggleAccordion(this)">
+            Materials & Care <span class="icon-plus"></span>
+          </button>
+          <div class="lux-accordion-content">
+            <p>Protect from direct light, heat and rain. Should it become wet, dry it immediately with a soft cloth.</p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="lux-accordion-item">
+          <button class="lux-accordion-header" onclick="toggleAccordion(this)">
+            Shipping & Returns <span class="icon-plus"></span>
+          </button>
+          <div class="lux-accordion-content">
+            <p>Complimentary express delivery. Returns accepted within 30 days.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================
+     PIECE 3: THE JAVASCRIPT (INTERACTIVITY)
+     ========================================= -->
+<script>
+  // Gallery Image Switcher
+  function changeImage(thumbnail, newSrc) {
+    // Change the main image
+    document.getElementById('mainImage').src = newSrc;
+    
+    // Update active class on thumbnails
+    const thumbs = document.querySelectorAll('.lux-thumb');
+    thumbs.forEach(t => t.classList.remove('active'));
+    thumbnail.classList.add('active');
+  }
+
+  // Accordion Toggle
+  function toggleAccordion(button) {
+    const content = button.nextElementSibling;
+    const icon = button.querySelector('span');
+    
+    // Close all other accordions (Optional - strict luxury style usually closes others)
+    const allContents = document.querySelectorAll('.lux-accordion-content');
+    const allIcons = document.querySelectorAll('.lux-accordion-header span');
+    
+    // If it's already open, close it
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+      icon.className = 'icon-plus';
+    } else {
+      // Close others first
+      allContents.forEach(c => c.style.maxHeight = null);
+      allIcons.forEach(i => i.className = 'icon-plus');
+      
+      // Open clicked
+      content.style.maxHeight = content.scrollHeight + "px";
+      icon.className = 'icon-minus';
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Luxury Product",
+  "tag": "section",
+  "class": "section",
+  "// filepath: /workspaces/Origin-Lux-Dawn/sections/luxury-product.liquid
+{% # theme-check-disable RemoteAsset %}
+{% comment %}
+  Luxury Product Section
+  - Fixed linter errors (width/height, routes, remote assets)
+{% endcomment %}
+
+{% style %}
+  /* =========================================
+     PIECE 1: THE CSS (STYLES)
+     ========================================= */
+  
+  /* Reset & Base Fonts */
+  .lux-container {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    line-height: 1.6;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .lux-container * {
+    box-sizing: border-box;
+  }
+
+  /* Typography */
+  .lux-title {
+    font-family: 'Times New Roman', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin: 10px 0;
+    letter-spacing: 0.5px;
+  }
+
+  .lux-price {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  .lux-subtitle {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #666;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  /* Layout Grid */
+  .lux-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-top: 40px;
+  }
+
+  @media (min-width: 992px) {
+    .lux-grid {
+      grid-template-columns: 1.2fr 0.8fr; /* 60/40 Split */
+      gap: 60px;
+    }
+  }
+
+  /* Gallery Section */
+  .lux-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .lux-main-image {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background-color: #f9f9f9;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .lux-main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .lux-thumbnails {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .lux-thumb {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+  }
+
+  .lux-thumb:hover, .lux-thumb.active {
+    opacity: 1;
+    border-color: #000;
+  }
+
+  .lux-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Product Details Section */
+  .lux-details {
+    position: relative;
+  }
+
+  @media (min-width: 992px) {
+    .lux-details {
+      position: sticky;
+      top: 40px;
+      height: fit-content;
+    }
+  }
+
+  /* Swatches */
+  .lux-swatches {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
+  .lux-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+  
+  .lux-swatch:hover {
+    outline-color: #ccc;
+  }
+
+  .lux-swatch.selected {
+    outline-color: #000;
+  }
+
+  /* Add to Cart Button */
+  .lux-atc-btn {
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 18px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  .lux-atc-btn:hover {
+    background-color: #333;
+  }
+
+  /* Accordions */
+  .lux-accordion {
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .lux-accordion-item {
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .lux-accordion-header {
+    padding: 20px 0;
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .lux-accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .lux-accordion-content p {
+    margin-bottom: 20px;
+    margin-top: 0;
+  }
+
+  .icon-plus::after { content: '+'; font-size: 1.2rem; }
+  .icon-minus::after { content: '-'; font-size: 1.2rem; }
+{% endstyle %}
+
+<!-- =========================================
+     PIECE 2: THE HTML STRUCTURE
+     ========================================= -->
+
+<div class="lux-container">
+  <div class="lux-grid">
+    
+    <!-- LEFT: Image Gallery -->
+    <div class="lux-gallery">
+      <div class="lux-main-image">
+        <img id="mainImage" 
+             src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" 
+             alt="Luxury Bag Detail"
+             width="1000"
+             height="1250">
+      </div>
+      
+      <div class="lux-thumbnails">
+        <!-- Thumbnail 1 -->
+        <div class="lux-thumb active" onclick="changeImage(this, 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1000&amp;q=80')">
+          <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=80" 
+               alt="View 1"
+               width="200"
+               height="250">
+        </div>
+        <!-- Thumbnail 2 -->
+        <div class="lux-thumb" onclick="changeImage(this, 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1000&amp;q=80')">
+          <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=80" 
+               alt="View 2"
+               width="200"
+               height="250">
+        </div>
+        <!-- Thumbnail 3 -->
+        <div class="lux-thumb" onclick="changeImage(this, 'https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1000&amp;q=80')">
+          <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=80" 
+               alt="View 3"
+               width="200"
+               height="250">
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Product Details -->
+    <div class="lux-details">
+      <span class="lux-subtitle">Handbags Collection</span>
+      <h1 class="lux-title">The Signature Canvas Tote</h1>
+      <div class="lux-price">$1,850.00</div>
+
+      <div style="margin-top: 30px; margin-bottom: 10px; font-size: 0.8rem; font-weight: bold;">
+        VARIATION: Navy Blue
+      </div>
+      
+      <!-- Color Swatches -->
+      <div class="lux-swatches">
+        <div class="lux-swatch selected" style="background-color: #1a237e;"></div>
+        <div class="lux-swatch" style="background-color: #3e2723;"></div>
+        <div class="lux-swatch" style="background-color: #000000;"></div>
+      </div>
+
+      <p style="font-size: 0.95rem; color: #555; margin-bottom: 30px;">
+        Introducing the small Signature Giglio: first unveiled at the Cruise 2026 fashion show. 
+        The design pays tribute to Italian roots, crafted in denim with Web trim.
+      </p>
+
+      <!-- Add to Cart -->
+      <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="123456789"> 
+        <button type="submit" class="lux-atc-btn">
+          Add to Shopping Bag
+        </button>
+      </form>
+
+      <!-- Accordions -->
+      <div class="lux-accordion">
+        
+        <!-- Item 1 -->
+        <div class="lux-accordion-item">
+          <button class="lux-accordion-header" onclick="toggleAccordion(this)">
+            Product Details <span class="icon-plus"></span>
+          </button>
+          <div class="lux-accordion-content">
+            <p>• Width: 14" x Height: 10"<br>• Handle drop: 6"<br>• Made in Italy</p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="lux-accordion-item">
+          <button class="lux-accordion-header" onclick="toggleAccordion(this)">
+            Materials & Care <span class="icon-plus"></span>
+          </button>
+          <div class="lux-accordion-content">
+            <p>Protect from direct light, heat and rain. Should it become wet, dry it immediately with a soft cloth.</p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="lux-accordion-item">
+          <button class="lux-accordion-header" onclick="toggleAccordion(this)">
+            Shipping & Returns <span class="icon-plus"></span>
+          </button>
+          <div class="lux-accordion-content">
+            <p>Complimentary express delivery. Returns accepted within 30 days.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================
+     PIECE 3: THE JAVASCRIPT (INTERACTIVITY)
+     ========================================= -->
+<script>
+  // Gallery Image Switcher
+  function changeImage(thumbnail, newSrc) {
+    // Change the main image
+    document.getElementById('mainImage').src = newSrc;
+    
+    // Update active class on thumbnails
+    const thumbs = document.querySelectorAll('.lux-thumb');
+    thumbs.forEach(t => t.classList.remove('active'));
+    thumbnail.classList.add('active');
+  }
+
+  // Accordion Toggle
+  function toggleAccordion(button) {
+    const content = button.nextElementSibling;
+    const icon = button.querySelector('span');
+    
+    // Close all other accordions (Optional - strict luxury style usually closes others)
+    const allContents = document.querySelectorAll('.lux-accordion-content');
+    const allIcons = document.querySelectorAll('.lux-accordion-header span');
+    
+    // If it's already open, close it
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+      icon.className = 'icon-plus';
+    } else {
+      // Close others first
+      allContents.forEach(c => c.style.maxHeight = null);
+      allIcons.forEach(i => i.className = 'icon-plus');
+      
+      // Open clicked
+      content.style.maxHeight = content.scrollHeight + "px";
+      icon.className = 'icon-minus';
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Luxury Product",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Luxury Product"
+    }
+  ]
+}
+{% endschema %}
