@@ -68,6 +68,7 @@
   ]
 }
 {% endschema %}
+
 <header id="OriginHeader" class="origin-header">
   <div class="header-container">
     
@@ -140,6 +141,7 @@
 
   </div>
 </header>
+
 <div id="MobileMenu" class="mobile-menu-overlay">
   <div class="menu-header">
     <button class="close-btn" onclick="document.getElementById('MobileMenu').classList.remove('active')">
@@ -187,6 +189,7 @@
     {% endfor %}
   </nav>
 </div>
+
 <script>
   window.addEventListener('scroll', function() {
     const header = document.getElementById('OriginHeader');
@@ -216,6 +219,10 @@
     padding-top: 15px; padding-bottom: 15px; /* Compact on scroll */
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   }
+  
+  /* FORCE HAMBURGER COLOR */
+  .origin-header .menu-trigger svg { stroke: #ffffff; transition: stroke 0.4s ease; }
+  .origin-header.scrolled .menu-trigger svg { stroke: #000000; }
 
   .header-container {
     display: flex; justify-content: space-between; align-items: center;
@@ -268,15 +275,27 @@
     .header-right { gap: 1rem; }
   }
 
-  /* MENU DRAWER */
+  /* MENU DRAWER (UPDATED FOR SIDE SLIDE & GLASS EFFECT) */
   .mobile-menu-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-    background: #000; z-index: 200;
-    transform: translateY(-100%); transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+    /* GLASS EFFECT BACKGROUND */
+    background: rgba(0, 0, 0, 0.85); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 200;
+    
+    /* SIDE SLIDE ANIMATION (translateX) */
+    transform: translateX(-100%); 
+    transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+    
     display: flex; flex-direction: column; justify-content: center; align-items: center;
-    overflow-y: auto; /* Allow scrolling if menu is long */
+    overflow-y: auto;
   }
-  .mobile-menu-overlay.active { transform: translateY(0); }
+  
+  .mobile-menu-overlay.active { 
+    transform: translateX(0); /* Slide in from left */
+  }
+
   .menu-header { position: absolute; top: 2rem; right: 2rem; }
   .close-btn { color: #fff; background: none; border: none; cursor: pointer; }
   .menu-links { display: flex; flex-direction: column; gap: 1.5rem; text-align: center; width: 100%; max-width: 400px; padding: 2rem; }
