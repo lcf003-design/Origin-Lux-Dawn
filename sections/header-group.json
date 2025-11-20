@@ -57,20 +57,20 @@
         "enable_language_selector": false
       }
     },
-    "origin_header_9a9fBB": {
+    "origin_header_Rg9Xxk": {
       "type": "origin-header",
       "name": "Origin Header V4 (Final)",
       "settings": {
         "logo_width": 160,
         "padding_top": 20,
         "padding_side": 40,
-        "menu": "origin-menu"
+        "menu": "main-menu"
       }
     }
   },
   "order": [
     "header",
     "announcement_bar_Pmqzea",
-    "origin_header_9a9fBB"
+    "origin_header_Rg9Xxk"
   ]
 }
