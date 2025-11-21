@@ -9,6 +9,41 @@
  */
 {
   "sections": {
+    "gucci_carousel_product_qRHV8U": {
+      "type": "gucci-carousel-product",
+      "blocks": {
+        "title_tiPjwr": {
+          "type": "title",
+          "settings": {}
+        },
+        "price_MmemPq": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_GHDcHG": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button"
+          }
+        },
+        "buy_buttons_UQeeRa": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        }
+      },
+      "block_order": [
+        "title_tiPjwr",
+        "price_MmemPq",
+        "variant_picker_GHDcHG",
+        "buy_buttons_UQeeRa"
+      ],
+      "name": "Gucci Full Spread",
+      "settings": {
+        "bg_color": "#F5F5F5"
+      }
+    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -67,6 +102,7 @@
         "description",
         "share"
       ],
+      "disabled": true,
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
@@ -100,36 +136,10 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
-    },
-    "gucci_carousel_product_dePmjd": {
-      "type": "gucci-carousel-product",
-      "blocks": {
-        "heading_tnFF43": {
-          "type": "heading",
-          "settings": {
-            "heading": "Luxury Collection"
-          }
-        },
-        "button_pXwLCq": {
-          "type": "button",
-          "settings": {
-            "label": "Shop Now",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "heading_tnFF43",
-        "button_pXwLCq"
-      ],
-      "name": "Gucci Full Spread",
-      "settings": {
-        "bg_color": "#F5F5F5"
-      }
     }
   },
   "order": [
-    "gucci_carousel_product_dePmjd",
+    "gucci_carousel_product_qRHV8U",
     "main",
     "related-products"
   ]
