@@ -33,7 +33,9 @@
     min-height: 500px; /* Safety minimum */
     overflow: hidden;
     background-color: #f5f5f5;
-    touch-action: pan-y; /* Allow vertical scroll, capture horizontal */
+    /* Critical for swipe to work without scrolling page */
+    touch-action: pan-y; 
+    user-select: none;
   }
 
   .gucci-slider-track {
@@ -63,6 +65,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    pointer-events: none; /* Prevents image dragging ghost on desktop */
   }
 
   /* --- 2. CONTROL STRIP (Fixed & Centered) --- */
@@ -302,6 +305,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const track = document.getElementById('gsTrack');
+    const visualStage = document.querySelector('.gucci-visuals-stage');
     const realSlides = document.querySelectorAll('.gucci-slide:not([class*="clone-"])');
     const thumbs = document.querySelectorAll('.gs-mini-thumb');
     const prevBtn = document.getElementById('gsPrevBtn');
@@ -372,28 +376,38 @@
     if(prevBtn) prevBtn.addEventListener('click', () => moveSlide(-1));
     if(nextBtn) nextBtn.addEventListener('click', () => moveSlide(1));
 
-    // --- TOUCH / SWIPE SUPPORT (New) ---
+    // --- TOUCH / SWIPE SUPPORT (ROBUST) ---
     let touchStartX = 0;
-    let touchEndX = 0;
+    let touchCurrentX = 0;
+    const swipeThreshold = 50; 
 
-    track.addEventListener('touchstart', e => {
+    // 1. Start
+    visualStage.addEventListener('touchstart', e => {
       touchStartX = e.changedTouches[0].screenX;
+      touchCurrentX = touchStartX; // Init current to start
     }, {passive: true});
 
-    track.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
+    // 2. Move (Track position)
+    visualStage.addEventListener('touchmove', e => {
+      touchCurrentX = e.changedTouches[0].screenX;
     }, {passive: true});
 
-    function handleSwipe() {
-      const threshold = 50; // Min distance to count as swipe
-      if (touchEndX < touchStartX - threshold) {
-        moveSlide(1); // Swipe Left -> Next
+    // 3. End (Decide)
+    visualStage.addEventListener('touchend', e => {
+      // Ensure we have a valid end position even if move didn't fire
+      if (touchCurrentX === 0) touchCurrentX = e.changedTouches[0].screenX;
+      
+      const deltaX = touchStartX - touchCurrentX;
+      
+      // Reset
+      touchStartX = 0;
+      touchCurrentX = 0;
+
+      if (Math.abs(deltaX) > swipeThreshold) {
+        if (deltaX > 0) moveSlide(1); // Swipe Left -> Next
+        else moveSlide(-1); // Swipe Right -> Prev
       }
-      if (touchEndX > touchStartX + threshold) {
-        moveSlide(-1); // Swipe Right -> Prev
-      }
-    }
+    });
 
     // --- RESIZE HANDLER (Debounced) ---
     let resizeTimer;
