@@ -9,33 +9,32 @@
 <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 
 {% style %}
-  /* --- MAIN CONTAINER (The Anchor) --- */
   .gucci-slider-section {
-    position: relative; /* Anchors the arrows */
     width: 100%;
+    position: relative;
     background-color: {{ section.settings.bg_color }};
     padding: 0;
     margin: 0;
     overflow: hidden;
   }
 
-  /* --- VISUAL STAGE (Holds images) --- */
+  /* --- VISUAL STAGE --- */
   .gucci-visuals-stage {
     position: relative;
     width: 100%;
-    height: 85vh; /* Fixed height prevents vertical jumping */
+    height: 85vh;
     max-height: 1000px;
     overflow: hidden;
-    z-index: 1;
+    /* This ensures the UI elements inside are relative to THIS box, not the moving track */
   }
 
-  /* --- SLIDER TRACK (The Moving Part) --- */
+  /* --- SLIDER TRACK --- */
   .gucci-slider-track {
     display: flex;
     width: 100%;
     height: 100%;
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     will-change: transform;
+    /* Initial position handles JS logic */
   }
 
   /* --- SLIDES --- */
@@ -46,7 +45,6 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
   }
 
   @media (min-width: 990px) {
@@ -62,25 +60,12 @@
     display: block;
   }
 
-  /* --- UI LAYER (Stationary) --- */
-  /* These sit ABOVE the moving track */
-  
-  .gs-ui-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Let clicks pass through to images */
-    z-index: 10;
-  }
-
-  /* Locked Navigation Arrows */
+  /* --- NAVIGATION ARROWS (LOCKED) --- */
   .gs-nav-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    pointer-events: auto; /* Re-enable clicking */
+    z-index: 50; /* Higher than everything */
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(4px);
     border: none;
@@ -93,19 +78,18 @@
     justify-content: center;
     transition: background 0.3s ease, transform 0.2s ease;
     color: #000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   }
   .gs-nav-btn:hover { background: rgba(255, 255, 255, 0.9); transform: translateY(-50%) scale(1.05); }
-  .gs-nav-btn.prev { left: 30px; }
-  .gs-nav-btn.next { right: 30px; }
+  .gs-nav-btn.prev { left: 20px; }
+  .gs-nav-btn.next { right: 20px; }
   .gs-nav-btn svg { width: 20px; height: 20px; stroke-width: 2px; }
 
-  /* Locked Mini Preview */
+  /* --- MINI PREVIEW (LOCKED) --- */
   .gs-mini-preview {
     position: absolute;
     bottom: 30px;
     right: 30px;
-    pointer-events: auto; /* Re-enable clicking */
+    z-index: 50; /* Higher than slider track */
     display: flex;
     align-items: center;
     gap: 10px;
@@ -134,20 +118,19 @@
   .gs-mini-thumb:hover { opacity: 1; }
   .gs-mini-thumb.active { opacity: 1; border-color: #000; }
 
-  /* --- PRODUCT CONTENT AREA --- */
+  /* --- PRODUCT CONTENT --- */
   .gs-product-container {
     padding: 60px 20px;
     max-width: 800px;
     margin: 0 auto;
     text-align: center;
-    background-color: {{ section.settings.bg_color }};
   }
-  
-  /* Centering styles */
-  .gs-product-container .product__title h1 { text-align: center; font-size: 2.5rem; font-weight: 400; margin: 0; }
+  .gs-product-container .product__title h1 { font-size: 2.5rem; font-weight: 400; margin: 0; text-align: center; }
   .gs-product-container .price { justify-content: center; }
   .gs-product-container .product-form__buttons { max-width: 400px; margin: 20px auto; }
   .gs-product-container fieldset { justify-content: center; display: flex; gap: 10px; border: none; padding: 0; margin-bottom: 20px; }
+  
+  /* Accordion Styling */
   .gs-product-container .accordion { border-top: 1px solid #e5e5e5; margin-top: 20px; }
   .gs-product-container .accordion summary { padding: 15px 0; justify-content: space-between; }
   .gs-product-container .accordion__content { text-align: left; padding-bottom: 15px; }
@@ -156,39 +139,39 @@
 
 <div class="gucci-slider-section" id="GucciSlider-{{ section.id }}">
   
+  <!-- VISUAL STAGE -->
   <div class="gucci-visuals-stage">
     
-    <!-- STATIONARY UI LAYER (Arrows + Preview) -->
-    <div class="gs-ui-layer">
-      <button class="gs-nav-btn prev" onclick="moveGucciSlide(-1)" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <button class="gs-nav-btn next" onclick="moveGucciSlide(1)" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l6-6-6-6"/></svg></button>
+    <!-- STATIONARY UI: Arrows & Preview are OUTSIDE the slider track -->
+    <button class="gs-nav-btn prev" id="gsPrevBtn" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="gs-nav-btn next" id="gsNextBtn" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l6-6-6-6"/></svg></button>
 
-      <div class="gs-mini-preview">
-        {% for media in product.media %}
-          <div class="gs-mini-thumb {% if forloop.first %}active{% endif %}" onclick="jumpToSlide({{ forloop.index0 }})">
-            <img src="{{ media | image_url: width: 100 }}" alt="Thumb" width="100" height="100">
-          </div>
-        {% endfor %}
-      </div>
+    <div class="gs-mini-preview">
+      {% for media in product.media %}
+        <div class="gs-mini-thumb {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}">
+          <img src="{{ media | image_url: width: 100 }}" alt="Thumb" width="100" height="100">
+        </div>
+      {% endfor %}
     </div>
 
-    <!-- MOVING TRACK (Images Only) -->
+    <!-- SLIDER TRACK -->
     <div class="gucci-slider-track" id="gsTrack">
-      {% if product.media.size > 0 %}
-        {% for media in product.media %}
-          <div class="gucci-slide">
-            <img src="{{ media | image_url: width: 2000 }}" alt="{{ media.alt | escape }}" width="2000" height="{{ 2000 | divided_by: media.aspect_ratio | ceil }}" loading="lazy">
-          </div>
-        {% endfor %}
-      {% else %}
-        <div class="gucci-slide">{{ 'product-1' | placeholder_svg_tag }}</div>
-        <div class="gucci-slide">{{ 'product-2' | placeholder_svg_tag }}</div>
-      {% endif %}
+      <!-- Clones for Infinite Loop (Prepended) -->
+      <div class="gucci-slide clone-last"><img src="{{ product.media.last | image_url: width: 2000 }}" alt="" loading="lazy"></div>
+
+      {% for media in product.media %}
+        <div class="gucci-slide" data-index="{{ forloop.index0 }}">
+          <img src="{{ media | image_url: width: 2000 }}" alt="{{ media.alt | escape }}" width="2000" height="{{ 2000 | divided_by: media.aspect_ratio | ceil }}" loading="lazy">
+        </div>
+      {% endfor %}
+
+      <!-- Clones for Infinite Loop (Appended) -->
+      <div class="gucci-slide clone-first"><img src="{{ product.media.first | image_url: width: 2000 }}" alt="" loading="lazy"></div>
     </div>
 
   </div>
 
-  <!-- PRODUCT FORM BLOCKS -->
+  <!-- PRODUCT BLOCKS -->
   <div class="gs-product-container">
     <product-info id="ProductInfo-{{ section.id }}" data-section="{{ section.id }}" data-product-id="{{ product.id }}" data-update-url="true" data-url="{{ product.url }}">
       {%- assign product_form_id = 'product-form-' | append: section.id -%}
@@ -243,47 +226,75 @@
 </div>
 
 <script>
-  (function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const track = document.getElementById('gsTrack');
+    const slides = document.querySelectorAll('.gucci-slide:not(.clone-last):not(.clone-first)');
     const thumbs = document.querySelectorAll('.gs-mini-thumb');
-    const slides = document.querySelectorAll('.gucci-slide');
-    const totalSlides = slides.length;
-    let currentIndex = 0;
+    const prevBtn = document.getElementById('gsPrevBtn');
+    const nextBtn = document.getElementById('gsNextBtn');
+    
+    let currentIndex = 1; // Start at 1 because of clone-last at index 0
+    let isTransitioning = false;
+    let totalSlides = slides.length + 2; // Real slides + 2 clones
 
-    window.moveGucciSlide = function(direction) {
-      currentIndex += direction;
-      if (currentIndex < 0) currentIndex = totalSlides - 1; 
-      if (currentIndex >= totalSlides) currentIndex = 0;
-      updateSlider();
-    }
-
-    window.jumpToSlide = function(index) {
-      currentIndex = index;
-      updateSlider();
-    }
-
-    function updateSlider() {
+    // Initial Position (Hide clone)
+    function updatePosition(transition = true) {
       const isDesktop = window.innerWidth >= 990;
       const movePercent = isDesktop ? 50 : 100;
-      track.style.transform = `translateX(-${currentIndex * movePercent}%)`;
       
+      track.style.transition = transition ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
+      track.style.transform = `translateX(-${currentIndex * movePercent}%)`;
+
+      // Update Thumbs (Account for clones)
+      let realIndex = currentIndex - 1;
+      if (realIndex < 0) realIndex = slides.length - 1;
+      if (realIndex >= slides.length) realIndex = 0;
+
       thumbs.forEach(t => t.classList.remove('active'));
-      if(thumbs[currentIndex]) {
-        thumbs[currentIndex].classList.add('active');
-        thumbs[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      if(thumbs[realIndex]) {
+        thumbs[realIndex].classList.add('active');
+        thumbs[realIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
     }
 
-    window.addEventListener('resize', updateSlider);
-    
-    let touchStartX = 0;
-    track.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-    track.addEventListener('touchend', e => {
-      let touchEndX = e.changedTouches[0].screenX;
-      if (touchEndX < touchStartX - 50) moveGucciSlide(1);
-      if (touchEndX > touchStartX + 50) moveGucciSlide(-1);
+    // Infinite Loop Logic
+    track.addEventListener('transitionend', () => {
+      isTransitioning = false;
+      if (currentIndex === 0) {
+        currentIndex = slides.length;
+        updatePosition(false); // Snap without transition
+      }
+      if (currentIndex === totalSlides - 1) {
+        currentIndex = 1;
+        updatePosition(false); // Snap without transition
+      }
     });
-  })();
+
+    function moveSlide(direction) {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      currentIndex += direction;
+      updatePosition();
+    }
+
+    // Thumbnail Click
+    thumbs.forEach((thumb, index) => {
+      thumb.addEventListener('click', () => {
+        currentIndex = index + 1;
+        updatePosition();
+      });
+    });
+
+    // Buttons
+    prevBtn.addEventListener('click', () => moveSlide(-1));
+    nextBtn.addEventListener('click', () => moveSlide(1));
+
+    // Resize
+    window.addEventListener('resize', () => updatePosition(false));
+
+    // Initialize
+    updatePosition(false);
+  });
 </script>
 
 {% schema %}
