@@ -1,14 +1,9 @@
 {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
 {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
-{{ 'component-rating.css' | asset_url | stylesheet_tag }}
-{{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
-
-{% unless product.has_only_default_variant %}
-  {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
-  {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
-  {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
-{% endunless %}
+{{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
+{{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
+{{ 'component-swatch.css' | asset_url | stylesheet_tag }}
 
 <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
@@ -16,33 +11,47 @@
 {% style %}
   .gucci-slider-section {
     width: 100%;
-    overflow: hidden;
-    background-color: {{ section.settings.bg_color }};
     position: relative;
+    background-color: {{ section.settings.bg_color }};
     padding: 0;
     margin: 0;
+    overflow: hidden;
+  }
+
+  /* --- VISUAL STAGE --- */
+  .gucci-visuals-stage {
+    position: relative;
+    width: 100%;
+    height: 85vh;
+    max-height: 1000px;
+    overflow: hidden;
   }
 
   /* --- SLIDER TRACK --- */
   .gucci-slider-track {
     display: flex;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     width: 100%;
-    height: 85vh;
-    max-height: 1000px;
-  }
-  .gucci-slide {
-    min-width: 100vw; 
     height: 100%;
-    position: relative;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+  }
+
+  /* --- SLIDES (CSS Percentages = Stability) --- */
+  .gucci-slide {
+    flex: 0 0 100%; /* Mobile: 100% Width */
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    position: relative;
   }
+
   @media (min-width: 990px) {
-    .gucci-slide { min-width: 50vw; }
+    .gucci-slide {
+      flex: 0 0 50%; /* Desktop: 50% Width */
+    }
   }
+
   .gucci-slide img {
     width: 100%;
     height: 100%;
@@ -50,88 +59,89 @@
     display: block;
   }
 
-  /* --- NAVIGATION --- */
+  /* --- NAVIGATION ARROWS --- */
   .gs-nav-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 10;
-    background: rgba(255, 255, 255, 0.0);
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
     border: none;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s ease;
+    color: #000;
   }
-  .gs-nav-btn:hover { background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); }
-  .gs-nav-btn.prev { left: 0; }
-  .gs-nav-btn.next { right: 0; }
-  .gs-nav-btn svg { width: 24px; height: 24px; stroke: #000; }
+  .gs-nav-btn:hover { background: rgba(255, 255, 255, 0.9); transform: translateY(-50%) scale(1.05); }
+  .gs-nav-btn.prev { left: 20px; }
+  .gs-nav-btn.next { right: 20px; }
+  .gs-nav-btn svg { width: 20px; height: 20px; stroke-width: 2px; }
 
   /* --- MINI PREVIEW (Locked Bottom Right) --- */
   .gs-mini-preview {
     position: absolute;
-    bottom: 20px;       /* 20px from bottom edge */
-    right: 20px;        /* 20px from right edge */
-    z-index: 20;
+    bottom: 30px;
+    right: 30px;
+    z-index: 30;
     display: flex;
     align-items: center;
-    gap: 8px;
-    background: rgba(255,255,255,0.9); /* Slightly more opaque for clarity */
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
-    padding: 6px;
-    border-radius: 2px;
-    max-width: 300px;   /* Cap the width so it doesn't stretch too far */
+    padding: 8px;
+    border-radius: 4px;
+    max-width: 300px;
     overflow-x: auto;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     scrollbar-width: none; 
     -ms-overflow-style: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Add shadow for pop */
   }
   .gs-mini-preview::-webkit-scrollbar { display: none; }
+
   .gs-mini-thumb {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     flex-shrink: 0;
     cursor: pointer;
-    border: 1px solid transparent;
-    opacity: 0.6;
-    transition: all 0.2s;
+    opacity: 0.5;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
   }
-  .gs-mini-thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .gs-mini-thumb:hover, .gs-mini-thumb.active { opacity: 1; border-color: #000; }
+  .gs-mini-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gs-mini-thumb:hover { opacity: 1; }
+  .gs-mini-thumb.active { opacity: 1; border-color: #000; }
 
-  /* --- PRODUCT FORM AREA --- */
+  /* --- PRODUCT CONTENT --- */
   .gs-product-container {
     padding: 60px 20px;
     max-width: 800px;
     margin: 0 auto;
     text-align: center;
   }
-  
-  /* Centering utilities for blocks */
-  .gs-product-container .product__title h1 { 
-    text-align: center; 
-    font-family: var(--font-heading-family);
-    font-weight: 400;
-    font-size: 2.5rem;
-    letter-spacing: 0.05em;
-  }
+  .gs-product-container .product__title h1 { font-size: 2.5rem; font-weight: 400; margin: 0; text-align: center; }
   .gs-product-container .price { justify-content: center; }
-  .gs-product-container .product-form__buttons { margin: 0 auto; max-width: 400px; }
-  .gs-product-container fieldset { justify-content: center; display: flex; flex-wrap: wrap; border: none; padding: 0; }
-  .gs-product-container .product__description { text-align: center; max-width: 600px; margin: 0 auto; }
+  .gs-product-container .product-form__buttons { max-width: 400px; margin: 20px auto; }
+  .gs-product-container fieldset { justify-content: center; display: flex; gap: 10px; border: none; padding: 0; margin-bottom: 20px; }
+  
+  /* Accordion Styling */
+  .gs-product-container .accordion { border-top: 1px solid #e5e5e5; margin-top: 20px; }
+  .gs-product-container .accordion summary { padding: 15px 0; justify-content: space-between; }
+  .gs-product-container .accordion__content { text-align: left; padding-bottom: 15px; }
 
 {% endstyle %}
 
 <div class="gucci-slider-section" id="GucciSlider-{{ section.id }}">
   
   <!-- 1. VISUALS -->
-  <div style="position: relative; width: 100%; overflow: hidden;">
-    <button class="gs-nav-btn prev" onclick="moveGucciSlide(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18l-6-6 6-6"/></svg></button>
-    <button class="gs-nav-btn next" onclick="moveGucciSlide(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18l6-6-6-6"/></svg></button>
+  <div class="gucci-visuals-stage">
+    <button class="gs-nav-btn prev" onclick="moveGucciSlide(-1)" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="gs-nav-btn next" onclick="moveGucciSlide(1)" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l6-6-6-6"/></svg></button>
 
     <div class="gucci-slider-track" id="gsTrack">
       {% if product.media.size > 0 %}
@@ -149,46 +159,37 @@
     <div class="gs-mini-preview">
       {% for media in product.media %}
         <div class="gs-mini-thumb {% if forloop.first %}active{% endif %}" onclick="jumpToSlide({{ forloop.index0 }})">
-          <img src="{{ media | image_url: width: 100 }}" alt="Preview" width="100" height="100">
+          <img src="{{ media | image_url: width: 100 }}" alt="Thumb" width="100" height="100">
         </div>
       {% endfor %}
     </div>
   </div>
 
-  <!-- 2. PRODUCT FORM BLOCKS -->
+  <!-- 2. PRODUCT BLOCKS -->
   <div class="gs-product-container">
     <product-info id="ProductInfo-{{ section.id }}" data-section="{{ section.id }}" data-product-id="{{ product.id }}" data-update-url="true" data-url="{{ product.url }}">
       {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
       {%- for block in section.blocks -%}
         {%- case block.type -%}
-          {%- when '@app' -%}
-            {% render block %}
-          
+          {%- when '@app' -%}{% render block %}
           {%- when 'text' -%}
-            <p class="product__text inline-richtext {{ block.settings.text_style }}" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
-          
+            <p class="product__text {{ block.settings.text_style }}" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
           {%- when 'title' -%}
-            <div class="product__title" {{ block.shopify_attributes }}>
-              <h1>{{ product.title | escape }}</h1>
-            </div>
-          
+            <div class="product__title" {{ block.shopify_attributes }}><h1>{{ product.title | escape }}</h1></div>
           {%- when 'price' -%}
-            <div id="price-{{ section.id }}" {{ block.shopify_attributes }}>
-              {%- render 'price', product: product, use_variant: true, show_badges: true -%}
-            </div>
-
+            <div id="price-{{ section.id }}" {{ block.shopify_attributes }}>{%- render 'price', product: product, use_variant: true, show_badges: true -%}</div>
           {%- when 'variant_picker' -%}
             {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
-          
           {%- when 'buy_buttons' -%}
             {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
-          
           {%- when 'description' -%}
             <div class="product__description rte" {{ block.shopify_attributes }}>{{ product.description }}</div>
+          {%- when 'share' -%}
+            {% render 'share-button', block: block, share_link: product.url %}
           
           {%- when 'quantity_selector' -%}
-            <div class="product-form__input product-form__quantity" {{ block.shopify_attributes }} style="justify-content: center; display: flex;">
+            <div class="product-form__input product-form__quantity" {{ block.shopify_attributes }} style="justify-content: center; display: flex; margin: 0 auto 20px;">
               <label class="form__label" for="Quantity-{{ section.id }}" style="margin-right: 10px;">Quantity</label>
               <quantity-input class="quantity">
                 <button class="quantity__button" name="minus" type="button">-</button>
@@ -196,9 +197,6 @@
                 <button class="quantity__button" name="plus" type="button">+</button>
               </quantity-input>
             </div>
-
-          {%- when 'share' -%}
-            {% render 'share-button', block: block, share_link: product.url %}
 
           {%- when 'collapsible_tab' -%}
             <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
@@ -236,18 +234,19 @@
       currentIndex += direction;
       if (currentIndex < 0) currentIndex = totalSlides - 1; 
       if (currentIndex >= totalSlides) currentIndex = 0;
-      updateSliderPosition();
+      updateSlider();
     }
 
     window.jumpToSlide = function(index) {
       currentIndex = index;
-      updateSliderPosition();
+      updateSlider();
     }
 
-    function updateSliderPosition() {
-      const slideWidth = slides[0].clientWidth;
-      const translate = currentIndex * -slideWidth;
-      track.style.transform = `translateX(${translate}px)`;
+    function updateSlider() {
+      const isDesktop = window.innerWidth >= 990;
+      const movePercent = isDesktop ? 50 : 100;
+      track.style.transform = `translateX(-${currentIndex * movePercent}%)`;
+      
       thumbs.forEach(t => t.classList.remove('active'));
       if(thumbs[currentIndex]) {
         thumbs[currentIndex].classList.add('active');
@@ -255,7 +254,15 @@
       }
     }
 
-    window.addEventListener('resize', updateSliderPosition);
+    window.addEventListener('resize', updateSlider);
+    
+    let touchStartX = 0;
+    track.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+    track.addEventListener('touchend', e => {
+      let touchEndX = e.changedTouches[0].screenX;
+      if (touchEndX < touchStartX - 50) moveGucciSlide(1);
+      if (touchEndX > touchStartX + 50) moveGucciSlide(-1);
+    });
   })();
 </script>
 
@@ -265,136 +272,22 @@
   "tag": "section",
   "class": "section",
   "settings": [
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background Color",
-      "default": "#F5F5F5"
-    }
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#F5F5F5" }
   ],
   "blocks": [
-    {
-      "type": "@app"
-    },
-    {
-      "type": "text",
-      "name": "Text",
-      "settings": [
-        {
-          "type": "inline_richtext",
-          "id": "text",
-          "label": "Text",
-          "default": "Text block"
-        },
-        {
-          "type": "select",
-          "id": "text_style",
-          "label": "Text Style",
-          "options": [
-            { "value": "body", "label": "Body" },
-            { "value": "subtitle", "label": "Subtitle" },
-            { "value": "uppercase", "label": "Uppercase" }
-          ],
-          "default": "body"
-        }
-      ]
-    },
-    {
-      "type": "title",
-      "name": "Title",
-      "limit": 1
-    },
-    {
-      "type": "price",
-      "name": "Price",
-      "limit": 1
-    },
-    {
-      "type": "variant_picker",
-      "name": "Variant Picker",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "select",
-          "id": "picker_type",
-          "label": "Picker Type",
-          "options": [
-            { "value": "dropdown", "label": "Dropdown" },
-            { "value": "button", "label": "Buttons" }
-          ],
-          "default": "button"
-        }
-      ]
-    },
-    {
-      "type": "buy_buttons",
-      "name": "Buy Buttons",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "checkbox",
-          "id": "show_dynamic_checkout",
-          "label": "Show dynamic checkout",
-          "default": true
-        }
-      ]
-    },
-    {
-      "type": "description",
-      "name": "Description",
-      "limit": 1
-    },
-    {
-      "type": "quantity_selector",
-      "name": "Quantity Selector",
-      "limit": 1
-    },
-    {
-      "type": "share",
-      "name": "Share",
-      "limit": 1
-    },
-    {
-      "type": "collapsible_tab",
-      "name": "Collapsible Row",
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "Collapsible Row"
-        },
-        {
-          "type": "richtext",
-          "id": "content",
-          "label": "Row Content"
-        },
-        {
-          "type": "select",
-          "id": "icon",
-          "label": "Icon",
-          "default": "check_mark",
-          "options": [
-            { "value": "none", "label": "None" },
-            { "value": "check_mark", "label": "Check Mark" },
-            { "value": "heart", "label": "Heart" },
-            { "value": "ruler", "label": "Ruler" },
-            { "value": "truck", "label": "Truck" }
-          ]
-        }
-      ]
-    }
+    { "type": "@app" },
+    { "type": "text", "name": "Text", "settings": [ { "type": "inline_richtext", "id": "text", "label": "Text", "default": "Text block" } ] },
+    { "type": "title", "name": "Title", "limit": 1 },
+    { "type": "price", "name": "Price", "limit": 1 },
+    { "type": "variant_picker", "name": "Variant Picker", "limit": 1, "settings": [ { "type": "select", "id": "picker_type", "options": [ { "value": "dropdown", "label": "Dropdown" }, { "value": "button", "label": "Buttons" } ], "default": "button", "label": "Picker Type" } ] },
+    { "type": "buy_buttons", "name": "Buy Buttons", "limit": 1, "settings": [ { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout", "default": true } ] },
+    { "type": "description", "name": "Description", "limit": 1 },
+    { "type": "share", "name": "Share", "limit": 1 },
+    { "type": "quantity_selector", "name": "Quantity Selector", "limit": 1 },
+    { "type": "collapsible_tab", "name": "Collapsible Row", "settings": [ { "type": "text", "id": "heading", "label": "Heading", "default": "Collapsible Row" }, { "type": "richtext", "id": "content", "label": "Row Content" }, { "type": "select", "id": "icon", "label": "Icon", "default": "check_mark", "options": [ { "value": "none", "label": "None" }, { "value": "check_mark", "label": "Check Mark" }, { "value": "heart", "label": "Heart" }, { "value": "ruler", "label": "Ruler" } ] } ] }
   ],
   "presets": [
-    {
-      "name": "Gucci Full Spread",
-      "blocks": [
-        { "type": "title" },
-        { "type": "price" },
-        { "type": "variant_picker" },
-        { "type": "buy_buttons" }
-      ]
-    }
+    { "name": "Gucci Full Spread", "blocks": [ { "type": "title" }, { "type": "price" }, { "type": "variant_picker" }, { "type": "buy_buttons" } ] }
   ]
 }
 {% endschema %}
