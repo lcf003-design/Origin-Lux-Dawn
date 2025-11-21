@@ -1,3 +1,18 @@
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-rating.css' | asset_url | stylesheet_tag }}
+{{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+
+{% unless product.has_only_default_variant %}
+  {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
+  {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
+  {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
+{% endunless %}
+
+<script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
 {% style %}
   .gucci-slider-section {
     width: 100%;
@@ -8,7 +23,7 @@
     margin: 0;
   }
 
-  /* --- THE TRACK --- */
+  /* --- THE TRACK (Visuals) --- */
   .gucci-slider-track {
     display: flex;
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
@@ -45,7 +60,7 @@
   /* --- NAVIGATION ARROWS --- */
   .gs-nav-btn {
     position: absolute;
-    top: 50%; /* Center relative to image area */
+    top: 50%;
     transform: translateY(-50%);
     z-index: 10;
     background: rgba(255, 255, 255, 0.0); 
@@ -92,62 +107,54 @@
     opacity: 0.6;
     transition: all 0.2s;
   }
-  .gs-mini-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .gs-mini-thumb:hover, .gs-mini-thumb.active {
-    opacity: 1;
-    border-color: #000;
-  }
+  .gs-mini-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .gs-mini-thumb:hover, .gs-mini-thumb.active { opacity: 1; border-color: #000; }
 
-  /* --- BLOCKS CONTAINER (UNDERNEATH) --- */
-  .gs-blocks-container {
-    position: relative; /* No longer absolute overlay */
+  /* --- PRODUCT BLOCKS CONTAINER (Underneath) --- */
+  .gs-product-container {
+    position: relative;
     width: 100%;
     text-align: center;
-    padding: 60px 20px; /* Spacious padding */
+    padding: 60px 20px;
     background-color: {{ section.settings.bg_color }};
+    max-width: 800px;
+    margin: 0 auto;
   }
   
-  .gs-block { 
-    margin-bottom: 20px; 
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+  /* Force Center Alignment for Product Blocks */
+  .gs-product-container .product__title,
+  .gs-product-container .product__text,
+  .gs-product-container .price,
+  .gs-product-container .product-form,
+  .gs-product-container .product-description,
+  .gs-product-container .share-button {
+    text-align: center;
+    justify-content: center;
   }
 
-  /* Typography Styles for "Underneath" Look */
-  .gs-heading {
-    color: #000;
-    font-size: 2.5rem;
+  /* Center Variant Pickers */
+  .gs-product-container fieldset {
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    border: 0;
+    padding: 0;
+    margin: 0 auto 1.5rem;
+  }
+
+  /* Center Buy Buttons */
+  .gs-product-container .product-form__buttons {
+    max-width: 40rem;
+    margin: 0 auto;
+  }
+
+  .gs-product-container .product__title h1 {
     font-family: var(--font-heading-family);
     font-weight: 400;
+    font-size: 2.5rem;
     letter-spacing: 0.05em;
-    line-height: 1.2;
-    margin: 0;
+    margin-top: 0;
   }
-
-  .gs-text { 
-    color: #333; 
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-
-  .gs-button { 
-    display: inline-block; 
-    padding: 15px 40px; 
-    background: #000; 
-    color: #fff; 
-    text-decoration: none; 
-    text-transform: uppercase; 
-    font-weight: bold; 
-    letter-spacing: 1px; 
-    transition: background 0.3s;
-    margin-top: 10px;
-  }
-  .gs-button:hover { background: #333; color: #fff; }
 
 {% endstyle %}
 
@@ -195,20 +202,79 @@
   
   </div>
 
-  <!-- 2. CONTENT: BLOCKS UNDERNEATH -->
-  <div class="gs-blocks-container">
-    {% for block in section.blocks %}
-      <div class="gs-block" {{ block.shopify_attributes }}>
-        {% case block.type %}
-          {% when 'heading' %}
-            <h2 class="gs-heading">{{ block.settings.heading }}</h2>
-          {% when 'text' %}
-            <div class="gs-text">{{ block.settings.text }}</div>
-          {% when 'button' %}
-            <a href="{{ block.settings.link }}" class="gs-button">{{ block.settings.label }}</a>
-        {% endcase %}
-      </div>
-    {% endfor %}
+  <!-- 2. CONTENT: PRODUCT BLOCKS UNDERNEATH -->
+  <div class="gs-product-container">
+    <product-info id="ProductInfo-{{ section.id }}" data-section="{{ section.id }}" data-product-id="{{ product.id }}" data-update-url="true" data-url="{{ product.url }}">
+      {%- assign product_form_id = 'product-form-' | append: section.id -%}
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when '@app' -%}
+            {% render block %}
+          
+          {%- when 'text' -%}
+            <p class="product__text inline-richtext {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
+              {{- block.settings.text -}}
+            </p>
+          
+          {%- when 'title' -%}
+            <div class="product__title" {{ block.shopify_attributes }}>
+              <h1>{{ product.title | escape }}</h1>
+            </div>
+          
+          {%- when 'price' -%}
+            <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
+              {%- render 'price', product: product, use_variant: true, show_badges: true -%}
+            </div>
+
+          {%- when 'variant_picker' -%}
+            {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+          
+          {%- when 'buy_buttons' -%}
+            {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
+          
+          {%- when 'description' -%}
+            {%- if product.description != blank -%}
+              <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
+                {{ product.description }}
+              </div>
+            {%- endif -%}
+          
+          {%- when 'quantity_selector' -%}
+            <div class="product-form__input product-form__quantity" {{ block.shopify_attributes }}>
+              <label class="form__label" for="Quantity-{{ section.id }}">Quantity</label>
+              <quantity-input class="quantity">
+                <button class="quantity__button" name="minus" type="button">-</button>
+                <input class="quantity__input" type="number" name="quantity" id="Quantity-{{ section.id }}" min="1" value="1" form="{{ product_form_id }}">
+                <button class="quantity__button" name="plus" type="button">+</button>
+              </quantity-input>
+            </div>
+
+          {%- when 'share' -%}
+            {% render 'share-button', block: block, share_link: product.url %}
+
+          {%- when 'collapsible_tab' -%}
+            <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
+              <details id="Details-{{ block.id }}-{{ section.id }}">
+                <summary>
+                  <div class="summary__title">
+                    {% render 'icon-accordion', icon: block.settings.icon %}
+                    <h2 class="h4 accordion__title inline-richtext">
+                      {{ block.settings.heading | default: block.settings.page.title | escape }}
+                    </h2>
+                  </div>
+                  {{- 'icon-caret.svg' | inline_asset_content -}}
+                </summary>
+                <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
+                  {{ block.settings.content }}
+                  {{ block.settings.page.content }}
+                </div>
+              </details>
+            </div>
+
+        {%- endcase -%}
+      {%- endfor -%}
+    </product-info>
   </div>
 
 </div>
@@ -274,36 +340,37 @@
     }
   ],
   "blocks": [
-    {
-      "type": "heading",
-      "name": "Heading",
-      "settings": [
-        { "type": "text", "id": "heading", "label": "Heading Text", "default": "Luxury Collection" }
-      ]
-    },
+    { "type": "@app" },
     {
       "type": "text",
       "name": "Text",
       "settings": [
-        { "type": "richtext", "id": "text", "label": "Content" }
+        { "type": "inline_richtext", "id": "text", "default": "Text block", "label": "Text" },
+        { "type": "select", "id": "text_style", "options": [ { "value": "body", "label": "Body" }, { "value": "subtitle", "label": "Subtitle" }, { "value": "uppercase", "label": "Uppercase" } ], "default": "body", "label": "Text Style" }
       ]
     },
-    {
-      "type": "button",
-      "name": "Button",
-      "settings": [
-        { "type": "text", "id": "label", "label": "Button Label", "default": "Shop Now" },
-        { "type": "url", "id": "link", "label": "Link" }
-      ]
-    }
+    { "type": "title", "name": "Title", "limit": 1 },
+    { "type": "price", "name": "Price", "limit": 1 },
+    { "type": "variant_picker", "name": "Variant picker", "limit": 1, "settings": [ { "type": "select", "id": "picker_type", "options": [ { "value": "dropdown", "label": "Dropdown" }, { "value": "button", "label": "Buttons" } ], "default": "button", "label": "Picker Type" } ] },
+    { "type": "buy_buttons", "name": "Buy buttons", "limit": 1, "settings": [ { "type": "checkbox", "id": "show_dynamic_checkout", "default": true, "label": "Show dynamic checkout" } ] },
+    { "type": "description", "name": "Description", "limit": 1 },
+    { "type": "quantity_selector", "name": "Quantity selector", "limit": 1 },
+    { "type": "share", "name": "Share", "limit": 1 },
+    { "type": "collapsible_tab", "name": "Collapsible row", "settings": [ { "type": "text", "id": "heading", "default": "Collapsible Row", "label": "Heading" }, { "type": "richtext", "id": "content", "label": "Row content" }, { "type": "select", "id": "icon", "label": "Icon", "default": "check_mark", "options": [ { "value": "check_mark", "label": "Check Mark" }, { "value": "ruler", "label": "Ruler" }, { "value": "truck", "label": "Truck" } ] } ] }
   ],
+  "default": {
+    "blocks": [
+      { "type": "title" },
+      { "type": "price" },
+      { "type": "variant_picker" },
+      { "type": "buy_buttons" },
+      { "type": "description" },
+      { "type": "share" }
+    ]
+  },
   "presets": [
     {
-      "name": "Gucci Full Spread",
-      "blocks": [
-        { "type": "heading" },
-        { "type": "button" }
-      ]
+      "name": "Gucci Full Spread"
     }
   ]
 }
