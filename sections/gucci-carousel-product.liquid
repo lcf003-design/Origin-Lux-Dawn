@@ -119,13 +119,16 @@
   <div class="gucci-slider-track" id="gsTrack">
     {% if product.media.size > 0 %}
       {% for media in product.media %}
-        <div class="gucci-slide" data-index="{{ forloop.index0 }}">
+                <div class="gucci-slide" data-index="{{ forloop.index0 }}">
           <img 
             src="{{ media | image_url: width: 2000 }}" 
             alt="{{ media.alt | escape }}"
+            width="2000"
+            height="{{ 2000 | divided_by: media.aspect_ratio | ceil }}"
             loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
           >
         </div>
+
       {% endfor %}
     {% else %}
       <!-- Placeholder if no images -->
