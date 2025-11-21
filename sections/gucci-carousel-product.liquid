@@ -18,21 +18,21 @@
     overflow: hidden;
   }
 
-  /* --- 1. VISUAL STAGE (Images Only) --- */
+  /* --- 1. VISUAL STAGE --- */
   .gucci-visuals-stage {
     position: relative;
     width: 100%;
-    height: 80vh; /* Slightly shorter to make room for strip */
+    height: 80vh;
     max-height: 900px;
     overflow: hidden;
-    background-color: #f5f5f5; /* Fallback color */
+    background-color: #f5f5f5;
   }
 
   .gucci-slider-track {
     display: flex;
     width: 100%;
     height: 100%;
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    /* Transition is handled in JS for the infinite loop snap */
     will-change: transform;
   }
 
@@ -56,18 +56,17 @@
     display: block;
   }
 
-  /* --- 2. CONTROL STRIP (Below Image - The Fix) --- */
+  /* --- 2. CONTROL STRIP --- */
   .gs-control-strip {
     width: 100%;
     background-color: #ffffff; 
     padding: 20px 0;
     display: flex;
-    justify-content: center; /* Center everything horizontally */
+    justify-content: center;
     align-items: center;
     border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
-  /* Container for Thumbs + Arrows */
   .gs-controls-wrapper {
     display: flex;
     align-items: center;
@@ -82,8 +81,8 @@
     align-items: center;
     gap: 10px;
     overflow-x: auto;
-    max-width: 500px; /* Restrict width so arrows stay close */
-    padding-bottom: 2px; /* Spacing for scrollbar if visible */
+    max-width: 500px;
+    padding-bottom: 2px;
     scrollbar-width: none; 
     -ms-overflow-style: none;
   }
@@ -102,11 +101,11 @@
   .gs-mini-thumb:hover { opacity: 1; }
   .gs-mini-thumb.active { opacity: 1; border-color: #000; }
 
-  /* Arrows Group */
+  /* Arrows */
   .gs-nav-group {
     display: flex;
     gap: 8px;
-    flex-shrink: 0; /* Don't let arrows shrink */
+    flex-shrink: 0;
   }
 
   .gs-nav-btn {
@@ -126,12 +125,13 @@
   .gs-nav-btn:hover { background: #cccccc; color: #000; }
   .gs-nav-btn svg { width: 16px; height: 16px; stroke-width: 2px; }
 
-  /* --- 3. PRODUCT CONTENT (Bottom) --- */
+  /* --- 3. PRODUCT CONTENT --- */
   .gs-product-container {
     padding: 60px 20px;
     max-width: 800px;
     margin: 0 auto;
     text-align: center;
+    background-color: {{ section.settings.bg_color }};
   }
   
   .gs-product-container .product__title h1 { text-align: center; font-size: 2.5rem; font-weight: 400; margin: 0; }
@@ -151,42 +151,31 @@
   <div class="gucci-visuals-stage">
     <div class="gucci-slider-track" id="gsTrack">
       {% if product.media.size > 0 %}
-        <!-- Clones for Infinite Loop -->
+        
+        <!-- CLONE LAST IMAGE (Put at start) -->
         <div class="gucci-slide clone-last">
-          <img 
-            src="{{ product.media.last | image_url: width: 2000 }}" 
-            alt="" 
-            width="2000"
-            height="{{ 2000 | divided_by: product.media.last.aspect_ratio | ceil }}"
-            loading="lazy">
+          <img src="{{ product.media.last | image_url: width: 2000 }}" alt="" width="2000" height="{{ 2000 | divided_by: product.media.last.aspect_ratio | ceil }}" loading="lazy">
         </div>
 
+        <!-- REAL IMAGES -->
         {% for media in product.media %}
           <div class="gucci-slide" data-index="{{ forloop.index0 }}">
-            <img 
-              src="{{ media | image_url: width: 2000 }}" 
-              alt="{{ media.alt | escape }}" 
-              width="2000"
-              height="{{ 2000 | divided_by: media.aspect_ratio | ceil }}"
-              loading="lazy">
+            <img src="{{ media | image_url: width: 2000 }}" alt="{{ media.alt | escape }}" width="2000" height="{{ 2000 | divided_by: media.aspect_ratio | ceil }}" loading="lazy">
           </div>
         {% endfor %}
 
+        <!-- CLONE FIRST IMAGE (Put at end) -->
         <div class="gucci-slide clone-first">
-          <img 
-            src="{{ product.media.first | image_url: width: 2000 }}" 
-            alt="" 
-            width="2000"
-            height="{{ 2000 | divided_by: product.media.first.aspect_ratio | ceil }}"
-            loading="lazy">
+          <img src="{{ product.media.first | image_url: width: 2000 }}" alt="" width="2000" height="{{ 2000 | divided_by: product.media.first.aspect_ratio | ceil }}" loading="lazy">
         </div>
+
       {% else %}
         <div class="gucci-slide">{{ 'product-1' | placeholder_svg_tag }}</div>
       {% endif %}
     </div>
   </div>
 
-  <!-- 2. CONTROL STRIP (Thumbnails + Arrows) -->
+  <!-- 2. CONTROL STRIP -->
   <div class="gs-control-strip">
     <div class="gs-controls-wrapper">
       
@@ -194,21 +183,17 @@
       <div class="gs-mini-preview">
         {% for media in product.media %}
           <div class="gs-mini-thumb {% if forloop.first %}active{% endif %}" onclick="jumpToSlide({{ forloop.index0 }})">
-            <img 
-              src="{{ media | image_url: width: 100 }}" 
-              alt="Thumb" 
-              width="100" 
-              height="{{ 100 | divided_by: media.aspect_ratio | ceil }}">
+            <img src="{{ media | image_url: width: 100 }}" alt="Thumb" width="100" height="{{ 100 | divided_by: media.aspect_ratio | ceil }}">
           </div>
         {% endfor %}
       </div>
 
       <!-- Arrows -->
       <div class="gs-nav-group">
-        <button class="gs-nav-btn prev" onclick="moveGucciSlide(-1)" aria-label="Previous">
+        <button class="gs-nav-btn prev" id="gsPrevBtn" aria-label="Previous">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
-        <button class="gs-nav-btn next" onclick="moveGucciSlide(1)" aria-label="Next">
+        <button class="gs-nav-btn next" id="gsNextBtn" aria-label="Next">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l6-6-6-6"/></svg>
         </button>
       </div>
@@ -271,47 +256,80 @@
 </div>
 
 <script>
-  (function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const track = document.getElementById('gsTrack');
+    /* Select only real slides (not the clones) for counting */
+    const realSlides = document.querySelectorAll('.gucci-slide:not(.clone-last):not(.clone-first)');
     const thumbs = document.querySelectorAll('.gs-mini-thumb');
-    const slides = document.querySelectorAll('.gucci-slide');
-    const totalSlides = slides.length;
-    let currentIndex = 0;
+    const prevBtn = document.getElementById('gsPrevBtn');
+    const nextBtn = document.getElementById('gsNextBtn');
+    
+    let currentIndex = 1; // Start at 1 (first real slide) because index 0 is the clone
+    let isTransitioning = false;
+    let totalSlides = realSlides.length + 2; // Real + 2 clones
 
-    window.moveGucciSlide = function(direction) {
-      currentIndex += direction;
-      if (currentIndex < 0) currentIndex = totalSlides - 1; 
-      if (currentIndex >= totalSlides) currentIndex = 0;
-      updateSlider();
-    }
-
-    window.jumpToSlide = function(index) {
-      currentIndex = index;
-      updateSlider();
-    }
-
-    function updateSlider() {
+    // Function to move the track
+    function updatePosition(transition = true) {
       const isDesktop = window.innerWidth >= 990;
       const movePercent = isDesktop ? 50 : 100;
-      track.style.transform = `translateX(-${currentIndex * movePercent}%)`;
       
+      track.style.transition = transition ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
+      track.style.transform = `translateX(-${currentIndex * movePercent}%)`;
+
+      // Update Thumbnails (Map the clone indices back to real indices 0-N)
+      let realIndex = currentIndex - 1;
+      if (realIndex < 0) realIndex = realSlides.length - 1;
+      if (realIndex >= realSlides.length) realIndex = 0;
+
       thumbs.forEach(t => t.classList.remove('active'));
-      if(thumbs[currentIndex]) {
-        thumbs[currentIndex].classList.add('active');
-        thumbs[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      if(thumbs[realIndex]) {
+        thumbs[realIndex].classList.add('active');
+        thumbs[realIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
     }
 
-    window.addEventListener('resize', updateSlider);
-    
-    let touchStartX = 0;
-    track.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-    track.addEventListener('touchend', e => {
-      let touchEndX = e.changedTouches[0].screenX;
-      if (touchEndX < touchStartX - 50) moveGucciSlide(1);
-      if (touchEndX > touchStartX + 50) moveGucciSlide(-1);
+    // The Magic Loop: When transition ends, check if we are at a clone
+    track.addEventListener('transitionend', () => {
+      isTransitioning = false;
+      
+      // If at Clone Last (Index 0), jump to Real Last
+      if (currentIndex === 0) {
+        currentIndex = realSlides.length;
+        updatePosition(false); // Snap instantly (no animation)
+      }
+      
+      // If at Clone First (Index Total-1), jump to Real First
+      if (currentIndex === totalSlides - 1) {
+        currentIndex = 1;
+        updatePosition(false); // Snap instantly
+      }
     });
-  })();
+
+    function moveSlide(direction) {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      currentIndex += direction;
+      updatePosition();
+    }
+
+    // Thumbnail Clicks
+    thumbs.forEach((thumb, index) => {
+      thumb.addEventListener('click', () => {
+        currentIndex = index + 1; // +1 because of start clone
+        updatePosition();
+      });
+    });
+
+    // Buttons
+    if(prevBtn) prevBtn.addEventListener('click', () => moveSlide(-1));
+    if(nextBtn) nextBtn.addEventListener('click', () => moveSlide(1));
+
+    // Window Resize
+    window.addEventListener('resize', () => updatePosition(false));
+
+    // Init
+    updatePosition(false);
+  });
 </script>
 
 {% schema %}
