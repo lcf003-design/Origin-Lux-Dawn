@@ -1,0 +1,269 @@
+{% style %}
+  .gucci-slider-section {
+    width: 100%;
+    overflow: hidden;
+    background-color: {{ section.settings.bg_color }};
+    position: relative;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* --- THE TRACK (Long Filmstrip) --- */
+  .gucci-slider-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth luxury ease */
+    width: 100%;
+    height: 85vh; /* Tall, immersive height */
+    max-height: 1000px;
+  }
+
+  /* --- INDIVIDUAL SLIDE --- */
+  .gucci-slide {
+    /* Mobile: 1 image takes full width */
+    min-width: 100vw; 
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-right: 1px solid rgba(0,0,0,0.05); /* Subtle divider */
+  }
+
+  @media (min-width: 990px) {
+    .gucci-slide {
+      /* Desktop: 2 images visible (50% width each) */
+      min-width: 50vw; 
+    }
+  }
+
+  .gucci-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* --- NAVIGATION ARROWS (Floating) --- */
+  .gs-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; /* Hidden until hover */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  /* Show arrows when hovering the section */
+  .gucci-slider-section:hover .gs-nav-btn {
+    opacity: 1;
+  }
+
+  .gs-nav-btn:hover {
+    background: #fff;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .gs-nav-btn.prev { left: 30px; }
+  .gs-nav-btn.next { right: 30px; }
+
+  .gs-nav-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: #000;
+  }
+
+  /* --- PROGRESS BAR (Optional Luxury Touch) --- */
+  .gs-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: rgba(0,0,0,0.1);
+    width: 100%;
+    z-index: 10;
+  }
+  .gs-progress-fill {
+    height: 100%;
+    background: #000;
+    width: 0%;
+    transition: width 0.6s ease;
+  }
+
+{% endstyle %}
+
+<div class="gucci-slider-section" id="GucciSlider-{{ section.id }}">
+  
+  <!-- Navigation Buttons -->
+  <button class="gs-nav-btn prev" aria-label="Previous Slide" onclick="moveGucciSlide(-1)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  
+  <button class="gs-nav-btn next" aria-label="Next Slide" onclick="moveGucciSlide(1)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+
+  <!-- The Moving Track -->
+  <div class="gucci-slider-track" id="gsTrack">
+    {% if product.media.size > 0 %}
+      {% for media in product.media %}
+                <div class="gucci-slide" data-index="{{ forloop.index0 }}">
+          <img 
+            src="{{ media | image_url: width: 2000 }}" 
+            alt="{{ media.alt | escape }}"
+            width="2000"
+            height="{{ 2000 | divided_by: media.aspect_ratio | ceil }}"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+          >
+        </div>
+
+      {% endfor %}
+    {% else %}
+      <!-- Placeholder if no images -->
+      <div class="gucci-slide">{{ 'product-1' | placeholder_svg_tag }}</div>
+      <div class="gucci-slide">{{ 'product-2' | placeholder_svg_tag }}</div>
+    {% endif %}
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="gs-progress-bar">
+    <div class="gs-progress-fill" id="gsProgress"></div>
+  </div>
+
+</div>
+
+<script>
+  (function() {
+    const track = document.getElementById('gsTrack');
+    const progress = document.getElementById('gsProgress');
+    const slides = document.querySelectorAll('.gucci-slide');
+    const totalSlides = slides.length;
+    
+    let currentIndex = 0;
+    let isDragging = false;
+    let startPos = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+    let animationID;
+
+    // 1. CORE MOVEMENT LOGIC
+    window.moveGucciSlide = function(direction) {
+      currentIndex += direction;
+
+      // Loop logic: If end is reached, optional loop or stop. 
+      // Here we stop at edges for a solid feel, or loop back.
+      if (currentIndex < 0) currentIndex = 0;
+      
+      // Calculate visible slides based on screen width
+      const slidesVisible = window.innerWidth >= 990 ? 2 : 1;
+      const maxIndex = totalSlides - slidesVisible;
+
+      if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+      updateSliderPosition();
+    }
+
+    function updateSliderPosition() {
+      // Slide width changes based on screen size (50vw vs 100vw)
+      const slideWidth = slides[0].clientWidth;
+      currentTranslate = currentIndex * -slideWidth;
+      
+      track.style.transform = `translateX(${currentTranslate}px)`;
+      
+      // Update Progress Bar
+      const percentage = ((currentIndex + 1) / (totalSlides)) * 100;
+      progress.style.width = `${percentage}%`;
+    }
+
+    // 2. TOUCH / SWIPE SUPPORT
+    track.addEventListener('touchstart', touchStart);
+    track.addEventListener('touchend', touchEnd);
+    track.addEventListener('touchmove', touchMove);
+
+    function touchStart(index) {
+      return function(event) {
+        isDragging = true;
+        startPos = getPositionX(event);
+        animationID = requestAnimationFrame(animation);
+      }
+    }
+
+    function touchMove(event) {
+      if (isDragging) {
+        const currentPosition = getPositionX(event);
+        const diff = currentPosition - startPos;
+        // Allow pulling slightly
+        track.style.transform = `translateX(${currentTranslate + diff}px)`;
+      }
+    }
+
+    function touchEnd() {
+      isDragging = false;
+      cancelAnimationFrame(animationID);
+      
+      // Snap to nearest slide logic could go here
+      // For simplicity in vanilla JS, we just check direction
+      // This part requires more complex math for perfect "follow finger"
+      // So we will rely on click/tap mostly, but basic swipe detection:
+    }
+
+    function getPositionX(event) {
+      return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+    }
+
+    function animation() {
+      if(isDragging) requestAnimationFrame(animation);
+    }
+    
+    // Basic Swipe Detection (Simpler & More Reliable)
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    track.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+    track.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchEndX < touchStartX - 50) moveGucciSlide(1); // Swipe Left (Next)
+      if (touchEndX > touchStartX + 50) moveGucciSlide(-1); // Swipe Right (Prev)
+    });
+
+    // Initialize
+    updateSliderPosition();
+    window.addEventListener('resize', updateSliderPosition);
+
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Gucci Full Spread",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F5F5F5"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gucci Full Spread"
+    }
+  ]
+}
+{% endschema %}
+
+
