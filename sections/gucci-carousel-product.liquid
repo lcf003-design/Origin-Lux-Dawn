@@ -71,23 +71,24 @@
   .gs-nav-btn.next { right: 0; }
   .gs-nav-btn svg { width: 24px; height: 24px; stroke: #000; }
 
-  /* --- MINI PREVIEW --- */
+  /* --- MINI PREVIEW (Locked Bottom Right) --- */
   .gs-mini-preview {
     position: absolute;
-    bottom: 30px;
-    right: 30px;
+    bottom: 20px;       /* 20px from bottom edge */
+    right: 20px;        /* 20px from right edge */
     z-index: 20;
     display: flex;
     align-items: center;
     gap: 8px;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(8px);
-    padding: 8px;
+    background: rgba(255,255,255,0.9); /* Slightly more opaque for clarity */
+    backdrop-filter: blur(10px);
+    padding: 6px;
     border-radius: 2px;
-    max-width: 40vw;
+    max-width: 300px;   /* Cap the width so it doesn't stretch too far */
     overflow-x: auto;
     scrollbar-width: none; 
     -ms-overflow-style: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Add shadow for pop */
   }
   .gs-mini-preview::-webkit-scrollbar { display: none; }
   .gs-mini-thumb {
@@ -397,5 +398,3 @@
   ]
 }
 {% endschema %}
-
-
