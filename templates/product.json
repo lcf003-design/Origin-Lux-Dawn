@@ -100,9 +100,36 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "gucci_carousel_product_dePmjd": {
+      "type": "gucci-carousel-product",
+      "blocks": {
+        "heading_tnFF43": {
+          "type": "heading",
+          "settings": {
+            "heading": "Luxury Collection"
+          }
+        },
+        "button_pXwLCq": {
+          "type": "button",
+          "settings": {
+            "label": "Shop Now",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_tnFF43",
+        "button_pXwLCq"
+      ],
+      "name": "Gucci Full Spread",
+      "settings": {
+        "bg_color": "#F5F5F5"
+      }
     }
   },
   "order": [
+    "gucci_carousel_product_dePmjd",
     "main",
     "related-products"
   ]
