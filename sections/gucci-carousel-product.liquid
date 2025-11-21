@@ -1,0 +1,330 @@
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+<div class="gucci-carousel-section" style="background-color: {{ section.settings.bg_color }};">
+  <div class="page-width">
+    <div class="gucci-grid">
+      
+      <!-- LEFT: CAROUSEL GALLERY -->
+      <div class="gucci-gallery-container">
+        
+        <!-- Main Image Stage -->
+        <div class="gucci-stage">
+          <button class="gucci-nav-btn prev" onclick="moveSlide(-1)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          
+          <div class="gucci-track-wrapper" id="gucciTrackWrapper">
+            <div class="gucci-track" id="gucciTrack">
+              {% for media in product.media %}
+                <div class="gucci-slide">
+                  <img 
+                    src="{{ media | image_url: width: 1400 }}" 
+                    alt="{{ media.alt | escape }}"
+                    loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                    class="gucci-img"
+                  >
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <button class="gucci-nav-btn next" onclick="moveSlide(1)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+
+        <!-- Thumbnails -->
+        <div class="gucci-thumbnails">
+          {% for media in product.media %}
+            <div class="gucci-thumb {% if forloop.first %}active{% endif %}" 
+                 onclick="jumpToSlide({{ forloop.index0 }})">
+              <img src="{{ media | image_url: width: 100 }}" alt="Thumbnail">
+            </div>
+          {% endfor %}
+        </div>
+
+      </div>
+
+      <!-- RIGHT: STICKY DETAILS -->
+      <div class="gucci-details-container">
+        <div class="gucci-sticky-content">
+          
+          <!-- Breadcrumbs -->
+          <nav class="gucci-breadcrumbs">
+            <a href="{{ routes.root_url }}">Home</a> / <span>{{ product.title }}</span>
+          </nav>
+
+          <h1 class="gucci-title">{{ product.title }}</h1>
+          <div class="gucci-price">{{ product.price | money }}</div>
+
+          <div class="gucci-description">
+            {{ product.description | truncatewords: 30 }}
+          </div>
+
+          <!-- Add to Cart Form -->
+          {% form 'product', product %}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <button type="submit" class="gucci-atc-btn">
+              Add to Shopping Bag
+            </button>
+          {% endform %}
+
+          <!-- Accordions -->
+          <div class="gucci-accordions">
+            <details>
+              <summary>Product Details <span>+</span></summary>
+              <div class="content">Material, Care, Dimensions...</div>
+            </details>
+            <details>
+              <summary>Shipping & Returns <span>+</span></summary>
+              <div class="content">Free shipping on all orders.</div>
+            </details>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const track = document.getElementById('gucciTrack');
+  const thumbs = document.querySelectorAll('.gucci-thumb');
+  const totalSlides = thumbs.length;
+
+  function updateCarousel() {
+    const slideWidth = track.clientWidth;
+    track.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+    
+    // Update thumbs
+    thumbs.forEach(t => t.classList.remove('active'));
+    if(thumbs[currentSlide]) thumbs[currentSlide].classList.add('active');
+  }
+
+  function moveSlide(direction) {
+    currentSlide += direction;
+    if (currentSlide < 0) currentSlide = totalSlides - 1;
+    if (currentSlide >= totalSlides) currentSlide = 0;
+    updateCarousel();
+  }
+
+  function jumpToSlide(index) {
+    currentSlide = index;
+    updateCarousel();
+  }
+
+  // Handle Swipe on Mobile
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  track.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+
+  track.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+
+  function handleSwipe() {
+    if (touchEndX < touchStartX - 50) moveSlide(1); // Swipe Left
+    if (touchEndX > touchStartX + 50) moveSlide(-1); // Swipe Right
+  }
+
+  // Resize listener to keep alignment
+  window.addEventListener('resize', updateCarousel);
+</script>
+
+<style>
+  /* LAYOUT */
+  .gucci-carousel-section { padding: 40px 0; }
+  .gucci-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  @media (min-width: 990px) {
+    .gucci-grid {
+      grid-template-columns: 1.5fr 1fr; /* 60/40 Split */
+      gap: 60px;
+      align-items: start;
+    }
+    .gucci-sticky-content {
+      position: sticky;
+      top: 100px;
+    }
+  }
+
+  /* GALLERY CAROUSEL */
+  .gucci-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1/1; /* Square-ish container */
+    background-color: #f6f6f6;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .gucci-track-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .gucci-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .gucci-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gucci-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  /* NAVIGATION ARROWS */
+  .gucci-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(255,255,255,0.8);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .gucci-stage:hover .gucci-nav-btn { opacity: 1; }
+  .gucci-nav-btn.prev { left: 20px; }
+  .gucci-nav-btn.next { right: 20px; }
+
+  /* THUMBNAILS */
+  .gucci-thumbnails {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .gucci-thumb {
+    width: 60px;
+    height: 60px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    opacity: 0.6;
+  }
+  .gucci-thumb.active {
+    opacity: 1;
+    border-color: #000;
+  }
+  .gucci-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* DETAILS */
+  .gucci-breadcrumbs {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  .gucci-breadcrumbs a { color: inherit; text-decoration: none; }
+
+  .gucci-title {
+    font-family: var(--font-heading-family);
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .gucci-price {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  .gucci-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 30px;
+  }
+
+  .gucci-atc-btn {
+    width: 100%;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-bottom: 30px;
+  }
+  .gucci-atc-btn:hover { background: #333; }
+
+  /* ACCORDIONS */
+  .gucci-accordions details {
+    border-top: 1px solid #eee;
+  }
+  .gucci-accordions details:last-child { border-bottom: 1px solid #eee; }
+  
+  .gucci-accordions summary {
+    padding: 15px 0;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+  }
+  .gucci-accordions .content {
+    padding-bottom: 15px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Gucci Carousel Product",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gucci Carousel Product"
+    }
+  ]
+}
+{% endschema %}
+
