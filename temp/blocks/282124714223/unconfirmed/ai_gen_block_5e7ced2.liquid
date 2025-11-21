@@ -1,0 +1,491 @@
+{% doc %}
+  @prompt
+    Create a product page section with large, full-width block images for a luxury editorial presentation.
+    Media settings:
+    Layout: Thumbnail carousel
+    Width: Large
+    Position: Left
+    Fit: Original
+    Zoom: Open lightbox
+    Mobile layout: Hide thumbnails
+    Padding:
+    Top: 36px
+    Bottom: 12px
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-media-{{ ai_gen_id }} {
+    padding-top: {{ block.settings.padding_top }}px;
+    padding-bottom: {{ block.settings.padding_bottom }}px;
+  }
+
+  .ai-product-media-container-{{ ai_gen_id }} {
+    display: grid;
+    gap: 20px;
+    max-width: 100%;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-product-media-container-{{ ai_gen_id }} {
+      grid-template-columns: {% if block.settings.media_position == 'left' %}1fr 2fr{% else %}2fr 1fr{% endif %};
+      gap: 40px;
+    }
+
+    .ai-product-media-container-{{ ai_gen_id }}.media-width-large {
+      grid-template-columns: {% if block.settings.media_position == 'left' %}2fr 1fr{% else %}1fr 2fr{% endif %};
+    }
+  }
+
+  .ai-product-media-thumbnails-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    order: {% if block.settings.media_position == 'left' %}1{% else %}2{% endif %};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-product-media-thumbnails-{{ ai_gen_id }} {
+      {% if block.settings.mobile_thumbnails == 'hide' %}
+        display: none;
+      {% else %}
+        flex-direction: row;
+        overflow-x: auto;
+        order: 2;
+      {% endif %}
+    }
+  }
+
+  .ai-product-media-thumbnail-{{ ai_gen_id }} {
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease;
+    flex-shrink: 0;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-product-media-thumbnail-{{ ai_gen_id }} {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  .ai-product-media-thumbnail-{{ ai_gen_id }}.active {
+    border-color: {{ settings.text }};
+  }
+
+  .ai-product-media-thumbnail-{{ ai_gen_id }}:hover {
+    border-color: {{ settings.text }};
+    opacity: 0.8;
+  }
+
+  .ai-product-media-thumbnail-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: {% if block.settings.image_fit == 'cover' %}cover{% elsif block.settings.image_fit == 'contain' %}contain{% else %}none{% endif %};
+  }
+
+  .ai-product-media-main-{{ ai_gen_id }} {
+    order: {% if block.settings.media_position == 'left' %}2{% else %}1{% endif %};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-product-media-main-{{ ai_gen_id }} {
+      order: 1;
+    }
+  }
+
+  .ai-product-media-image-{{ ai_gen_id }} {
+    width: 100%;
+    cursor: {% if block.settings.enable_zoom == 'lightbox' %}zoom-in{% else %}default{% endif %};
+    display: block;
+  }
+
+  .ai-product-media-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: {% if block.settings.image_fit == 'cover' %}cover{% elsif block.settings.image_fit == 'contain' %}contain{% else %}none{% endif %};
+  }
+
+  .ai-product-media-lightbox-{{ ai_gen_id }} {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .ai-product-media-lightbox-{{ ai_gen_id }}.active {
+    display: flex;
+  }
+
+  .ai-product-media-lightbox-content-{{ ai_gen_id }} {
+    max-width: 90%;
+    max-height: 90%;
+    position: relative;
+  }
+
+  .ai-product-media-lightbox-content-{{ ai_gen_id }} img {
+    max-width: 100%;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    display: block;
+  }
+
+  .ai-product-media-lightbox-close-{{ ai_gen_id }} {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 32px;
+    cursor: pointer;
+    padding: 10px;
+    line-height: 1;
+  }
+
+  .ai-product-media-lightbox-close-{{ ai_gen_id }}:hover {
+    opacity: 0.7;
+  }
+
+  .ai-product-media-empty-{{ ai_gen_id }} {
+    background-color: #f4f4f4;
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-product-media-empty-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+  }
+
+  .ai-product-media-empty-message-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+{% endstyle %}
+
+<product-media-{{ ai_gen_id }} class="ai-product-media-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if product.media.size > 0 %}
+    <div class="ai-product-media-container-{{ ai_gen_id }} {% if block.settings.media_width == 'large' %}media-width-large{% endif %}">
+      <div class="ai-product-media-thumbnails-{{ ai_gen_id }}">
+        {% for media in product.media %}
+          <div
+            class="ai-product-media-thumbnail-{{ ai_gen_id }} {% if forloop.first %}active{% endif %}"
+            data-media-index="{{ forloop.index0 }}"
+          >
+            {% if media.media_type == 'image' %}
+              <img
+                src="{{ media | image_url: width: 200 }}"
+                alt="{{ media.alt | escape }}"
+                loading="lazy"
+                width="200"
+                height="200"
+              >
+            {% elsif media.media_type == 'video' or media.media_type == 'external_video' %}
+              <img
+                src="{{ media.preview_image | image_url: width: 200 }}"
+                alt="{{ media.alt | escape }}"
+                loading="lazy"
+                width="200"
+                height="200"
+              >
+            {% elsif media.media_type == 'model' %}
+              <img
+                src="{{ media.preview_image | image_url: width: 200 }}"
+                alt="{{ media.alt | escape }}"
+                loading="lazy"
+                width="200"
+                height="200"
+              >
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="ai-product-media-main-{{ ai_gen_id }}">
+        {% for media in product.media %}
+          <div
+            class="ai-product-media-image-{{ ai_gen_id }}"
+            data-media-id="{{ forloop.index0 }}"
+            style="{% unless forloop.first %}display: none;{% endunless %}"
+          >
+            {% if media.media_type == 'image' %}
+              <img
+                src="{{ media | image_url: width: 2000 }}"
+                alt="{{ media.alt | escape }}"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                width="{{ media.width }}"
+                height="{{ media.height }}"
+              >
+            {% elsif media.media_type == 'video' %}
+              {{ media | video_tag: controls: true, autoplay: false }}
+            {% elsif media.media_type == 'external_video' %}
+              {{ media | external_video_tag }}
+            {% elsif media.media_type == 'model' %}
+              {{ media | model_viewer_tag }}
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if block.settings.enable_zoom == 'lightbox' %}
+      <div class="ai-product-media-lightbox-{{ ai_gen_id }}">
+        <div class="ai-product-media-lightbox-content-{{ ai_gen_id }}">
+          <button class="ai-product-media-lightbox-close-{{ ai_gen_id }}" aria-label="Close lightbox">×</button>
+          <img src="" alt="">
+        </div>
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="ai-product-media-empty-{{ ai_gen_id }}">
+      {{ 'product-1' | placeholder_svg_tag }}
+      <div class="ai-product-media-empty-message-{{ ai_gen_id }}">
+        Add product images to display them here
+      </div>
+    </div>
+  {% endif %}
+</product-media-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProductMedia{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.thumbnails = this.querySelectorAll('.ai-product-media-thumbnail-{{ ai_gen_id }}');
+        this.mainImages = this.querySelectorAll('.ai-product-media-image-{{ ai_gen_id }}');
+        this.lightbox = this.querySelector('.ai-product-media-lightbox-{{ ai_gen_id }}');
+        this.lightboxImage = this.lightbox ? this.lightbox.querySelector('img') : null;
+        this.lightboxClose = this.lightbox ? this.lightbox.querySelector('.ai-product-media-lightbox-close-{{ ai_gen_id }}') : null;
+        this.currentIndex = 0;
+      }
+
+      connectedCallback() {
+        this.setupThumbnails();
+        this.setupLightbox();
+      }
+
+      setupThumbnails() {
+        this.thumbnails.forEach((thumbnail) => {
+          thumbnail.addEventListener('click', () => {
+            const index = parseInt(thumbnail.dataset.mediaIndex);
+            this.showMedia(index);
+          });
+        });
+      }
+
+      showMedia(index) {
+        this.currentIndex = index;
+
+        this.thumbnails.forEach((thumb, i) => {
+          thumb.classList.toggle('active', i === index);
+        });
+
+        this.mainImages.forEach((img, i) => {
+          img.style.display = i === index ? 'block' : 'none';
+        });
+      }
+
+      setupLightbox() {
+        if (!this.lightbox) return;
+
+        this.mainImages.forEach((mediaElement, index) => {
+          const img = mediaElement.querySelector('img');
+          if (img) {
+            img.addEventListener('click', () => {
+              this.openLightbox(img.src, img.alt);
+            });
+          }
+        });
+
+        this.lightboxClose.addEventListener('click', () => {
+          this.closeLightbox();
+        });
+
+        this.lightbox.addEventListener('click', (e) => {
+          if (e.target === this.lightbox) {
+            this.closeLightbox();
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && this.lightbox.classList.contains('active')) {
+            this.closeLightbox();
+          }
+        });
+      }
+
+      openLightbox(src, alt) {
+        if (!this.lightbox) return;
+        this.lightboxImage.src = src;
+        this.lightboxImage.alt = alt;
+        this.lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      closeLightbox() {
+        if (!this.lightbox) return;
+        this.lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    customElements.define('product-media-{{ ai_gen_id }}', ProductMedia{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product media gallery",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Media position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "media_width",
+      "label": "Media width",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        },
+        {
+          "value": "original",
+          "label": "Original"
+        }
+      ],
+      "default": "original"
+    },
+    {
+      "type": "select",
+      "id": "enable_zoom",
+      "label": "Image zoom",
+      "options": [
+        {
+          "value": "none",
+          "label": "Disabled"
+        },
+        {
+          "value": "lightbox",
+          "label": "Open lightbox"
+        }
+      ],
+      "default": "lightbox"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "select",
+      "id": "mobile_thumbnails",
+      "label": "Thumbnails on mobile",
+      "options": [
+        {
+          "value": "show",
+          "label": "Show"
+        },
+        {
+          "value": "hide",
+          "label": "Hide"
+        }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product media gallery"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}
