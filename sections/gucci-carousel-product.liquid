@@ -56,26 +56,34 @@
     display: block;
   }
 
-  /* --- 2. CONTROL STRIP (Below Image) --- */
+  /* --- 2. CONTROL STRIP (Below Image - The Fix) --- */
   .gs-control-strip {
     width: 100%;
-    background-color: #ffffff; /* Dedicated white bar */
-    padding: 15px 0;
+    background-color: #ffffff; 
+    padding: 20px 0;
     display: flex;
+    justify-content: center; /* Center everything horizontally */
     align-items: center;
-    justify-content: center;
-    gap: 20px;
     border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
-  /* Thumbnails Container */
+  /* Container for Thumbs + Arrows */
+  .gs-controls-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 100%;
+    padding: 0 20px;
+  }
+
+  /* Thumbnails */
   .gs-mini-preview {
     display: flex;
     align-items: center;
     gap: 10px;
     overflow-x: auto;
-    max-width: 600px;
-    padding: 0 10px;
+    max-width: 500px; /* Restrict width so arrows stay close */
+    padding-bottom: 2px; /* Spacing for scrollbar if visible */
     scrollbar-width: none; 
     -ms-overflow-style: none;
   }
@@ -94,12 +102,18 @@
   .gs-mini-thumb:hover { opacity: 1; }
   .gs-mini-thumb.active { opacity: 1; border-color: #000; }
 
-  /* Arrows (Now Static Buttons) */
+  /* Arrows Group */
+  .gs-nav-group {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0; /* Don't let arrows shrink */
+  }
+
   .gs-nav-btn {
-    background: #f0f0f0;
+    background: #e0e0e0;
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -107,10 +121,10 @@
     justify-content: center;
     transition: all 0.2s ease;
     color: #333;
-    flex-shrink: 0;
+    padding: 0;
   }
-  .gs-nav-btn:hover { background: #e0e0e0; color: #000; }
-  .gs-nav-btn svg { width: 18px; height: 18px; stroke-width: 2px; }
+  .gs-nav-btn:hover { background: #cccccc; color: #000; }
+  .gs-nav-btn svg { width: 16px; height: 16px; stroke-width: 2px; }
 
   /* --- 3. PRODUCT CONTENT (Bottom) --- */
   .gs-product-container {
@@ -137,36 +151,69 @@
   <div class="gucci-visuals-stage">
     <div class="gucci-slider-track" id="gsTrack">
       {% if product.media.size > 0 %}
+        <!-- Clones for Infinite Loop -->
+        <div class="gucci-slide clone-last">
+          <img 
+            src="{{ product.media.last | image_url: width: 2000 }}" 
+            alt="" 
+            width="2000"
+            height="{{ 2000 | divided_by: product.media.last.aspect_ratio | ceil }}"
+            loading="lazy">
+        </div>
+
         {% for media in product.media %}
-          <div class="gucci-slide">
-            <img src="{{ media | image_url: width: 2000 }}" alt="{{ media.alt | escape }}" width="2000" height="{{ 2000 | divided_by: media.aspect_ratio | ceil }}" loading="lazy">
+          <div class="gucci-slide" data-index="{{ forloop.index0 }}">
+            <img 
+              src="{{ media | image_url: width: 2000 }}" 
+              alt="{{ media.alt | escape }}" 
+              width="2000"
+              height="{{ 2000 | divided_by: media.aspect_ratio | ceil }}"
+              loading="lazy">
           </div>
         {% endfor %}
+
+        <div class="gucci-slide clone-first">
+          <img 
+            src="{{ product.media.first | image_url: width: 2000 }}" 
+            alt="" 
+            width="2000"
+            height="{{ 2000 | divided_by: product.media.first.aspect_ratio | ceil }}"
+            loading="lazy">
+        </div>
       {% else %}
         <div class="gucci-slide">{{ 'product-1' | placeholder_svg_tag }}</div>
-        <div class="gucci-slide">{{ 'product-2' | placeholder_svg_tag }}</div>
       {% endif %}
     </div>
   </div>
 
-  <!-- 2. DEDICATED CONTROL STRIP (Below Images) -->
+  <!-- 2. CONTROL STRIP (Thumbnails + Arrows) -->
   <div class="gs-control-strip">
-    <!-- Thumbnails -->
-    <div class="gs-mini-preview">
-      {% for media in product.media %}
-        <div class="gs-mini-thumb {% if forloop.first %}active{% endif %}" onclick="jumpToSlide({{ forloop.index0 }})">
-          <img src="{{ media | image_url: width: 100 }}" alt="Thumb" width="100" height="100">
-        </div>
-      {% endfor %}
-    </div>
+    <div class="gs-controls-wrapper">
+      
+      <!-- Thumbnails -->
+      <div class="gs-mini-preview">
+        {% for media in product.media %}
+          <div class="gs-mini-thumb {% if forloop.first %}active{% endif %}" onclick="jumpToSlide({{ forloop.index0 }})">
+            <img 
+              src="{{ media | image_url: width: 100 }}" 
+              alt="Thumb" 
+              width="100" 
+              height="{{ 100 | divided_by: media.aspect_ratio | ceil }}">
+          </div>
+        {% endfor %}
+      </div>
 
-    <!-- Arrows (Grouped to right of thumbnails) -->
-    <button class="gs-nav-btn prev" onclick="moveGucciSlide(-1)" aria-label="Previous">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <button class="gs-nav-btn next" onclick="moveGucciSlide(1)" aria-label="Next">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
+      <!-- Arrows -->
+      <div class="gs-nav-group">
+        <button class="gs-nav-btn prev" onclick="moveGucciSlide(-1)" aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="gs-nav-btn next" onclick="moveGucciSlide(1)" aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+    </div>
   </div>
 
   <!-- 3. PRODUCT BLOCKS -->
