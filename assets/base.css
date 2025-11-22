@@ -3595,3 +3595,47 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+/* Related Colors Swatches */
+.related-colors {
+  margin: 20px 0;
+}
+
+.related-colors__title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.related-colors__swatches {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.color-swatch {
+  width: 60px;
+  height: 60px;
+  border: 2px solid #e5e5e5;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  display: block;
+}
+
+.color-swatch:hover {
+  border-color: #000;
+  transform: scale(1.05);
+}
+
+.color-swatch--active {
+  border-color: #000;
+  border-width: 3px;
+}
+
+.color-swatch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
