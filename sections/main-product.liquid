@@ -98,13 +98,57 @@
                 </p>
               {%- when 'title' -%}
                 <div class="product__title" {{ block.shopify_attributes }}>
-                  <h1>{{ product.title | escape }}</h1>
-                  <a href="{{ product.url }}" class="product__title">
-                    <h2 class="h1">
-                      {{ product.title | escape }}
-                    </h2>
-                  </a>
-                </div>
+  <h1>{{ product.title | escape }}</h1>
+  <a href="{{ product.url }}" class="product__title">
+    <h2 class="h1">
+      {{ product.title | escape }}
+    </h2>
+  </a>
+</div>
+{% if product.metafields.custom.related_colors.value.size > 0 %}
+  <div class="related-colors">
+    <h3 class="related-colors__title">Available Colors</h3>
+    <div class="related-colors__swatches">
+      <a href="{{ product.url }}" class="color-swatch color-swatch--active" aria-label="{{ product.title }}" aria-current="page">
+        {% if product.featured_image %}
+          <img src="{{ product.featured_image | image_url: width: 80 }}" alt="{{ product.title }}" loading="lazy">
+        {% endif %}
+      </a>
+      
+      {% for related_product in product.metafields.custom.related_colors.value %}
+        <a href="{{ related_product.url }}" class="color-swatch" aria-label="{{ related_product.title }}">
+          {% if related_product.featured_image %}
+            <img src="{{ related_product.featured_image | image_url: width: 80 }}" alt="{{ related_product.title }}" loading="lazy">
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+{% if product.metafields.custom.related_colors.value.size > 0 %}
+  <div class="related-colors">
+    <h3 class="related-colors__title">Available Colors</h3>
+    <div class="related-colors__swatches">
+      <!-- Current product swatch -->
+      <a href="{{ product.url }}" class="color-swatch color-swatch--active" aria-label="{{ product.title }}" aria-current="page">
+        {% if product.featured_image %}
+          <img src="{{ product.featured_image | image_url: width: 80 }}" alt="{{ product.title }}" loading="lazy">
+        {% endif %}
+      </a>
+      
+      <!-- Related color swatches -->
+      {% for related_product in product.metafields.custom.related_colors.value %}
+        <a href="{{ related_product.url }}" class="color-swatch" aria-label="{{ related_product.title }}">
+          {% if related_product.featured_image %}
+            <img src="{{ related_product.featured_image | image_url: width: 80 }}" alt="{{ related_product.title }}" loading="lazy">
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                   {%- render 'price',
