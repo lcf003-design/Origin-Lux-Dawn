@@ -1289,3 +1289,132 @@
     width: 100%;
   }
 }
+/* ================================
+   ORIGIN LUXURY PRODUCT CARDS
+   Applies to collection + featured grids
+================================ */
+
+/* Card container tweaks */
+.card-wrapper {
+  padding-bottom: 1.75rem;
+}
+
+@media (min-width: 750px) {
+  .card-wrapper {
+    padding-bottom: 2rem;
+  }
+}
+
+/* Base card feel */
+.card--product {
+  border-radius: 0;
+  background-color: #ffffff;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+    border-color 0.18s ease;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.02);
+}
+
+/* Inner layout refinement */
+.card--product .card__inner {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Image container – subtle zoom on hover */
+.card--product .card__media {
+  position: relative;
+  overflow: hidden;
+}
+
+.card--product .card__media img {
+  transition: transform 0.45s ease;
+  transform-origin: center center;
+}
+
+/* Lift + zoom on hover (desktop) */
+@media (hover: hover) {
+  .card-wrapper:hover .card--product {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .card-wrapper:hover .card--product .card__media img {
+    transform: scale(1.04);
+  }
+}
+
+/* Product info area */
+.card-information {
+  padding-top: 0.95rem;
+}
+
+/* Title styling – minimal and luxe */
+.card-information__text,
+.card__heading {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+/* Price styling */
+.price {
+  font-size: 13px;
+}
+
+.price__regular,
+.price__sale {
+  letter-spacing: 0.05em;
+}
+
+/* Remove harsh underline effects on links */
+.card__information,
+.card__heading,
+.card__heading a {
+  text-decoration: none;
+}
+
+/* Badges (sale/new/etc.) – softer look */
+.card__badge {
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Quick add button – keep clean and subtle */
+.card__information .quick-add {
+  margin-top: 0.75rem;
+}
+
+.quick-add__submit {
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.4rem;
+}
+
+/* Mobile spacing tweak */
+@media (max-width: 749px) {
+  .card-wrapper {
+    padding-bottom: 1.5rem;
+  }
+
+  .card-information__text,
+  .card__heading {
+    font-size: 11px;
+  }
+
+  .price {
+    font-size: 12px;
+  }
+}
