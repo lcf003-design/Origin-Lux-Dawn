@@ -1928,3 +1928,52 @@ a,
     padding-inline: 1.4rem;
   }
 }
+/* ================================
+   ORIGIN LUXURY MOBILE NAV
+   (Tier 3 Step 9)
+================================ */
+@media (max-width: 749px) {
+  /* Drawer panel */
+  .menu-drawer__inner-container {
+    padding: 2.25rem 1.6rem;
+    background-color: #ffffff;
+  }
+
+  /* Drawer animation (smooth slide) */
+  .menu-drawer.animate {
+    transition: transform 0.35s ease, opacity 0.3s ease;
+  }
+
+  /* Links inside mobile nav */
+  .menu-drawer__menu-item {
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  /* Submenu links */
+  .menu-drawer__submenu-item {
+    font-size: 13px;
+    padding: 0.7rem 0 0.7rem 0.8rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* Remove ugly default underlines */
+  .menu-drawer__menu-item a,
+  .menu-drawer__submenu-item a {
+    text-decoration: none;
+  }
+
+  /* Close button spacing */
+  .menu-drawer__close {
+    padding: 1.1rem;
+  }
+
+  /* Social icons in mobile menu */
+  .menu-drawer__utility-links {
+    margin-top: 2rem;
+    gap: 1rem;
+  }
+}
