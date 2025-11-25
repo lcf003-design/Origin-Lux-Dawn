@@ -1418,3 +1418,89 @@
     font-size: 12px;
   }
 }
+/* ================================
+   ORIGIN LUXURY COLLECTION PAGES
+   Hero + grid styling
+================================ */
+
+/* Collection hero wrapper (title + description) */
+.template-collection .collection-hero {
+  padding-top: 3.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+/* Collection title */
+.template-collection .collection-hero__title {
+  font-size: 18px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-align: left;
+  margin-bottom: 0.65rem;
+}
+
+/* Description text */
+.template-collection .collection-hero__description {
+  max-width: 520px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(0, 0, 0, 0.78);
+  margin: 0;
+}
+
+/* Optionally center on small screens */
+@media (max-width: 749px) {
+  .template-collection .collection-hero {
+    padding-top: 2.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .template-collection .collection-hero__title,
+  .template-collection .collection-hero__description {
+    text-align: left;
+  }
+
+  .template-collection .collection-hero__description {
+    max-width: none;
+  }
+}
+
+/* Collection grid wrapper spacing */
+.template-collection .collection {
+  padding-top: 2.25rem;
+  padding-bottom: 3.25rem;
+}
+
+/* Grid spacing refinement */
+.template-collection .collection .grid {
+  row-gap: 2.5rem;
+  column-gap: 1.75rem;
+}
+
+@media (min-width: 990px) {
+  .template-collection .collection .grid {
+    row-gap: 3rem;
+    column-gap: 2.25rem;
+  }
+}
+
+/* Align filters / sort cleaner */
+.template-collection .collection__header {
+  max-width: 1160px;
+  margin: 0 auto 1.75rem;
+}
+
+/* Optional: soften the "X products" text */
+.template-collection .collection__viewing,
+.template-collection .collection__product-count {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Keep grid centered in page */
+.template-collection .collection .page-width {
+  max-width: 1160px;
+}
