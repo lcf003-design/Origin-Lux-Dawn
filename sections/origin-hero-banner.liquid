@@ -1,0 +1,147 @@
+{% comment %}
+  Origin – Luxury Hero Banner
+  - Full width hero
+  - Desktop + mobile images
+  - Centered or left alignment
+  - Optional subtitle + buttons
+{% endcomment %}
+
+<section class="origin-hero" data-origin-hero>
+  <div class="origin-hero__media">
+    {% if section.settings.image_desktop != blank %}
+      {{ section.settings.image_desktop | image_url: width: 2400 | image_tag:
+        class: 'origin-hero__image origin-hero__image--desktop',
+        loading: 'lazy',
+        alt: section.settings.heading | default: shop.name
+      }}
+    {% endif %}
+
+    {% if section.settings.image_mobile != blank %}
+      {{ section.settings.image_mobile | image_url: width: 1200 | image_tag:
+        class: 'origin-hero__image origin-hero__image--mobile',
+        loading: 'lazy',
+        alt: section.settings.heading | default: shop.name
+      }}
+    {% endif %}
+
+    <div class="origin-hero__overlay"></div>
+  </div>
+
+  <div class="origin-hero__inner origin-hero__inner--{{ section.settings.content_alignment }}">
+    <div class="origin-hero__content">
+      {% if section.settings.kicker != blank %}
+        <p class="origin-hero__kicker">
+          {{ section.settings.kicker }}
+        </p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h1 class="origin-hero__heading">
+          {{ section.settings.heading }}
+        </h1>
+      {% endif %}
+
+      {% if section.settings.subheading != blank %}
+        <p class="origin-hero__subheading">
+          {{ section.settings.subheading }}
+        </p>
+      {% endif %}
+
+      {% if section.settings.primary_button_label != blank or section.settings.secondary_button_label != blank %}
+        <div class="origin-hero__buttons">
+          {% if section.settings.primary_button_label != blank and section.settings.primary_button_link != blank %}
+            <a href="{{ section.settings.primary_button_link }}" class="origin-hero__button origin-hero__button--primary">
+              {{ section.settings.primary_button_label }}
+            </a>
+          {% endif %}
+
+          {% if section.settings.secondary_button_label != blank and section.settings.secondary_button_link != blank %}
+            <a href="{{ section.settings.secondary_button_link }}" class="origin-hero__button origin-hero__button--secondary">
+              {{ section.settings.secondary_button_label }}
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Origin Hero Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image (optional)",
+      "info": "Shown on small screens if set. Otherwise, desktop image is used."
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker text",
+      "default": "NEW SEASON"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main heading",
+      "default": "Origin International Boutique"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Timeless silhouettes, crafted with intention."
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Primary button label",
+      "default": "Shop handbags"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "Explore collection"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin – Luxury Hero Banner"
+    }
+  ]
+}
+{% endschema %}

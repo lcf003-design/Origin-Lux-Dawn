@@ -1120,3 +1120,301 @@
     padding-right: 16px !important;
   }
 }
+/* ================================
+   ORIGIN LUXURY HERO BANNER
+================================ */
+
+.origin-hero {
+  position: relative;
+  width: 100%;
+  min-height: 70vh;
+  max-height: 880px;
+  overflow: hidden;
+}
+
+.origin-hero__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.origin-hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.origin-hero__image--mobile {
+  display: none;
+}
+
+.origin-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at top,
+      rgba(0, 0, 0, 0.3),
+      transparent 55%
+    ),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.75));
+}
+
+/* Content positioning */
+.origin-hero__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  padding: 4rem 2rem 5rem;
+}
+
+.origin-hero__inner--left {
+  justify-content: flex-start;
+}
+
+.origin-hero__content {
+  max-width: 640px;
+  color: #ffffff;
+}
+
+/* Typography */
+.origin-hero__kicker {
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 11px;
+  margin-bottom: 0.75rem;
+}
+
+.origin-hero__heading {
+  font-size: clamp(32px, 4vw, 46px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0 0 1.25rem;
+}
+
+.origin-hero__subheading {
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 0 1.75rem;
+}
+
+/* Buttons */
+.origin-hero__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+}
+
+.origin-hero__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 170px;
+  padding: 0.8rem 1.8rem;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid #ffffff;
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease, transform 0.15s ease;
+}
+
+.origin-hero__button--primary {
+  background-color: #ffffff;
+  color: #111111;
+  border-color: #ffffff;
+}
+
+.origin-hero__button--secondary {
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.origin-hero__button:hover {
+  transform: translateY(-1px);
+}
+
+.origin-hero__button--primary:hover {
+  background-color: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
+
+.origin-hero__button--secondary:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Responsive */
+@media (max-width: 749px) {
+  .origin-hero {
+    min-height: 75vh;
+  }
+
+  .origin-hero__image--desktop {
+    display: none;
+  }
+
+  .origin-hero__image--mobile {
+    display: block;
+  }
+
+  .origin-hero__inner {
+    align-items: flex-end;
+    padding: 3rem 1.5rem 3.5rem;
+  }
+
+  .origin-hero__heading {
+    font-size: 26px;
+    letter-spacing: 0.18em;
+  }
+
+  .origin-hero__subheading {
+    font-size: 13px;
+  }
+
+  .origin-hero__buttons {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .origin-hero__button {
+    width: 100%;
+  }
+}
+/* ================================
+   ORIGIN LUXURY PRODUCT CARDS
+   Applies to collection + featured grids
+================================ */
+
+/* Card container tweaks */
+.card-wrapper {
+  padding-bottom: 1.75rem;
+}
+
+@media (min-width: 750px) {
+  .card-wrapper {
+    padding-bottom: 2rem;
+  }
+}
+
+/* Base card feel */
+.card--product {
+  border-radius: 0;
+  background-color: #ffffff;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+    border-color 0.18s ease;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.02);
+}
+
+/* Inner layout refinement */
+.card--product .card__inner {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Image container – subtle zoom on hover */
+.card--product .card__media {
+  position: relative;
+  overflow: hidden;
+}
+
+.card--product .card__media img {
+  transition: transform 0.45s ease;
+  transform-origin: center center;
+}
+
+/* Lift + zoom on hover (desktop) */
+@media (hover: hover) {
+  .card-wrapper:hover .card--product {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .card-wrapper:hover .card--product .card__media img {
+    transform: scale(1.04);
+  }
+}
+
+/* Product info area */
+.card-information {
+  padding-top: 0.95rem;
+}
+
+/* Title styling – minimal and luxe */
+.card-information__text,
+.card__heading {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+/* Price styling */
+.price {
+  font-size: 13px;
+}
+
+.price__regular,
+.price__sale {
+  letter-spacing: 0.05em;
+}
+
+/* Remove harsh underline effects on links */
+.card__information,
+.card__heading,
+.card__heading a {
+  text-decoration: none;
+}
+
+/* Badges (sale/new/etc.) – softer look */
+.card__badge {
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Quick add button – keep clean and subtle */
+.card__information .quick-add {
+  margin-top: 0.75rem;
+}
+
+.quick-add__submit {
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.4rem;
+}
+
+/* Mobile spacing tweak */
+@media (max-width: 749px) {
+  .card-wrapper {
+    padding-bottom: 1.5rem;
+  }
+
+  .card-information__text,
+  .card__heading {
+    font-size: 11px;
+  }
+
+  .price {
+    font-size: 12px;
+  }
+}
