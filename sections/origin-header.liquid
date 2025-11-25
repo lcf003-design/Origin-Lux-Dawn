@@ -112,12 +112,7 @@
 
     <div class="header-right">
       
-      <a href="{{ routes.search_url }}" class="icon-btn" aria-label="Search">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </a>
+      {% render 'header-search', input_id: 'Search-In-Modal' %}
 
       <a href="{{ routes.account_url }}" class="icon-btn" aria-label="Account">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
