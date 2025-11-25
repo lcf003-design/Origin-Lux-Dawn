@@ -1418,3 +1418,513 @@
     font-size: 12px;
   }
 }
+/* ================================
+   ORIGIN LUXURY COLLECTION PAGES
+   Hero + grid styling
+================================ */
+
+/* Collection hero wrapper (title + description) */
+.template-collection .collection-hero {
+  padding-top: 3.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+/* Collection title */
+.template-collection .collection-hero__title {
+  font-size: 18px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-align: left;
+  margin-bottom: 0.65rem;
+}
+
+/* Description text */
+.template-collection .collection-hero__description {
+  max-width: 520px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(0, 0, 0, 0.78);
+  margin: 0;
+}
+
+/* Optionally center on small screens */
+@media (max-width: 749px) {
+  .template-collection .collection-hero {
+    padding-top: 2.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .template-collection .collection-hero__title,
+  .template-collection .collection-hero__description {
+    text-align: left;
+  }
+
+  .template-collection .collection-hero__description {
+    max-width: none;
+  }
+}
+
+/* Collection grid wrapper spacing */
+.template-collection .collection {
+  padding-top: 2.25rem;
+  padding-bottom: 3.25rem;
+}
+
+/* Grid spacing refinement */
+.template-collection .collection .grid {
+  row-gap: 2.5rem;
+  column-gap: 1.75rem;
+}
+
+@media (min-width: 990px) {
+  .template-collection .collection .grid {
+    row-gap: 3rem;
+    column-gap: 2.25rem;
+  }
+}
+
+/* Align filters / sort cleaner */
+.template-collection .collection__header {
+  max-width: 1160px;
+  margin: 0 auto 1.75rem;
+}
+
+/* Optional: soften the "X products" text */
+.template-collection .collection__viewing,
+.template-collection .collection__product-count {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Keep grid centered in page */
+.template-collection .collection .page-width {
+  max-width: 1160px;
+}
+/* ================================
+   ORIGIN LUXURY PRODUCT PAGE
+   (Tier 3 Step 4)
+================================ */
+
+/* Page wrapper spacing */
+.product {
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+
+/* Product gallery */
+.product__media-wrapper {
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+}
+
+.product__media-list {
+  row-gap: 1rem;
+}
+
+/* Make images smoother on hover */
+.product__media img {
+  transition: transform 0.4s ease;
+}
+
+@media (hover: hover) {
+  .product__media:hover img {
+    transform: scale(1.02);
+  }
+}
+
+/* Title – luxury uppercase minimal */
+.product__title {
+  font-size: 20px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+/* Price block */
+.product__info-wrapper .price {
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  margin-bottom: 1.4rem;
+}
+
+/* Buy box spacing */
+.product__info-container {
+  padding-top: 1.5rem;
+}
+
+/* Variant dropdowns (looks like Gucci’s minimal selects) */
+.product-form__input select {
+  border-radius: 0;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  padding: 0.8rem;
+  letter-spacing: 0.05em;
+  font-size: 13px;
+}
+
+/* Add to Cart button – luxury pill button */
+.product-form__submit {
+  border-radius: 999px;
+  padding: 1rem 2rem;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.product-form__submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+}
+
+/* Description area */
+.product__description {
+  max-width: 600px;
+  line-height: 1.8;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  margin-top: 2.5rem;
+}
+
+.product__description h2,
+.product__description h3 {
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Mobile refinement */
+@media (max-width: 749px) {
+  .product {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+
+  .product__title {
+    font-size: 18px;
+  }
+
+  .product__info-wrapper .price {
+    font-size: 16px;
+  }
+
+  .product-form__submit {
+    width: 100%;
+  }
+}
+/* ================================
+   ORIGIN LUXURY FOOTER
+   (Tier 3 Step 5)
+================================ */
+
+.footer {
+  background-color: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 2.75rem;
+  padding-bottom: 1.75rem;
+}
+
+.footer__content-top {
+  max-width: 1160px;
+  margin: 0 auto 1.75rem;
+}
+
+.footer__content-bottom {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Footer blocks – columns */
+.footer-block {
+  margin-bottom: 1.5rem;
+}
+
+.footer-block__heading {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+/* Footer links */
+.footer-block__details-content a,
+.footer-block__details-content li,
+.footer-block__details-content p {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.footer-block__details-content a {
+  text-decoration: none;
+}
+
+.footer-block__details-content a:hover {
+  text-decoration: underline;
+}
+
+/* Newsletter styling */
+.footer-block--newsletter .newsletter-form__field-wrapper {
+  max-width: 320px;
+}
+
+.footer-block--newsletter .field {
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.footer-block--newsletter .field__input {
+  border-radius: 999px 0 0 999px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  padding-left: 1.1rem;
+  font-size: 12px;
+}
+
+.footer-block--newsletter .field__button {
+  border-radius: 0 999px 999px 0;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding-inline: 1.4rem;
+}
+
+/* Social icons */
+.footer__list-social {
+  gap: 0.75rem;
+}
+
+.footer__list-social a {
+  padding: 0.3rem;
+}
+
+/* Bottom bar text */
+.footer__copyright,
+.footer__copyright a,
+.footer__column--info {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Stack nicely on mobile */
+@media (max-width: 749px) {
+  .footer__content-top {
+    padding-inline: 1.5rem;
+  }
+
+  .footer__content-bottom {
+    padding-inline: 1.5rem;
+  }
+
+  .footer-block__heading {
+    margin-bottom: 0.5rem;
+  }
+}
+/* ================================
+   ORIGIN LUXURY GLOBAL TYPE + BUTTONS
+   (Tier 3 Step 6)
+================================ */
+
+/* Base body refinement */
+body {
+  font-size: 14px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+/* Headings – subtle luxury caps feeling */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: 0.08em;
+}
+
+/* Section titles (like "Featured collection") */
+.title,
+.section-header__title,
+.collection-list-title {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+/* Global buttons – unify into a pill, subtle luxe */
+.button,
+.shopify-payment-button__button--unbranded,
+.button--primary,
+.button--secondary {
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.9rem 1.8rem;
+}
+
+/* Hover elevation */
+.button:hover,
+.shopify-payment-button__button--unbranded:hover,
+.button--primary:hover,
+.button--secondary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* Secondary button: keep outline vibe */
+.button--secondary {
+  background-color: transparent;
+}
+
+/* On very small screens, keep buttons usable */
+@media (max-width: 749px) {
+  .button,
+  .shopify-payment-button__button--unbranded,
+  .button--primary,
+  .button--secondary {
+    width: 100%;
+    text-align: center;
+  }
+}
+/* ================================
+   ORIGIN LUXURY MICRO-ANIMATIONS
+   (Tier 3 Step 7)
+================================ */
+
+/* Smooth scroll between anchors */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global transitions for interactive elements */
+a,
+.button,
+.button--primary,
+.button--secondary,
+.shopify-payment-button__button--unbranded {
+  transition: color 0.18s ease, background-color 0.18s ease,
+    border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+/* Card + hero + product + footer subtle fade-up on first load */
+.origin-hero,
+.template-collection .collection,
+.product,
+.footer {
+  animation: origin-fade-up 0.7s ease-out both;
+  animation-delay: 0.05s;
+}
+
+/* Product cards – slightly staggered */
+.template-collection .card-wrapper {
+  animation: origin-fade-up 0.55s ease-out both;
+}
+
+/* Reusable fade-up keyframes */
+@keyframes origin-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* ================================
+   ORIGIN LUXURY MOBILE POLISH
+   (Tier 3 Step 8)
+   Target: phones only
+================================ */
+@media (max-width: 749px) {
+  /* Global page padding feel */
+  .page-width {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+  }
+
+  /* Header – a bit tighter on mobile */
+  .section-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .header {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .header__heading-logo-wrapper {
+    max-width: 170px;
+  }
+
+  /* Gucci header bar spacing */
+  .origin-gucci-header__bar {
+    padding: 10px 16px;
+  }
+
+  /* Hero – keep strong but not overwhelming */
+  .origin-hero {
+    min-height: 65vh;
+  }
+
+  .origin-hero__inner {
+    padding: 2.5rem 1.4rem 3rem;
+  }
+
+  .origin-hero__heading {
+    font-size: 24px;
+  }
+
+  .origin-hero__subheading {
+    font-size: 13px;
+  }
+
+  /* Collection grid – slightly less gap */
+  .template-collection .collection .grid {
+    row-gap: 2rem;
+    column-gap: 1.25rem;
+  }
+
+  .card-wrapper {
+    padding-bottom: 1.3rem;
+  }
+
+  /* Product page – clean stack, full-width CTAs */
+  .product {
+    padding-top: 1.75rem;
+    padding-bottom: 2.75rem;
+  }
+
+  .product__title {
+    font-size: 18px;
+    margin-bottom: 0.7rem;
+  }
+
+  .product__info-wrapper .price {
+    font-size: 16px;
+    margin-bottom: 1.1rem;
+  }
+
+  .product-form__submit {
+    width: 100%;
+    padding-inline: 1.4rem;
+  }
+
+  /* Footer – nice and compact */
+  .footer {
+    padding-top: 2.25rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .footer__content-top,
+  .footer__content-bottom {
+    padding-inline: 1.4rem;
+  }
+}
