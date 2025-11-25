@@ -1504,3 +1504,116 @@
 .template-collection .collection .page-width {
   max-width: 1160px;
 }
+/* ================================
+   ORIGIN LUXURY PRODUCT PAGE
+   (Tier 3 Step 4)
+================================ */
+
+/* Page wrapper spacing */
+.product {
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+
+/* Product gallery */
+.product__media-wrapper {
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+}
+
+.product__media-list {
+  row-gap: 1rem;
+}
+
+/* Make images smoother on hover */
+.product__media img {
+  transition: transform 0.4s ease;
+}
+
+@media (hover: hover) {
+  .product__media:hover img {
+    transform: scale(1.02);
+  }
+}
+
+/* Title – luxury uppercase minimal */
+.product__title {
+  font-size: 20px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+/* Price block */
+.product__info-wrapper .price {
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  margin-bottom: 1.4rem;
+}
+
+/* Buy box spacing */
+.product__info-container {
+  padding-top: 1.5rem;
+}
+
+/* Variant dropdowns (looks like Gucci’s minimal selects) */
+.product-form__input select {
+  border-radius: 0;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  padding: 0.8rem;
+  letter-spacing: 0.05em;
+  font-size: 13px;
+}
+
+/* Add to Cart button – luxury pill button */
+.product-form__submit {
+  border-radius: 999px;
+  padding: 1rem 2rem;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.product-form__submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+}
+
+/* Description area */
+.product__description {
+  max-width: 600px;
+  line-height: 1.8;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  margin-top: 2.5rem;
+}
+
+.product__description h2,
+.product__description h3 {
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Mobile refinement */
+@media (max-width: 749px) {
+  .product {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+
+  .product__title {
+    font-size: 18px;
+  }
+
+  .product__info-wrapper .price {
+    font-size: 16px;
+  }
+
+  .product-form__submit {
+    width: 100%;
+  }
+}
