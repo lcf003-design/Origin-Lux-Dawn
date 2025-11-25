@@ -1928,3 +1928,121 @@ a,
     padding-inline: 1.4rem;
   }
 }
+/* ================================
+   ORIGIN LUXURY MOBILE NAV
+   (Tier 3 Step 9)
+================================ */
+@media (max-width: 749px) {
+  /* Drawer panel */
+  .menu-drawer__inner-container {
+    padding: 2.25rem 1.6rem;
+    background-color: #ffffff;
+  }
+
+  /* Drawer animation (smooth slide) */
+  .menu-drawer.animate {
+    transition: transform 0.35s ease, opacity 0.3s ease;
+  }
+
+  /* Links inside mobile nav */
+  .menu-drawer__menu-item {
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  /* Submenu links */
+  .menu-drawer__submenu-item {
+    font-size: 13px;
+    padding: 0.7rem 0 0.7rem 0.8rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* Remove ugly default underlines */
+  .menu-drawer__menu-item a,
+  .menu-drawer__submenu-item a {
+    text-decoration: none;
+  }
+
+  /* Close button spacing */
+  .menu-drawer__close {
+    padding: 1.1rem;
+  }
+
+  /* Social icons in mobile menu */
+  .menu-drawer__utility-links {
+    margin-top: 2rem;
+    gap: 1rem;
+  }
+}
+/* ================================
+   ORIGIN LUXURY SEARCH + HEADER INTERACTIONS
+   (Tier 3 Step 10)
+================================ */
+
+/* Header navigation link refinement */
+.header__inline-menu .list-menu__item--link {
+  position: relative;
+  padding-bottom: 0.4rem;
+}
+
+/* Subtle underline on hover – luxury style */
+@media (hover: hover) {
+  .header__inline-menu .list-menu__item--link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0.1rem;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.2s ease;
+  }
+
+  .header__inline-menu .list-menu__item--link:hover::after {
+    width: 100%;
+  }
+}
+
+/* Search icon spacing (header) */
+.header__icon--search {
+  padding-inline: 0.4rem;
+}
+
+/* Search modal input – luxury pill feel */
+.search__input,
+.predictive-search__input {
+  border-radius: 999px;
+  padding-inline: 1.2rem;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+
+/* Predictive search dropdown – card feel */
+.predictive-search {
+  border-radius: 0;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Predictive search items */
+.predictive-search__results-list li {
+  padding-block: 0.65rem;
+}
+
+/* Predictive search product titles */
+.predictive-search__item-heading,
+.predictive-search__item-heading a {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Predictive search see-all link */
+.predictive-search__search-for-button {
+  font-size: 12px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
