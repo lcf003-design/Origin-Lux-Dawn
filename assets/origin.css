@@ -1977,3 +1977,72 @@ a,
     gap: 1rem;
   }
 }
+/* ================================
+   ORIGIN LUXURY SEARCH + HEADER INTERACTIONS
+   (Tier 3 Step 10)
+================================ */
+
+/* Header navigation link refinement */
+.header__inline-menu .list-menu__item--link {
+  position: relative;
+  padding-bottom: 0.4rem;
+}
+
+/* Subtle underline on hover – luxury style */
+@media (hover: hover) {
+  .header__inline-menu .list-menu__item--link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0.1rem;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.2s ease;
+  }
+
+  .header__inline-menu .list-menu__item--link:hover::after {
+    width: 100%;
+  }
+}
+
+/* Search icon spacing (header) */
+.header__icon--search {
+  padding-inline: 0.4rem;
+}
+
+/* Search modal input – luxury pill feel */
+.search__input,
+.predictive-search__input {
+  border-radius: 999px;
+  padding-inline: 1.2rem;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+
+/* Predictive search dropdown – card feel */
+.predictive-search {
+  border-radius: 0;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Predictive search items */
+.predictive-search__results-list li {
+  padding-block: 0.65rem;
+}
+
+/* Predictive search product titles */
+.predictive-search__item-heading,
+.predictive-search__item-heading a {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Predictive search see-all link */
+.predictive-search__search-for-button {
+  font-size: 12px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
