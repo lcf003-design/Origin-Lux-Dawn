@@ -77,7 +77,10 @@
 }
 {% endschema %}
 
-<div class="gucci-wrapper">
+<div
+  class="gucci-wrapper"
+  style="--origin-gucci-grid-gap: {{ section.settings.grid_gap }}px; --origin-gucci-grid-side-padding: {{ section.settings.side_padding }}px; --origin-gucci-grid-top-padding: {{ section.settings.top_padding }}px; --origin-gucci-grid-text-color: {{ section.settings.text_color }};"
+>
   <div class="gucci-grid">
     {% for block in section.blocks %}
       <a href="{{ block.settings.link }}" class="gucci-item">
@@ -95,65 +98,3 @@
     {% endfor %}
   </div>
 </div>
-
-<style>
-  .gucci-wrapper {
-    background-color: #ffffff;
-    padding: {{ section.settings.top_padding }}px {{ section.settings.side_padding }}px;
-  }
-
-  .gucci-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 Columns like photo */
-    gap: {{ section.settings.grid_gap }}px; /* The Padding between items */
-  }
-
-  .gucci-item {
-    display: block;
-    text-decoration: none;
-  }
-
-  /* IMAGE */
-  .img-box {
-    width: 100%;
-    aspect-ratio: 1 / 1; /* Square look like the photo, or change to 4/5 */
-    overflow: hidden;
-    margin-bottom: 15px; /* Space between image and text */
-    background: #f4f4f4;
-  }
-
-  .g-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* or contain if you want the whole shoe visible with white space */
-    transition: transform 0.5s ease;
-  }
-  
-  .gucci-item:hover .g-img {
-    transform: scale(1.03); /* Gentle zoom */
-  }
-
-  /* TEXT BELOW */
-  .text-box {
-    text-align: center;
-  }
-
-  .g-label {
-    color: {{ section.settings.text_color }};
-    font-family: var(--font-body-family);
-    font-size: 0.9rem;
-    letter-spacing: 0.05em;
-    text-transform: capitalize; /* "Handbags" instead of "HANDBAGS" */
-  }
-  
-  .placeholder { background: #eee; }
-
-  /* MOBILE */
-  @media screen and (max-width: 768px) {
-    .gucci-grid {
-      grid-template-columns: repeat(2, 1fr); /* 2 per row on mobile */
-      gap: 10px;
-    }
-    .gucci-wrapper { padding: 20px 10px; }
-  }
-</style>
