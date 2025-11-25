@@ -1838,3 +1838,93 @@ a,
     transform: translateY(0);
   }
 }
+/* ================================
+   ORIGIN LUXURY MOBILE POLISH
+   (Tier 3 Step 8)
+   Target: phones only
+================================ */
+@media (max-width: 749px) {
+  /* Global page padding feel */
+  .page-width {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+  }
+
+  /* Header – a bit tighter on mobile */
+  .section-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .header {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .header__heading-logo-wrapper {
+    max-width: 170px;
+  }
+
+  /* Gucci header bar spacing */
+  .origin-gucci-header__bar {
+    padding: 10px 16px;
+  }
+
+  /* Hero – keep strong but not overwhelming */
+  .origin-hero {
+    min-height: 65vh;
+  }
+
+  .origin-hero__inner {
+    padding: 2.5rem 1.4rem 3rem;
+  }
+
+  .origin-hero__heading {
+    font-size: 24px;
+  }
+
+  .origin-hero__subheading {
+    font-size: 13px;
+  }
+
+  /* Collection grid – slightly less gap */
+  .template-collection .collection .grid {
+    row-gap: 2rem;
+    column-gap: 1.25rem;
+  }
+
+  .card-wrapper {
+    padding-bottom: 1.3rem;
+  }
+
+  /* Product page – clean stack, full-width CTAs */
+  .product {
+    padding-top: 1.75rem;
+    padding-bottom: 2.75rem;
+  }
+
+  .product__title {
+    font-size: 18px;
+    margin-bottom: 0.7rem;
+  }
+
+  .product__info-wrapper .price {
+    font-size: 16px;
+    margin-bottom: 1.1rem;
+  }
+
+  .product-form__submit {
+    width: 100%;
+    padding-inline: 1.4rem;
+  }
+
+  /* Footer – nice and compact */
+  .footer {
+    padding-top: 2.25rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .footer__content-top,
+  .footer__content-bottom {
+    padding-inline: 1.4rem;
+  }
+}
