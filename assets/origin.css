@@ -1726,3 +1726,70 @@
     margin-bottom: 0.5rem;
   }
 }
+/* ================================
+   ORIGIN LUXURY GLOBAL TYPE + BUTTONS
+   (Tier 3 Step 6)
+================================ */
+
+/* Base body refinement */
+body {
+  font-size: 14px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+/* Headings – subtle luxury caps feeling */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: 0.08em;
+}
+
+/* Section titles (like "Featured collection") */
+.title,
+.section-header__title,
+.collection-list-title {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+/* Global buttons – unify into a pill, subtle luxe */
+.button,
+.shopify-payment-button__button--unbranded,
+.button--primary,
+.button--secondary {
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.9rem 1.8rem;
+}
+
+/* Hover elevation */
+.button:hover,
+.shopify-payment-button__button--unbranded:hover,
+.button--primary:hover,
+.button--secondary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* Secondary button: keep outline vibe */
+.button--secondary {
+  background-color: transparent;
+}
+
+/* On very small screens, keep buttons usable */
+@media (max-width: 749px) {
+  .button,
+  .shopify-payment-button__button--unbranded,
+  .button--primary,
+  .button--secondary {
+    width: 100%;
+    text-align: center;
+  }
+}
