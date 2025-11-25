@@ -1793,3 +1793,48 @@ h6 {
     text-align: center;
   }
 }
+/* ================================
+   ORIGIN LUXURY MICRO-ANIMATIONS
+   (Tier 3 Step 7)
+================================ */
+
+/* Smooth scroll between anchors */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global transitions for interactive elements */
+a,
+.button,
+.button--primary,
+.button--secondary,
+.shopify-payment-button__button--unbranded {
+  transition: color 0.18s ease, background-color 0.18s ease,
+    border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+/* Card + hero + product + footer subtle fade-up on first load */
+.origin-hero,
+.template-collection .collection,
+.product,
+.footer {
+  animation: origin-fade-up 0.7s ease-out both;
+  animation-delay: 0.05s;
+}
+
+/* Product cards – slightly staggered */
+.template-collection .card-wrapper {
+  animation: origin-fade-up 0.55s ease-out both;
+}
+
+/* Reusable fade-up keyframes */
+@keyframes origin-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
