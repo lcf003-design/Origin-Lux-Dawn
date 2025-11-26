@@ -54,6 +54,7 @@
       {{ body_font_bold_italic | font_face: font_display: 'swap' }}
       {{ settings.type_header_font | font_face: font_display: 'swap' }}
 
+      {% assign scheme_classes = '' %}
       {% for scheme in settings.color_schemes -%}
         {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
         {% if forloop.index == 1 -%}
@@ -381,6 +382,30 @@
 
         event.preventDefault();
         modalToggle.dispatchEvent(new Event('click', { bubbles: true }));
+      });
+    </script>
+     <button type="button" class="origin-back-to-top" aria-label="Back to top">
+      <span>Top</span>
+    </button>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var backToTop = document.querySelector('.origin-back-to-top');
+        if (!backToTop) return;
+
+        function toggleBackToTop() {
+          if (window.scrollY > 400) {
+            backToTop.classList.add('origin-back-to-top--visible');
+          } else {
+            backToTop.classList.remove('origin-back-to-top--visible');
+          }
+        }
+
+        window.addEventListener('scroll', toggleBackToTop, { passive: true });
+
+        backToTop.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
       });
     </script>
 
