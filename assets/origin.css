@@ -3340,3 +3340,78 @@ a,
     font-size: 1.4rem;
   }
 }
+/* ================================
+   TIER 8 – PRODUCT PAGE LUXURY POLISH
+   STEP 2 – ACCORDIONS
+================================ */
+
+/* Wrapper spacing */
+.template-product .product__accordion {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding-block: 1.4rem;
+}
+
+/* Accordion title */
+.template-product .accordion__title {
+  font-size: 1.25rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Caret icon */
+.template-product .accordion__toggle svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.25s ease;
+  opacity: 0.7;
+}
+
+/* Rotate on open */
+.template-product details[open] .accordion__toggle svg {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* Accordion content */
+.template-product .accordion__content {
+  padding-top: 0.8rem;
+  font-size: 1.3rem;
+  line-height: 1.65;
+  opacity: 0.85;
+}
+
+/* Remove Dawn’s left padding */
+.template-product .accordion__content p,
+.template-product .accordion__content ul,
+.template-product .accordion__content li {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+/* Bullet styling */
+.template-product .accordion__content ul {
+  list-style: none;
+  margin-top: 0.4rem;
+}
+
+.template-product .accordion__content ul li::before {
+  content: "•";
+  margin-right: 0.6rem;
+  opacity: 0.35;
+}
+
+/* Mobile tweaks */
+@media (max-width: 749px) {
+  .template-product .accordion__title {
+    font-size: 1.2rem;
+  }
+  .template-product .accordion__content {
+    font-size: 1.25rem;
+  }
+}
