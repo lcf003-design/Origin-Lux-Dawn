@@ -4157,6 +4157,79 @@ a,
 }
 
 /* ================================
+   GUCCI-STYLE SCROLL HEADER
+================================ */
+.header {
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+
+.header__heading-logo {
+  height: 80px;
+  transition: all 0.35s ease;
+  transform-origin: center top;
+}
+
+.header.header--scrolled .header__heading-logo {
+  height: 22px;
+}
+
+.header.header--transparent {
+  background-color: transparent;
+  border-bottom: none;
+  color: #ffffff;
+}
+
+.header.header--scrolled {
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: #000000;
+}
+
+.header--transparent .header__heading-link,
+.header--transparent .header__icon,
+.header--transparent .header__icon .svg-wrapper,
+.header--transparent .header__icon svg,
+.header--transparent .header__menu-item,
+.header--transparent .list-menu__item,
+.header--transparent summary.list-menu__item {
+  color: #ffffff;
+  fill: #ffffff;
+  stroke: #ffffff;
+}
+
+.header--scrolled .header__heading-link,
+.header--scrolled .header__icon,
+.header--scrolled .header__icon .svg-wrapper,
+.header--scrolled .header__icon svg,
+.header--scrolled .header__menu-item,
+.header--scrolled .list-menu__item,
+.header--scrolled summary.list-menu__item {
+  color: #000000;
+  fill: #000000;
+  stroke: #000000;
+}
+
+.header__heading-link,
+.header__icon,
+.header__menu-item,
+.header__menu-item svg {
+  transition: color 0.35s ease, fill 0.35s ease, stroke 0.35s ease;
+}
+
+.hero-logo {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(60vw, 420px);
+  height: auto;
+  opacity: 1;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ================================
    TIER 14 – SPEED & SEO TOUCHES
 ================================ */
 .template-product img[loading='lazy'],
