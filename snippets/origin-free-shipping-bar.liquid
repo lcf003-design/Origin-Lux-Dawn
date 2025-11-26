@@ -1,0 +1,35 @@
+{% comment %}
+  Origin Luxury – Free Shipping Progress Bar
+  - Threshold hard-coded in cents (change free_shipping_threshold as needed)
+  - This snippet is rendered dynamically or included manually.
+{% endcomment %}
+
+{%- assign free_shipping_threshold = 30000 -%} {# 300.00 in cents #}
+{%- assign cart_total = cart.total_price | default: 0 -%}
+
+{%- if cart_total <= 0 -%}
+  {# No cart yet, nothing to show #}
+{%- else -%}
+  {%- if cart_total >= free_shipping_threshold -%}
+    {%- assign progress = 100 -%}
+  {%- else -%}
+    {%- assign progress = cart_total | times: 100 | divided_by: free_shipping_threshold -%}
+  {%- endif -%}
+
+  <div class="origin-freeship{% if cart_total >= free_shipping_threshold %} origin-freeship--achieved{% endif %}">
+    {%- if cart_total >= free_shipping_threshold -%}
+      <p class="origin-freeship__text">
+        You’ve unlocked free shipping.
+      </p>
+    {%- else -%}
+      {%- assign remaining = free_shipping_threshold | minus: cart_total -%}
+      <p class="origin-freeship__text">
+        Spend {{ remaining | money }} more to unlock free shipping.
+      </p>
+    {%- endif -%}
+
+    <div class="origin-freeship__bar">
+      <span class="origin-freeship__fill" style="width: {{ progress }}%;"></span>
+    </div>
+  </div>
+{%- endif -%}
