@@ -384,6 +384,51 @@
         modalToggle.dispatchEvent(new Event('click', { bubbles: true }));
       });
     </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const stickyBar = document.querySelector('[data-origin-sticky-atc]');
+        const isProductTemplate = {{ request.page_type | json }} === 'product';
+
+        if (!stickyBar || !isProductTemplate) return;
+
+        const productForm =
+          document.querySelector('product-form form[action*="/cart/add"]') ||
+          document.querySelector('form[action*="/cart/add"]');
+
+        if (!productForm) return;
+
+        const stickyButton = stickyBar.querySelector('[data-origin-sticky-atc-button]');
+        const offset = 80;
+        const shouldShowOnViewport = () => window.innerWidth < 990;
+
+        const updateStickyVisibility = () => {
+          if (!shouldShowOnViewport()) {
+            stickyBar.classList.remove('is-visible');
+            return;
+          }
+
+          const rect = productForm.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          const passedForm = rect.bottom < viewportHeight - offset;
+
+          stickyBar.classList.toggle('is-visible', passedForm);
+        };
+
+        window.addEventListener('scroll', updateStickyVisibility, { passive: true });
+        window.addEventListener('resize', updateStickyVisibility);
+        updateStickyVisibility();
+
+        if (stickyButton) {
+          stickyButton.addEventListener('click', function() {
+            if (typeof productForm.requestSubmit === 'function') {
+              productForm.requestSubmit();
+            } else {
+              productForm.submit();
+            }
+          });
+        }
+      });
+    </script>
      <button type="button" class="origin-back-to-top" aria-label="Back to top">
       <span>Top</span>
     </button>

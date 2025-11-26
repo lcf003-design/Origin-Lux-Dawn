@@ -745,6 +745,25 @@
   </div>
 </product-info>
 
+<div class="origin-sticky-atc" data-origin-sticky-atc>
+  <div class="origin-sticky-atc__inner">
+    <div class="origin-sticky-atc__info">
+      <span class="origin-sticky-atc__title">{{ product.title }}</span>
+      <span class="origin-sticky-atc__price">
+        {%- render 'price',
+          product: product,
+          use_variant: true,
+          show_badges: false,
+          price_class: 'origin-sticky-atc__price-value'
+        -%}
+      </span>
+    </div>
+    <button type="button" class="origin-sticky-atc__button" data-origin-sticky-atc-button>
+      Add to bag
+    </button>
+  </div>
+</div>
+
 {% schema %}
 {
   "name": "t:sections.main-product.name",
