@@ -429,6 +429,70 @@
         }
       });
     </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Origin Quick Add (collections)
+        const quickAddForms = document.querySelectorAll('[data-origin-quick-add-form]');
+        if (quickAddForms.length) {
+          const refreshCart = () => {
+            const drawerItems = document.querySelector('cart-drawer-items');
+            if (drawerItems && typeof drawerItems.onCartUpdate === 'function') {
+              return drawerItems.onCartUpdate().then(() => {
+                const drawer = document.querySelector('cart-drawer');
+                drawer?.open();
+              });
+            }
+            return Promise.resolve();
+          };
+
+          quickAddForms.forEach((form) => {
+            form.addEventListener('submit', function(event) {
+              event.preventDefault();
+              const formData = new FormData(form);
+              const body = {
+                id: formData.get('id'),
+                quantity: formData.get('quantity') || 1,
+              };
+
+              fetch(`${routes.cart_add_url}.js`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify(body),
+              })
+                .then((response) => response.json())
+                .then(() => refreshCart())
+                .catch(() => form.submit());
+            });
+          });
+        }
+
+        // Origin Hero scroll cue
+        const scrollCue = document.querySelector('[data-origin-hero-scroll]');
+        if (scrollCue) {
+          const hero = scrollCue.closest('[data-origin-hero]');
+          const hideCue = () => {
+            if (window.scrollY > 120) {
+              scrollCue.style.opacity = '0';
+              scrollCue.style.pointerEvents = 'none';
+            } else {
+              scrollCue.style.opacity = '1';
+              scrollCue.style.pointerEvents = 'auto';
+            }
+          };
+          window.addEventListener('scroll', hideCue, { passive: true });
+          hideCue();
+
+          scrollCue.addEventListener('click', function() {
+            const nextSection = hero?.nextElementSibling;
+            if (nextSection) {
+              nextSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+              window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+            }
+          });
+        }
+      });
+    </script>
      <button type="button" class="origin-back-to-top" aria-label="Back to top">
       <span>Top</span>
     </button>
