@@ -364,6 +364,24 @@
         countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
       };
     </script>
+    <script>
+      document.addEventListener('click', function(event) {
+        const searchLink = event.target.closest(
+          'a.header__icon--search[href="{{ routes.search_url }}"], a.icon-btn[href="{{ routes.search_url }}"]'
+        );
+        if (!searchLink) return;
+
+        const headerRoot = searchLink.closest('.header, .origin-header');
+        const modalToggle =
+          headerRoot?.querySelector('details-modal .modal__toggle') ||
+          document.querySelector('details-modal .modal__toggle');
+
+        if (!modalToggle) return;
+
+        event.preventDefault();
+        modalToggle.dispatchEvent(new Event('click', { bubbles: true }));
+      });
+    </script>
 
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
