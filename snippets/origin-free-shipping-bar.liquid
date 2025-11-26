@@ -1,14 +1,14 @@
 {% comment %}
   Origin Luxury – Free Shipping Progress Bar
-  - Threshold hard-coded in cents (change free_shipping_threshold as needed)
-  - This snippet is rendered dynamically or included manually.
+  Threshold is defined in cents via free_shipping_threshold.
+  Example: 30000 = $300.00
 {% endcomment %}
 
-{%- assign free_shipping_threshold = 30000 -%} {# 300.00 in cents #}
+{%- assign free_shipping_threshold = 30000 -%}
 {%- assign cart_total = cart.total_price | default: 0 -%}
 
 {%- if cart_total <= 0 -%}
-  {# No cart yet, nothing to show #}
+  {%- comment -%} No items yet, don't show the bar. {%- endcomment -%}
 {%- else -%}
   {%- if cart_total >= free_shipping_threshold -%}
     {%- assign progress = 100 -%}
