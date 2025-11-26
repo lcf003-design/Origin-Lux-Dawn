@@ -3582,14 +3582,14 @@ a,
   margin-bottom: 1.4rem;
 }
 
-.template-product .product-form__input input[type='radio'] {
+.template-product .product-form__input input[type="radio"] {
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
 
-.template-product .product-form__input input[type='radio'] + label,
-.template-product .variant-radios input[type='radio'] + label,
+.template-product .product-form__input input[type="radio"] + label,
+.template-product .variant-radios input[type="radio"] + label,
 .template-product .swatch-input {
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 999px;
@@ -3603,27 +3603,30 @@ a,
   transition: all 0.2s ease;
 }
 
-.template-product .product-form__input input[type='radio']:focus-visible + label {
+.template-product
+  .product-form__input
+  input[type="radio"]:focus-visible
+  + label {
   outline: 2px solid #111;
   outline-offset: 2px;
 }
 
-.template-product .product-form__input input[type='radio']:checked + label,
-.template-product .variant-radios input[type='radio']:checked + label {
+.template-product .product-form__input input[type="radio"]:checked + label,
+.template-product .variant-radios input[type="radio"]:checked + label {
   background: #111;
   color: #fff;
   border-color: #111;
 }
 
-.template-product .product-form__input input[type='radio'][disabled] + label {
+.template-product .product-form__input input[type="radio"][disabled] + label {
   opacity: 0.35;
   text-decoration: line-through;
   cursor: not-allowed;
 }
 
 @media (hover: hover) {
-  .template-product .product-form__input input[type='radio'] + label:hover,
-  .template-product .variant-radios input[type='radio'] + label:hover {
+  .template-product .product-form__input input[type="radio"] + label:hover,
+  .template-product .variant-radios input[type="radio"] + label:hover {
     border-color: rgba(0, 0, 0, 0.45);
     transform: translateY(-1px);
   }
@@ -4132,7 +4135,7 @@ a,
 }
 
 .origin-timeline__grid::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 1.2rem;
   left: 1rem;
@@ -4157,10 +4160,84 @@ a,
 }
 
 /* ================================
+   GUCCI-STYLE SCROLL HEADER
+================================ */
+.header {
+  transition: background-color 0.35s ease, border-color 0.35s ease,
+    color 0.35s ease;
+}
+
+.header__heading-logo {
+  height: 80px;
+  transition: all 0.35s ease;
+  transform-origin: center top;
+}
+
+.header.header--scrolled .header__heading-logo {
+  height: 22px;
+}
+
+.header.header--transparent {
+  background-color: transparent;
+  border-bottom: none;
+  color: #ffffff;
+}
+
+.header.header--scrolled {
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: #000000;
+}
+
+.header--transparent .header__heading-link,
+.header--transparent .header__icon,
+.header--transparent .header__icon .svg-wrapper,
+.header--transparent .header__icon svg,
+.header--transparent .header__menu-item,
+.header--transparent .list-menu__item,
+.header--transparent summary.list-menu__item {
+  color: #ffffff;
+  fill: #ffffff;
+  stroke: #ffffff;
+}
+
+.header--scrolled .header__heading-link,
+.header--scrolled .header__icon,
+.header--scrolled .header__icon .svg-wrapper,
+.header--scrolled .header__icon svg,
+.header--scrolled .header__menu-item,
+.header--scrolled .list-menu__item,
+.header--scrolled summary.list-menu__item {
+  color: #000000;
+  fill: #000000;
+  stroke: #000000;
+}
+
+.header__heading-link,
+.header__icon,
+.header__menu-item,
+.header__menu-item svg {
+  transition: color 0.35s ease, fill 0.35s ease, stroke 0.35s ease;
+}
+
+.hero-logo {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(60vw, 420px);
+  height: auto;
+  opacity: 1;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ================================
    TIER 14 – SPEED & SEO TOUCHES
 ================================ */
-.template-product img[loading='lazy'],
-.template-index img[loading='lazy'] {
+.template-product img[loading="lazy"],
+.template-index img[loading="lazy"] {
   background: #f6f6f6;
 }
 
@@ -4173,17 +4250,27 @@ a,
     color: #f3f3f3;
   }
 
-  header.header, footer, .origin-footer {
+  header.header,
+  footer,
+  .origin-footer {
     background: #0e0e11;
     color: #f3f3f3;
   }
 
-  .card-wrapper, .product-card-wrapper, .cart-drawer__footer, .origin-product-reassurance, .origin-cart-upsell, .origin-carousel__slide {
+  .card-wrapper,
+  .product-card-wrapper,
+  .cart-drawer__footer,
+  .origin-product-reassurance,
+  .origin-cart-upsell,
+  .origin-carousel__slide {
     background: #131318;
     border-color: rgba(255, 255, 255, 0.08);
   }
 
-  .button, .btn, .origin-carousel__button, .origin-cart-upsell__button {
+  .button,
+  .btn,
+  .origin-carousel__button,
+  .origin-cart-upsell__button {
     background: #f3f3f3;
     color: #0b0b0d;
   }
@@ -4197,4 +4284,22 @@ a,
     background: #f3f3f3;
     color: #0b0b0d;
   }
+}
+/* ===== Gucci-style logo scale animation ===== */
+
+.header__heading-logo {
+  display: block;
+  height: 80px !important;
+  width: auto;
+  max-height: none;
+  transform-origin: center top;
+  transform: scale(1.1);
+  transition: transform 0.35s ease, height 0.35s ease;
+}
+
+/* When header gets the scrolled class, shrink the logo */
+.header--scrolled .header__heading-logo,
+.scrolled-past-header .header__heading-logo {
+  height: 24px !important;
+  transform: scale(1);
 }

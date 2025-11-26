@@ -186,145 +186,263 @@
 </div>
 
 <script>
-  window.addEventListener('scroll', function() {
+  (function() {
     const header = document.getElementById('OriginHeader');
-    if (window.scrollY > 50) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  });
+    if (!header) return;
+
+    const toggleScrolled = () => {
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    };
+
+    // Run once on load
+    toggleScrolled();
+    // And on scroll
+    window.addEventListener('scroll', toggleScrolled);
+  })();
 </script>
 
 <style>
   /* HEADER BASE */
   .origin-header {
-    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_top }}px;
     padding-left: {{ section.settings.padding_side }}px;
     padding-right: {{ section.settings.padding_side }}px;
-    transition: all 0.4s ease;
-    color: #fff; background: transparent;
+    background: transparent !important;
+    color: #ffffff;
+    box-shadow: none !important;
+    transition: padding 0.35s ease, transform 0.35s ease;
   }
 
-  /* SCROLLED STATE */
+  /* SCROLLED STATE (keep padding tighter but no background/shadow/color change) */
   .origin-header.scrolled {
-    background: #ffffff; color: #000000;
-    padding-top: 15px; padding-bottom: 15px; /* Compact on scroll */
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #ffffff;
   }
-  
-  /* FORCE HAMBURGER COLOR */
-  .origin-header .menu-trigger svg { stroke: #ffffff; transition: stroke 0.4s ease; }
-  .origin-header.scrolled .menu-trigger svg { stroke: #000000; }
+   
+  /* ICONS stay white */
+  .origin-header .icon-btn,
+  .origin-header .menu-trigger {
+    color: #ffffff;
+  }
+  .origin-header .icon-btn svg,
+  .origin-header .menu-trigger svg {
+    stroke: currentColor;
+    transition: stroke 0.35s ease, color 0.35s ease;
+  }
 
   .header-container {
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   /* SECTIONS */
-  .header-left, .header-right {
-    flex: 1; display: flex; align-items: center;
+  .header-left,
+  .header-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
   }
-  .header-right { justify-content: flex-end; gap: 1.5rem; }
-  .header-center { flex: 2; text-align: center; display: flex; justify-content: center; }
+  .header-right {
+    justify-content: flex-end;
+    gap: 1.5rem;
+  }
+  .header-center {
+    flex: 2;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
 
-  /* ICONS */
+  /* ICON BUTTONS */
   .icon-btn {
-    background: none; border: none; color: currentColor; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
+    background: none;
+    border: none;
+    color: currentColor;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0;
     transition: opacity 0.3s;
   }
   .icon-btn:hover { opacity: 0.7; }
-  
+   
   /* CART COUNT */
   .cart-btn { position: relative; }
   .cart-count {
-    position: absolute; top: -5px; right: -8px;
-    background: #fff; color: #000;
-    font-size: 10px; font-weight: bold;
-    width: 16px; height: 16px;
-    display: flex; align-items: center; justify-content: center;
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background: #fff;
+    color: #000;
+    font-size: 10px;
+    font-weight: bold;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
   }
-  .origin-header.scrolled .cart-count { background: #000; color: #fff; }
+  .origin-header.scrolled .cart-count {
+    background: #fff;
+    color: #000;
+  }
 
-  /* LOGO */
+  /* LOGO SWAP + SIZE */
   .logo-dark { display: none; }
   .logo-light { display: block; }
   .origin-header.scrolled .logo-light { display: none; }
   .origin-header.scrolled .logo-dark { display: block; }
-  
+
+  /* BIG → SMALL LOGO ANIMATION */
+  .header-logo img {
+    display: block;
+    transform-origin: center center;
+    transform: scale(1.8);  /* BIG at top */
+    transition: transform 0.35s ease;
+  }
+  .origin-header.scrolled .header-logo img {
+    transform: scale(0.5);  /* MUCH SMALLER when scrolled */
+  }
+   
   .logo-text {
-    font-family: var(--font-heading-family); font-size: 2rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    font-family: var(--font-heading-family);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
   /* MOBILE ADJUSTMENTS */
   @media screen and (max-width: 768px) {
     .origin-header { 
-      padding-left: 20px; padding-right: 20px; 
-      padding-top: 15px; padding-bottom: 15px; 
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-top: 15px;
+      padding-bottom: 15px;
     }
     .header-right { gap: 1rem; }
   }
 
   /* MENU DRAWER (50% WIDTH + GLASS + SLIDE) */
   .mobile-menu-overlay {
-    position: fixed; top: 0; left: 0;
-    
-    /* --- WIDTH CONTROLS --- */
-    width: 50%;           /* Occupy exactly half the screen */
-    min-width: 300px;     /* Safety net: Don't get smaller than 300px on phones */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    min-width: 300px;
     height: 100vh;
-    
-    /* GLASS EFFECT */
-    background: rgba(0, 0, 0, 0.85); 
+    background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     z-index: 200;
-    
-    /* SHADOW FOR DEPTH */
     box-shadow: 5px 0 15px rgba(0,0,0,0.3);
-    
-    /* ANIMATION */
-    transform: translateX(-100%); 
+    transform: translateX(-100%);
     transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-    
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     overflow-y: auto;
   }
-  
+   
   .mobile-menu-overlay.active { 
     transform: translateX(0); 
   }
 
-  .menu-header { position: absolute; top: 2rem; right: 2rem; }
-  .close-btn { color: #fff; background: none; border: none; cursor: pointer; }
-  .menu-links { display: flex; flex-direction: column; gap: 1.5rem; text-align: center; width: 100%; max-width: 400px; padding: 2rem; }
-  .menu-item { color: #fff; font-size: 2rem; font-family: var(--font-heading-family); text-decoration: none; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
-  
-  /* SUBMENU STYLES */
-  .menu-dropdown { width: 100%; display: flex; flex-direction: column; align-items: center; }
-  
-  .menu-dropdown > .submenu-items { 
-    max-height: 0; overflow: hidden; transition: max-height 0.5s ease; 
-    display: flex; flex-direction: column; gap: 1rem; width: 100%;
+  .menu-header {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
   }
-  
-  .menu-dropdown.active > .submenu-items { max-height: 1200px; margin-top: 1rem; }
-  .menu-dropdown.active > .dropdown-trigger .arrow { transform: rotate(180deg); }
-  
+  .close-btn {
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+  }
+  .menu-item {
+    color: #fff;
+    font-size: 2rem;
+    font-family: var(--font-heading-family);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+   
+  /* SUBMENU STYLES */
+  .menu-dropdown {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+   
+  .menu-dropdown > .submenu-items { 
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+   
+  .menu-dropdown.active > .submenu-items {
+    max-height: 1200px;
+    margin-top: 1rem;
+  }
+  .menu-dropdown.active > .dropdown-trigger .arrow {
+    transform: rotate(180deg);
+  }
+   
   .submenu-link { 
-    color: #ccc; font-size: 1.2rem; text-decoration: none; transition: color 0.2s; 
-    background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    color: #ccc;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     font-family: inherit;
   }
   .submenu-link:hover { color: #fff; }
-  
-  .grandchild-link { color: #999; font-size: 1rem; }
+   
+  .grandchild-link {
+    color: #999;
+    font-size: 1rem;
+  }
   .grandchild-link:hover { color: #fff; }
-  
+   
   .arrow { transition: transform 0.3s; }
 </style>
