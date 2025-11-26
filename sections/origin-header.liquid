@@ -216,31 +216,25 @@
     background: transparent;
     color: #ffffff;
     box-shadow: none;
-    transition: background-color 0.35s ease,
-                color 0.35s ease,
-                padding 0.35s ease,
-                box-shadow 0.35s ease;
+    transition: padding 0.35s ease, transform 0.35s ease;
   }
 
-  /* SCROLLED STATE */
+  /* SCROLLED STATE (keep padding tighter but no background/shadow/color change) */
   .origin-header.scrolled {
-    background: #ffffff;
-    color: #000000;
     padding-top: 15px;
-    padding-bottom: 15px; /* Compact on scroll */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    padding-bottom: 15px;
+    background: transparent;
+    box-shadow: none;
+    color: #ffffff;
   }
    
-  /* ICON COLOR FLIP */
+  /* ICONS stay white */
   .origin-header .icon-btn,
   .origin-header .menu-trigger {
     color: #ffffff;
   }
-  .origin-header.scrolled .icon-btn,
-  .origin-header.scrolled .menu-trigger {
-    color: #000000;
-  }
-  .icon-btn svg {
+  .origin-header .icon-btn svg,
+  .origin-header .menu-trigger svg {
     stroke: currentColor;
     transition: stroke 0.35s ease, color 0.35s ease;
   }
@@ -301,8 +295,8 @@
     border-radius: 50%;
   }
   .origin-header.scrolled .cart-count {
-    background: #000;
-    color: #fff;
+    background: #fff;
+    color: #000;
   }
 
   /* LOGO SWAP + SIZE */
@@ -315,11 +309,11 @@
   .header-logo img {
     display: block;
     transform-origin: center center;
-    transform: scale(1.6);  /* BIG at top */
+    transform: scale(1.8);  /* BIG at top */
     transition: transform 0.35s ease;
   }
   .origin-header.scrolled .header-logo img {
-    transform: scale(0.8);  /* SMALL when scrolled */
+    transform: scale(0.5);  /* MUCH SMALLER when scrolled */
   }
    
   .logo-text {
