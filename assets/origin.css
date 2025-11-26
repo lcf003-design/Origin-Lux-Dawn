@@ -2717,3 +2717,85 @@ a,
     font-size: 1.2rem;
   }
 }
+/* ================================
+   TIER 6 – COLLECTION HEADER & FILTER BAR
+================================ */
+
+/* Collection hero wrapper – centered, editorial spacing */
+.template-collection .collection-hero {
+  max-width: var(--page-width);
+  margin: 0 auto 2.4rem;
+  padding: 1.6rem 0 0.4rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Title – small caps, spaced like a catalog heading */
+.template-collection .collection-hero__title {
+  font-size: 1.4rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 0.6rem;
+}
+
+/* Optional description – soft and compact under the title */
+.template-collection .collection-hero__description {
+  max-width: 520px;
+  margin: 0 auto 0.8rem;
+  text-align: center;
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+/* Filter/sort toolbar – align like a luxury catalog */
+.template-collection .facets-container {
+  max-width: var(--page-width);
+  margin: 0 auto 1.8rem;
+}
+
+.template-collection .facets-container .facets-vertical {
+  border-radius: 0;
+}
+
+.template-collection .facets-vertical-form {
+  border-top: none;
+}
+
+.template-collection .facets-container .facets-vertical-form,
+.template-collection .facets-container .product-count {
+  padding-inline: 0;
+}
+
+/* Product count + sort – cleaner alignment */
+.template-collection .product-count {
+  font-size: 1.1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Make the sort dropdown feel more minimal */
+.template-collection .facets-container .select__select {
+  border-radius: 999px;
+  padding-inline: 1.4rem 2.6rem;
+}
+
+/* Mobile tuning */
+@media (max-width: 749px) {
+  .template-collection .collection-hero {
+    margin-bottom: 1.8rem;
+    padding-top: 1.2rem;
+  }
+
+  .template-collection .collection-hero__title {
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+  }
+
+  .template-collection .collection-hero__description {
+    font-size: 1.2rem;
+  }
+
+  .template-collection .facets-container {
+    margin-bottom: 1.4rem;
+  }
+}
