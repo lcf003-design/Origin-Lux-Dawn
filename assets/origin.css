@@ -2459,3 +2459,81 @@ a,
     font-size: 10px;
   }
 }
+/* ================================
+   TIER 5 – PRODUCT PAGE LUXURY INFO STACK
+   Title, price, meta spacing
+================================ */
+
+/* Product title – slightly tighter, more intentional */
+.product__title {
+  font-size: clamp(2.2rem, 2.4rem, 2.6rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+}
+
+/* Subtle divider under title for that editorial feel */
+.product__info-wrapper .product__text:not(:empty),
+.product__info-wrapper .product__subtitle {
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.product__info-wrapper {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 1.2rem;
+  margin-top: 1.2rem;
+}
+
+/* Price stack – cleaner hierarchy */
+.product__info-wrapper .price {
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.price--large .price-item--regular,
+.product__info-wrapper .price__regular .price-item--regular {
+  font-size: 1.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Sale price combo */
+.product__info-wrapper .price__sale .price-item--regular {
+  font-size: 1.4rem;
+  opacity: 0.6;
+}
+
+.product__info-wrapper .price__sale .price-item--sale {
+  font-size: 1.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Optional tiny meta row under price (stock, tax note etc.) */
+.product__info-wrapper .product__tax {
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-top: 0.2rem;
+}
+
+/* Mobile spacing tweaks */
+@media (max-width: 749px) {
+  .product__info-wrapper {
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+
+  .product__title {
+    font-size: 2.1rem;
+    letter-spacing: 0.09em;
+  }
+
+  .product__info-wrapper .price {
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+}
