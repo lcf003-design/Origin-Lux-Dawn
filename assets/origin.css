@@ -2537,6 +2537,390 @@ a,
     display: none;
   }
 }
+
+/* ================================
+   TIER 6 – COLLECTION QUICK ADD
+================================ */
+
+.origin-card {
+  position: relative;
+}
+
+.origin-card-quickadd {
+  margin-top: 0.8rem;
+  display: flex;
+}
+
+.origin-card-quickadd__form {
+  width: 100%;
+}
+
+.origin-card-quickadd__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #000;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.origin-card-quickadd__button:hover {
+  opacity: 0.9;
+}
+
+.origin-card-quickadd__button--link {
+  background: transparent;
+  color: #000;
+}
+
+@media (min-width: 750px) {
+  .origin-card-quickadd {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1rem;
+    padding: 0 1rem;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .card--product:hover .origin-card-quickadd {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+/* Keep default quick add hidden when Origin quick add is present */
+.origin-card .quick-add {
+  display: none !important;
+}
+
+/* ================================
+   TIER 7 – ORIGIN HERO BANNER
+================================ */
+
+.origin-hero {
+  position: relative;
+  overflow: hidden;
+  color: #000;
+  min-height: 60vh;
+}
+
+.origin-hero__media picture,
+.origin-hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.origin-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.origin-hero__image {
+  display: block;
+}
+
+.origin-hero__image--mobile {
+  display: none;
+}
+
+.origin-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.05));
+  mix-blend-mode: multiply;
+  opacity: calc(var(--origin-hero-overlay, 30) / 100);
+}
+
+.origin-hero__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: inherit;
+  padding: 6rem 1.6rem;
+}
+
+.origin-hero__content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.origin-hero__content-inner {
+  max-width: 680px;
+}
+
+.origin-hero--align-left .origin-hero__content {
+  justify-items: start;
+  text-align: left;
+}
+
+.origin-hero--align-center .origin-hero__content {
+  justify-items: center;
+  text-align: center;
+}
+
+.origin-hero--align-right .origin-hero__content {
+  justify-items: end;
+  text-align: right;
+}
+
+.origin-hero--v-top .origin-hero__inner {
+  align-items: flex-start;
+}
+
+.origin-hero--v-middle .origin-hero__inner {
+  align-items: center;
+}
+
+.origin-hero--v-bottom .origin-hero__inner {
+  align-items: flex-end;
+}
+
+.origin-hero--height-small {
+  min-height: 60vh;
+}
+
+.origin-hero--height-medium {
+  min-height: 75vh;
+}
+
+.origin-hero--height-large {
+  min-height: 90vh;
+}
+
+.origin-hero--height-full {
+  min-height: 100vh;
+}
+
+.origin-hero__kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 12px;
+}
+
+.origin-hero__heading {
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  margin: 0.2rem 0;
+  text-transform: uppercase;
+}
+
+.origin-hero__subheading {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 640px;
+  opacity: 0.9;
+}
+
+.origin-hero__meta {
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.origin-hero__buttons {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+}
+
+.origin-hero__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.5rem;
+  border: 1px solid #000;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 12px;
+  background: #000;
+  color: #fff;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.origin-hero__button--secondary {
+  background: transparent;
+  color: #000;
+}
+
+.origin-hero__button:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.origin-hero__scroll-cue {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  background: rgba(255, 255, 255, 0.7);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.origin-hero__scroll-icon {
+  width: 10px;
+  height: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 999px;
+  position: relative;
+}
+
+.origin-hero__scroll-icon::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  transform: translate(-50%, 30%);
+  animation: origin-scroll-cue 1.2s ease-in-out infinite;
+}
+
+@keyframes origin-scroll-cue {
+  0% {
+    transform: translate(-50%, 25%);
+    opacity: 1;
+  }
+  60% {
+    transform: translate(-50%, 60%);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, 25%);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 749px) {
+  .origin-hero__inner {
+    padding: 4rem 1.2rem 5rem;
+  }
+
+  .origin-hero__image--desktop {
+    display: none;
+  }
+
+  .origin-hero__image--mobile {
+    display: block;
+  }
+
+  .origin-hero__content {
+    justify-items: start;
+    text-align: left;
+  }
+}
+
+/* ================================
+   TIER 7 – ORIGIN EDITORIAL ROW
+================================ */
+
+.origin-editorial-row {
+  padding: 4rem 1.5rem;
+}
+
+.origin-editorial-row__grid {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  display: grid;
+  gap: 2.4rem;
+}
+
+.origin-editorial-row--cols-2 .origin-editorial-row__grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.origin-editorial-row--cols-3 .origin-editorial-row__grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.origin-editorial-row__item {
+  display: grid;
+  gap: 1rem;
+}
+
+.origin-editorial-row__media {
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.origin-editorial-row__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.origin-editorial-row__item:hover .origin-editorial-row__media img {
+  transform: scale(1.02);
+}
+
+.origin-editorial-row__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+}
+
+.origin-editorial-row__heading {
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.origin-editorial-row__body {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+.origin-editorial-row__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 11px;
+}
+
+.origin-editorial-row__link::after {
+  content: '›';
+  font-size: 14px;
+}
+
+@media (max-width: 989px) {
+  .origin-editorial-row__grid {
+    grid-template-columns: 1fr;
+  }
+}
 /* ================================
    TIER 5 – PRODUCT PAGE LUXURY INFO STACK
    Title, price, meta spacing
@@ -2614,4 +2998,262 @@ a,
     margin-top: 0.6rem;
     margin-bottom: 0.6rem;
   }
+}
+/* ================================
+   TIER 6 – COLLECTION GRID & CARDS
+   (Category pages polish)
+================================ */
+
+/* Constrain collection content a bit more for that boutique feel */
+.template-collection .collection {
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+/* Tighter, more even grid spacing */
+.template-collection .collection .grid {
+  row-gap: 2.4rem;
+  column-gap: 2rem;
+}
+
+/* Product card base: keep it clean and vertical */
+.template-collection .card--product {
+  border-radius: 0;
+  box-shadow: none;
+  text-align: left;
+}
+
+/* Image container – subtle hover float */
+.template-collection .card--product .card__inner {
+  background: transparent;
+  transition: transform 0.22s ease-out;
+}
+
+.template-collection .card--product:hover .card__inner {
+  transform: translateY(-4px);
+}
+
+/* Image ratio + smoothing */
+.template-collection .card--product .card__media {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.template-collection .card--product .card__inner img {
+  transition: transform 0.35s ease-out;
+}
+
+.template-collection .card--product:hover .card__inner img {
+  transform: scale(1.03);
+}
+
+/* Card content stack */
+.template-collection .card--product .card__content {
+  padding-top: 0.9rem;
+}
+
+/* Product title – small caps, neat */
+.template-collection .card--product .card__heading {
+  font-size: 1.2rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+/* Price underneath – aligned with our product page style */
+.template-collection .card--product .price {
+  margin-top: 0.2rem;
+  font-size: 1.3rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Sale price pairing */
+.template-collection .card--product .price__sale .price-item--regular {
+  font-size: 1.1rem;
+  opacity: 0.55;
+}
+
+.template-collection .card--product .price__sale .price-item--sale {
+  font-size: 1.3rem;
+}
+
+/* Badges – keep them small and not screaming */
+.template-collection .card--product .badge {
+  font-size: 0.9rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.7rem;
+}
+
+/* Mobile tuning */
+@media (max-width: 749px) {
+  .template-collection .collection .grid {
+    row-gap: 1.8rem;
+    column-gap: 1.4rem;
+  }
+
+  .template-collection .card--product .card__heading {
+    font-size: 1.1rem;
+  }
+
+  .template-collection .card--product .price {
+    font-size: 1.2rem;
+  }
+}
+/* ================================
+   TIER 6 – COLLECTION HEADER & FILTER BAR
+================================ */
+
+/* Collection hero wrapper – centered, editorial spacing */
+.template-collection .collection-hero {
+  max-width: var(--page-width);
+  margin: 0 auto 2.4rem;
+  padding: 1.6rem 0 0.4rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Title – small caps, spaced like a catalog heading */
+.template-collection .collection-hero__title {
+  font-size: 1.4rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 0.6rem;
+}
+
+/* Optional description – soft and compact under the title */
+.template-collection .collection-hero__description {
+  max-width: 520px;
+  margin: 0 auto 0.8rem;
+  text-align: center;
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+/* Filter/sort toolbar – align like a luxury catalog */
+.template-collection .facets-container {
+  max-width: var(--page-width);
+  margin: 0 auto 1.8rem;
+}
+
+.template-collection .facets-container .facets-vertical {
+  border-radius: 0;
+}
+
+.template-collection .facets-vertical-form {
+  border-top: none;
+}
+
+.template-collection .facets-container .facets-vertical-form,
+.template-collection .facets-container .product-count {
+  padding-inline: 0;
+}
+
+/* Product count + sort – cleaner alignment */
+.template-collection .product-count {
+  font-size: 1.1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Make the sort dropdown feel more minimal */
+.template-collection .facets-container .select__select {
+  border-radius: 999px;
+  padding-inline: 1.4rem 2.6rem;
+}
+
+/* Mobile tuning */
+@media (max-width: 749px) {
+  .template-collection .collection-hero {
+    margin-bottom: 1.8rem;
+    padding-top: 1.2rem;
+  }
+
+  .template-collection .collection-hero__title {
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+  }
+
+  .template-collection .collection-hero__description {
+    font-size: 1.2rem;
+  }
+
+  .template-collection .facets-container {
+    margin-bottom: 1.4rem;
+  }
+}
+/* ================================
+   TIER 6 – COLLECTION PAGINATION & EMPTY STATE
+================================ */
+
+/* Pagination wrapper – align with collection width */
+.template-collection .pagination-wrapper {
+  max-width: var(--page-width);
+  margin: 2.4rem auto 3.4rem;
+}
+
+/* Pagination list – centered, minimal */
+.template-collection .pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+/* Pagination links – pill-like, small caps */
+.template-collection .pagination__item {
+  min-width: 3.2rem;
+  height: 3.2rem;
+  padding: 0 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Active page */
+.template-collection .pagination__item--current {
+  border-color: rgba(0, 0, 0, 0.85);
+}
+
+/* Previous / next icons */
+.template-collection .pagination__item svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Empty collection state – centered and calm */
+.template-collection .collection--empty {
+  max-width: 520px;
+  margin: 4rem auto 5rem;
+  text-align: center;
+}
+
+.template-collection .collection--empty .title {
+  font-size: 1.4rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+.template-collection .collection--empty .rte {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+/* Optional: make the back-to-collection link look like a small button */
+.template-collection .collection--empty a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.4rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
 }

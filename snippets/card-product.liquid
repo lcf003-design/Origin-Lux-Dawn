@@ -40,7 +40,7 @@
       assign ratio = 1
     endif
   -%}
-  <div class="card-wrapper product-card-wrapper underline-links-hover">
+  <div class="card-wrapper product-card-wrapper underline-links-hover origin-card">
     <div
       class="
         card card--{{ settings.card_style }}
@@ -205,6 +205,26 @@
             {%- endif -%}
 
             {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
+            <div class="origin-card-quickadd">
+              {%- if card_product.has_only_default_variant and card_product.selected_or_first_available_variant.available -%}
+                <form
+                  method="post"
+                  action="{{ routes.cart_add_url }}"
+                  class="origin-card-quickadd__form"
+                  data-origin-quick-add-form
+                >
+                  <input type="hidden" name="id" value="{{ card_product.selected_or_first_available_variant.id }}">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" class="origin-card-quickadd__button" data-origin-quick-add>
+                    {{ 'products.product.add_to_cart' | t | default: 'Add to bag' }}
+                  </button>
+                </form>
+              {%- else -%}
+                <a href="{{ card_product.url }}" class="origin-card-quickadd__button origin-card-quickadd__button--link">
+                  {{ 'products.product.view_full_details' | t | default: 'View options' }}
+                </a>
+              {%- endif -%}
+            </div>
             {%- if card_product.quantity_price_breaks_configured? -%}
               {% if card_product.variants_count == 1 and quick_add == 'bulk' %}
                 {% liquid
