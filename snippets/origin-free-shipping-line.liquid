@@ -1,0 +1,14 @@
+{%- comment -%}
+  Origin – Micro free shipping line
+  Mirrors threshold used in origin-free-shipping-bar.
+{%- endcomment -%}
+
+{%- assign free_shipping_threshold = 30000 -%}
+{%- assign cart_total = cart.total_price | default: 0 -%}
+
+{%- if cart_total < free_shipping_threshold and cart_total > 0 -%}
+  {%- assign remaining = free_shipping_threshold | minus: cart_total -%}
+  <p class="origin-freeship-line">
+    You’re {{ remaining | money }} away from complimentary shipping.
+  </p>
+{%- endif -%}

@@ -491,6 +491,55 @@
             }
           });
         }
+
+        // Origin Size Guide modal
+        const sizeGuideModal = document.querySelector('[data-origin-size-guide-modal]');
+        if (sizeGuideModal) {
+          const openers = document.querySelectorAll('[data-origin-size-guide-trigger]');
+          const closers = sizeGuideModal.querySelectorAll('[data-origin-size-guide-close]');
+          const toggleModal = (shouldOpen) => {
+            sizeGuideModal.classList.toggle('is-active', shouldOpen);
+            sizeGuideModal.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
+          };
+          openers.forEach((btn) => btn.addEventListener('click', () => toggleModal(true)));
+          closers.forEach((btn) => btn.addEventListener('click', () => toggleModal(false)));
+          sizeGuideModal.addEventListener('click', (event) => {
+            if (event.target === sizeGuideModal) toggleModal(false);
+          });
+          document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') toggleModal(false);
+          });
+        }
+
+        // Origin cart upsell add
+        document.body.addEventListener('click', function(event) {
+          const upsellButton = event.target.closest('[data-origin-cart-upsell-add]');
+          if (!upsellButton) return;
+
+          const variantId = upsellButton.getAttribute('data-variant-id');
+          if (!variantId) return;
+
+          upsellButton.setAttribute('disabled', 'disabled');
+
+          fetch(`${routes.cart_add_url}.js`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ id: variantId, quantity: 1 })
+          })
+            .then((response) => response.json())
+            .then(() => {
+              const drawerItems = document.querySelector('cart-drawer-items');
+              if (drawerItems && typeof drawerItems.onCartUpdate === 'function') {
+                return drawerItems.onCartUpdate().then(() => {
+                  const drawer = document.querySelector('cart-drawer');
+                  drawer?.open();
+                });
+              }
+              return null;
+            })
+            .finally(() => upsellButton.removeAttribute('disabled'))
+            .catch(() => window.location.href = routes.cart_url);
+        });
       });
     </script>
      <button type="button" class="origin-back-to-top" aria-label="Back to top">

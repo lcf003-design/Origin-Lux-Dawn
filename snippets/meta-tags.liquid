@@ -37,3 +37,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ og_title | escape }}">
 <meta name="twitter:description" content="{{ og_description | escape }}">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ shop.name | escape }}",
+  "url": "{{ shop.url }}",
+  "logo": "{% if settings.logo != blank %}{{ settings.logo | image_url: width: 600 | prepend: 'https:' }}{% else %}{{ shop.url }}{% endif %}"
+}
+</script>
