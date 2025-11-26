@@ -3415,3 +3415,93 @@ a,
     font-size: 1.25rem;
   }
 }
+/* ================================
+   TIER 8 – PRODUCT PAGE LUXURY POLISH
+   STEP 3 – MEDIA GALLERY
+================================ */
+
+/* Keep product media aligned with our boutique width */
+.template-product .product__media-wrapper {
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+/* Main media list – tighten vertical rhythm */
+.template-product .product__media-list {
+  row-gap: 1.8rem;
+}
+
+/* Individual media item – subtle card feel without heavy borders */
+.template-product .product__media-item {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Main image treatment */
+.template-product .product__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.4s ease-out, opacity 0.3s ease-out;
+}
+
+/* Slight lift on hover (desktop only) */
+@media (min-width: 990px) {
+  .template-product .product__media-item:hover img {
+    transform: scale(1.015);
+  }
+}
+
+/* Thumbnails wrapper – a bit more breathing room */
+.template-product .thumbnail-list {
+  column-gap: 0.6rem;
+  row-gap: 0.6rem;
+}
+
+/* Thumbnail item */
+.template-product .thumbnail-list__item {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Thumbnail images */
+.template-product .thumbnail {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.template-product .thumbnail img {
+  transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+}
+
+/* Active thumbnail */
+.template-product .thumbnail.is-active img {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+/* Thumbnail border treatment */
+.template-product .thumbnail {
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.template-product .thumbnail.is-active {
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Mobile spacing */
+@media (max-width: 749px) {
+  .template-product .product__media-wrapper {
+    padding-inline: 0;
+  }
+
+  .template-product .product__media-list {
+    row-gap: 1.4rem;
+  }
+
+  .template-product .thumbnail-list {
+    margin-top: 0.8rem;
+  }
+}
