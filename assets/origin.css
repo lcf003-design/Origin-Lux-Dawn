@@ -4289,14 +4289,17 @@ a,
 
 .header__heading-logo {
   display: block;
-  height: auto;
+  height: 80px !important;
+  width: auto;
   max-height: none;
-  transform-origin: center center;
-  transform: scale(1.6); /* BIG at top */
-  transition: transform 0.35s ease;
+  transform-origin: center top;
+  transform: scale(1.1);
+  transition: transform 0.35s ease, height 0.35s ease;
 }
 
 /* When header gets the scrolled class, shrink the logo */
-.header--scrolled .header__heading-logo {
-  transform: scale(0.6); /* SMALL when scrolled */
+.header--scrolled .header__heading-logo,
+.scrolled-past-header .header__heading-logo {
+  height: 24px !important;
+  transform: scale(1);
 }
