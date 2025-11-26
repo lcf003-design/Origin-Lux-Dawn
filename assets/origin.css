@@ -2281,3 +2281,17 @@ a,
     padding: 1.8rem 1.4rem 1.8rem;
   }
 }
+/* ================================
+   CART PAGE TOP PADDING FIX
+   (Prevents header overlap)
+================================ */
+
+.template-cart #MainContent {
+  padding-top: 6rem !important; /* adjust if needed */
+}
+
+@media (max-width: 749px) {
+  .template-cart #MainContent {
+    padding-top: 5rem !important; /* slightly smaller for mobile */
+  }
+}
