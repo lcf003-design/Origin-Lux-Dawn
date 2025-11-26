@@ -2295,3 +2295,107 @@ a,
     padding-top: 5rem !important; /* slightly smaller for mobile */
   }
 }
+/* ================================
+   ORIGIN LUXURY CART NOTIFICATION
+   (Tier 4 Step 2)
+================================ */
+
+.cart-notification {
+  max-width: 420px;
+  width: 100%;
+  padding: 1.6rem 1.6rem 1.4rem;
+  border-radius: 0;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+/* Header row */
+.cart-notification__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding-bottom: 0.7rem;
+}
+
+.cart-notification__heading {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Product row */
+.cart-notification__product {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1.1rem;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.cart-notification-product__name {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.cart-notification-product__price {
+  font-size: 13px;
+}
+
+/* Subtotal + buttons */
+.cart-notification__links {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.6rem;
+  margin-top: 0.8rem;
+}
+
+.cart-notification__links .button {
+  width: 100%;
+}
+
+/* View cart link as a subtle text link under the main button */
+.cart-notification__links .button--secondary,
+.cart-notification__links .button--secondary:hover {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  padding-left: 0;
+  padding-right: 0;
+  justify-content: flex-start;
+}
+
+/* Mobile tweaks */
+@media (max-width: 749px) {
+  .cart-notification {
+    right: 1rem;
+    left: 1rem;
+    margin: 0 auto;
+  }
+}
+/* ================================
+   ORIGIN LUXURY EMPTY CART
+   (Tier 4 Step 2)
+================================ */
+
+.cart--empty .cart__warnings {
+  max-width: 520px;
+  margin: 5rem auto 4rem;
+  text-align: center;
+}
+
+.cart--empty .cart__empty-text {
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+.cart--empty .cart__warnings .button {
+  margin-top: 0.4rem;
+  min-width: 200px;
+}
