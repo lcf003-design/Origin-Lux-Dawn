@@ -475,6 +475,41 @@
         </form>
       </cart-drawer-items>
       <div class="drawer__footer">
+        {%- assign upsell_product = settings.cart_upsell_product -%}
+        {%- if settings.show_cart_upsell and upsell_product != blank -%}
+          <div class="origin-cart-upsell">
+            <div class="origin-cart-upsell__media">
+              {%- if upsell_product.featured_image -%}
+                <img
+                  src="{{ upsell_product.featured_image | image_url: width: 220 }}"
+                  alt="{{ upsell_product.featured_image.alt | default: upsell_product.title | escape }}"
+                  loading="lazy"
+                  width="110"
+                  height="{{ 110 | divided_by: upsell_product.featured_image.aspect_ratio | ceil }}"
+                >
+              {%- endif -%}
+            </div>
+            <div class="origin-cart-upsell__content">
+              <p class="origin-cart-upsell__eyebrow">A perfect pairing</p>
+              <a href="{{ upsell_product.url }}" class="origin-cart-upsell__title">{{ upsell_product.title }}</a>
+              <div class="origin-cart-upsell__price">
+                {%- render 'price', product: upsell_product, use_variant: true, show_badges: false -%}
+              </div>
+              {%- if upsell_product.selected_or_first_available_variant.available -%}
+                <button
+                  type="button"
+                  class="origin-cart-upsell__button"
+                  data-origin-cart-upsell-add
+                  data-variant-id="{{ upsell_product.selected_or_first_available_variant.id }}"
+                >
+                  Add to bag
+                </button>
+              {%- else -%}
+                <span class="origin-cart-upsell__soldout">Sold out</span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
         {%- if settings.show_cart_note -%}
           <details id="Details-CartDrawer">
             <summary>
@@ -500,6 +535,7 @@
 
         <div class="cart-drawer__footer" {{ block.shopify_attributes }}>
   {% render 'origin-free-shipping-bar' %}
+  {% render 'origin-free-shipping-line' %}
   <div>
             {%- if cart.cart_level_discount_applications.size > 0 -%}
               <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">

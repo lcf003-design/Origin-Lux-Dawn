@@ -1,0 +1,65 @@
+{%- comment -%}
+  Origin – Full Bleed Image with overlay text
+{%- endcomment -%}
+
+<section class="origin-full-bleed">
+  {%- if section.settings.image != blank -%}
+    <div class="origin-full-bleed__media">
+      <img
+        src="{{ section.settings.image | image_url: width: 2400 }}"
+        alt="{{ section.settings.heading | default: shop.name }}"
+        loading="lazy"
+      >
+      <span class="origin-full-bleed__overlay" style="--origin-full-bleed-overlay: {{ section.settings.overlay | default: 35 }}%;"></span>
+    </div>
+  {%- endif -%}
+  <div class="origin-full-bleed__content origin-full-bleed__content--{{ section.settings.alignment }}">
+    {% if section.settings.eyebrow != blank %}
+      <p class="origin-full-bleed__eyebrow origin-eyebrow">{{ section.settings.eyebrow }}</p>
+    {% endif %}
+    {% if section.settings.heading != blank %}
+      <h2 class="origin-full-bleed__heading origin-heading-lg">{{ section.settings.heading }}</h2>
+    {% endif %}
+    {% if section.settings.body != blank %}
+      <div class="origin-full-bleed__body origin-body">{{ section.settings.body }}</div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Origin – Full Bleed Image",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Quiet luxury" },
+    { "type": "richtext", "id": "body", "label": "Body" },
+    {
+      "type": "range",
+      "id": "overlay",
+      "label": "Overlay strength",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 35
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Content alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin – Full Bleed"
+    }
+  ]
+}
+{% endschema %}

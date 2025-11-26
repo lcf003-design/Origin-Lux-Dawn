@@ -484,6 +484,11 @@
 
               {%- when 'variant_picker' -%}
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+                {% if section.settings.enable_size_guide %}
+                  <button type="button" class="origin-size-guide-trigger" data-origin-size-guide-trigger>
+                    {{ section.settings.size_guide_title | default: 'Size guide' }}
+                  </button>
+                {% endif %}
               {%- when 'buy_buttons' -%}
                 {%- render 'buy-buttons',
                   block: block,
@@ -492,6 +497,16 @@
                   section_id: section.id,
                   show_pickup_availability: true
                 -%}
+                <div class="origin-product-meta-callouts">
+                  {%- assign selected_variant = product.selected_or_first_available_variant -%}
+                  {%- if selected_variant.inventory_management == 'shopify' and selected_variant.inventory_quantity > 0 and section.settings.low_stock_threshold > 0 and selected_variant.inventory_quantity <= section.settings.low_stock_threshold -%}
+                    <p class="origin-low-stock">Low stock — only {{ selected_variant.inventory_quantity }} left</p>
+                  {%- endif -%}
+                  {%- if section.settings.shipping_message != blank -%}
+                    <p class="origin-ships-by">{{ section.settings.shipping_message }}</p>
+                  {%- endif -%}
+                </div>
+                {% render 'origin-product-reassurance' %}
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">
@@ -718,6 +733,12 @@
         </div>
       </modal-dialog>
     {%- endfor -%}
+    {% if section.settings.enable_size_guide %}
+      {% render 'origin-size-guide-modal',
+        title: section.settings.size_guide_title | default: 'Size guide',
+        content: section.settings.size_guide_content
+      %}
+    {% endif %}
 
     {%- if product.media.size > 0 -%}
       <script src="{{ 'product-modal.js' | asset_url }}" defer="defer"></script>
@@ -2264,6 +2285,44 @@
       "id": "enable_video_looping",
       "default": false,
       "label": "t:sections.main-product.settings.enable_video_looping.label"
+    },
+    {
+      "type": "header",
+      "content": "Origin product meta"
+    },
+    {
+      "type": "range",
+      "id": "low_stock_threshold",
+      "label": "Low stock threshold",
+      "min": 0,
+      "max": 25,
+      "step": 1,
+      "unit": "items",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "shipping_message",
+      "label": "Shipping / dispatch message",
+      "default": "Estimated dispatch in 2–3 business days"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_size_guide",
+      "label": "Enable size guide",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "size_guide_title",
+      "label": "Size guide title",
+      "default": "Size guide"
+    },
+    {
+      "type": "richtext",
+      "id": "size_guide_content",
+      "label": "Size guide content",
+      "default": "<p>Use this guide to find your perfect fit. Contact concierge for bespoke sizing.</p>"
     },
     {
       "type": "header",

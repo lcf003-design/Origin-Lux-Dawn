@@ -1,0 +1,54 @@
+{%- comment -%}
+  Origin – Text Editorial Strip
+{%- endcomment -%}
+
+<section class="origin-text-editorial">
+  <div class="page-width origin-text-editorial__grid">
+    {%- for block in section.blocks -%}
+      <article class="origin-text-editorial__item" {{ block.shopify_attributes }}>
+        {% if block.settings.eyebrow != blank %}
+          <p class="origin-text-editorial__eyebrow origin-eyebrow">{{ block.settings.eyebrow }}</p>
+        {% endif %}
+        {% if block.settings.heading != blank %}
+          <h3 class="origin-text-editorial__heading origin-heading-md">{{ block.settings.heading }}</h3>
+        {% endif %}
+        {% if block.settings.body != blank %}
+          <div class="origin-text-editorial__body origin-body">{{ block.settings.body }}</div>
+        {% endif %}
+        {% if block.settings.link_label != blank and block.settings.link_url != blank %}
+          <a href="{{ block.settings.link_url }}" class="origin-text-editorial__link">{{ block.settings.link_label }}</a>
+        {% endif %}
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Origin – Text Editorial",
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Text block",
+      "settings": [
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Maison notes" },
+        { "type": "textarea", "id": "heading", "label": "Heading", "default": "Quiet confidence" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Editorial copy to frame the collection story and craft." },
+        { "type": "text", "id": "link_label", "label": "Link label" },
+        { "type": "url", "id": "link_url", "label": "Link URL" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Origin – Text editorial",
+      "blocks": [
+        { "type": "text_block" },
+        { "type": "text_block" },
+        { "type": "text_block" }
+      ]
+    }
+  ]
+}
+{% endschema %}
