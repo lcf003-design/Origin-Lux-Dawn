@@ -2795,7 +2795,7 @@ a,
 }
 
 .origin-hero__scroll-icon::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 50%;
   width: 6px;
@@ -2912,7 +2912,7 @@ a,
 }
 
 .origin-editorial-row__link::after {
-  content: '›';
+  content: "›";
   font-size: 14px;
 }
 
