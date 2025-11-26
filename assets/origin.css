@@ -4303,3 +4303,7 @@ a,
   height: 24px !important;
   transform: scale(1);
 }
+/* DEBUG TEST – REMOVE AFTER */
+.header__heading-logo {
+  border: 5px solid red !important;
+}
