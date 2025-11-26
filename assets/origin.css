@@ -2200,3 +2200,84 @@ a,
     font-size: 10px;
   }
 }
+/* ================================
+   ORIGIN LUXURY CART DRAWER
+   (Tier 4 Step 1)
+================================ */
+
+/* Cart drawer panel */
+.cart-drawer,
+.cart-notification {
+  border-radius: 0;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+/* Drawer inner layout */
+.cart-drawer__inner {
+  padding: 2.2rem 1.8rem 2rem;
+}
+
+/* Drawer header */
+.cart-drawer__header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding-bottom: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.cart-drawer__heading {
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Line items */
+.cart-drawer__items {
+  row-gap: 1.2rem;
+}
+
+.cart-drawer-item {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.cart-drawer-item__name {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.cart-drawer-item__price {
+  font-size: 13px;
+}
+
+/* Subtotal + buttons area */
+.cart-drawer__footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 1.4rem;
+  margin-top: 1.4rem;
+}
+
+.cart-drawer__subtotal {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+.cart-drawer__checkout,
+.cart-drawer__bottom {
+  row-gap: 0.6rem;
+}
+
+/* Make the checkout button feel like the main CTA */
+.cart-drawer__footer .button {
+  width: 100%;
+}
+
+/* Mobile refinement */
+@media (max-width: 749px) {
+  .cart-drawer__inner {
+    padding: 1.8rem 1.4rem 1.8rem;
+  }
+}
