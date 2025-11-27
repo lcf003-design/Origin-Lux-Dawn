@@ -1,0 +1,100 @@
+{% schema %}
+{
+  "name": "Gucci Grid V2 (Clean)",
+  "settings": [
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Space Between Items",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "side_padding",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Side Padding (Left/Right)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Top/Bottom Padding",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_block",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (Square or Portrait)"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Handbags"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gucci Grid V2 (Clean)",
+      "blocks": [
+        { "type": "collection_block" },
+        { "type": "collection_block" },
+        { "type": "collection_block" },
+        { "type": "collection_block" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div
+  class="gucci-wrapper"
+  style="--origin-gucci-grid-gap: {{ section.settings.grid_gap }}px; --origin-gucci-grid-side-padding: {{ section.settings.side_padding }}px; --origin-gucci-grid-top-padding: {{ section.settings.top_padding }}px; --origin-gucci-grid-text-color: {{ section.settings.text_color }};"
+>
+  <div class="gucci-grid">
+    {% for block in section.blocks %}
+      <a href="{{ block.settings.link }}" class="gucci-item">
+        <div class="img-box">
+          {% if block.settings.image %}
+            {{ block.settings.image | image_url: width: 800 | image_tag: class: 'g-img', loading: 'lazy' }}
+          {% else %}
+            {{ 'collection-1' | placeholder_svg_tag: 'g-img placeholder' }}
+          {% endif %}
+        </div>
+        <div class="text-box">
+          <span class="g-label">{{ block.settings.heading }}</span>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>

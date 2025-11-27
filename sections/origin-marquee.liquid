@@ -1,0 +1,53 @@
+{% schema %}
+{
+  "name": "Origin Marquee",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement Text",
+      "default": "COMPLIMENTARY SHIPPING ON ALL ORDERS OVER $500  —  ORIGIN SPRING/SUMMER 25  —  WORLDWIDE DELIVERY"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "s",
+      "label": "Scroll Speed (Lower is Faster)",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin Marquee"
+    }
+  ]
+}
+{% endschema %}
+
+<div
+  class="origin-marquee"
+  role="marquee"
+  style="--origin-marquee-bg: {{ section.settings.bg_color }}; --origin-marquee-text: {{ section.settings.text_color }}; --origin-marquee-speed: {{ section.settings.speed }}s;"
+>
+  <div class="marquee-track">
+    <span class="marquee-content">{{ section.settings.text }} &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;</span>
+    <span class="marquee-content">{{ section.settings.text }} &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;</span>
+    <span class="marquee-content">{{ section.settings.text }} &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;</span>
+    <span class="marquee-content">{{ section.settings.text }} &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;</span>
+  </div>
+</div>

@@ -1,0 +1,4305 @@
+/* ================================
+   TIER 11 – TYPOGRAPHY & SPACING SYSTEM
+================================ */
+:root {
+  --origin-eyebrow-size: 0.8rem;
+  --origin-eyebrow-letter: 0.22em;
+  --origin-heading-sm: 1.6rem;
+  --origin-heading-md: 2.1rem;
+  --origin-heading-lg: 2.6rem;
+  --origin-body-size: 1.4rem;
+  --origin-section-pad: 6rem;
+}
+
+.origin-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: var(--origin-eyebrow-letter);
+  font-size: var(--origin-eyebrow-size);
+  font-weight: 600;
+}
+
+.origin-heading-sm {
+  font-size: var(--origin-heading-sm);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.origin-heading-md {
+  font-size: var(--origin-heading-md);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.35;
+}
+
+.origin-heading-lg {
+  font-size: var(--origin-heading-lg);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.origin-body {
+  font-size: var(--origin-body-size);
+  line-height: 1.7;
+}
+
+.origin-section-padding {
+  padding-top: var(--origin-section-pad);
+  padding-bottom: var(--origin-section-pad);
+}
+
+@media (max-width: 749px) {
+  :root {
+    --origin-section-pad: 4.5rem;
+    --origin-heading-lg: 2.2rem;
+  }
+}
+
+/* Origin Footer */
+.origin-footer {
+  background-color: var(--origin-footer-bg, #000000);
+  color: var(--origin-footer-text, #ffffff) !important;
+  padding-top: var(--origin-footer-padding-top, 60px);
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.origin-footer h1,
+.origin-footer h2,
+.origin-footer h3,
+.origin-footer h4,
+.origin-footer p,
+.origin-footer a,
+.origin-footer span,
+.origin-footer input {
+  color: var(--origin-footer-text, #ffffff) !important;
+  opacity: 1 !important;
+}
+
+.footer-top {
+  padding: 0 2rem;
+  margin-bottom: 4rem;
+}
+
+.footer-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rem;
+  justify-content: space-between;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.footer-links-area {
+  display: flex;
+  gap: 4rem;
+  flex-wrap: wrap;
+  flex: 2;
+}
+
+.footer-col {
+  min-width: 140px;
+}
+
+.footer-heading {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.footer-sublinks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-sublinks li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-sublinks a,
+.footer-stand-alone-link {
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.footer-sublinks a:hover,
+.footer-stand-alone-link:hover {
+  text-decoration: underline;
+}
+
+.newsletter-col {
+  flex: 1;
+  max-width: 400px;
+}
+
+.newsletter-text {
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.newsletter-input-group {
+  display: flex;
+  border-bottom: 1px solid #ffffff;
+}
+
+.newsletter-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 12px 0;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.newsletter-input::placeholder {
+  color: #ffffff;
+  opacity: 1;
+}
+
+.newsletter-btn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 0 10px;
+  font-weight: 700;
+}
+
+.newsletter-btn:hover {
+  opacity: 0.7;
+}
+
+.footer-utility-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2rem 1rem 2rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.social-link {
+  text-decoration: none;
+  margin-right: 20px;
+  font-weight: 600;
+}
+
+.social-link:hover {
+  opacity: 0.7;
+}
+
+.utility-left {
+  flex: 1;
+}
+
+.utility-right {
+  flex: 1;
+  text-align: right;
+}
+
+.footer-branding {
+  text-align: center;
+  padding-bottom: 0;
+  overflow: hidden;
+  margin-top: 1rem;
+  line-height: 0.75;
+  width: 100%;
+}
+
+.huge-logo-text {
+  font-family: var(--font-heading-family);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  display: block;
+  transform: translateY(8%);
+  font-size: var(--origin-footer-logo-size, 20vw);
+}
+
+@media screen and (max-width: 900px) {
+  .footer-utility-bar {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .footer-grid {
+    gap: 2rem;
+  }
+
+  .footer-top {
+    padding: 0 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-utility-bar {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .footer-branding {
+    padding: 3rem 1.5rem 1.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .footer-grid {
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .footer-links-area {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .footer-utility-bar {
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .utility-right {
+    text-align: center;
+  }
+
+  .huge-logo-text {
+    font-size: 18vw !important;
+  }
+}
+
+/* Editorial Spotlight */
+.editorial-spotlight-wrapper {
+  position: relative;
+  width: 100%;
+  height: var(--origin-spotlight-height, 750px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.editorial-spotlight-wrapper .hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.editorial-spotlight-wrapper .hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.editorial-spotlight-wrapper .desktop-img {
+  display: block;
+}
+
+.editorial-spotlight-wrapper .mobile-img {
+  display: none;
+}
+
+.editorial-spotlight-wrapper .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: rgba(0, 0, 0, var(--origin-spotlight-overlay-opacity, 0.1));
+}
+
+.editorial-spotlight-wrapper .hero-content {
+  position: relative;
+  z-index: 3;
+  transform: translateY(30px);
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.editorial-spotlight-wrapper .hero-title {
+  font-family: var(--font-heading-family);
+  font-size: 3rem;
+  color: var(--origin-spotlight-text-color, #ffffff);
+  margin-bottom: 2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.editorial-spotlight-wrapper .hero-btn {
+  display: inline-block;
+  background: #ffffff;
+  color: #000000;
+  text-decoration: none;
+  padding: 15px 30px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: transform 0.3s ease;
+  border: none;
+}
+
+.editorial-spotlight-wrapper .hero-btn:hover {
+  transform: scale(1.05);
+}
+
+@media screen and (max-width: 768px) {
+  .editorial-spotlight-wrapper {
+    height: 85vh;
+  }
+
+  .editorial-spotlight-wrapper.has-mobile-image .desktop-img {
+    display: none;
+  }
+
+  .editorial-spotlight-wrapper.has-mobile-image .mobile-img {
+    display: block;
+  }
+
+  .editorial-spotlight-wrapper .hero-title {
+    font-size: 2rem;
+  }
+}
+
+/* Origin Marquee */
+.origin-marquee {
+  background-color: var(--origin-marquee-bg, #000000);
+  color: var(--origin-marquee-text, #ffffff);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 8px 0;
+  position: relative;
+  z-index: 50;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-family: var(--font-body-family);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.origin-marquee .marquee-track {
+  display: inline-block;
+  animation: marquee-scroll var(--origin-marquee-speed, 40s) linear infinite;
+  will-change: transform;
+}
+
+.origin-marquee .marquee-content {
+  display: inline-block;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25%);
+  }
+}
+
+.origin-marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Origin Split */
+.origin-split-wrapper {
+  background: #ffffff;
+  width: 100%;
+  padding-left: var(--origin-split-side-padding, 0px);
+  padding-right: var(--origin-split-side-padding, 0px);
+  padding-bottom: var(--origin-split-padding-bottom, 60px);
+}
+
+.origin-split-container {
+  display: flex;
+  width: 100%;
+  height: var(--origin-split-height, 650px);
+  gap: var(--origin-split-gap, 10px);
+}
+
+.split-item {
+  flex: 1;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.split-image-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.split-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+
+.split-item:hover .split-img {
+  transform: scale(1.03);
+}
+
+.split-content {
+  position: absolute;
+  bottom: 3rem;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+  color: var(--origin-split-text-color, #ffffff);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.split-heading {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  font-family: var(--font-heading-family);
+}
+
+.split-btn {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 4px;
+}
+
+.placeholder {
+  background: #ccc;
+}
+
+@media screen and (max-width: 768px) {
+  .origin-split-container {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .split-item {
+    width: 100%;
+    height: 500px;
+  }
+}
+
+/* Gucci Grid */
+.gucci-wrapper {
+  background-color: #ffffff;
+  padding: var(--origin-gucci-grid-top-padding, 60px)
+    var(--origin-gucci-grid-side-padding, 40px);
+}
+
+.gucci-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--origin-gucci-grid-gap, 20px);
+}
+
+.gucci-item {
+  display: block;
+  text-decoration: none;
+}
+
+.img-box {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  margin-bottom: 15px;
+  background: #f4f4f4;
+}
+
+.g-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gucci-item:hover .g-img {
+  transform: scale(1.03);
+}
+
+.text-box {
+  text-align: center;
+}
+
+.g-label {
+  color: var(--origin-gucci-grid-text-color, #000000);
+  font-family: var(--font-body-family);
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: capitalize;
+}
+
+.placeholder {
+  background: #eee;
+}
+
+@media screen and (max-width: 768px) {
+  .gucci-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .gucci-wrapper {
+    padding: 20px 10px;
+  }
+}
+
+/* Gucci Carousel Product */
+@keyframes fadeInLuxury {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gucci-slider-section {
+  width: 100%;
+  position: relative;
+  background-color: var(--origin-gucci-carousel-bg, #f5f5f5);
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  animation: fadeInLuxury 0.8s ease-out forwards;
+}
+
+.gucci-visuals-stage {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  max-height: 900px;
+  min-height: 500px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.gucci-slider-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+.gucci-slide {
+  flex: 0 0 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 990px) {
+  .gucci-slide {
+    flex: 0 0 50%;
+  }
+}
+
+.gucci-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.gs-control-strip {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.gs-controls-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  max-width: 100%;
+  padding: 0 20px;
+}
+
+.gs-mini-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  max-width: 500px;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gs-mini-preview::-webkit-scrollbar {
+  display: none;
+}
+
+.gs-mini-thumb {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.gs-mini-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gs-mini-thumb:hover {
+  opacity: 1;
+}
+
+.gs-mini-thumb.active {
+  opacity: 1;
+  border-color: #000000;
+}
+
+.gs-nav-group {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.gs-nav-btn {
+  background: #e0e0e0;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: #333333;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gs-nav-btn:hover {
+  background: #cccccc;
+  color: #000000;
+}
+
+.gs-nav-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2px;
+}
+
+.gs-product-container {
+  padding: 60px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  background-color: var(--origin-gucci-carousel-bg, #f5f5f5);
+}
+
+.gs-product-container .product__title h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.gs-product-container .price {
+  justify-content: center;
+}
+
+.gs-product-container .product-form__buttons {
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.gs-product-container fieldset {
+  justify-content: center;
+  display: flex;
+  gap: 10px;
+  border: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.gs-product-container .accordion {
+  border-top: 1px solid #e5e5e5;
+  margin-top: 20px;
+}
+
+.gs-product-container .accordion summary {
+  padding: 15px 0;
+  justify-content: space-between;
+}
+
+.gs-product-container .accordion__content {
+  text-align: left;
+  padding-bottom: 15px;
+}
+
+/* HEADER CSS — PASTE INTO bottom of assets/origin.css */
+:root {
+  --header-bg: transparent;
+  --header-bg-scrolled: #ffffff;
+  --header-text: #000000;
+  --logo-large: 180px;
+  --logo-small: 110px;
+  --header-height-large: 120px;
+  --header-height-small: 70px;
+}
+
+.origin-gucci-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 160;
+  background: var(--header-bg);
+  color: var(--header-text);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.origin-gucci-header.scrolled {
+  background: var(--header-bg-scrolled);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.origin-gucci-header .header-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: var(--header-height-large);
+  padding: 0 32px;
+  transition: height 0.3s ease, padding 0.3s ease;
+}
+
+.origin-gucci-header.scrolled .header-bar {
+  height: var(--header-height-small);
+  padding: 0 24px;
+}
+
+.origin-gucci-header a {
+  color: inherit;
+}
+
+.main-menu {
+  display: flex;
+  align-items: center;
+}
+
+.main-menu ul {
+  display: flex;
+  gap: 18px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-menu li {
+  position: relative;
+}
+
+.main-menu a {
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.main-menu .submenu,
+.main-menu .submenu-toggle {
+  display: none;
+}
+
+.logo-link {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.logo {
+  display: block;
+  height: auto;
+  width: var(--logo-large);
+  transition: opacity 0.3s ease, width 0.3s ease;
+}
+
+.logo-small {
+  position: absolute;
+  opacity: 0;
+  width: var(--logo-small);
+}
+
+.origin-gucci-header.scrolled .logo-large {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.origin-gucci-header.scrolled .logo-small {
+  opacity: 1;
+}
+
+.logo-text {
+  font-family: var(--font-heading-family);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hamburger {
+  display: none;
+  justify-self: end;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.hamburger span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+}
+
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+  z-index: 150;
+}
+
+.mobile-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(90vw, 420px);
+  height: 100%;
+  background: #ffffff;
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.mobile-overlay.active .mobile-panel {
+  transform: translateX(0);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.panel-header .close {
+  border: none;
+  background: none;
+  font-size: 28px;
+  line-height: 1;
+  padding: 4px 8px;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-menu li {
+  border-bottom: 1px solid #ececec;
+}
+
+.mobile-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+}
+
+.mobile-item a {
+  text-decoration: none;
+  color: #111;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.mobile-item .submenu-toggle {
+  border: none;
+  background: none;
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.mobile-item .submenu-toggle::before,
+.mobile-item .submenu-toggle::after {
+  content: "";
+  position: absolute;
+  inset: 9px 0 9px 0;
+  height: 2px;
+  background: #111;
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+
+.mobile-item .submenu-toggle::after {
+  transform: rotate(90deg);
+}
+
+.mobile-item .submenu-toggle[aria-expanded="true"]::after {
+  transform: rotate(0deg);
+}
+
+.mobile-menu .submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+  padding-left: 14px;
+}
+
+.mobile-menu .submenu.open {
+  max-height: 800px;
+}
+
+.mobile-menu .submenu a {
+  display: block;
+  padding: 10px 0;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 990px) {
+  .main-menu {
+    display: none;
+  }
+
+  .hamburger {
+    display: inline-flex;
+  }
+
+  .header-bar {
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+  }
+
+  .logo {
+    margin: 0 auto;
+  }
+}
+
+/* FOOTER CSS — APPENDED */
+.origin-gucci-footer {
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  padding: 28px 20px 36px;
+  border-top: 1px solid var(--footer-border);
+  text-align: center;
+}
+
+.origin-gucci-footer .footer-top {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.origin-gucci-footer .footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.origin-gucci-footer .footer-links a {
+  text-decoration: none;
+  color: inherit;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.origin-gucci-footer .footer-logo img {
+  height: 40px;
+  width: auto;
+}
+
+.origin-gucci-footer .logo-text {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .origin-gucci-footer {
+    padding: 24px 16px 30px;
+  }
+
+  .origin-gucci-footer .footer-links {
+    gap: 12px;
+  }
+}
+/* ================================
+   ORIGIN – GUCCI HEADER OVERRIDES
+   (sits on top of Dawn header)
+================================ */
+
+/* Make the whole header area sticky + transparent at top */
+.section-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: transparent;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* When Dawn's sticky script adds this class = user has scrolled */
+.scrolled-past-header .section-header {
+  background-color: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+/* Tighten header padding for that luxury feel */
+.header {
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+}
+
+/* Desktop tweak – slightly less chunky side padding */
+@media (min-width: 990px) {
+  .header {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+}
+
+/* Logo starts big, shrinks on scroll */
+.header__heading-logo-wrapper {
+  max-width: 220px;
+  transition: max-width 0.25s ease, transform 0.25s ease;
+}
+
+.scrolled-past-header .header__heading-logo-wrapper {
+  max-width: 150px;
+  transform: translateY(-2px);
+}
+
+/* Optional: keep menu items clean and spaced */
+.header__inline-menu .list-menu__item--link {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+/* Make header sit over the hero (so hero can go under it) */
+.shopify-section-header-sticky .section-header {
+  background-color: transparent;
+}
+
+.shopify-section-header-sticky.scrolled-past-header .section-header {
+  background-color: #ffffff;
+}
+
+/* On mobile, hide the menu text a bit earlier so logo + icons feel cleaner */
+@media (max-width: 749px) {
+  .header__inline-menu {
+    display: none;
+  }
+
+  .header {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+/* ================================
+   ORIGIN LUXURY HERO BANNER
+================================ */
+
+.origin-hero {
+  position: relative;
+  width: 100%;
+  min-height: 70vh;
+  max-height: 880px;
+  overflow: hidden;
+}
+
+.origin-hero__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.origin-hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.origin-hero__image--mobile {
+  display: none;
+}
+
+.origin-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at top,
+      rgba(0, 0, 0, 0.3),
+      transparent 55%
+    ),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.75));
+}
+
+/* Content positioning */
+.origin-hero__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  padding: 4rem 2rem 5rem;
+}
+
+.origin-hero__inner--left {
+  justify-content: flex-start;
+}
+
+.origin-hero__content {
+  max-width: 640px;
+  color: #ffffff;
+}
+
+/* Typography */
+.origin-hero__kicker {
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 11px;
+  margin-bottom: 0.75rem;
+}
+
+.origin-hero__heading {
+  font-size: clamp(32px, 4vw, 46px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0 0 1.25rem;
+}
+
+.origin-hero__subheading {
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 0 1.75rem;
+}
+
+/* Buttons */
+.origin-hero__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+}
+
+.origin-hero__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 170px;
+  padding: 0.8rem 1.8rem;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid #ffffff;
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease, transform 0.15s ease;
+}
+
+.origin-hero__button--primary {
+  background-color: #ffffff;
+  color: #111111;
+  border-color: #ffffff;
+}
+
+.origin-hero__button--secondary {
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.origin-hero__button:hover {
+  transform: translateY(-1px);
+}
+
+.origin-hero__button--primary:hover {
+  background-color: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
+
+.origin-hero__button--secondary:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Responsive */
+@media (max-width: 749px) {
+  .origin-hero {
+    min-height: 75vh;
+  }
+
+  .origin-hero__image--desktop {
+    display: none;
+  }
+
+  .origin-hero__image--mobile {
+    display: block;
+  }
+
+  .origin-hero__inner {
+    align-items: flex-end;
+    padding: 3rem 1.5rem 3.5rem;
+  }
+
+  .origin-hero__heading {
+    font-size: 26px;
+    letter-spacing: 0.18em;
+  }
+
+  .origin-hero__subheading {
+    font-size: 13px;
+  }
+
+  .origin-hero__buttons {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .origin-hero__button {
+    width: 100%;
+  }
+}
+/* ================================
+   ORIGIN LUXURY PRODUCT CARDS
+   Applies to collection + featured grids
+================================ */
+
+/* Card container tweaks */
+.card-wrapper {
+  padding-bottom: 1.75rem;
+}
+
+@media (min-width: 750px) {
+  .card-wrapper {
+    padding-bottom: 2rem;
+  }
+}
+
+/* Base card feel */
+.card--product {
+  border-radius: 0;
+  background-color: #ffffff;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+    border-color 0.18s ease;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.02);
+}
+
+/* Inner layout refinement */
+.card--product .card__inner {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Image container – subtle zoom on hover */
+.card--product .card__media {
+  position: relative;
+  overflow: hidden;
+}
+
+.card--product .card__media img {
+  transition: transform 0.45s ease;
+  transform-origin: center center;
+}
+
+/* Lift + zoom on hover (desktop) */
+@media (hover: hover) {
+  .card-wrapper:hover .card--product {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .card-wrapper:hover .card--product .card__media img {
+    transform: scale(1.04);
+  }
+}
+
+/* Product info area */
+.card-information {
+  padding-top: 0.95rem;
+}
+
+/* Title styling – minimal and luxe */
+.card-information__text,
+.card__heading {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+/* Price styling */
+.price {
+  font-size: 13px;
+}
+
+.price__regular,
+.price__sale {
+  letter-spacing: 0.05em;
+}
+
+/* Remove harsh underline effects on links */
+.card__information,
+.card__heading,
+.card__heading a {
+  text-decoration: none;
+}
+
+/* Badges (sale/new/etc.) – softer look */
+.card__badge {
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Quick add button – keep clean and subtle */
+.card__information .quick-add {
+  margin-top: 0.75rem;
+}
+
+.quick-add__submit {
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.4rem;
+}
+
+/* Mobile spacing tweak */
+@media (max-width: 749px) {
+  .card-wrapper {
+    padding-bottom: 1.5rem;
+  }
+
+  .card-information__text,
+  .card__heading {
+    font-size: 11px;
+  }
+
+  .price {
+    font-size: 12px;
+  }
+}
+/* ================================
+   ORIGIN LUXURY COLLECTION PAGES
+   Hero + grid styling
+================================ */
+
+/* Collection hero wrapper (title + description) */
+.template-collection .collection-hero {
+  padding-top: 3.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+/* Collection title */
+.template-collection .collection-hero__title {
+  font-size: 18px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-align: left;
+  margin-bottom: 0.65rem;
+}
+
+/* Description text */
+.template-collection .collection-hero__description {
+  max-width: 520px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(0, 0, 0, 0.78);
+  margin: 0;
+}
+
+/* Optionally center on small screens */
+@media (max-width: 749px) {
+  .template-collection .collection-hero {
+    padding-top: 2.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .template-collection .collection-hero__title,
+  .template-collection .collection-hero__description {
+    text-align: left;
+  }
+
+  .template-collection .collection-hero__description {
+    max-width: none;
+  }
+}
+
+/* Collection grid wrapper spacing */
+.template-collection .collection {
+  padding-top: 2.25rem;
+  padding-bottom: 3.25rem;
+}
+
+/* Grid spacing refinement */
+.template-collection .collection .grid {
+  row-gap: 2.5rem;
+  column-gap: 1.75rem;
+}
+
+@media (min-width: 990px) {
+  .template-collection .collection .grid {
+    row-gap: 3rem;
+    column-gap: 2.25rem;
+  }
+}
+
+/* Align filters / sort cleaner */
+.template-collection .collection__header {
+  max-width: 1160px;
+  margin: 0 auto 1.75rem;
+}
+
+/* Optional: soften the "X products" text */
+.template-collection .collection__viewing,
+.template-collection .collection__product-count {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Keep grid centered in page */
+.template-collection .collection .page-width {
+  max-width: 1160px;
+}
+/* ================================
+   ORIGIN LUXURY PRODUCT PAGE
+   (Tier 3 Step 4)
+================================ */
+
+/* Page wrapper spacing */
+.product {
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+
+/* Product gallery */
+.product__media-wrapper {
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+}
+
+.product__media-list {
+  row-gap: 1rem;
+}
+
+/* Make images smoother on hover */
+.product__media img {
+  transition: transform 0.4s ease;
+}
+
+@media (hover: hover) {
+  .product__media:hover img {
+    transform: scale(1.02);
+  }
+}
+
+/* Title – luxury uppercase minimal */
+.product__title {
+  font-size: 20px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+/* Price block */
+.product__info-wrapper .price {
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  margin-bottom: 1.4rem;
+}
+
+/* Buy box spacing */
+.product__info-container {
+  padding-top: 1.5rem;
+}
+
+/* Variant dropdowns (looks like Gucci’s minimal selects) */
+.product-form__input select {
+  border-radius: 0;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  padding: 0.8rem;
+  letter-spacing: 0.05em;
+  font-size: 13px;
+}
+
+/* Add to Cart button – luxury pill button */
+.product-form__submit {
+  border-radius: 999px;
+  padding: 1rem 2rem;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.product-form__submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+}
+
+/* Description area */
+.product__description {
+  max-width: 600px;
+  line-height: 1.8;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  margin-top: 2.5rem;
+}
+
+.product__description h2,
+.product__description h3 {
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Mobile refinement */
+@media (max-width: 749px) {
+  .product {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+
+  .product__title {
+    font-size: 18px;
+  }
+
+  .product__info-wrapper .price {
+    font-size: 16px;
+  }
+
+  .product-form__submit {
+    width: 100%;
+  }
+}
+/* ================================
+   ORIGIN LUXURY FOOTER
+   (Tier 3 Step 5)
+================================ */
+
+.footer {
+  background-color: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 2.75rem;
+  padding-bottom: 1.75rem;
+}
+
+.footer__content-top {
+  max-width: 1160px;
+  margin: 0 auto 1.75rem;
+}
+
+.footer__content-bottom {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Footer blocks – columns */
+.footer-block {
+  margin-bottom: 1.5rem;
+}
+
+.footer-block__heading {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+/* Footer links */
+.footer-block__details-content a,
+.footer-block__details-content li,
+.footer-block__details-content p {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.footer-block__details-content a {
+  text-decoration: none;
+}
+
+.footer-block__details-content a:hover {
+  text-decoration: underline;
+}
+
+/* Newsletter styling */
+.footer-block--newsletter .newsletter-form__field-wrapper {
+  max-width: 320px;
+}
+
+.footer-block--newsletter .field {
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.footer-block--newsletter .field__input {
+  border-radius: 999px 0 0 999px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  padding-left: 1.1rem;
+  font-size: 12px;
+}
+
+.footer-block--newsletter .field__button {
+  border-radius: 0 999px 999px 0;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding-inline: 1.4rem;
+}
+
+/* Social icons */
+.footer__list-social {
+  gap: 0.75rem;
+}
+
+.footer__list-social a {
+  padding: 0.3rem;
+}
+
+/* Bottom bar text */
+.footer__copyright,
+.footer__copyright a,
+.footer__column--info {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Stack nicely on mobile */
+@media (max-width: 749px) {
+  .footer__content-top {
+    padding-inline: 1.5rem;
+  }
+
+  .footer__content-bottom {
+    padding-inline: 1.5rem;
+  }
+
+  .footer-block__heading {
+    margin-bottom: 0.5rem;
+  }
+}
+/* ================================
+   ORIGIN LUXURY GLOBAL TYPE + BUTTONS
+   (Tier 3 Step 6)
+================================ */
+
+/* Base body refinement */
+body {
+  font-size: 14px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+/* Headings – subtle luxury caps feeling */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: 0.08em;
+}
+
+/* Section titles (like "Featured collection") */
+.title,
+.section-header__title,
+.collection-list-title {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+/* Global buttons – unify into a pill, subtle luxe */
+.button,
+.shopify-payment-button__button--unbranded,
+.button--primary,
+.button--secondary {
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.9rem 1.8rem;
+}
+
+/* Hover elevation */
+.button:hover,
+.shopify-payment-button__button--unbranded:hover,
+.button--primary:hover,
+.button--secondary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* Secondary button: keep outline vibe */
+.button--secondary {
+  background-color: transparent;
+}
+
+/* On very small screens, keep buttons usable */
+@media (max-width: 749px) {
+  .button,
+  .shopify-payment-button__button--unbranded,
+  .button--primary,
+  .button--secondary {
+    width: 100%;
+    text-align: center;
+  }
+}
+/* ================================
+   ORIGIN LUXURY MICRO-ANIMATIONS
+   (Tier 3 Step 7)
+================================ */
+
+/* Smooth scroll between anchors */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global transitions for interactive elements */
+a,
+.button,
+.button--primary,
+.button--secondary,
+.shopify-payment-button__button--unbranded {
+  transition: color 0.18s ease, background-color 0.18s ease,
+    border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+/* Card + hero + product + footer subtle fade-up on first load */
+.origin-hero,
+.template-collection .collection,
+.product,
+.footer {
+  animation: origin-fade-up 0.7s ease-out both;
+  animation-delay: 0.05s;
+}
+
+/* Product cards – slightly staggered */
+.template-collection .card-wrapper {
+  animation: origin-fade-up 0.55s ease-out both;
+}
+
+/* Reusable fade-up keyframes */
+@keyframes origin-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* ================================
+   ORIGIN LUXURY MOBILE POLISH
+   (Tier 3 Step 8)
+   Target: phones only
+================================ */
+@media (max-width: 749px) {
+  /* Global page padding feel */
+  .page-width {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+  }
+
+  /* Header – a bit tighter on mobile */
+  .section-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .header {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .header__heading-logo-wrapper {
+    max-width: 170px;
+  }
+
+  /* Gucci header bar spacing */
+  .origin-gucci-header__bar {
+    padding: 10px 16px;
+  }
+
+  /* Hero – keep strong but not overwhelming */
+  .origin-hero {
+    min-height: 65vh;
+  }
+
+  .origin-hero__inner {
+    padding: 2.5rem 1.4rem 3rem;
+  }
+
+  .origin-hero__heading {
+    font-size: 24px;
+  }
+
+  .origin-hero__subheading {
+    font-size: 13px;
+  }
+
+  /* Collection grid – slightly less gap */
+  .template-collection .collection .grid {
+    row-gap: 2rem;
+    column-gap: 1.25rem;
+  }
+
+  .card-wrapper {
+    padding-bottom: 1.3rem;
+  }
+
+  /* Product page – clean stack, full-width CTAs */
+  .product {
+    padding-top: 1.75rem;
+    padding-bottom: 2.75rem;
+  }
+
+  .product__title {
+    font-size: 18px;
+    margin-bottom: 0.7rem;
+  }
+
+  .product__info-wrapper .price {
+    font-size: 16px;
+    margin-bottom: 1.1rem;
+  }
+
+  .product-form__submit {
+    width: 100%;
+    padding-inline: 1.4rem;
+  }
+
+  /* Footer – nice and compact */
+  .footer {
+    padding-top: 2.25rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .footer__content-top,
+  .footer__content-bottom {
+    padding-inline: 1.4rem;
+  }
+}
+/* ================================
+   ORIGIN LUXURY MOBILE NAV
+   (Tier 3 Step 9)
+================================ */
+@media (max-width: 749px) {
+  /* Drawer panel */
+  .menu-drawer__inner-container {
+    padding: 2.25rem 1.6rem;
+    background-color: #ffffff;
+  }
+
+  /* Drawer animation (smooth slide) */
+  .menu-drawer.animate {
+    transition: transform 0.35s ease, opacity 0.3s ease;
+  }
+
+  /* Links inside mobile nav */
+  .menu-drawer__menu-item {
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  /* Submenu links */
+  .menu-drawer__submenu-item {
+    font-size: 13px;
+    padding: 0.7rem 0 0.7rem 0.8rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* Remove ugly default underlines */
+  .menu-drawer__menu-item a,
+  .menu-drawer__submenu-item a {
+    text-decoration: none;
+  }
+
+  /* Close button spacing */
+  .menu-drawer__close {
+    padding: 1.1rem;
+  }
+
+  /* Social icons in mobile menu */
+  .menu-drawer__utility-links {
+    margin-top: 2rem;
+    gap: 1rem;
+  }
+}
+/* ================================
+   ORIGIN LUXURY SEARCH + HEADER INTERACTIONS
+   (Tier 3 Step 10)
+================================ */
+
+/* Header navigation link refinement */
+.header__inline-menu .list-menu__item--link {
+  position: relative;
+  padding-bottom: 0.4rem;
+}
+
+/* Subtle underline on hover – luxury style */
+@media (hover: hover) {
+  .header__inline-menu .list-menu__item--link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0.1rem;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.2s ease;
+  }
+
+  .header__inline-menu .list-menu__item--link:hover::after {
+    width: 100%;
+  }
+}
+
+/* Search icon spacing (header) */
+.header__icon--search {
+  padding-inline: 0.4rem;
+}
+
+/* Search modal input – luxury pill feel */
+.search__input,
+.predictive-search__input {
+  border-radius: 999px;
+  padding-inline: 1.2rem;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+
+/* Predictive search dropdown – card feel */
+.predictive-search {
+  border-radius: 0;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Predictive search items */
+.predictive-search__results-list li {
+  padding-block: 0.65rem;
+}
+
+/* Predictive search product titles */
+.predictive-search__item-heading,
+.predictive-search__item-heading a {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Predictive search see-all link */
+.predictive-search__search-for-button {
+  font-size: 12px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+/* ================================
+   ORIGIN LUXURY BREADCRUMBS
+   (Tier 3 Finisher 1)
+================================ */
+
+/* Support both .breadcrumbs and .breadcrumb naming */
+.breadcrumbs,
+.breadcrumb {
+  max-width: 1160px;
+  margin: 0 auto 1.2rem;
+  padding-top: 1.2rem;
+  padding-bottom: 0.3rem;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.breadcrumbs__list,
+.breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.breadcrumbs__item,
+.breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Separator */
+.breadcrumbs__item + .breadcrumbs__item::before,
+.breadcrumb__item + .breadcrumb__item::before {
+  content: "/";
+  margin: 0 0.35rem 0 0.1rem;
+  opacity: 0.4;
+}
+
+/* Links */
+.breadcrumbs__link,
+.breadcrumb__link,
+.breadcrumbs a,
+.breadcrumb a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.breadcrumbs__link:hover,
+.breadcrumb__link:hover,
+.breadcrumbs a:hover,
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+/* Current page */
+.breadcrumbs__item:last-child,
+.breadcrumb__item:last-child {
+  opacity: 0.85;
+}
+/* ================================
+   ORIGIN LUXURY PAGINATION
+   (Tier 3 Finisher 2)
+================================ */
+
+.pagination {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.pagination__list {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.pagination__item {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Links */
+.pagination__item a,
+.pagination__item-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  padding: 0.3rem 0.55rem;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+/* Hover underline */
+@media (hover: hover) {
+  .pagination__item a:hover,
+  .pagination__item-link:hover {
+    border-bottom-color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* Current page */
+.pagination__item--current .pagination__item-link,
+.pagination__item--current a {
+  border-bottom-color: rgba(0, 0, 0, 0.9);
+  font-weight: 500;
+}
+/* ================================
+   ORIGIN BACK TO TOP BUTTON
+   (Tier 3 Finisher 3)
+================================ */
+
+.origin-back-to-top {
+  position: fixed;
+  right: 1.4rem;
+  bottom: 1.6rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 40;
+}
+
+.origin-back-to-top--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.origin-back-to-top:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+}
+
+/* Mobile */
+@media (max-width: 749px) {
+  .origin-back-to-top {
+    right: 1rem;
+    bottom: 1.2rem;
+    width: 38px;
+    height: 38px;
+    font-size: 10px;
+  }
+}
+/* ================================
+   ORIGIN LUXURY CART DRAWER
+   (Tier 4 Step 1)
+================================ */
+
+/* Cart drawer panel */
+.cart-drawer,
+.cart-notification {
+  border-radius: 0;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+/* Drawer inner layout */
+.cart-drawer__inner {
+  padding: 2.2rem 1.8rem 2rem;
+}
+
+/* Drawer header */
+.cart-drawer__header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding-bottom: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.cart-drawer__heading {
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Line items */
+.cart-drawer__items {
+  row-gap: 1.2rem;
+}
+
+.cart-drawer-item {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.cart-drawer-item__name {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.cart-drawer-item__price {
+  font-size: 13px;
+}
+
+/* Subtotal + buttons area */
+.cart-drawer__footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 1.4rem;
+  margin-top: 1.4rem;
+}
+
+.cart-drawer__subtotal {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+.cart-drawer__checkout,
+.cart-drawer__bottom {
+  row-gap: 0.6rem;
+}
+
+/* Make the checkout button feel like the main CTA */
+.cart-drawer__footer .button {
+  width: 100%;
+}
+
+/* Mobile refinement */
+@media (max-width: 749px) {
+  .cart-drawer__inner {
+    padding: 1.8rem 1.4rem 1.8rem;
+  }
+}
+/* ================================
+   CART PAGE TOP PADDING FIX
+   (Prevents header overlap)
+================================ */
+
+.template-cart #MainContent {
+  padding-top: 6rem !important; /* adjust if needed */
+}
+
+@media (max-width: 749px) {
+  .template-cart #MainContent {
+    padding-top: 5rem !important; /* slightly smaller for mobile */
+  }
+}
+/* ================================
+   ORIGIN LUXURY CART NOTIFICATION
+   (Tier 4 Step 2)
+================================ */
+
+.cart-notification {
+  max-width: 420px;
+  width: 100%;
+  padding: 1.6rem 1.6rem 1.4rem;
+  border-radius: 0;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+/* Header row */
+.cart-notification__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding-bottom: 0.7rem;
+}
+
+.cart-notification__heading {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Product row */
+.cart-notification__product {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1.1rem;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.cart-notification-product__name {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.cart-notification-product__price {
+  font-size: 13px;
+}
+
+/* Subtotal + buttons */
+.cart-notification__links {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.6rem;
+  margin-top: 0.8rem;
+}
+
+.cart-notification__links .button {
+  width: 100%;
+}
+
+/* View cart link as a subtle text link under the main button */
+.cart-notification__links .button--secondary,
+.cart-notification__links .button--secondary:hover {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  padding-left: 0;
+  padding-right: 0;
+  justify-content: flex-start;
+}
+
+/* Mobile tweaks */
+@media (max-width: 749px) {
+  .cart-notification {
+    right: 1rem;
+    left: 1rem;
+    margin: 0 auto;
+  }
+}
+/* ================================
+   ORIGIN LUXURY EMPTY CART
+   (Tier 4 Step 2)
+================================ */
+
+.cart--empty .cart__warnings {
+  max-width: 520px;
+  margin: 5rem auto 4rem;
+  text-align: center;
+}
+
+.cart--empty .cart__empty-text {
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+.cart--empty .cart__warnings .button {
+  margin-top: 0.4rem;
+  min-width: 200px;
+}
+/* ================================
+   ORIGIN FREE SHIPPING PROGRESS BAR
+   (Tier 4 Step 3)
+================================ */
+
+.origin-freeship {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 999px;
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 1.4rem;
+}
+
+.origin-freeship__text {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0 0 0.6rem;
+}
+
+.origin-freeship__bar {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.origin-freeship__fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transform-origin: left center;
+  transition: width 0.25s ease-out;
+}
+
+/* Achieved state – subtle but confident */
+.origin-freeship--achieved {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.origin-freeship--achieved .origin-freeship__fill {
+  width: 100%;
+}
+
+/* Light/dark friendly – you can tune based on your scheme */
+.origin-freeship__fill {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+@media (max-width: 749px) {
+  .origin-freeship {
+    margin-bottom: 1.1rem;
+    padding: 0.7rem 1rem;
+  }
+
+  .origin-freeship__text {
+    font-size: 10px;
+  }
+}
+
+/* ================================
+   ORIGIN STICKY ADD TO BAG (Mobile)
+   (Luxury, minimal)
+================================ */
+
+.origin-sticky-atc {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  background: rgba(255, 255, 255, 0.96);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.origin-sticky-atc.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.origin-sticky-atc__inner {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 0.8rem 1.4rem calc(0.8rem + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.origin-sticky-atc__info {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.origin-sticky-atc__title {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.origin-sticky-atc__price-value {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.origin-sticky-atc__button {
+  border: none;
+  background: #000;
+  color: #fff;
+  padding: 0.9rem 1.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 11px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.origin-sticky-atc__button:hover {
+  opacity: 0.85;
+}
+
+@media (min-width: 990px) {
+  .origin-sticky-atc {
+    display: none;
+  }
+}
+
+/* ================================
+   TIER 6 – COLLECTION QUICK ADD
+================================ */
+
+.origin-card {
+  position: relative;
+}
+
+.origin-card-quickadd {
+  margin-top: 0.8rem;
+  display: flex;
+}
+
+.origin-card-quickadd__form {
+  width: 100%;
+}
+
+.origin-card-quickadd__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #000;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.origin-card-quickadd__button:hover {
+  opacity: 0.9;
+}
+
+.origin-card-quickadd__button--link {
+  background: transparent;
+  color: #000;
+}
+
+@media (min-width: 750px) {
+  .origin-card-quickadd {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1rem;
+    padding: 0 1rem;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .card--product:hover .origin-card-quickadd {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+/* Keep default quick add hidden when Origin quick add is present */
+.origin-card .quick-add {
+  display: none !important;
+}
+
+/* ================================
+   TIER 7 – ORIGIN HERO BANNER
+================================ */
+
+.origin-hero {
+  position: relative;
+  overflow: hidden;
+  color: #000;
+  min-height: 60vh;
+}
+
+.origin-hero__media picture,
+.origin-hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.origin-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.origin-hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.origin-hero__image {
+  display: block;
+}
+
+.origin-hero__image--mobile {
+  display: none;
+}
+
+.origin-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.05));
+  mix-blend-mode: multiply;
+  opacity: calc(var(--origin-hero-overlay, 30) / 100);
+}
+
+.origin-hero__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: inherit;
+  padding: 6rem 1.6rem;
+}
+
+.origin-hero__content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.origin-hero__content-inner {
+  max-width: 680px;
+}
+
+.origin-hero--align-left .origin-hero__content {
+  justify-items: start;
+  text-align: left;
+}
+
+.origin-hero--align-center .origin-hero__content {
+  justify-items: center;
+  text-align: center;
+}
+
+.origin-hero--align-right .origin-hero__content {
+  justify-items: end;
+  text-align: right;
+}
+
+.origin-hero--v-top .origin-hero__inner {
+  align-items: flex-start;
+}
+
+.origin-hero--v-middle .origin-hero__inner {
+  align-items: center;
+}
+
+.origin-hero--v-bottom .origin-hero__inner {
+  align-items: flex-end;
+}
+
+.origin-hero--height-small {
+  min-height: 60vh;
+}
+
+.origin-hero--height-medium {
+  min-height: 75vh;
+}
+
+.origin-hero--height-large {
+  min-height: 90vh;
+}
+
+.origin-hero--height-full {
+  min-height: 100vh;
+}
+
+.origin-hero__kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 12px;
+}
+
+.origin-hero__heading {
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  margin: 0.2rem 0;
+  text-transform: uppercase;
+}
+
+.origin-hero__subheading {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 640px;
+  opacity: 0.9;
+}
+
+.origin-hero__meta {
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.origin-hero__buttons {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+}
+
+.origin-hero__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.5rem;
+  border: 1px solid #000;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 12px;
+  background: #000;
+  color: #fff;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.origin-hero__button--secondary {
+  background: transparent;
+  color: #000;
+}
+
+.origin-hero__button:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.origin-hero__scroll-cue {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  background: rgba(255, 255, 255, 0.7);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.origin-hero__scroll-icon {
+  width: 10px;
+  height: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 999px;
+  position: relative;
+}
+
+.origin-hero__scroll-icon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  transform: translate(-50%, 30%);
+  animation: origin-scroll-cue 1.2s ease-in-out infinite;
+}
+
+@keyframes origin-scroll-cue {
+  0% {
+    transform: translate(-50%, 25%);
+    opacity: 1;
+  }
+  60% {
+    transform: translate(-50%, 60%);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, 25%);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 749px) {
+  .origin-hero__inner {
+    padding: 4rem 1.2rem 5rem;
+  }
+
+  .origin-hero__image--desktop {
+    display: none;
+  }
+
+  .origin-hero__image--mobile {
+    display: block;
+  }
+
+  .origin-hero__content {
+    justify-items: start;
+    text-align: left;
+  }
+}
+
+/* ================================
+   TIER 7 – ORIGIN EDITORIAL ROW
+================================ */
+
+.origin-editorial-row {
+  padding: 4rem 1.5rem;
+}
+
+.origin-editorial-row__grid {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  display: grid;
+  gap: 2.4rem;
+}
+
+.origin-editorial-row--cols-2 .origin-editorial-row__grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.origin-editorial-row--cols-3 .origin-editorial-row__grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.origin-editorial-row__item {
+  display: grid;
+  gap: 1rem;
+}
+
+.origin-editorial-row__media {
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.origin-editorial-row__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.origin-editorial-row__item:hover .origin-editorial-row__media img {
+  transform: scale(1.02);
+}
+
+.origin-editorial-row__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+}
+
+.origin-editorial-row__heading {
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.origin-editorial-row__body {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+.origin-editorial-row__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 11px;
+}
+
+.origin-editorial-row__link::after {
+  content: "›";
+  font-size: 14px;
+}
+
+@media (max-width: 989px) {
+  .origin-editorial-row__grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* ================================
+   TIER 5 – PRODUCT PAGE LUXURY INFO STACK
+   Title, price, meta spacing
+================================ */
+
+/* Product title – slightly tighter, more intentional */
+.product__title {
+  font-size: clamp(2.2rem, 2.4rem, 2.6rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+}
+
+/* Subtle divider under title for that editorial feel */
+.product__info-wrapper .product__text:not(:empty),
+.product__info-wrapper .product__subtitle {
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.product__info-wrapper {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 1.2rem;
+  margin-top: 1.2rem;
+}
+
+/* Price stack – cleaner hierarchy */
+.product__info-wrapper .price {
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.price--large .price-item--regular,
+.product__info-wrapper .price__regular .price-item--regular {
+  font-size: 1.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Sale price combo */
+.product__info-wrapper .price__sale .price-item--regular {
+  font-size: 1.4rem;
+  opacity: 0.6;
+}
+
+.product__info-wrapper .price__sale .price-item--sale {
+  font-size: 1.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Optional tiny meta row under price (stock, tax note etc.) */
+.product__info-wrapper .product__tax {
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-top: 0.2rem;
+}
+
+/* Mobile spacing tweaks */
+@media (max-width: 749px) {
+  .product__info-wrapper {
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+
+  .product__title {
+    font-size: 2.1rem;
+    letter-spacing: 0.09em;
+  }
+
+  .product__info-wrapper .price {
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+}
+/* ================================
+   TIER 6 – COLLECTION GRID & CARDS
+   (Category pages polish)
+================================ */
+
+/* Constrain collection content a bit more for that boutique feel */
+.template-collection .collection {
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+/* Tighter, more even grid spacing */
+.template-collection .collection .grid {
+  row-gap: 2.4rem;
+  column-gap: 2rem;
+}
+
+/* Product card base: keep it clean and vertical */
+.template-collection .card--product {
+  border-radius: 0;
+  box-shadow: none;
+  text-align: left;
+}
+
+/* Image container – subtle hover float */
+.template-collection .card--product .card__inner {
+  background: transparent;
+  transition: transform 0.22s ease-out;
+}
+
+.template-collection .card--product:hover .card__inner {
+  transform: translateY(-4px);
+}
+
+/* Image ratio + smoothing */
+.template-collection .card--product .card__media {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.template-collection .card--product .card__inner img {
+  transition: transform 0.35s ease-out;
+}
+
+.template-collection .card--product:hover .card__inner img {
+  transform: scale(1.03);
+}
+
+/* Card content stack */
+.template-collection .card--product .card__content {
+  padding-top: 0.9rem;
+}
+
+/* Product title – small caps, neat */
+.template-collection .card--product .card__heading {
+  font-size: 1.2rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+/* Price underneath – aligned with our product page style */
+.template-collection .card--product .price {
+  margin-top: 0.2rem;
+  font-size: 1.3rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Sale price pairing */
+.template-collection .card--product .price__sale .price-item--regular {
+  font-size: 1.1rem;
+  opacity: 0.55;
+}
+
+.template-collection .card--product .price__sale .price-item--sale {
+  font-size: 1.3rem;
+}
+
+/* Badges – keep them small and not screaming */
+.template-collection .card--product .badge {
+  font-size: 0.9rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.7rem;
+}
+
+/* Mobile tuning */
+@media (max-width: 749px) {
+  .template-collection .collection .grid {
+    row-gap: 1.8rem;
+    column-gap: 1.4rem;
+  }
+
+  .template-collection .card--product .card__heading {
+    font-size: 1.1rem;
+  }
+
+  .template-collection .card--product .price {
+    font-size: 1.2rem;
+  }
+}
+/* ================================
+   TIER 6 – COLLECTION HEADER & FILTER BAR
+================================ */
+
+/* Collection hero wrapper – centered, editorial spacing */
+.template-collection .collection-hero {
+  max-width: var(--page-width);
+  margin: 0 auto 2.4rem;
+  padding: 1.6rem 0 0.4rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Title – small caps, spaced like a catalog heading */
+.template-collection .collection-hero__title {
+  font-size: 1.4rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 0.6rem;
+}
+
+/* Optional description – soft and compact under the title */
+.template-collection .collection-hero__description {
+  max-width: 520px;
+  margin: 0 auto 0.8rem;
+  text-align: center;
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+/* Filter/sort toolbar – align like a luxury catalog */
+.template-collection .facets-container {
+  max-width: var(--page-width);
+  margin: 0 auto 1.8rem;
+}
+
+.template-collection .facets-container .facets-vertical {
+  border-radius: 0;
+}
+
+.template-collection .facets-vertical-form {
+  border-top: none;
+}
+
+.template-collection .facets-container .facets-vertical-form,
+.template-collection .facets-container .product-count {
+  padding-inline: 0;
+}
+
+/* Product count + sort – cleaner alignment */
+.template-collection .product-count {
+  font-size: 1.1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Make the sort dropdown feel more minimal */
+.template-collection .facets-container .select__select {
+  border-radius: 999px;
+  padding-inline: 1.4rem 2.6rem;
+}
+
+/* Mobile tuning */
+@media (max-width: 749px) {
+  .template-collection .collection-hero {
+    margin-bottom: 1.8rem;
+    padding-top: 1.2rem;
+  }
+
+  .template-collection .collection-hero__title {
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+  }
+
+  .template-collection .collection-hero__description {
+    font-size: 1.2rem;
+  }
+
+  .template-collection .facets-container {
+    margin-bottom: 1.4rem;
+  }
+}
+/* ================================
+   TIER 6 – COLLECTION PAGINATION & EMPTY STATE
+================================ */
+
+/* Pagination wrapper – align with collection width */
+.template-collection .pagination-wrapper {
+  max-width: var(--page-width);
+  margin: 2.4rem auto 3.4rem;
+}
+
+/* Pagination list – centered, minimal */
+.template-collection .pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+/* Pagination links – pill-like, small caps */
+.template-collection .pagination__item {
+  min-width: 3.2rem;
+  height: 3.2rem;
+  padding: 0 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Active page */
+.template-collection .pagination__item--current {
+  border-color: rgba(0, 0, 0, 0.85);
+}
+
+/* Previous / next icons */
+.template-collection .pagination__item svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Empty collection state – centered and calm */
+.template-collection .collection--empty {
+  max-width: 520px;
+  margin: 4rem auto 5rem;
+  text-align: center;
+}
+
+.template-collection .collection--empty .title {
+  font-size: 1.4rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+.template-collection .collection--empty .rte {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+/* Optional: make the back-to-collection link look like a small button */
+.template-collection .collection--empty a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.4rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+/* ================================
+   TIER 8 – PRODUCT PAGE LUXURY POLISH
+   STEP 1 – TITLE, PRICE, INFO STACK
+================================ */
+
+/* Constrain the main product content for that boutique feel */
+.template-product .product {
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+/* Info column spacing (right side on desktop) */
+.template-product .product__info-wrapper,
+.template-product .product__info-container {
+  padding-top: 1.4rem;
+}
+
+/* Product title – small caps + tracking for brand name feel */
+.template-product .product__title {
+  font-size: 2.1rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  margin-bottom: 0.4rem;
+}
+
+/* Vendor (if shown) – soften and tuck */
+.template-product .product__text.vendor,
+.template-product .product__text.vendor a {
+  font-size: 1.1rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+/* Price block – align with our card/hero style */
+.template-product .price {
+  margin-top: 0.8rem;
+  font-size: 1.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Sale price pairing */
+.template-product .price__sale .price-item--regular {
+  font-size: 1.3rem;
+  opacity: 0.6;
+}
+
+.template-product .price__sale .price-item--sale {
+  font-size: 1.5rem;
+}
+
+/* Subtle divider below price + meta */
+.template-product .product__info-container > .price + .product__accordion,
+.template-product .product__info-container > .price + .product__tax {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 1.2rem;
+  margin-top: 1.2rem;
+}
+
+/* Meta copy (tax/shipping blurb) – calmer tone */
+.template-product .product__tax {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+/* Mobile tuning */
+@media (max-width: 749px) {
+  .template-product .product {
+    padding-inline: 1.4rem;
+  }
+
+  .template-product .product__title {
+    font-size: 1.9rem;
+    letter-spacing: 0.2em;
+  }
+
+  .template-product .price {
+    font-size: 1.4rem;
+  }
+}
+/* ================================
+   TIER 8 – PRODUCT PAGE LUXURY POLISH
+   STEP 2 – ACCORDIONS
+================================ */
+
+/* Wrapper spacing */
+.template-product .product__accordion {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding-block: 1.4rem;
+}
+
+/* Accordion title */
+.template-product .accordion__title {
+  font-size: 1.25rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Caret icon */
+.template-product .accordion__toggle svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.25s ease;
+  opacity: 0.7;
+}
+
+/* Rotate on open */
+.template-product details[open] .accordion__toggle svg {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* Accordion content */
+.template-product .accordion__content {
+  padding-top: 0.8rem;
+  font-size: 1.3rem;
+  line-height: 1.65;
+  opacity: 0.85;
+}
+
+/* Remove Dawn’s left padding */
+.template-product .accordion__content p,
+.template-product .accordion__content ul,
+.template-product .accordion__content li {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+/* Bullet styling */
+.template-product .accordion__content ul {
+  list-style: none;
+  margin-top: 0.4rem;
+}
+
+.template-product .accordion__content ul li::before {
+  content: "•";
+  margin-right: 0.6rem;
+  opacity: 0.35;
+}
+
+/* Mobile tweaks */
+@media (max-width: 749px) {
+  .template-product .accordion__title {
+    font-size: 1.2rem;
+  }
+  .template-product .accordion__content {
+    font-size: 1.25rem;
+  }
+}
+/* ================================
+   TIER 8 – PRODUCT PAGE LUXURY POLISH
+   STEP 3 – MEDIA GALLERY
+================================ */
+
+/* Keep product media aligned with our boutique width */
+.template-product .product__media-wrapper {
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+/* Main media list – tighten vertical rhythm */
+.template-product .product__media-list {
+  row-gap: 1.8rem;
+}
+
+/* Individual media item – subtle card feel without heavy borders */
+.template-product .product__media-item {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Main image treatment */
+.template-product .product__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.4s ease-out, opacity 0.3s ease-out;
+}
+
+/* Slight lift on hover (desktop only) */
+@media (min-width: 990px) {
+  .template-product .product__media-item:hover img {
+    transform: scale(1.015);
+  }
+}
+
+/* Thumbnails wrapper – a bit more breathing room */
+.template-product .thumbnail-list {
+  column-gap: 0.6rem;
+  row-gap: 0.6rem;
+}
+
+/* Thumbnail item */
+.template-product .thumbnail-list__item {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Thumbnail images */
+.template-product .thumbnail {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.template-product .thumbnail img {
+  transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+}
+
+/* Active thumbnail */
+.template-product .thumbnail.is-active img {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+/* Thumbnail border treatment */
+.template-product .thumbnail {
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.template-product .thumbnail.is-active {
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Mobile spacing */
+@media (max-width: 749px) {
+  .template-product .product__media-wrapper {
+    padding-inline: 0;
+  }
+
+  .template-product .product__media-list {
+    row-gap: 1.4rem;
+  }
+
+  .template-product .thumbnail-list {
+    margin-top: 0.8rem;
+  }
+}
+
+/* ================================
+   TIER 8 – VARIANT SELECTORS
+================================ */
+.template-product .product-form__input,
+.template-product .variant-radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.4rem;
+}
+
+.template-product .product-form__input input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.template-product .product-form__input input[type="radio"] + label,
+.template-product .variant-radios input[type="radio"] + label,
+.template-product .swatch-input {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 999px;
+  padding: 10px 16px;
+  min-width: 56px;
+  text-align: center;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+.template-product
+  .product-form__input
+  input[type="radio"]:focus-visible
+  + label {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
+.template-product .product-form__input input[type="radio"]:checked + label,
+.template-product .variant-radios input[type="radio"]:checked + label {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.template-product .product-form__input input[type="radio"][disabled] + label {
+  opacity: 0.35;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+@media (hover: hover) {
+  .template-product .product-form__input input[type="radio"] + label:hover,
+  .template-product .variant-radios input[type="radio"] + label:hover {
+    border-color: rgba(0, 0, 0, 0.45);
+    transform: translateY(-1px);
+  }
+}
+
+.template-product .product-form__input .select {
+  min-height: 48px;
+}
+
+.template-product .product-form__input .product-form__input--dropdown {
+  margin-bottom: 1.6rem;
+}
+
+.template-product .product-form__input .select:focus-visible {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.9);
+}
+
+.template-product .product-form__input legend {
+  font-size: 1.15rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+.origin-size-guide-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  padding: 0.2rem 0;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+/* ================================
+   TIER 8 – PRODUCT META / REASSURANCE
+================================ */
+.origin-product-meta-callouts {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.origin-product-meta-callouts p {
+  margin: 0;
+  font-size: 1.15rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.origin-product-reassurance {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: #fafafa;
+}
+
+.origin-product-reassurance__item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.origin-product-reassurance__icon {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #111;
+  flex-shrink: 0;
+}
+
+.origin-product-reassurance__text {
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Size guide modal */
+.origin-size-guide-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.origin-size-guide-modal.is-active {
+  display: flex;
+}
+
+.origin-size-guide-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.origin-size-guide-modal__dialog {
+  position: relative;
+  background: #fff;
+  padding: 2.4rem;
+  max-width: 520px;
+  width: 90%;
+  z-index: 1;
+  border-radius: 6px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+}
+
+.origin-size-guide-modal__title {
+  margin-top: 0;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.origin-size-guide-modal__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #111;
+  color: #fff;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.origin-size-guide-modal__content {
+  font-size: 1.35rem;
+  line-height: 1.7;
+}
+
+/* ================================
+   TIER 8 – RELATED PRODUCTS / COMPLETE THE LOOK
+================================ */
+.origin-related {
+  padding: 4rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.origin-related__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.origin-related__eyebrow {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.origin-related__heading {
+  margin: 0;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 1.6rem;
+}
+
+.origin-related__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.6rem;
+}
+
+.origin-related__item {
+  min-width: 220px;
+}
+
+@media (max-width: 749px) {
+  .origin-related {
+    overflow: hidden;
+  }
+  .origin-related__grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 70%;
+    overflow-x: auto;
+    padding-bottom: 0.6rem;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+  }
+  .origin-related__item {
+    scroll-snap-align: start;
+  }
+}
+
+/* ================================
+   TIER 9 – CART DRAWER POLISH
+================================ */
+.cart-drawer .drawer__header {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.cart-drawer .drawer__heading {
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+}
+
+.cart-drawer .cart-item__details .cart-item__name {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cart-drawer .cart-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.cart-drawer .totals__total {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.cart-drawer .totals__total-value {
+  font-size: 1.6rem;
+  letter-spacing: 0.12em;
+}
+
+.origin-freeship-line {
+  margin: 0.4rem 0 1rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.origin-cart-upsell {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.2rem;
+}
+
+.origin-cart-upsell__media img {
+  width: 100%;
+  display: block;
+  border-radius: 4px;
+}
+
+.origin-cart-upsell__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.9rem;
+  margin: 0 0 0.3rem;
+}
+
+.origin-cart-upsell__title {
+  display: block;
+  font-size: 1.3rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.origin-cart-upsell__button {
+  margin-top: 0.4rem;
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.origin-cart-upsell__soldout {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+/* ================================
+   TIER 9 – CART PAGE TOTALS
+================================ */
+.template-cart .totals {
+  align-items: center;
+  gap: 1rem;
+}
+
+.template-cart .totals__total {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.template-cart .totals__total-value {
+  font-size: 2rem;
+  letter-spacing: 0.14em;
+}
+
+.template-cart .tax-note {
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* ================================
+   TIER 10 – ORIGIN LUXURY CAROUSEL
+================================ */
+.origin-carousel {
+  position: relative;
+  overflow: hidden;
+  padding: 3rem 0;
+}
+
+.origin-carousel__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.origin-carousel__slide {
+  position: relative;
+  min-height: 420px;
+  scroll-snap-align: start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: stretch;
+  background: #f7f7f7;
+}
+
+.origin-carousel--small .origin-carousel__slide {
+  min-height: 320px;
+}
+
+.origin-carousel--medium .origin-carousel__slide {
+  min-height: 520px;
+}
+
+.origin-carousel__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.origin-carousel__content {
+  padding: 3rem;
+  display: grid;
+  gap: 1.2rem;
+  align-content: center;
+}
+
+.origin-carousel--align-center .origin-carousel__content {
+  text-align: center;
+  align-items: center;
+}
+
+.origin-carousel--align-right .origin-carousel__content {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.origin-carousel__eyebrow {
+  margin: 0;
+}
+
+.origin-carousel__heading {
+  margin: 0;
+}
+
+.origin-carousel__body {
+  margin: 0;
+  max-width: 44ch;
+}
+
+.origin-carousel__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.4rem;
+  border: 1px solid #111;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 749px) {
+  .origin-carousel__content {
+    padding: 2rem 1.6rem;
+  }
+}
+
+/* ================================
+   TIER 10 – TEXT EDITORIAL
+================================ */
+.origin-text-editorial {
+  padding: 4rem 0;
+}
+
+.origin-text-editorial__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+}
+
+.origin-text-editorial__heading {
+  margin: 0.4rem 0;
+}
+
+.origin-text-editorial__body {
+  opacity: 0.85;
+}
+
+.origin-text-editorial__link {
+  display: inline-flex;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+/* ================================
+   TIER 12 – BRAND STORY SECTIONS
+================================ */
+.origin-story-block {
+  padding: 4.5rem 0;
+}
+
+.origin-story-block__inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  align-items: center;
+}
+
+.origin-story-block__inner--reverse {
+  direction: rtl;
+}
+
+.origin-story-block__inner--reverse > * {
+  direction: ltr;
+}
+
+.origin-story-block__media img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.origin-story-block__heading {
+  margin: 0.3rem 0 0.8rem;
+}
+
+.origin-full-bleed {
+  position: relative;
+  color: #fff;
+  min-height: 380px;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.origin-full-bleed__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+
+.origin-full-bleed__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, calc(var(--origin-full-bleed-overlay, 35) / 100));
+}
+
+.origin-full-bleed__content {
+  position: relative;
+  z-index: 1;
+  padding: 3rem 1.5rem;
+  max-width: 760px;
+}
+
+.origin-full-bleed__heading {
+  margin: 0.3rem 0 0.8rem;
+}
+
+.origin-timeline {
+  padding: 4rem 0;
+}
+
+.origin-timeline__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  position: relative;
+}
+
+.origin-timeline__grid::before {
+  content: "";
+  position: absolute;
+  top: 1.2rem;
+  left: 1rem;
+  right: 1rem;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.origin-timeline__item {
+  position: relative;
+  padding-top: 1.6rem;
+}
+
+.origin-timeline__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #111;
+  position: absolute;
+  top: 0.7rem;
+  left: 0.6rem;
+}
+
+/* ================================
+   GUCCI-STYLE SCROLL HEADER
+================================ */
+.header {
+  transition: background-color 0.35s ease, border-color 0.35s ease,
+    color 0.35s ease;
+}
+
+.header__heading-logo {
+  height: 80px;
+  transition: all 0.35s ease;
+  transform-origin: center top;
+}
+
+.header.header--scrolled .header__heading-logo {
+  height: 22px;
+}
+
+.header.header--transparent {
+  background-color: transparent;
+  border-bottom: none;
+  color: #ffffff;
+}
+
+.header.header--scrolled {
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: #000000;
+}
+
+.header--transparent .header__heading-link,
+.header--transparent .header__icon,
+.header--transparent .header__icon .svg-wrapper,
+.header--transparent .header__icon svg,
+.header--transparent .header__menu-item,
+.header--transparent .list-menu__item,
+.header--transparent summary.list-menu__item {
+  color: #ffffff;
+  fill: #ffffff;
+  stroke: #ffffff;
+}
+
+.header--scrolled .header__heading-link,
+.header--scrolled .header__icon,
+.header--scrolled .header__icon .svg-wrapper,
+.header--scrolled .header__icon svg,
+.header--scrolled .header__menu-item,
+.header--scrolled .list-menu__item,
+.header--scrolled summary.list-menu__item {
+  color: #000000;
+  fill: #000000;
+  stroke: #000000;
+}
+
+.header__heading-link,
+.header__icon,
+.header__menu-item,
+.header__menu-item svg {
+  transition: color 0.35s ease, fill 0.35s ease, stroke 0.35s ease;
+}
+
+.hero-logo {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(60vw, 420px);
+  height: auto;
+  opacity: 1;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ================================
+   TIER 14 – SPEED & SEO TOUCHES
+================================ */
+.template-product img[loading="lazy"],
+.template-index img[loading="lazy"] {
+  background: #f6f6f6;
+}
+
+/* ================================
+   TIER 15 – DARK MODE
+================================ */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #0b0b0d;
+    color: #f3f3f3;
+  }
+
+  header.header,
+  footer,
+  .origin-footer {
+    background: #0e0e11;
+    color: #f3f3f3;
+  }
+
+  .card-wrapper,
+  .product-card-wrapper,
+  .cart-drawer__footer,
+  .origin-product-reassurance,
+  .origin-cart-upsell,
+  .origin-carousel__slide {
+    background: #131318;
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .button,
+  .btn,
+  .origin-carousel__button,
+  .origin-cart-upsell__button {
+    background: #f3f3f3;
+    color: #0b0b0d;
+  }
+
+  .origin-size-guide-modal__dialog {
+    background: #16161c;
+    color: #f3f3f3;
+  }
+
+  .origin-size-guide-modal__close {
+    background: #f3f3f3;
+    color: #0b0b0d;
+  }
+}
+/* ===== Gucci-style logo scale animation ===== */
+
+.header__heading-logo {
+  display: block;
+  height: 80px !important;
+  width: auto;
+  max-height: none;
+  transform-origin: center top;
+  transform: scale(1.1);
+  transition: transform 0.35s ease, height 0.35s ease;
+}
+
+/* When header gets the scrolled class, shrink the logo */
+.header--scrolled .header__heading-logo,
+.scrolled-past-header .header__heading-logo {
+  height: 24px !important;
+  transform: scale(1);
+}
