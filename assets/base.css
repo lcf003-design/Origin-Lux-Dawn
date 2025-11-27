@@ -3728,3 +3728,54 @@ details-disclosure > details {
   height: 100%;
   object-fit: cover;
 }
+/* ============================================
+   Gucci-style sticky header + logo animation
+   Uses Dawn's built-in .scrolled-past-header
+   ============================================ */
+
+/* Header default state (top of page) */
+.section-header .header {
+  background: transparent;
+  border-bottom: none;
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+/* Text/icon color at top (over hero) */
+.section-header .header__heading-link,
+.section-header .header__menu-item,
+.section-header .header__icon,
+.section-header .header__icon svg {
+  color: #ffffff;
+  fill: #ffffff;
+  transition: color 0.35s ease, fill 0.35s ease;
+}
+
+/* When you scroll, Dawn adds .scrolled-past-header */
+.section-header.scrolled-past-header .header {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Text/icon color when scrolled */
+.section-header.scrolled-past-header .header__heading-link,
+.section-header.scrolled-past-header .header__menu-item,
+.section-header.scrolled-past-header .header__icon,
+.section-header.scrolled-past-header .header__icon svg {
+  color: #000000;
+  fill: #000000;
+}
+
+/* BIG logo at the top */
+.section-header .header__heading-logo {
+  display: block;
+  height: auto;
+  max-height: none;
+  transform-origin: center center;
+  transform: scale(1.6); /* make bigger or smaller here */
+  transition: transform 0.35s ease;
+}
+
+/* SMALL logo after scroll */
+.section-header.scrolled-past-header .header__heading-logo {
+  transform: scale(0.75); /* adjust if too small/large */
+}
