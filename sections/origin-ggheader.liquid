@@ -196,7 +196,7 @@
     transition: var(--header-transition);
     background-color: transparent; 
     color: var(--header-text-initial);
-    pointer-events: none; /* Container passes clicks */
+    pointer-events: none; 
   }
 
   .origin-gucci-header.is-shrunk .origin-sticky-bar {
@@ -339,10 +339,19 @@
     pointer-events: none;
   }
 
+  /* DESKTOP NAV (BASIC HOVER DROPDOWN) */
   .origin-desktop-menu {
     display: none;
     gap: 20px;
     pointer-events: auto;
+    height: 100%;
+  }
+
+  .origin-desktop-menu__item {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
 
   .origin-desktop-menu__link {
@@ -352,6 +361,40 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 500;
+    padding: 10px 0;
+  }
+
+  .origin-desktop-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    color: #000;
+    min-width: 200px;
+    padding: 15px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .origin-desktop-menu__item:hover .origin-desktop-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .origin-desktop-dropdown a {
+    display: block;
+    padding: 8px 20px;
+    color: #000;
+    text-decoration: none;
+    font-size: 13px;
+    text-transform: uppercase;
+  }
+  .origin-desktop-dropdown a:hover {
+    background: #f5f5f5;
   }
 
   /* --- MOBILE STYLES --- */
@@ -405,7 +448,6 @@
 
   /* --- MENU DRAWER SPECIFIC --- */
   .origin-menu-drawer {
-    /* Transparent Black Background */
     background: rgba(0, 0, 0, 0.5); 
     backdrop-filter: blur(20px);
     width: 320px;
@@ -416,7 +458,8 @@
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     display: flex;
     flex-direction: column;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: var(--menu-text-color); 
+    overflow-y: auto;
   }
 
   .origin-overlay-base.is-open .origin-menu-drawer {
@@ -428,7 +471,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     color: var(--menu-text-color); 
   }
   
@@ -438,8 +481,19 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    overflow-y: auto;
+    gap: 0;
+  }
+
+  .origin-menu-item {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .origin-menu-link-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    cursor: pointer;
   }
 
   .origin-menu-list a {
@@ -448,6 +502,47 @@
     font-size: 18px;
     font-weight: 500;
     text-transform: uppercase;
+    flex-grow: 1;
+  }
+
+  .origin-menu-accordion-icon {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  /* SUBMENU STYLES (Indent Levels) */
+  .origin-submenu {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(255,255,255,0.05); /* Slight highlight */
+  }
+
+  .origin-submenu.is-open {
+    display: block;
+  }
+
+  .origin-submenu li {
+    padding-left: 20px; /* Level 2 Indent */
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .origin-submenu li a {
+    font-size: 15px; /* Slightly smaller */
+    opacity: 0.9;
+  }
+
+  /* LEVEL 3 Indent */
+  .origin-submenu .origin-submenu li {
+    padding-left: 20px; 
+    background: rgba(0,0,0,0.2);
+  }
+  .origin-submenu .origin-submenu li a {
+    font-size: 14px;
+    opacity: 0.8;
+    text-transform: none; /* Optional diff */
   }
 
   /* --- SEARCH MODAL SPECIFIC --- */
@@ -525,10 +620,21 @@
       <button class="origin-sticky-button" type="button" aria-label="Menu" id="origin-menu-trigger-{{ section.id }}">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
       </button>
+      
+      <!-- DESKTOP MENU (Simple Hover) -->
       {% if section.settings.show_desktop_menu and section.settings.menu != blank %}
         <nav class="origin-desktop-menu">
           {% for link in linklists[section.settings.menu].links %}
-            <a href="{{ link.url }}" class="origin-desktop-menu__link">{{ link.title }}</a>
+            <div class="origin-desktop-menu__item">
+              <a href="{{ link.url }}" class="origin-desktop-menu__link">{{ link.title }}</a>
+              {% if link.links != blank %}
+                <div class="origin-desktop-dropdown">
+                  {% for child_link in link.links %}
+                    <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
           {% endfor %}
         </nav>
       {% endif %}
@@ -588,7 +694,7 @@
     </div>
   </div>
 
-  <!-- 3. MOBILE MENU DRAWER -->
+  <!-- 3. MOBILE MENU DRAWER (NESTED ACCORDION) -->
   <div class="origin-menu-overlay origin-overlay-base" id="origin-menu-overlay-{{ section.id }}">
     <div class="origin-menu-drawer">
       <button class="origin-menu-close" id="origin-menu-close-{{ section.id }}" aria-label="Close">
@@ -597,11 +703,50 @@
       <nav>
         <ul class="origin-menu-list">
           {% for link in linklists[section.settings.menu].links %}
-            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            <li class="origin-menu-item">
+              {% if link.links != blank %}
+                <!-- Level 1 with Children -->
+                <div class="origin-menu-link-wrapper accordion-trigger">
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                  <svg class="origin-menu-accordion-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 1v12M1 7h12"/></svg>
+                </div>
+                <ul class="origin-submenu">
+                  {% for child_link in link.links %}
+                    <li>
+                      {% if child_link.links != blank %}
+                        <!-- Level 2 with Children -->
+                        <div class="origin-menu-link-wrapper accordion-trigger">
+                          <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                          <svg class="origin-menu-accordion-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 1v12M1 7h12"/></svg>
+                        </div>
+                        <ul class="origin-submenu">
+                          {% for grandchild_link in child_link.links %}
+                            <!-- Level 3 -->
+                            <li><a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
+                          {% endfor %}
+                        </ul>
+                      {% else %}
+                        <!-- Level 2 No Children -->
+                        <div class="origin-menu-link-wrapper">
+                          <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        </div>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <!-- Level 1 No Children -->
+                <div class="origin-menu-link-wrapper">
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </div>
+              {% endif %}
+            </li>
           {% endfor %}
           {% if shop.customer_accounts_enabled %}
-            <li style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;">
-              <a href="{{ routes.account_url }}">Account</a>
+            <li class="origin-menu-item" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+              <div class="origin-menu-link-wrapper">
+                <a href="{{ routes.account_url }}">Account</a>
+              </div>
             </li>
           {% endif %}
         </ul>
@@ -686,6 +831,37 @@
     if (menuOverlay) {
       menuOverlay.addEventListener('click', (e) => {
         if (e.target === menuOverlay) toggleOverlay(menuOverlayId, false);
+      });
+    }
+
+    // --- NESTED ACCORDION LOGIC ---
+    // We attach listeners to the drawer content dynamically
+    if (menuOverlay) {
+      const accordionTriggers = menuOverlay.querySelectorAll('.accordion-trigger');
+      accordionTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+          // Prevent navigating if they clicked the + icon area specifically, 
+          // or if you want the whole row to expand instead of link. 
+          // Current logic: click + icon (svg) OR the wrapper expands. 
+          // To allow the link text to go to page, we'd need to separate them.
+          // For now, let's assume clicking the row expands the menu (standard mobile behavior).
+          e.preventDefault(); 
+          
+          const submenu = trigger.nextElementSibling; // The <ul>
+          const icon = trigger.querySelector('.origin-menu-accordion-icon');
+          
+          if (submenu) {
+            const isOpen = submenu.classList.contains('is-open');
+            // Toggle
+            if (isOpen) {
+              submenu.classList.remove('is-open');
+              if(icon) icon.style.transform = 'rotate(0deg)';
+            } else {
+              submenu.classList.add('is-open');
+              if(icon) icon.style.transform = 'rotate(45deg)'; // X shape or just rotate
+            }
+          }
+        });
       });
     }
 
