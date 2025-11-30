@@ -20,6 +20,13 @@
       "info": "Portrait Mode (9:16)"
     },
     {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#000000",
+      "info": "Useful if using transparent PNG images."
+    },
+    {
       "type": "select",
       "id": "section_height",
       "label": "Desktop Section Height",
@@ -39,7 +46,7 @@
       "step": 5,
       "unit": "%",
       "label": "Overlay Opacity",
-      "default": 10
+      "default": 0
     },
     {
       "type": "header",
@@ -246,30 +253,29 @@
   .origin-spotlight {
     position: relative;
     width: 100%;
-    /* Flex is mostly for mobile stacking flow */
+    overflow: hidden;
     display: flex;
     flex-direction: column;
+    background-color: {{ section.settings.section_bg_color }}; /* Fix for PNGs */
   }
 
   /* --- HEIGHT SETTINGS --- */
   .origin-spotlight--full { height: 100vh; }
   .origin-spotlight--large { height: 80vh; }
   .origin-spotlight--medium { height: 60vh; }
-  /* Auto lets the image dictate height */
   .origin-spotlight--auto { height: auto; }
 
   /* --- IMAGE LAYER --- */
   .origin-spotlight__bg {
     width: 100%;
     height: 100%;
-    /* Default to absolute to cover fixed heights */
     position: absolute;
     top: 0;
     left: 0;
     z-index: 1;
   }
 
-  /* Special case: If adapting to image, BG becomes relative to push size */
+  /* Auto height override */
   .origin-spotlight--auto .origin-spotlight__bg {
     position: relative;
     height: auto;
@@ -282,7 +288,7 @@
     display: block;
   }
 
-  /* Overlay follows the image */
+  /* Overlay */
   .origin-spotlight__overlay {
     position: absolute;
     inset: 0;
@@ -291,42 +297,43 @@
     z-index: 2;
   }
 
-  /* --- CONTENT LAYER (The Fix) --- */
+  /* --- CONTENT LAYER (CSS GRID FIX) --- */
   .origin-spotlight__content-wrapper {
-    /* ABSOLUTE positioning forces this layer to cover the ENTIRE section */
     position: absolute; 
     top: 0;
     left: 0;
     width: 100%;
     height: 100%; 
     z-index: 3;
-    pointer-events: none; /* Let clicks pass through empty areas */
-    
-    display: flex;
-    flex-direction: column;
+    pointer-events: none;
     padding: 60px 40px;
     box-sizing: border-box;
     color: {{ section.settings.text_color }};
+    
+    /* THE MAGIC: CSS Grid for Bulletproof Positioning */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
   }
-
-  /* --- ALIGNMENT CLASSES --- */
-  .pos-top-left      { justify-content: flex-start; align-items: flex-start; text-align: left; }
-  .pos-top-center    { justify-content: flex-start; align-items: center;     text-align: center; }
-  .pos-top-right     { justify-content: flex-start; align-items: flex-end;   text-align: right; }
-  
-  .pos-center-left   { justify-content: center;     align-items: flex-start; text-align: left; }
-  .pos-center        { justify-content: center;     align-items: center;     text-align: center; }
-  .pos-center-right  { justify-content: center;     align-items: flex-end;   text-align: right; }
-  
-  .pos-bottom-left   { justify-content: flex-end;   align-items: flex-start; text-align: left; }
-  .pos-bottom-center { justify-content: flex-end;   align-items: center;     text-align: center; }
-  .pos-bottom-right  { justify-content: flex-end;   align-items: flex-end;   text-align: right; }
 
   .origin-spotlight__content {
     max-width: 1200px;
     width: 100%;
-    pointer-events: auto; /* Re-enable clicks on text/buttons */
+    pointer-events: auto;
   }
+
+  /* Grid Area Mapping */
+  .pos-top-left      { grid-column: 1; grid-row: 1; justify-self: start; align-self: start; text-align: left; }
+  .pos-top-center    { grid-column: 2; grid-row: 1; justify-self: center; align-self: start; text-align: center; }
+  .pos-top-right     { grid-column: 3; grid-row: 1; justify-self: end; align-self: start; text-align: right; }
+  
+  .pos-center-left   { grid-column: 1; grid-row: 2; justify-self: start; align-self: center; text-align: left; }
+  .pos-center        { grid-column: 2; grid-row: 2; justify-self: center; align-self: center; text-align: center; }
+  .pos-center-right  { grid-column: 3; grid-row: 2; justify-self: end; align-self: center; text-align: right; }
+  
+  .pos-bottom-left   { grid-column: 1; grid-row: 3; justify-self: start; align-self: end; text-align: left; }
+  .pos-bottom-center { grid-column: 1 / span 3; grid-row: 3; justify-self: center; align-self: end; text-align: center; } /* Spans all cols to ensure center */
+  .pos-bottom-right  { grid-column: 3; grid-row: 3; justify-self: end; align-self: end; text-align: right; }
 
   /* --- TYPOGRAPHY --- */
   .origin-spotlight__heading {
@@ -358,7 +365,7 @@
     margin-top: 10px;
   }
   
-  /* Alignment Inheritance for Buttons */
+  /* Inherit text alignment for buttons */
   .pos-top-center .origin-spotlight__buttons,
   .pos-center .origin-spotlight__buttons,
   .pos-bottom-center .origin-spotlight__buttons {
@@ -447,18 +454,27 @@
         height: auto;
         width: 100%;
         padding: 40px 20px;
-        background: #fff; 
+        background: {{ section.settings.section_bg_color }}; /* Match section bg */
         color: {{ section.settings.mobile_text_color }};
-        text-align: center;
+        display: flex; /* Reset grid to flex for simple stack */
+        flex-direction: column;
         justify-content: center;
         align-items: center;
+        text-align: center;
         pointer-events: auto;
       }
       
+      .origin-spotlight__content { 
+        grid-column: auto; grid-row: auto; /* Reset grid placement */
+      }
+
       .origin-spotlight__buttons { justify-content: center; }
-      .btn-solid { background: #000; color: #fff; border-color: #000; }
-      .btn-outline { color: #000; border-color: #000; }
-      .btn-underline { color: #000; border-color: #000; }
+      
+      /* Only invert colors if background is white/light */
+      /* Note: You can now control Mobile Text Color in settings */
+      .btn-solid { background: {{ section.settings.mobile_text_color }}; color: {{ section.settings.section_bg_color }}; border-color: {{ section.settings.mobile_text_color }}; }
+      .btn-outline { color: {{ section.settings.mobile_text_color }}; border-color: {{ section.settings.mobile_text_color }}; }
+      .btn-underline { color: {{ section.settings.mobile_text_color }}; border-color: {{ section.settings.mobile_text_color }}; }
     {% else %}
       /* Overlay Mode on Mobile */
       .origin-spotlight__content-wrapper { padding: 30px 20px; }
@@ -471,7 +487,7 @@
   }
 </style>
 
-<div class="origin-spotlight origin-spotlight--{{ section.settings.section_height }} pos-{{ section.settings.text_position }}">
+<div class="origin-spotlight origin-spotlight--{{ section.settings.section_height }}">
   
   <div class="origin-spotlight__bg">
     <div class="origin-spotlight__overlay"></div>
@@ -493,7 +509,7 @@
   </div>
 
   <div class="origin-spotlight__content-wrapper">
-    <div class="origin-spotlight__content">
+    <div class="origin-spotlight__content pos-{{ section.settings.text_position }}">
       {% for block in section.blocks %}
         {% case block.type %}
           {% when 'heading_block' %}
