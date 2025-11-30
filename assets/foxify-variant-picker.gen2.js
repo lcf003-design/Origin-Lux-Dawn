@@ -71,6 +71,7 @@ if (!customElements.get('x-variant-picker')) {
         }
 
         this.hideSoldOutAndUnavailableOptions();
+        this.subscribeVariantChanges();
         
         this.addEventListener('change', (event) => {
           const target = this.getInputForEventTarget(event.target);       
@@ -154,7 +155,7 @@ if (!customElements.get('x-variant-picker')) {
       }
     }
 
-    handleVariantChange() {
+    handleVariantChange({ emitEvent = true } = {}) {
       console.log('Foxify: Selected variant', this.currentVariant);
       this.updateMasterId()
 
@@ -174,8 +175,12 @@ if (!customElements.get('x-variant-picker')) {
         this.updateProductMeta();
         this.hideSoldOutAndUnavailableOptions();
       }
-      window.Foxify.Events.emit(`${this.productId}__VARIANT_CHANGE`, this.currentVariant, this)
-      if (window.Foxify && typeof window.Foxify.onVariantChange === 'function') {
+      if (emitEvent && window.Foxify && window.Foxify.Events) {
+        window.Foxify.Events.emit(`${this.productId}__VARIANT_CHANGE`, this.currentVariant, this)
+        if (typeof window.Foxify.onVariantChange === 'function') {
+          window.Foxify.onVariantChange(this.currentVariant, this.productContainer)
+        }
+      } else if (!emitEvent && typeof window.Foxify?.onVariantChange === 'function') {
         window.Foxify.onVariantChange(this.currentVariant, this.productContainer)
       }
     }
@@ -205,6 +210,26 @@ if (!customElements.get('x-variant-picker')) {
         if (fieldType === 'button') return Array.from(field.querySelectorAll('input')).find((radio) => radio.checked).value
         return field.querySelector('select') ? field.querySelector('select').value : '';
       });
+    }
+
+    subscribeVariantChanges() {
+      if (!window.Foxify || !window.Foxify.Events || !this.productId) return;
+      if (this.externalVariantSubscription) return;
+
+      this.externalVariantSubscription = (variant, source) => {
+        if (!variant || source === this || variant.id === this.currentVariant?.id) return;
+        this.syncFromVariant(variant);
+      };
+
+      window.Foxify.Events.subscribe(`${this.productId}__VARIANT_CHANGE`, this.externalVariantSubscription);
+    }
+
+    syncFromVariant(variant) {
+      if (!variant) return;
+      this.currentVariant = variant;
+      this.options = Array.isArray(variant.options) ? [...variant.options] : [];
+      this.updateSelectedOptions();
+      this.handleVariantChange({ emitEvent: false });
     }
 
     updateMasterId() {

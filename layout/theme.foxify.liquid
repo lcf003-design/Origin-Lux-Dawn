@@ -54,6 +54,7 @@
       {{ body_font_bold_italic | font_face: font_display: 'swap' }}
       {{ settings.type_header_font | font_face: font_display: 'swap' }}
 
+      {% assign scheme_classes = '' %}
       {% for scheme in settings.color_schemes -%}
         {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
         {% if forloop.index == 1 -%}
@@ -256,6 +257,7 @@
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'origin.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -298,7 +300,7 @@
     </script>
   {%- render 'foxify-head' -%}</head>
 
-  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}"> {% sections 'foxify-header-group' %}                   
+  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}"> {% sections 'foxify-header-group' %}                     
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -382,6 +384,188 @@
         modalToggle.dispatchEvent(new Event('click', { bubbles: true }));
       });
     </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const stickyBar = document.querySelector('[data-origin-sticky-atc]');
+        const isProductTemplate = {{ request.page_type | json }} === 'product';
+
+        if (!stickyBar || !isProductTemplate) return;
+
+        const productForm =
+          document.querySelector('product-form form[action*="/cart/add"]') ||
+          document.querySelector('form[action*="/cart/add"]');
+
+        if (!productForm) return;
+
+        const stickyButton = stickyBar.querySelector('[data-origin-sticky-atc-button]');
+        const offset = 80;
+        const shouldShowOnViewport = () => window.innerWidth < 990;
+
+        const updateStickyVisibility = () => {
+          if (!shouldShowOnViewport()) {
+            stickyBar.classList.remove('is-visible');
+            return;
+          }
+
+          const rect = productForm.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          const passedForm = rect.bottom < viewportHeight - offset;
+
+          stickyBar.classList.toggle('is-visible', passedForm);
+        };
+
+        window.addEventListener('scroll', updateStickyVisibility, { passive: true });
+        window.addEventListener('resize', updateStickyVisibility);
+        updateStickyVisibility();
+
+        if (stickyButton) {
+          stickyButton.addEventListener('click', function() {
+            if (typeof productForm.requestSubmit === 'function') {
+              productForm.requestSubmit();
+            } else {
+              productForm.submit();
+            }
+          });
+        }
+      });
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Origin Quick Add (collections)
+        const quickAddForms = document.querySelectorAll('[data-origin-quick-add-form]');
+        if (quickAddForms.length) {
+          const refreshCart = () => {
+            const drawerItems = document.querySelector('cart-drawer-items');
+            if (drawerItems && typeof drawerItems.onCartUpdate === 'function') {
+              return drawerItems.onCartUpdate().then(() => {
+                const drawer = document.querySelector('cart-drawer');
+                drawer?.open();
+              });
+            }
+            return Promise.resolve();
+          };
+
+          quickAddForms.forEach((form) => {
+            form.addEventListener('submit', function(event) {
+              event.preventDefault();
+              const formData = new FormData(form);
+              const body = {
+                id: formData.get('id'),
+                quantity: formData.get('quantity') || 1,
+              };
+
+              fetch(`${routes.cart_add_url}.js`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify(body),
+              })
+                .then((response) => response.json())
+                .then(() => refreshCart())
+                .catch(() => form.submit());
+            });
+          });
+        }
+
+        // Origin Hero scroll cue
+        const scrollCue = document.querySelector('[data-origin-hero-scroll]');
+        if (scrollCue) {
+          const hero = scrollCue.closest('[data-origin-hero]');
+          const hideCue = () => {
+            if (window.scrollY > 120) {
+              scrollCue.style.opacity = '0';
+              scrollCue.style.pointerEvents = 'none';
+            } else {
+              scrollCue.style.opacity = '1';
+              scrollCue.style.pointerEvents = 'auto';
+            }
+          };
+          window.addEventListener('scroll', hideCue, { passive: true });
+          hideCue();
+
+          scrollCue.addEventListener('click', function() {
+            const nextSection = hero?.nextElementSibling;
+            if (nextSection) {
+              nextSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+              window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+            }
+          });
+        }
+
+        // Origin Size Guide modal
+        const sizeGuideModal = document.querySelector('[data-origin-size-guide-modal]');
+        if (sizeGuideModal) {
+          const openers = document.querySelectorAll('[data-origin-size-guide-trigger]');
+          const closers = sizeGuideModal.querySelectorAll('[data-origin-size-guide-close]');
+          const toggleModal = (shouldOpen) => {
+            sizeGuideModal.classList.toggle('is-active', shouldOpen);
+            sizeGuideModal.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
+          };
+          openers.forEach((btn) => btn.addEventListener('click', () => toggleModal(true)));
+          closers.forEach((btn) => btn.addEventListener('click', () => toggleModal(false)));
+          sizeGuideModal.addEventListener('click', (event) => {
+            if (event.target === sizeGuideModal) toggleModal(false);
+          });
+          document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') toggleModal(false);
+          });
+        }
+
+        // Origin cart upsell add
+        document.body.addEventListener('click', function(event) {
+          const upsellButton = event.target.closest('[data-origin-cart-upsell-add]');
+          if (!upsellButton) return;
+
+          const variantId = upsellButton.getAttribute('data-variant-id');
+          if (!variantId) return;
+
+          upsellButton.setAttribute('disabled', 'disabled');
+
+          fetch(`${routes.cart_add_url}.js`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ id: variantId, quantity: 1 })
+          })
+            .then((response) => response.json())
+            .then(() => {
+              const drawerItems = document.querySelector('cart-drawer-items');
+              if (drawerItems && typeof drawerItems.onCartUpdate === 'function') {
+                return drawerItems.onCartUpdate().then(() => {
+                  const drawer = document.querySelector('cart-drawer');
+                  drawer?.open();
+                });
+              }
+              return null;
+            })
+            .finally(() => upsellButton.removeAttribute('disabled'))
+            .catch(() => window.location.href = routes.cart_url);
+        });
+      });
+    </script>
+     <button type="button" class="origin-back-to-top" aria-label="Back to top">
+      <span>Top</span>
+    </button>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var backToTop = document.querySelector('.origin-back-to-top');
+        if (!backToTop) return;
+
+        function toggleBackToTop() {
+          if (window.scrollY > 400) {
+            backToTop.classList.add('origin-back-to-top--visible');
+          } else {
+            backToTop.classList.remove('origin-back-to-top--visible');
+          }
+        }
+
+        window.addEventListener('scroll', toggleBackToTop, { passive: true });
+
+        backToTop.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+    </script>
 
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
@@ -390,5 +574,5 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
-  {%- render 'foxify-footer' -%}                   {% sections 'foxify-footer-group' %} </body>
+  {%- render 'foxify-footer' -%}                     {% sections 'foxify-footer-group' %} </body>
 </html>
