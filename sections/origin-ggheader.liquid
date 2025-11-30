@@ -11,7 +11,7 @@
       "type": "image_picker",
       "id": "logo_image",
       "label": "Logo image",
-      "info": "Use a white logo with transparent background"
+      "info": "Upload your main logo here (transparent PNG/SVG recommended)"
     },
     {
       "type": "text",
@@ -41,94 +41,42 @@
       "default": 80
     },
     {
-      "type": "header",
-      "content": "Hero Settings"
-    },
-    {
-      "type": "image_picker",
-      "id": "hero_image",
-      "label": "Hero background image"
-    },
-    {
-      "type": "select",
-      "id": "hero_height",
-      "label": "Hero height",
-      "default": "full",
-      "options": [
-        { "value": "full", "label": "Full screen (100vh)" },
-        { "value": "large", "label": "Large (85vh)" },
-        { "value": "medium", "label": "Medium (65vh)" }
-      ]
+      "type": "range",
+      "id": "logo_vertical_position",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Huge Logo Vertical Position",
+      "default": 40,
+      "info": "Distance from top of screen. 50% is dead center."
     },
     {
       "type": "header",
-      "content": "Content Settings"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "The Gift Edit"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "HOLIDAY 2025"
-    },
-    {
-      "type": "richtext",
-      "id": "body_text",
-      "label": "Body text"
-    },
-    {
-      "type": "select",
-      "id": "content_alignment",
-      "label": "Content alignment",
-      "default": "center",
-      "options": [
-        { "value": "flex-start", "label": "Top" },
-        { "value": "center", "label": "Center" },
-        { "value": "flex-end", "label": "Bottom" }
-      ]
-    },
-    {
-      "type": "header",
-      "content": "Colors"
+      "content": "Sticky Bar Colors"
     },
     {
       "type": "color",
       "id": "header_bg_color_shrunk",
-      "label": "Sticky Header Background",
+      "label": "Background (Scrolled)",
       "default": "#FFFFFF"
     },
     {
       "type": "color",
       "id": "header_text_color_shrunk",
-      "label": "Sticky Header Text/Icons",
+      "label": "Text/Icons (Scrolled)",
       "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Initial Colors (Overlay)"
     },
     {
       "type": "color",
       "id": "header_text_color_initial",
-      "label": "Initial Header Text/Icons",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "color",
-      "id": "overlay_color",
-      "label": "Hero overlay color",
-      "default": "#000000"
-    },
-    {
-      "type": "range",
-      "id": "overlay_opacity",
-      "min": 0,
-      "max": 90,
-      "step": 5,
-      "unit": "%",
-      "label": "Hero overlay opacity",
-      "default": 20
+      "label": "Text/Icons/Huge Logo",
+      "default": "#FFFFFF",
+      "info": "Make sure this contrasts with your Hero Section underneath."
     },
     {
       "type": "header",
@@ -160,16 +108,22 @@
     --header-transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}vw;
     --logo-width-mobile: {{ section.settings.hero_logo_width_mobile }}vw;
+    --logo-vertical-pos: {{ section.settings.logo_vertical_position }}vh;
+    
     --header-bg-shrunk: {{ section.settings.header_bg_color_shrunk }};
     --header-text-shrunk: {{ section.settings.header_text_color_shrunk }};
     --header-text-initial: {{ section.settings.header_text_color_initial }};
   }
 
   /* --- WRAPPER --- */
+  /* This ensures the header sits ON TOP of the next section (the hero) */
   .origin-gucci-header {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    overflow: hidden;
+    height: 0; /* Minimal height so it doesn't push content down */
+    z-index: 50;
   }
 
   /* --- STICKY TOP BAR --- */
@@ -185,7 +139,7 @@
     padding: 16px 24px;
     box-sizing: border-box;
     transition: var(--header-transition);
-    background-color: transparent; /* Start transparent */
+    background-color: transparent; 
     color: var(--header-text-initial);
   }
 
@@ -206,6 +160,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    pointer-events: none; /* Not clickable when hidden */
+  }
+
+  .origin-sticky-bar__logo a {
+    display: block;
+    line-height: 0;
   }
 
   .origin-sticky-bar__logo img {
@@ -225,6 +185,52 @@
   .origin-gucci-header--shrink .origin-sticky-bar__logo {
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* --- HUGE LOGO OVERLAY --- */
+  .origin-huge-logo-wrapper {
+    position: fixed; /* Fixed so it stays on screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 40; /* Below sticky bar, above page content */
+    pointer-events: none; /* CRITICAL: Allows clicks to pass through to the Hero Banner below */
+    display: flex;
+    align-items: flex-start; /* Align top, then push down with padding/margin */
+    justify-content: center;
+    transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    transform-origin: center top;
+  }
+
+  .origin-huge-logo-inner {
+    margin-top: var(--logo-vertical-pos); /* Position defined by schema */
+    transform: translateY(-50%); /* Center strictly on that point */
+    width: var(--logo-width-desktop);
+    max-width: 1200px;
+    text-align: center;
+    color: var(--header-text-initial);
+  }
+
+  .origin-huge-logo-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .origin-huge-logo-text {
+    font-size: 10vw;
+    line-height: 1;
+    font-family: serif;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  /* Scrolled State for Huge Logo: Shrink and vanish */
+  .origin-gucci-header--shrink .origin-huge-logo-wrapper {
+    opacity: 0;
+    transform: scale(0.6) translateY(-50px);
   }
 
   /* --- ICONS & MENU --- */
@@ -245,7 +251,7 @@
     border: none;
     padding: 8px;
     cursor: pointer;
-    color: inherit; /* Inherits from sticky bar color var */
+    color: inherit; 
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -272,98 +278,6 @@
     font-weight: 500;
   }
 
-  /* --- HERO SECTION --- */
-  .origin-gucci-hero {
-    position: relative;
-    width: 100%;
-    min-height: 100vh; /* Default Full */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Centers the huge logo vertically */
-    text-align: center;
-    background: {% if section.settings.hero_image %}url('{{ section.settings.hero_image | image_url: width: 2400 }}') center/cover no-repeat{% else %}#111{% endif %};
-  }
-
-  .origin-gucci-hero--large { min-height: 85vh; }
-  .origin-gucci-hero--medium { min-height: 65vh; }
-
-  /* Overlay */
-  .origin-gucci-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: {{ section.settings.overlay_color }};
-    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
-    pointer-events: none;
-  }
-
-  /* --- HUGE LOGO (THE HERO) --- */
-  .origin-gucci-hero__logo-wrapper {
-    position: relative;
-    z-index: 10;
-    margin-bottom: 24px;
-    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
-    /* This origin point ensures it shrinks upwards towards the navbar */
-    transform-origin: center top; 
-  }
-
-  .origin-gucci-hero__logo-img {
-    width: var(--logo-width-desktop);
-    max-width: 1000px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-  }
-
-  .origin-gucci-hero__logo-text-large {
-    font-size: 12vw; /* Massive fallback text */
-    line-height: 1;
-    color: #fff;
-    font-weight: 400;
-    font-family: serif; /* Classic Gucci vibes */
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-  }
-
-  /* Scrolled State for Huge Logo: Shrink and Fade Out */
-  .origin-gucci-header--shrink .origin-gucci-hero__logo-wrapper {
-    opacity: 0;
-    transform: scale(0.6) translateY(-40px);
-    pointer-events: none; 
-  }
-
-  /* --- HERO TEXT CONTENT --- */
-  .origin-gucci-hero__content {
-    position: relative;
-    z-index: 5;
-    color: #fff;
-    max-width: 600px;
-    padding: 0 20px;
-    transition: opacity 0.5s ease;
-  }
-
-  .origin-gucci-hero__subheading {
-    font-size: 14px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  .origin-gucci-hero__heading {
-    font-size: 42px;
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    margin-bottom: 16px;
-    line-height: 1.2;
-  }
-
-  .origin-gucci-hero__body p {
-    font-size: 16px;
-    line-height: 1.6;
-    margin: 0;
-  }
-
   /* --- MOBILE STYLES --- */
   @media (min-width: 990px) {
     .origin-desktop-menu {
@@ -372,11 +286,8 @@
   }
 
   @media (max-width: 749px) {
-    .origin-gucci-hero__logo-img {
+    .origin-huge-logo-inner {
       width: var(--logo-width-mobile);
-    }
-    .origin-gucci-hero__heading {
-      font-size: 32px;
     }
     .origin-sticky-bar {
       padding: 12px 16px;
@@ -446,7 +357,7 @@
 
 <div class="origin-gucci-header" data-section-id="{{ section.id }}">
   
-  <!-- STICKY BAR (Fixed Top) -->
+  <!-- 1. STICKY BAR (Nav) -->
   <header class="origin-sticky-bar">
     <div class="origin-sticky-bar__menu">
       <button class="origin-sticky-button" type="button" aria-label="Menu" id="origin-menu-trigger">
@@ -461,11 +372,14 @@
       {% endif %}
     </div>
 
-    <!-- Small Logo (Appears on Scroll) -->
+    <!-- Small Logo (Hidden initially, appears on scroll) -->
     <div class="origin-sticky-bar__logo">
-      <a href="{{ routes.root_url }}" style="text-decoration: none; color: inherit;">
+      <a href="{{ routes.root_url }}">
         {% if section.settings.logo_image %}
-          <img src="{{ section.settings.logo_image | image_url: width: 300 }}" alt="{{ shop.name }}" width="150" height="32">
+          <img src="{{ section.settings.logo_image | image_url: width: 300 }}" 
+               alt="{{ shop.name }}" 
+               width="{{ section.settings.logo_image.width }}" 
+               height="{{ section.settings.logo_image.height }}">
         {% else %}
           <span>{{ section.settings.logo_text }}</span>
         {% endif %}
@@ -482,7 +396,23 @@
     </div>
   </header>
 
-  <!-- MOBILE MENU DRAWER -->
+  <!-- 2. HUGE LOGO OVERLAY (Floats over the next section) -->
+  <div class="origin-huge-logo-wrapper">
+    <div class="origin-huge-logo-inner">
+      {% if section.settings.logo_image %}
+        <img src="{{ section.settings.logo_image | image_url: width: 1600 }}" 
+             alt="{{ section.settings.logo_text | escape }}" 
+             class="origin-huge-logo-img"
+             loading="eager"
+             width="{{ section.settings.logo_image.width }}"
+             height="{{ section.settings.logo_image.height }}">
+      {% else %}
+        <h1 class="origin-huge-logo-text">{{ section.settings.logo_text }}</h1>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- 3. MOBILE MENU DRAWER -->
   <div class="origin-menu-overlay" id="origin-menu-overlay">
     <div class="origin-menu-drawer">
       <button class="origin-menu-close" id="origin-menu-close" aria-label="Close">
@@ -496,40 +426,6 @@
         </ul>
       </nav>
     </div>
-  </div>
-
-  <!-- HERO AREA (Contains Huge Logo) -->
-  <div class="origin-gucci-hero {% if section.settings.hero_height == 'large' %}origin-gucci-hero--large{% elsif section.settings.hero_height == 'medium' %}origin-gucci-hero--medium{% endif %}">
-    
-    <!-- HUGE LOGO -->
-    <div class="origin-gucci-hero__logo-wrapper">
-      {% if section.settings.logo_image %}
-        <img src="{{ section.settings.logo_image | image_url: width: 1600 }}" 
-             alt="{{ section.settings.logo_text | escape }}" 
-             class="origin-gucci-hero__logo-img"
-             loading="eager"
-             width="{{ section.settings.logo_image.width }}"
-             height="{{ section.settings.logo_image.height }}">
-      {% else %}
-        <h1 class="origin-gucci-hero__logo-text-large">{{ section.settings.logo_text }}</h1>
-      {% endif %}
-    </div>
-
-    <!-- OPTIONAL HERO CONTENT -->
-    <div class="origin-gucci-hero__content" style="{% if section.settings.content_alignment == 'flex-end' %}margin-top: auto; padding-bottom: 60px;{% elsif section.settings.content_alignment == 'flex-start' %}margin-bottom: auto; padding-top: 140px;{% endif %}">
-      {% if section.settings.subheading != blank %}
-        <div class="origin-gucci-hero__subheading">{{ section.settings.subheading }}</div>
-      {% endif %}
-      
-      {% if section.settings.heading != blank %}
-        <div class="origin-gucci-hero__heading">{{ section.settings.heading }}</div>
-      {% endif %}
-      
-      {% if section.settings.body_text != blank %}
-        <div class="origin-gucci-hero__body rte">{{ section.settings.body_text }}</div>
-      {% endif %}
-    </div>
-
   </div>
 </div>
 
