@@ -77,6 +77,32 @@
           "id": "heading_text",
           "label": "Heading",
           "default": "Featured story"
+        },
+        {
+          "type": "range",
+          "id": "padding_vertical",
+          "min": 0,
+          "max": 80,
+          "step": 4,
+          "unit": "px",
+          "label": "Vertical padding",
+          "default": 0
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 10,
+          "max": 72,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size",
+          "default": 32
         }
       ]
     },
@@ -89,6 +115,32 @@
           "id": "subheading_text",
           "label": "Subheading",
           "default": "A closer look"
+        },
+        {
+          "type": "range",
+          "id": "padding_vertical",
+          "min": 0,
+          "max": 80,
+          "step": 4,
+          "unit": "px",
+          "label": "Vertical padding",
+          "default": 0
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 10,
+          "max": 48,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size",
+          "default": 22
         }
       ]
     },
@@ -101,6 +153,32 @@
           "id": "body_content",
           "label": "Body text",
           "default": "<p>Share the story behind this edit or add supporting copy for the collection.</p>"
+        },
+        {
+          "type": "range",
+          "id": "padding_vertical",
+          "min": 0,
+          "max": 80,
+          "step": 4,
+          "unit": "px",
+          "label": "Vertical padding",
+          "default": 0
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 10,
+          "max": 36,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size",
+          "default": 16
         }
       ]
     },
@@ -138,6 +216,32 @@
               "label": "Link"
             }
           ]
+        },
+        {
+          "type": "range",
+          "id": "padding_vertical",
+          "min": 0,
+          "max": 80,
+          "step": 4,
+          "unit": "px",
+          "label": "Vertical padding",
+          "default": 0
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 10,
+          "max": 32,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size",
+          "default": 16
         }
       ]
     }
@@ -188,50 +292,75 @@
     {% if section.blocks.size > 0 %}
       <div class="spotlight-blocks" style="color: var(--origin-spotlight-text-color);">
         {% for block in section.blocks %}
-          {% case block.type %}
-          {% when 'heading_block' %}
-            {% if block.settings.heading_text != blank %}
-              <h3 class="spotlight-block-heading" {{ block.shopify_attributes }}>
-                {{ block.settings.heading_text }}
-              </h3>
-            {% endif %}
+        {% case block.type %}
+        {% when 'heading_block' %}
+          {% if block.settings.heading_text != blank %}
+            {% assign padding_val = block.settings.padding_vertical | default: 0 %}
+            {% assign color_val = block.settings.text_color | default: '#FFFFFF' %}
+            {% assign font_size_val = block.settings.font_size | default: 32 %}
+            <h3
+              class="spotlight-block-heading"
+              style="padding-top: {{ padding_val }}px; padding-bottom: {{ padding_val }}px; color: {{ color_val }}; font-size: {{ font_size_val }}px;"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.heading_text }}
+            </h3>
+          {% endif %}
 
-          {% when 'subheading_block' %}
-            {% if block.settings.subheading_text != blank %}
-              <h4 class="spotlight-block-subheading" {{ block.shopify_attributes }}>
-                {{ block.settings.subheading_text }}
-              </h4>
-            {% endif %}
+        {% when 'subheading_block' %}
+          {% if block.settings.subheading_text != blank %}
+            {% assign padding_val = block.settings.padding_vertical | default: 0 %}
+            {% assign color_val = block.settings.text_color | default: '#FFFFFF' %}
+            {% assign font_size_val = block.settings.font_size | default: 22 %}
+            <h4
+              class="spotlight-block-subheading"
+              style="padding-top: {{ padding_val }}px; padding-bottom: {{ padding_val }}px; color: {{ color_val }}; font-size: {{ font_size_val }}px;"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.subheading_text }}
+            </h4>
+          {% endif %}
 
-          {% when 'body_block' %}
-            {% if block.settings.body_content != blank %}
-              <div class="spotlight-block-body rte" {{ block.shopify_attributes }}>
-                {{ block.settings.body_content }}
-              </div>
-            {% endif %}
+        {% when 'body_block' %}
+          {% if block.settings.body_content != blank %}
+            {% assign padding_val = block.settings.padding_vertical | default: 0 %}
+            {% assign color_val = block.settings.text_color | default: '#FFFFFF' %}
+            {% assign font_size_val = block.settings.font_size | default: 16 %}
+            <div
+              class="spotlight-block-body rte"
+              style="padding-top: {{ padding_val }}px; padding-bottom: {{ padding_val }}px; color: {{ color_val }}; font-size: {{ font_size_val }}px;"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.body_content }}
+            </div>
+          {% endif %}
 
-          {% when 'button_block' %}
-            {% if block.settings.button_label != blank %}
-              {% assign btn_style = block.settings.button_style | default: 'primary' %}
-              {% assign btn_classes = 'spotlight-block-button' %}
-              {% if btn_style == 'link' %}
-                {% assign btn_classes = btn_classes | append: ' spotlight-block-button--link' %}
-              {% else %}
-                {% assign btn_classes = btn_classes | append: ' hero-btn' %}
-                {% if btn_style == 'secondary' %}
-                  {% assign btn_classes = btn_classes | append: ' hero-btn--secondary' %}
-                {% endif %}
+        {% when 'button_block' %}
+          {% if block.settings.button_label != blank %}
+            {% assign btn_style = block.settings.button_style | default: 'primary' %}
+            {% assign btn_classes = 'spotlight-block-button' %}
+            {% assign padding_val = block.settings.padding_vertical | default: 0 %}
+            {% assign color_val = block.settings.text_color | default: '#FFFFFF' %}
+            {% assign font_size_val = block.settings.font_size | default: 16 %}
+            {% if btn_style == 'link' %}
+              {% assign btn_classes = btn_classes | append: ' spotlight-block-button--link' %}
+            {% else %}
+              {% assign btn_classes = btn_classes | append: ' hero-btn' %}
+              {% if btn_style == 'secondary' %}
+                {% assign btn_classes = btn_classes | append: ' hero-btn--secondary' %}
               {% endif %}
-
-              <a
-                href="{{ block.settings.button_link | default: '#' }}"
-                class="{{ btn_classes }}"
-                {{ block.shopify_attributes }}
-              >
-                {{ block.settings.button_label }}
-              </a>
             {% endif %}
-          {% endcase %}
+
+            <a
+              href="{{ block.settings.button_link | default: '#' }}"
+              class="{{ btn_classes }}"
+              style="padding-top: {{ padding_val }}px; padding-bottom: {{ padding_val }}px; color: {{ color_val }}; font-size: {{ font_size_val }}px;"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.button_label }}
+            </a>
+          {% endif %}
+        {% endcase %}
         {% endfor %}
       </div>
     {% endif %}
