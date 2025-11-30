@@ -43,13 +43,13 @@
     {
       "type": "range",
       "id": "logo_vertical_position",
-      "min": 20,
-      "max": 80,
+      "min": 10,
+      "max": 90,
       "step": 5,
       "unit": "%",
       "label": "Huge Logo Vertical Position",
       "default": 40,
-      "info": "Distance from top of screen. 50% is dead center."
+      "info": "Distance from top of screen."
     },
     {
       "type": "header",
@@ -105,7 +105,7 @@
 <style>
   /* --- VARS --- */
   .origin-gucci-header-section {
-    --header-transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --header-transition: all 0.4s ease-out;
     --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}vw;
     --logo-width-mobile: {{ section.settings.hero_logo_width_mobile }}vw;
     --logo-vertical-pos: {{ section.settings.logo_vertical_position }}vh;
@@ -116,14 +116,15 @@
   }
 
   /* --- WRAPPER --- */
-  /* This ensures the header sits ON TOP of the next section (the hero) */
+  /* Position absolute to overlay the content below, but pointer-events none so it doesn't block clicks */
   .origin-gucci-header {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 0; /* Minimal height so it doesn't push content down */
+    height: 0; /* Zero height to not push content */
     z-index: 50;
+    pointer-events: none; 
   }
 
   /* --- STICKY TOP BAR --- */
@@ -141,10 +142,11 @@
     transition: var(--header-transition);
     background-color: transparent; 
     color: var(--header-text-initial);
+    pointer-events: auto; /* CRITICAL: Ensures buttons are clickable */
   }
 
   /* Scrolled State for Bar */
-  .origin-gucci-header--shrink .origin-sticky-bar {
+  .origin-gucci-header.is-shrunk .origin-sticky-bar {
     background-color: var(--header-bg-shrunk);
     color: var(--header-text-shrunk);
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
@@ -155,21 +157,24 @@
   /* --- STICKY BAR LOGO (HIDDEN INITIALLY) --- */
   .origin-sticky-bar__logo {
     opacity: 0;
+    visibility: hidden;
     transform: translateY(10px);
     transition: var(--header-transition);
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: none; /* Not clickable when hidden */
+    pointer-events: none;
   }
 
   .origin-sticky-bar__logo a {
     display: block;
     line-height: 0;
+    text-decoration: none;
+    color: inherit;
   }
 
   .origin-sticky-bar__logo img {
-    height: 32px; /* Small standard logo size */
+    height: 32px; 
     width: auto;
     display: block;
   }
@@ -182,31 +187,32 @@
   }
 
   /* Scrolled State for Sticky Logo */
-  .origin-gucci-header--shrink .origin-sticky-bar__logo {
+  .origin-gucci-header.is-shrunk .origin-sticky-bar__logo {
     opacity: 1;
+    visibility: visible;
     transform: translateY(0);
     pointer-events: auto;
   }
 
   /* --- HUGE LOGO OVERLAY --- */
   .origin-huge-logo-wrapper {
-    position: fixed; /* Fixed so it stays on screen */
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    z-index: 40; /* Below sticky bar, above page content */
-    pointer-events: none; /* CRITICAL: Allows clicks to pass through to the Hero Banner below */
+    z-index: 40; 
+    pointer-events: none; /* Allows clicks to pass through to Hero below */
     display: flex;
-    align-items: flex-start; /* Align top, then push down with padding/margin */
     justify-content: center;
-    transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    /* transition: opacity 0.5s ease, transform 0.5s ease; */
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
     transform-origin: center top;
   }
 
   .origin-huge-logo-inner {
-    margin-top: var(--logo-vertical-pos); /* Position defined by schema */
-    transform: translateY(-50%); /* Center strictly on that point */
+    margin-top: var(--logo-vertical-pos); 
+    transform: translateY(-50%);
     width: var(--logo-width-desktop);
     max-width: 1200px;
     text-align: center;
@@ -228,9 +234,10 @@
   }
 
   /* Scrolled State for Huge Logo: Shrink and vanish */
-  .origin-gucci-header--shrink .origin-huge-logo-wrapper {
+  .origin-gucci-header.is-shrunk .origin-huge-logo-wrapper {
     opacity: 0;
-    transform: scale(0.6) translateY(-50px);
+    visibility: hidden;
+    transform: scale(0.8) translateY(-100px); /* Moves up and shrinks */
   }
 
   /* --- ICONS & MENU --- */
@@ -292,37 +299,45 @@
     .origin-sticky-bar {
       padding: 12px 16px;
     }
+    .origin-sticky-bar__actions {
+      gap: 8px;
+    }
+    .origin-icon-button, .origin-sticky-button {
+      padding: 6px;
+    }
   }
 
   /* --- MENU OVERLAY (MOBILE) --- */
   .origin-menu-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.5);
     backdrop-filter: blur(4px);
-    z-index: 150;
+    z-index: 200; /* Highest Z-index */
     opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
     display: flex;
     justify-content: flex-start;
+    pointer-events: auto; /* Ensure menu catches clicks */
   }
 
   .origin-menu-overlay.is-open {
     opacity: 1;
-    pointer-events: all;
+    visibility: visible;
   }
 
   .origin-menu-drawer {
     background: #fff;
     width: 320px;
-    max-width: 90vw;
+    max-width: 85vw;
     height: 100%;
     padding: 30px;
     transform: translateX(-100%);
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     display: flex;
     flex-direction: column;
+    color: #111; /* Always black text in menu */
   }
 
   .origin-menu-overlay.is-open .origin-menu-drawer {
@@ -335,6 +350,7 @@
     border: none;
     cursor: pointer;
     margin-bottom: 30px;
+    color: #111;
   }
   
   .origin-menu-list {
@@ -344,23 +360,25 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    overflow-y: auto;
   }
 
   .origin-menu-list a {
     text-decoration: none;
-    color: #000;
+    color: #111;
     font-size: 18px;
     font-weight: 500;
     text-transform: uppercase;
   }
 </style>
 
-<div class="origin-gucci-header" data-section-id="{{ section.id }}">
+<!-- Main Container -->
+<div id="origin-gucci-header-{{ section.id }}" class="origin-gucci-header" data-section-id="{{ section.id }}">
   
   <!-- 1. STICKY BAR (Nav) -->
   <header class="origin-sticky-bar">
     <div class="origin-sticky-bar__menu">
-      <button class="origin-sticky-button" type="button" aria-label="Menu" id="origin-menu-trigger">
+      <button class="origin-sticky-button" type="button" aria-label="Menu" id="origin-menu-trigger-{{ section.id }}">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
       </button>
       {% if section.settings.show_desktop_menu and section.settings.menu != blank %}
@@ -387,16 +405,26 @@
     </div>
 
     <div class="origin-sticky-bar__actions">
-      <button class="origin-icon-button" aria-label="Search">
+      <!-- Search (Now a proper link) -->
+      <a href="{{ routes.search_url }}" class="origin-icon-button" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      </button>
+      </a>
+      
+      <!-- Account / Profile (Added Back) -->
+      {% if shop.customer_accounts_enabled %}
+        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="origin-icon-button" aria-label="Account">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+      {% endif %}
+
+      <!-- Cart -->
       <a href="{{ routes.cart_url }}" class="origin-icon-button" aria-label="Cart">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2zM6 5H4V3h2l.6 3h13.8l.6-3H23v2h-2"/><path d="M6 5l1.5 10h11L20 5"/></svg>
       </a>
     </div>
   </header>
 
-  <!-- 2. HUGE LOGO OVERLAY (Floats over the next section) -->
+  <!-- 2. HUGE LOGO OVERLAY -->
   <div class="origin-huge-logo-wrapper">
     <div class="origin-huge-logo-inner">
       {% if section.settings.logo_image %}
@@ -413,9 +441,9 @@
   </div>
 
   <!-- 3. MOBILE MENU DRAWER -->
-  <div class="origin-menu-overlay" id="origin-menu-overlay">
+  <div class="origin-menu-overlay" id="origin-menu-overlay-{{ section.id }}">
     <div class="origin-menu-drawer">
-      <button class="origin-menu-close" id="origin-menu-close" aria-label="Close">
+      <button class="origin-menu-close" id="origin-menu-close-{{ section.id }}" aria-label="Close">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
       <nav>
@@ -423,6 +451,12 @@
           {% for link in linklists[section.settings.menu].links %}
             <li><a href="{{ link.url }}">{{ link.title }}</a></li>
           {% endfor %}
+          <!-- Mobile Links for Account/Search often helpful here too -->
+          {% if shop.customer_accounts_enabled %}
+            <li style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+              <a href="{{ routes.account_url }}">Account</a>
+            </li>
+          {% endif %}
         </ul>
       </nav>
     </div>
@@ -430,46 +464,65 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const section = document.querySelector('.origin-gucci-header');
-    if(!section) return;
+  (function() {
+    const sectionId = "{{ section.id }}";
+    const headerContainer = document.getElementById(`origin-gucci-header-${sectionId}`);
+    
+    if (!headerContainer) return;
 
-    // Scroll Effect
+    // --- 1. Scroll / Shrink Logic ---
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      // Trigger effect after 50px of scroll
-      if (scrollY > 50) {
-        section.classList.add('origin-gucci-header--shrink');
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      // Threshold: 20px ensures it triggers quickly
+      if (scrollY > 20) {
+        headerContainer.classList.add('is-shrunk');
       } else {
-        section.classList.remove('origin-gucci-header--shrink');
+        headerContainer.classList.remove('is-shrunk');
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    // Initial check in case of reload
-    handleScroll();
+    handleScroll(); // Check on load
 
-    // Menu Logic
-    const menuTrigger = document.getElementById('origin-menu-trigger');
-    const menuClose = document.getElementById('origin-menu-close');
-    const menuOverlay = document.getElementById('origin-menu-overlay');
+    // --- 2. Menu Logic ---
+    const menuTrigger = document.getElementById(`origin-menu-trigger-${sectionId}`);
+    const menuClose = document.getElementById(`origin-menu-close-${sectionId}`);
+    const menuOverlay = document.getElementById(`origin-menu-overlay-${sectionId}`);
 
     const toggleMenu = (open) => {
-      if(open) {
+      if (!menuOverlay) return;
+      if (open) {
         menuOverlay.classList.add('is-open');
-        document.body.style.overflow = 'hidden'; // Lock scroll
+        document.body.style.overflow = 'hidden'; // Lock page scroll
       } else {
         menuOverlay.classList.remove('is-open');
-        document.body.style.overflow = ''; // Unlock scroll
+        document.body.style.overflow = ''; // Unlock page scroll
       }
     };
 
-    if(menuTrigger) menuTrigger.addEventListener('click', () => toggleMenu(true));
-    if(menuClose) menuClose.addEventListener('click', () => toggleMenu(false));
-    if(menuOverlay) menuOverlay.addEventListener('click', (e) => {
-      if(e.target === menuOverlay) toggleMenu(false);
-    });
-  });
+    if (menuTrigger) {
+      menuTrigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleMenu(true);
+      });
+    }
+
+    if (menuClose) {
+      menuClose.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleMenu(false);
+      });
+    }
+
+    if (menuOverlay) {
+      menuOverlay.addEventListener('click', (e) => {
+        // Close if clicking the dark overlay background
+        if (e.target === menuOverlay) {
+          toggleMenu(false);
+        }
+      });
+    }
+  })();
 </script>
 
 
