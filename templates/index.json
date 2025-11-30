@@ -42,7 +42,7 @@
         "image_mobile": "shopify://shop_images/Mobile_banner_vertical.jpg",
         "section_height": "full",
         "overlay_opacity": 10,
-        "text_position": "center",
+        "text_position": "bottom-center",
         "mobile_text_below": true,
         "text_color": "#ffffff",
         "mobile_text_color": "#000000"
