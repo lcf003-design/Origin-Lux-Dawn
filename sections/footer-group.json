@@ -25,7 +25,7 @@
           "type": "menu_column",
           "settings": {
             "title": "THE COMPANY",
-            "menu": ""
+            "menu": "footer-legal"
           }
         },
         "menu_column_nithan": {
