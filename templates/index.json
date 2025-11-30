@@ -1,14 +1,23 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "editorial_spotlight_xjEVgn": {
       "type": "editorial-spotlight",
       "name": "Editorial Spotlight",
       "settings": {
-        "image_desktop": "shopify://shop_images/27F1BEFC-C530-4BBE-A2DD-93348C78BA30.png",
+        "image_desktop": "shopify://shop_images/Hero_banner_2.jpg",
         "image_mobile": "shopify://shop_images/DF6C23B4-0CE4-4F33-B1A9-F0EF792CDA38.png",
         "height_desktop": 750,
-        "heading": "Cruise 2026 Collection",
-        "button_text": "SHOP NOW",
+        "heading": "",
+        "button_text": "",
         "button_link": "",
         "text_color": "#ffffff",
         "overlay_opacity": 10
