@@ -1,0 +1,571 @@
+{% schema %}
+{
+  "name": "Origin GG Header",
+  "class": "origin-gucci-header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo image"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text (fallback)",
+      "default": "Gucci Gift"
+    },
+    {
+      "type": "range",
+      "id": "desktop_logo_height",
+      "min": 40,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop logo height",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "mobile_logo_height",
+      "min": 32,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile logo height",
+      "default": 88
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero background image"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "body_text",
+      "label": "Body text"
+    },
+    {
+      "type": "select",
+      "id": "hero_height",
+      "label": "Hero height",
+      "default": "full",
+      "options": [
+        { "value": "full", "label": "Full screen" },
+        { "value": "large", "label": "Large" },
+        { "value": "medium", "label": "Medium" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "label": "Content padding top (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "label": "Content padding bottom (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "label": "Content padding top (mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "unit": "px",
+      "label": "Content padding bottom (mobile)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "sticky_padding_desktop",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Sticky bar padding (desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "sticky_padding_mobile",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Sticky bar padding (mobile)",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "default": "center",
+      "options": [
+        { "value": "flex-start", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Bottom" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "header_bg_color_shrunk",
+      "label": "Shrunk header background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "Header text/icon color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Hero overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Hero overlay opacity",
+      "default": 30
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Main color scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_desktop_menu",
+      "label": "Show desktop menu",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin GG Header"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .origin-gucci-header {
+    position: relative;
+    color: var(--header-text-color, #111111);
+    background: var(--hero-bg, transparent);
+    overflow: hidden;
+  }
+
+  .origin-gucci-header .origin-gucci-hero {
+    position: relative;
+    width: 100%;
+    min-height: var(--hero-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: {% if section.settings.hero_image %}url('{{ section.settings.hero_image | image_url: width: 2000 }}') center/cover no-repeat{% else %}#f2f2f2{% endif %};
+  }
+
+  .origin-gucci-header .origin-gucci-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: {{ section.settings.overlay_color }};
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    pointer-events: none;
+  }
+
+  .origin-gucci-header .origin-gucci-hero__content {
+    position: relative;
+    z-index: 1;
+    width: min(960px, 90vw);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: var(--content-align);
+    gap: 16px;
+    padding: var(--padding-top) 16px var(--padding-bottom);
+    box-sizing: border-box;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .origin-gucci-header .origin-gucci-hero__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--logo-height-desktop);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .origin-gucci-header .origin-gucci-hero__logo img {
+    max-height: 100%;
+    width: auto;
+    display: block;
+  }
+
+  .origin-gucci-header .origin-gucci-hero__logo-text {
+    font-size: 56px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .origin-gucci-header .origin-gucci-hero__subheading {
+    color: #fff;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+  }
+
+  .origin-gucci-header .origin-gucci-hero__heading {
+    color: #fff;
+    font-size: 38px;
+    letter-spacing: 0.06em;
+  }
+
+  .origin-gucci-header .origin-gucci-hero__body {
+    color: #fff;
+  }
+
+  .origin-gucci-header .origin-sticky-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: var(--sticky-padding) 16px;
+    background: transparent;
+    transition: background 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+  }
+
+  .origin-gucci-header .origin-sticky-bar__menu {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .origin-gucci-header .origin-sticky-bar__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .origin-gucci-header .origin-sticky-bar__logo img {
+    height: 36px;
+    width: auto;
+  }
+
+  .origin-gucci-header .origin-sticky-bar__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  .origin-gucci-header .origin-sticky-button,
+  .origin-gucci-header .origin-icon-button {
+    background: transparent;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .origin-gucci-header .origin-icon-button svg,
+  .origin-gucci-header .origin-sticky-button svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .origin-gucci-header .origin-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 60;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .origin-gucci-header .origin-menu-overlay__panel {
+    background: rgba(0,0,0,0.75);
+    padding: 32px;
+    width: min(360px, 90vw);
+    max-height: 80vh;
+    overflow: auto;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+  }
+
+  .origin-gucci-header .origin-menu-overlay.is-open {
+    display: flex;
+    opacity: 1;
+  }
+
+  .origin-gucci-header .origin-menu-overlay.is-open .origin-menu-overlay__panel {
+    transform: translateY(0);
+  }
+
+  .origin-gucci-header .origin-menu-overlay__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .origin-gucci-header .origin-menu-overlay ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+  }
+
+  .origin-gucci-header .origin-menu-overlay a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+  }
+
+  .origin-gucci-header.origin-gucci-header--shrink .origin-gucci-hero__logo {
+    transform: scale(0.7);
+    opacity: 0.6;
+  }
+
+  .origin-gucci-header.origin-gucci-header--shrink .origin-sticky-bar {
+    background: var(--header-bg-shrunk, #fff);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  }
+
+  .origin-gucci-header.origin-gucci-header--shrink .origin-sticky-bar__logo {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .origin-gucci-header .origin-desktop-menu {
+    display: none;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (min-width: 750px) {
+    .origin-gucci-header .origin-menu-overlay__panel {
+      width: min(520px, 70vw);
+      padding: 40px;
+    }
+
+    .origin-gucci-header .origin-desktop-menu {
+      display: {% if section.settings.show_desktop_menu %}flex{% else %}none{% endif %};
+    }
+  }
+
+  @media (max-width: 749px) {
+    .origin-gucci-header .origin-gucci-hero__content {
+      padding-top: var(--padding-top-mobile);
+      padding-bottom: var(--padding-bottom-mobile);
+    }
+
+    .origin-gucci-header .origin-gucci-hero__logo {
+      height: var(--logo-height-mobile);
+    }
+  }
+
+  .origin-gucci-hero--full { --hero-height: 100vh; }
+  .origin-gucci-hero--large { --hero-height: 80vh; }
+  .origin-gucci-hero--medium { --hero-height: 65vh; }
+
+  .origin-gucci-header { --header-bg-shrunk: {{ section.settings.header_bg_color_shrunk }}; --header-text-color: {{ section.settings.header_text_color }}; }
+  .origin-gucci-header { --padding-top: {{ section.settings.padding_top_desktop }}px; --padding-bottom: {{ section.settings.padding_bottom_desktop }}px; --padding-top-mobile: {{ section.settings.padding_top_mobile }}px; --padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px; --logo-height-desktop: {{ section.settings.desktop_logo_height }}px; --logo-height-mobile: {{ section.settings.mobile_logo_height }}px; --sticky-padding: {{ section.settings.sticky_padding_desktop }}px; --content-align: {{ section.settings.content_alignment }}; }
+  @media (max-width: 749px) {
+    .origin-gucci-header { --sticky-padding: {{ section.settings.sticky_padding_mobile }}px; }
+  }
+</style>
+
+<section class="origin-gucci-header" data-section-id="{{ section.id }}">
+  <header class="origin-sticky-bar" aria-label="Site header">
+    <div class="origin-sticky-bar__menu">
+      <button class="origin-sticky-button" type="button" aria-expanded="false" aria-controls="origin-menu-{{ section.id }}">
+        <span class="visually-hidden">Toggle menu</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z" fill="currentColor"/></svg>
+      </button>
+      {% if section.settings.show_desktop_menu and section.settings.menu != blank %}
+        <nav class="origin-desktop-menu" aria-label="Desktop navigation">
+          {% for link in linklists[section.settings.menu].links %}
+            <a href="{{ link.url }}" class="origin-desktop-menu__link">{{ link.title }}</a>
+          {% endfor %}
+        </nav>
+      {% endif %}
+    </div>
+
+    <div class="origin-sticky-bar__logo">
+      {% if section.settings.logo_image %}
+        <img src="{{ section.settings.logo_image | image_url: width: 240 }}" alt="{{ section.settings.logo_text | escape }}" width="240" height="120">
+      {% elsif section.settings.logo_text != blank %}
+        <span>{{ section.settings.logo_text }}</span>
+      {% endif %}
+    </div>
+
+    <div class="origin-sticky-bar__actions">
+      <button class="origin-icon-button" type="button" aria-label="Search">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10.5 4a6.5 6.5 0 0 1 5.17 10.44l3.45 3.45-1.41 1.42-3.45-3.45A6.5 6.5 0 1 1 10.5 4Zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z" fill="currentColor"/></svg>
+      </button>
+      <button class="origin-icon-button" type="button" aria-label="Account">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 1.82-8 4v2h16v-2c0-2.18-3.67-4-8-4Z" fill="currentColor"/></svg>
+      </button>
+      <button class="origin-icon-button" type="button" aria-label="Cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4h14l-1.5 9h-11z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="19" r="1.4" fill="currentColor"/><circle cx="17" cy="19" r="1.4" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="origin-menu-overlay" id="origin-menu-{{ section.id }}" aria-hidden="true">
+    <div class="origin-menu-overlay__panel">
+      <button class="origin-menu-overlay__close" type="button" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      {% if section.settings.menu != blank and linklists[section.settings.menu] %}
+        <nav aria-label="Mobile navigation">
+          <ul>
+            {% for link in linklists[section.settings.menu].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </nav>
+      {% else %}
+        <p>No menu selected.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="origin-gucci-hero {% if section.settings.hero_height == 'large' %}origin-gucci-hero--large{% elsif section.settings.hero_height == 'medium' %}origin-gucci-hero--medium{% else %}origin-gucci-hero--full{% endif %} color-{{ section.settings.color_scheme }}">
+    <div class="origin-gucci-hero__content">
+      <div class="origin-gucci-hero__logo">
+        {% if section.settings.logo_image %}
+          <img src="{{ section.settings.logo_image | image_url: width: 1200 }}" alt="{{ section.settings.logo_text | escape }}" width="1200" height="400">
+        {% else %}
+          <span class="origin-gucci-hero__logo-text">{{ section.settings.logo_text }}</span>
+        {% endif %}
+      </div>
+
+      {% if section.settings.subheading != blank %}
+        <div class="origin-gucci-hero__subheading">{{ section.settings.subheading }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="origin-gucci-hero__heading">{{ section.settings.heading }}</div>
+      {% endif %}
+
+      {% if section.settings.body_text != blank %}
+        <div class="origin-gucci-hero__body rte">{{ section.settings.body_text }}</div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const section = document.querySelector('[data-section-id="{{ section.id }}"]');
+    if (!section) return;
+
+    const header = section.querySelector('.origin-sticky-bar');
+    const overlay = section.querySelector('.origin-menu-overlay');
+    const menuBtn = section.querySelector('.origin-sticky-button');
+    const closeBtn = section.querySelector('.origin-menu-overlay__close');
+
+    const shrinkHandler = () => {
+      if (window.scrollY > 80) {
+        section.classList.add('origin-gucci-header--shrink');
+      } else {
+        section.classList.remove('origin-gucci-header--shrink');
+      }
+    };
+
+    const openMenu = () => {
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      menuBtn.setAttribute('aria-expanded', 'true');
+    };
+
+    const closeMenu = () => {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    };
+
+    menuBtn?.addEventListener('click', () => {
+      const isOpen = overlay.classList.contains('is-open');
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    closeBtn?.addEventListener('click', closeMenu);
+
+    overlay?.addEventListener('click', (event) => {
+      if (event.target === overlay) closeMenu();
+    });
+
+    document.addEventListener('scroll', shrinkHandler, { passive: true });
+    shrinkHandler();
+  })();
+</script>
