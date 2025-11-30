@@ -49,7 +49,7 @@
       "type": "select",
       "id": "text_position",
       "label": "Desktop Text Position",
-      "default": "center",
+      "default": "bottom-center",
       "options": [
         { "value": "top-left", "label": "Top Left" },
         { "value": "top-center", "label": "Top Center" },
@@ -97,7 +97,7 @@
           "type": "range",
           "id": "font_scale_desktop",
           "min": 1,
-          "max": 10,
+          "max": 15,
           "step": 0.5,
           "unit": "vw",
           "label": "Font Scale (Desktop)",
@@ -252,10 +252,10 @@
   }
 
   /* --- HEIGHT SETTINGS --- */
-  .origin-spotlight--full { min-height: 100vh; }
-  .origin-spotlight--large { min-height: 80vh; }
-  .origin-spotlight--medium { min-height: 60vh; }
-  .origin-spotlight--auto { min-height: auto; aspect-ratio: 16/9; }
+  .origin-spotlight--full { height: 100vh; }
+  .origin-spotlight--large { height: 80vh; }
+  .origin-spotlight--medium { height: 60vh; }
+  .origin-spotlight--auto { height: auto; aspect-ratio: 16/9; }
 
   /* --- IMAGE LAYER --- */
   .origin-spotlight__bg {
@@ -288,35 +288,40 @@
     z-index: 3;
     width: 100%;
     height: 100%;
-    min-height: inherit; /* Matches parent height */
+    /* We use flex-direction column to reliably handle vertical alignment */
     display: flex;
+    flex-direction: column;
     padding: 60px 40px;
     box-sizing: border-box;
     color: {{ section.settings.text_color }};
   }
 
-  /* Alignment Logic */
-  .pos-top-left { align-items: flex-start; justify-content: flex-start; text-align: left; }
-  .pos-top-center { align-items: flex-start; justify-content: center; text-align: center; }
-  .pos-top-right { align-items: flex-start; justify-content: flex-end; text-align: right; }
+  /* Flexbox Alignment Map (Column Direction):
+     justify-content = Vertical Axis (Top/Center/Bottom)
+     align-items = Horizontal Axis (Left/Center/Right)
+  */
+
+  .pos-top-left      { justify-content: flex-start; align-items: flex-start; text-align: left; }
+  .pos-top-center    { justify-content: flex-start; align-items: center;     text-align: center; }
+  .pos-top-right     { justify-content: flex-start; align-items: flex-end;   text-align: right; }
   
-  .pos-center-left { align-items: center; justify-content: flex-start; text-align: left; }
-  .pos-center { align-items: center; justify-content: center; text-align: center; }
-  .pos-center-right { align-items: center; justify-content: flex-end; text-align: right; }
+  .pos-center-left   { justify-content: center;     align-items: flex-start; text-align: left; }
+  .pos-center        { justify-content: center;     align-items: center;     text-align: center; }
+  .pos-center-right  { justify-content: center;     align-items: flex-end;   text-align: right; }
   
-  .pos-bottom-left { align-items: flex-end; justify-content: flex-start; text-align: left; }
-  .pos-bottom-center { align-items: flex-end; justify-content: center; text-align: center; }
-  .pos-bottom-right { align-items: flex-end; justify-content: flex-end; text-align: right; }
+  .pos-bottom-left   { justify-content: flex-end;   align-items: flex-start; text-align: left; }
+  .pos-bottom-center { justify-content: flex-end;   align-items: center;     text-align: center; }
+  .pos-bottom-right  { justify-content: flex-end;   align-items: flex-end;   text-align: right; }
 
   .origin-spotlight__content {
-    max-width: 800px;
+    max-width: 1200px; /* Increased max-width to allow big text */
     width: 100%;
   }
 
   /* --- TYPOGRAPHY --- */
   .origin-spotlight__heading {
     margin: 0;
-    line-height: 1.1;
+    line-height: 0.9;
     font-family: serif;
     text-transform: uppercase;
     font-weight: 400;
@@ -483,7 +488,7 @@
         {% case block.type %}
           {% when 'heading_block' %}
             <h2 class="origin-spotlight__heading" 
-                style="font-size: clamp({{ block.settings.font_scale_mobile }}px, {{ block.settings.font_scale_desktop }}vw, 120px); padding-bottom: {{ block.settings.padding_bottom }}px;">
+                style="font-size: clamp({{ block.settings.font_scale_mobile }}px, {{ block.settings.font_scale_desktop }}vw, 200px); padding-bottom: {{ block.settings.padding_bottom }}px;">
               {{ block.settings.heading_text }}
             </h2>
 
