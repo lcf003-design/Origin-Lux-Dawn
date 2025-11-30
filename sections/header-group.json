@@ -11,6 +11,21 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "origin_ggheader_zynrDj": {
+      "type": "origin-ggheader",
+      "name": "Origin GG Header",
+      "settings": {
+        "logo_text": "GUCCI",
+        "hero_logo_width_desktop": 60,
+        "hero_logo_width_mobile": 80,
+        "logo_vertical_position": 40,
+        "header_bg_color_shrunk": "#ffffff",
+        "header_text_color_shrunk": "#111111",
+        "header_text_color_initial": "#ffffff",
+        "menu": "",
+        "show_desktop_menu": true
+      }
+    },
     "header": {
       "type": "header",
       "disabled": true,
@@ -67,27 +82,12 @@
         "padding_side": 40,
         "menu": "origin-menu"
       }
-    },
-    "origin_ggheader_zynrDj": {
-      "type": "origin-ggheader",
-      "name": "Origin GG Header",
-      "settings": {
-        "logo_text": "GUCCI",
-        "hero_logo_width_desktop": 60,
-        "hero_logo_width_mobile": 80,
-        "logo_vertical_position": 40,
-        "header_bg_color_shrunk": "#FFFFFF",
-        "header_text_color_shrunk": "#111111",
-        "header_text_color_initial": "#FFFFFF",
-        "menu": "",
-        "show_desktop_menu": true
-      }
     }
   },
   "order": [
+    "origin_ggheader_zynrDj",
     "header",
     "announcement_bar_Pmqzea",
-    "origin_header_Rg9Xxk",
-    "origin_ggheader_zynrDj"
+    "origin_header_Rg9Xxk"
   ]
 }
