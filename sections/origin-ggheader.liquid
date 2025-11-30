@@ -1,6 +1,6 @@
 {% schema %}
 {
-  "name": "Origin Gucci Hero Header",
+  "name": "Origin GG Header",
   "class": "origin-gucci-header",
   "settings": [
     {
@@ -137,17 +137,6 @@
       ]
     },
     {
-      "type": "select",
-      "id": "button_alignment",
-      "label": "Button alignment",
-      "default": "center",
-      "options": [
-        { "value": "flex-start", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "flex-end", "label": "Right" }
-      ]
-    },
-    {
       "type": "color",
       "id": "header_bg_color_shrunk",
       "label": "Shrunk header background",
@@ -193,43 +182,9 @@
       "default": false
     }
   ],
-  "blocks": [
-    {
-      "type": "button",
-      "name": "Button",
-      "settings": [
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label",
-          "default": "For Her"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Link"
-        },
-        {
-          "type": "select",
-          "id": "style",
-          "label": "Style",
-          "default": "primary",
-          "options": [
-            { "value": "primary", "label": "Primary" },
-            { "value": "secondary", "label": "Secondary" },
-            { "value": "outline", "label": "Outline" }
-          ]
-        }
-      ]
-    }
-  ],
   "presets": [
     {
-      "name": "Origin Gucci Hero Header",
-      "blocks": [
-        { "type": "button", "settings": { "label": "For Her" } },
-        { "type": "button", "settings": { "label": "For Him" } }
-      ]
+      "name": "Origin GG Header"
     }
   ]
 }
@@ -325,45 +280,6 @@
 
   .origin-gucci-header .origin-gucci-hero__body {
     color: #fff;
-  }
-
-  .origin-gucci-header .origin-gucci-hero__buttons {
-    display: flex;
-    justify-content: var(--button-align);
-    gap: 14px;
-    flex-wrap: wrap;
-    width: 100%;
-  }
-
-  .origin-gucci-header .origin-gucci-hero__buttons .origin-btn {
-    min-width: 140px;
-    padding: 12px 20px;
-    border: 1px solid #111;
-    background: #fff;
-    color: #111;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    text-align: center;
-    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-  }
-
-  .origin-gucci-header .origin-btn--secondary {
-    background: #111;
-    color: #fff;
-    border-color: #111;
-  }
-
-  .origin-gucci-header .origin-btn--outline {
-    background: transparent;
-    color: #fff;
-    border-color: #fff;
-  }
-
-  .origin-gucci-header .origin-btn:hover {
-    filter: brightness(0.92);
   }
 
   .origin-gucci-header .origin-sticky-bar {
@@ -503,10 +419,6 @@
   }
 
   @media (min-width: 750px) {
-    .origin-gucci-header .origin-gucci-hero__buttons {
-      flex-wrap: nowrap;
-    }
-
     .origin-gucci-header .origin-menu-overlay__panel {
       width: min(520px, 70vw);
       padding: 40px;
@@ -526,15 +438,6 @@
     .origin-gucci-header .origin-gucci-hero__logo {
       height: var(--logo-height-mobile);
     }
-
-    .origin-gucci-header .origin-gucci-hero__buttons {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .origin-gucci-header .origin-gucci-hero__buttons .origin-btn {
-      width: 100%;
-    }
   }
 
   .origin-gucci-hero--full { --hero-height: 100vh; }
@@ -542,7 +445,7 @@
   .origin-gucci-hero--medium { --hero-height: 65vh; }
 
   .origin-gucci-header { --header-bg-shrunk: {{ section.settings.header_bg_color_shrunk }}; --header-text-color: {{ section.settings.header_text_color }}; }
-  .origin-gucci-header { --padding-top: {{ section.settings.padding_top_desktop }}px; --padding-bottom: {{ section.settings.padding_bottom_desktop }}px; --padding-top-mobile: {{ section.settings.padding_top_mobile }}px; --padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px; --logo-height-desktop: {{ section.settings.desktop_logo_height }}px; --logo-height-mobile: {{ section.settings.mobile_logo_height }}px; --sticky-padding: {{ section.settings.sticky_padding_desktop }}px; --content-align: {{ section.settings.content_alignment }}; --button-align: {{ section.settings.button_alignment }}; }
+  .origin-gucci-header { --padding-top: {{ section.settings.padding_top_desktop }}px; --padding-bottom: {{ section.settings.padding_bottom_desktop }}px; --padding-top-mobile: {{ section.settings.padding_top_mobile }}px; --padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px; --logo-height-desktop: {{ section.settings.desktop_logo_height }}px; --logo-height-mobile: {{ section.settings.mobile_logo_height }}px; --sticky-padding: {{ section.settings.sticky_padding_desktop }}px; --content-align: {{ section.settings.content_alignment }}; }
   @media (max-width: 749px) {
     .origin-gucci-header { --sticky-padding: {{ section.settings.sticky_padding_mobile }}px; }
   }
@@ -624,25 +527,6 @@
 
       {% if section.settings.body_text != blank %}
         <div class="origin-gucci-hero__body rte">{{ section.settings.body_text }}</div>
-      {% endif %}
-
-      {% if section.blocks.size > 0 %}
-        <div class="origin-gucci-hero__buttons">
-          {% for block in section.blocks %}
-            {% if block.type == 'button' and block.settings.label != blank %}
-              {% assign style = block.settings.style | default: 'primary' %}
-              {% assign classes = 'origin-btn' %}
-              {% if style == 'secondary' %}
-                {% assign classes = classes | append: ' origin-btn--secondary' %}
-              {% elsif style == 'outline' %}
-                {% assign classes = classes | append: ' origin-btn--outline' %}
-              {% endif %}
-              <a href="{{ block.settings.link | default: '#' }}" class="{{ classes }}" {{ block.shopify_attributes }}>
-                {{ block.settings.label }}
-              </a>
-            {% endif %}
-          {% endfor %}
-        </div>
       {% endif %}
     </div>
   </div>
