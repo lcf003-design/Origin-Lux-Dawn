@@ -53,18 +53,18 @@
     },
     {
       "type": "header",
-      "content": "Sticky Bar Colors (Scrolled)"
+      "content": "Sticky Bar Colors"
     },
     {
       "type": "color",
       "id": "header_bg_color_shrunk",
-      "label": "Background Color",
+      "label": "Background (Scrolled)",
       "default": "#FFFFFF"
     },
     {
       "type": "color",
       "id": "header_text_color_shrunk",
-      "label": "Text & Icons Color",
+      "label": "Text/Icons (Scrolled)",
       "default": "#111111"
     },
     {
@@ -74,20 +74,9 @@
     {
       "type": "color",
       "id": "header_text_color_initial",
-      "label": "Text, Icons & Huge Logo Color",
+      "label": "Text/Icons/Huge Logo",
       "default": "#FFFFFF",
-      "info": "This controls the color before you scroll."
-    },
-    {
-      "type": "header",
-      "content": "Menu & Search Overlay"
-    },
-    {
-      "type": "color",
-      "id": "menu_text_color",
-      "label": "Menu & Search Text Color",
-      "default": "#FFFFFF",
-      "info": "Color of text inside the hamburger menu and search screen."
+      "info": "Make sure this contrasts with your Hero Section underneath."
     },
     {
       "type": "header",
@@ -124,7 +113,6 @@
     --header-bg-shrunk: {{ section.settings.header_bg_color_shrunk }};
     --header-text-shrunk: {{ section.settings.header_text_color_shrunk }};
     --header-text-initial: {{ section.settings.header_text_color_initial }};
-    --menu-text-color: {{ section.settings.menu_text_color }};
   }
 
   /* --- WRAPPER --- */
@@ -254,7 +242,8 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    z-index: 2147483647; /* MAX Z-INDEX */
+    /* SUPER HIGH Z-INDEX to sit above everything */
+    z-index: 2147483647; 
     pointer-events: auto !important; 
     position: relative;
   }
@@ -283,7 +272,7 @@
   .origin-sticky-button svg {
     width: 24px;
     height: 24px;
-    pointer-events: none;
+    pointer-events: none; /* Let click pass to parent link/button */
   }
 
   .origin-desktop-menu {
@@ -327,9 +316,9 @@
   .origin-overlay-base {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5); 
+    background: rgba(0,0,0,0.5); /* Semi-transparent black */
     backdrop-filter: blur(4px);
-    z-index: 2147483647; 
+    z-index: 2147483647; /* Highest possible */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s;
@@ -354,7 +343,8 @@
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     display: flex;
     flex-direction: column;
-    color: var(--menu-text-color); /* Controlled by setting */
+    /* White Text */
+    color: #ffffff;
   }
 
   .origin-overlay-base.is-open .origin-menu-drawer {
@@ -367,7 +357,7 @@
     border: none;
     cursor: pointer;
     margin-bottom: 30px;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: #ffffff; 
   }
   
   .origin-menu-list {
@@ -382,7 +372,7 @@
 
   .origin-menu-list a {
     text-decoration: none;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: #ffffff; 
     font-size: 18px;
     font-weight: 500;
     text-transform: uppercase;
@@ -390,6 +380,7 @@
 
   /* --- SEARCH MODAL SPECIFIC --- */
   .origin-search-container {
+    /* Transparent Black Background */
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(20px);
     width: 100%;
@@ -399,7 +390,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: #ffffff;
   }
 
   .origin-search-close {
@@ -409,7 +400,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: #ffffff; 
     z-index: 10;
   }
 
@@ -422,19 +413,18 @@
   .origin-search-input {
     width: 100%;
     border: none;
-    border-bottom: 2px solid var(--menu-text-color); 
+    border-bottom: 2px solid #ffffff; 
     font-size: 32px;
     padding: 10px 0;
     background: transparent;
     border-radius: 0;
     outline: none;
     font-family: inherit;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: #ffffff; 
   }
 
   .origin-search-input::placeholder {
-    color: var(--menu-text-color); 
-    opacity: 0.6;
+    color: rgba(255, 255, 255, 0.6); 
   }
 
   .origin-search-submit {
@@ -449,7 +439,7 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 600;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: #ffffff; 
   }
 
 </style>
@@ -492,7 +482,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       </button>
       
-      <!-- Account Link -->
+      <!-- Account Link (Priority Fix) -->
       {% if shop.customer_accounts_enabled %}
         <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" 
            class="origin-icon-button" 
