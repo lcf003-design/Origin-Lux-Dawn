@@ -280,7 +280,7 @@
     {% endif %}
   </div>
 
-  <div class="hero-content">
+  <div class="hero-content" style="position: static; top: auto; left: auto; transform: none; width: 100%; max-width: 960px; margin: 50px auto 0; text-align: center; display: flex; flex-direction: column; align-items: center;">
     <h2 class="hero-title">{{ section.settings.heading }}</h2>
     
     {% if section.settings.button_text != blank %}
@@ -290,7 +290,7 @@
     {% endif %}
 
     {% if section.blocks.size > 0 %}
-      <div class="spotlight-blocks" style="color: var(--origin-spotlight-text-color);">
+      <div class="spotlight-blocks" style="color: var(--origin-spotlight-text-color); text-align: center; width: 100%; max-width: 960px; margin: 0 auto;">
         {% for block in section.blocks %}
         {% case block.type %}
         {% when 'heading_block' %}
