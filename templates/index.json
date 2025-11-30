@@ -11,6 +11,44 @@
   "sections": {
     "editorial_spotlight_xjEVgn": {
       "type": "editorial-spotlight",
+      "blocks": {
+        "button_block_P9WtHL": {
+          "type": "button_block",
+          "settings": {
+            "button_label": "For Her",
+            "button_link": "",
+            "button_style": "primary",
+            "padding_vertical": 4,
+            "text_color": "#121212",
+            "font_size": 16
+          }
+        },
+        "heading_block_xzp6Ly": {
+          "type": "heading_block",
+          "settings": {
+            "heading_text": "Featured story",
+            "padding_vertical": 0,
+            "text_color": "#ffffff",
+            "font_size": 32
+          }
+        },
+        "button_block_DaiYyP": {
+          "type": "button_block",
+          "settings": {
+            "button_label": "For Him",
+            "button_link": "",
+            "button_style": "primary",
+            "padding_vertical": 4,
+            "text_color": "#121212",
+            "font_size": 16
+          }
+        }
+      },
+      "block_order": [
+        "button_block_P9WtHL",
+        "heading_block_xzp6Ly",
+        "button_block_DaiYyP"
+      ],
       "name": "Editorial Spotlight",
       "settings": {
         "image_desktop": "shopify://shop_images/Hero_banner_2.jpg",
