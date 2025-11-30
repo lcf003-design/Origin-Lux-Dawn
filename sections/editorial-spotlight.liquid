@@ -28,7 +28,7 @@
         { "value": "full", "label": "Full Screen (100vh)" },
         { "value": "large", "label": "Large (80vh)" },
         { "value": "medium", "label": "Medium (60vh)" },
-        { "value": "auto", "label": "Adapt to Image" }
+        { "value": "auto", "label": "Adapt to Image (Natural Height)" }
       ]
     },
     {
@@ -246,7 +246,7 @@
   .origin-spotlight {
     position: relative;
     width: 100%;
-    overflow: hidden;
+    /* Flex is mostly for mobile stacking flow */
     display: flex;
     flex-direction: column;
   }
@@ -255,16 +255,24 @@
   .origin-spotlight--full { height: 100vh; }
   .origin-spotlight--large { height: 80vh; }
   .origin-spotlight--medium { height: 60vh; }
-  .origin-spotlight--auto { height: auto; aspect-ratio: 16/9; }
+  /* Auto lets the image dictate height */
+  .origin-spotlight--auto { height: auto; }
 
   /* --- IMAGE LAYER --- */
   .origin-spotlight__bg {
+    width: 100%;
+    height: 100%;
+    /* Default to absolute to cover fixed heights */
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
     z-index: 1;
+  }
+
+  /* Special case: If adapting to image, BG becomes relative to push size */
+  .origin-spotlight--auto .origin-spotlight__bg {
+    position: relative;
+    height: auto;
   }
 
   .origin-spotlight__img {
@@ -274,6 +282,7 @@
     display: block;
   }
 
+  /* Overlay follows the image */
   .origin-spotlight__overlay {
     position: absolute;
     inset: 0;
@@ -282,13 +291,17 @@
     z-index: 2;
   }
 
-  /* --- CONTENT LAYER --- */
+  /* --- CONTENT LAYER (The Fix) --- */
   .origin-spotlight__content-wrapper {
-    position: relative;
-    z-index: 3;
+    /* ABSOLUTE positioning forces this layer to cover the ENTIRE section */
+    position: absolute; 
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
-    /* We use flex-direction column to reliably handle vertical alignment */
+    height: 100%; 
+    z-index: 3;
+    pointer-events: none; /* Let clicks pass through empty areas */
+    
     display: flex;
     flex-direction: column;
     padding: 60px 40px;
@@ -296,11 +309,7 @@
     color: {{ section.settings.text_color }};
   }
 
-  /* Flexbox Alignment Map (Column Direction):
-     justify-content = Vertical Axis (Top/Center/Bottom)
-     align-items = Horizontal Axis (Left/Center/Right)
-  */
-
+  /* --- ALIGNMENT CLASSES --- */
   .pos-top-left      { justify-content: flex-start; align-items: flex-start; text-align: left; }
   .pos-top-center    { justify-content: flex-start; align-items: center;     text-align: center; }
   .pos-top-right     { justify-content: flex-start; align-items: flex-end;   text-align: right; }
@@ -314,8 +323,9 @@
   .pos-bottom-right  { justify-content: flex-end;   align-items: flex-end;   text-align: right; }
 
   .origin-spotlight__content {
-    max-width: 1200px; /* Increased max-width to allow big text */
+    max-width: 1200px;
     width: 100%;
+    pointer-events: auto; /* Re-enable clicks on text/buttons */
   }
 
   /* --- TYPOGRAPHY --- */
@@ -348,7 +358,7 @@
     margin-top: 10px;
   }
   
-  /* Inherit text alignment for buttons */
+  /* Alignment Inheritance for Buttons */
   .pos-top-center .origin-spotlight__buttons,
   .pos-center .origin-spotlight__buttons,
   .pos-bottom-center .origin-spotlight__buttons {
@@ -410,47 +420,47 @@
     .desktop-img { display: none !important; }
     .mobile-img { display: block !important; }
 
-    /* If "Text Below" is checked, we force natural layout */
+    /* Mobile Text Below Mode */
     {% if section.settings.mobile_text_below %}
       .origin-spotlight {
-        height: auto !important; /* Force auto height so image can grow */
+        height: auto !important;
         min-height: 0 !important;
-        display: block; /* Stack vertically */
+        display: block; 
       }
       .origin-spotlight__bg {
-        position: relative; /* Remove absolute positioning */
+        position: relative; /* Normal flow */
         width: 100%;
-        height: auto; /* Let image dictate height */
+        height: auto;
         inset: auto;
       }
       .origin-spotlight__img.mobile-img {
         width: 100%;
-        height: auto; /* Show full image natural height */
-        object-fit: contain; /* Never crop */
+        height: auto;
+        object-fit: contain;
         display: block;
       }
       .origin-spotlight__overlay {
-        display: none; /* No overlay needed when text is below */
+        display: none; 
       }
       .origin-spotlight__content-wrapper {
-        position: relative;
+        position: relative; /* Back to normal flow */
         height: auto;
-        min-height: 0;
+        width: 100%;
         padding: 40px 20px;
-        background: #fff; /* White bg for text below */
+        background: #fff; 
         color: {{ section.settings.mobile_text_color }};
         text-align: center;
         justify-content: center;
         align-items: center;
+        pointer-events: auto;
       }
       
-      /* Invert button colors for white background */
       .origin-spotlight__buttons { justify-content: center; }
       .btn-solid { background: #000; color: #fff; border-color: #000; }
       .btn-outline { color: #000; border-color: #000; }
       .btn-underline { color: #000; border-color: #000; }
     {% else %}
-      /* Standard overlay mode */
+      /* Overlay Mode on Mobile */
       .origin-spotlight__content-wrapper { padding: 30px 20px; }
     {% endif %}
   }
