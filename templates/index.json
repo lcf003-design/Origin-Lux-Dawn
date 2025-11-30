@@ -61,8 +61,34 @@
         "overlay_opacity": 10
       }
     },
-    "17645158603348f1f2": {
+    "1764515948ffeeb3a7": {
       "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_3b0cca2_86RNGn": {
+          "type": "ai_gen_block_3b0cca2",
+          "settings": {
+            "heading": "CURATED BY THE HOUSE",
+            "text": "",
+            "text_alignment": "center",
+            "max_width": 800,
+            "padding_vertical": 52,
+            "padding_horizontal": 32,
+            "heading_size": 40,
+            "heading_spacing": 0,
+            "text_size": 16,
+            "background_color": "#ffffff",
+            "heading_color": "#121212",
+            "text_color": "#121212",
+            "border_thickness": 0,
+            "border_color": "#121212",
+            "border_radius": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_3b0cca2_86RNGn"
+      ],
       "settings": {}
     },
     "origin_marquee_MhwXkK": {
@@ -122,7 +148,7 @@
       "settings": {
         "grid_gap": 20,
         "side_padding": 40,
-        "top_padding": 60,
+        "top_padding": 0,
         "text_color": "#000000"
       }
     },
@@ -164,7 +190,7 @@
   },
   "order": [
     "editorial_spotlight_xjEVgn",
-    "17645158603348f1f2",
+    "1764515948ffeeb3a7",
     "origin_marquee_MhwXkK",
     "gucci_grid_8G6xe9",
     "origin_split_mCWFfX"
