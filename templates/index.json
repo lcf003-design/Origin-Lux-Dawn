@@ -9,6 +9,36 @@
  */
 {
   "sections": {
+    "origin_ggheader_hero": {
+      "type": "origin-ggheader",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "logo_image": null,
+        "logo_text": "Gucci Gift",
+        "desktop_logo_height": 120,
+        "mobile_logo_height": 88,
+        "hero_image": null,
+        "subheading": "",
+        "heading": "",
+        "body_text": "",
+        "hero_height": "full",
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_top_mobile": 24,
+        "padding_bottom_mobile": 32,
+        "sticky_padding_desktop": 16,
+        "sticky_padding_mobile": 12,
+        "content_alignment": "flex-end",
+        "header_bg_color_shrunk": "#ffffff",
+        "header_text_color": "#111111",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "color_scheme": "background-1",
+        "menu": "",
+        "show_desktop_menu": false
+      }
+    },
     "editorial_spotlight_xjEVgn": {
       "type": "editorial-spotlight",
       "blocks": {
@@ -189,6 +219,7 @@
     }
   },
   "order": [
+    "origin_ggheader_hero",
     "editorial_spotlight_xjEVgn",
     "1764515948ffeeb3a7",
     "origin_marquee_MhwXkK",
