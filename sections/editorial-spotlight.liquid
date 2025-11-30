@@ -67,6 +67,81 @@
       "default": 10
     }
   ],
+  "blocks": [
+    {
+      "type": "heading_block",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading_text",
+          "label": "Heading",
+          "default": "Featured story"
+        }
+      ]
+    },
+    {
+      "type": "subheading_block",
+      "name": "Subheading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "subheading_text",
+          "label": "Subheading",
+          "default": "A closer look"
+        }
+      ]
+    },
+    {
+      "type": "body_block",
+      "name": "Body",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "body_content",
+          "label": "Body text",
+          "default": "<p>Share the story behind this edit or add supporting copy for the collection.</p>"
+        }
+      ]
+    },
+    {
+      "type": "button_block",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Label",
+          "default": "Discover"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "default": "primary",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "secondary",
+              "label": "Secondary"
+            },
+            {
+              "value": "link",
+              "label": "Link"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "presets": [
     {
       "name": "Editorial Spotlight"
@@ -108,6 +183,57 @@
       <a href="{{ section.settings.button_link }}" class="hero-btn">
         {{ section.settings.button_text }}
       </a>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="spotlight-blocks" style="color: var(--origin-spotlight-text-color);">
+        {% for block in section.blocks %}
+          {% case block.type %}
+          {% when 'heading_block' %}
+            {% if block.settings.heading_text != blank %}
+              <h3 class="spotlight-block-heading" {{ block.shopify_attributes }}>
+                {{ block.settings.heading_text }}
+              </h3>
+            {% endif %}
+
+          {% when 'subheading_block' %}
+            {% if block.settings.subheading_text != blank %}
+              <h4 class="spotlight-block-subheading" {{ block.shopify_attributes }}>
+                {{ block.settings.subheading_text }}
+              </h4>
+            {% endif %}
+
+          {% when 'body_block' %}
+            {% if block.settings.body_content != blank %}
+              <div class="spotlight-block-body rte" {{ block.shopify_attributes }}>
+                {{ block.settings.body_content }}
+              </div>
+            {% endif %}
+
+          {% when 'button_block' %}
+            {% if block.settings.button_label != blank %}
+              {% assign btn_style = block.settings.button_style | default: 'primary' %}
+              {% assign btn_classes = 'spotlight-block-button' %}
+              {% if btn_style == 'link' %}
+                {% assign btn_classes = btn_classes | append: ' spotlight-block-button--link' %}
+              {% else %}
+                {% assign btn_classes = btn_classes | append: ' hero-btn' %}
+                {% if btn_style == 'secondary' %}
+                  {% assign btn_classes = btn_classes | append: ' hero-btn--secondary' %}
+                {% endif %}
+              {% endif %}
+
+              <a
+                href="{{ block.settings.button_link | default: '#' }}"
+                class="{{ btn_classes }}"
+                {{ block.shopify_attributes }}
+              >
+                {{ block.settings.button_label }}
+              </a>
+            {% endif %}
+          {% endcase %}
+        {% endfor %}
+      </div>
     {% endif %}
   </div>
 </div>
