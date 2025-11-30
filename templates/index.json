@@ -61,6 +61,30 @@
         "overlay_opacity": 10
       }
     },
+    "rich_text_XdggXL": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_dRzPjq": {
+          "type": "heading",
+          "settings": {
+            "heading": "SHOP THE LOOK",
+            "heading_size": "h0"
+          }
+        }
+      },
+      "block_order": [
+        "heading_dRzPjq"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
     "origin_shop_the_look_HQYUCp": {
       "type": "origin-shop-the-look",
       "blocks": {
@@ -222,6 +246,7 @@
   },
   "order": [
     "editorial_spotlight_xjEVgn",
+    "rich_text_XdggXL",
     "origin_shop_the_look_HQYUCp",
     "1764515948ffeeb3a7",
     "origin_marquee_MhwXkK",
