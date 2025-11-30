@@ -14,33 +14,34 @@
       "blocks": {
         "button_block_P9WtHL": {
           "type": "button_block",
+          "disabled": true,
           "settings": {
-            "button_label": "For Her",
-            "button_link": "",
-            "button_style": "primary",
-            "padding_vertical": 4,
-            "text_color": "#121212",
-            "font_size": 16
+            "button_label_1": "SHOP WOMEN",
+            "button_link_1": "",
+            "button_label_2": "SHOP MEN",
+            "button_link_2": "",
+            "button_style": "primary"
           }
         },
         "heading_block_xzp6Ly": {
           "type": "heading_block",
+          "disabled": true,
           "settings": {
             "heading_text": "Featured story",
-            "padding_vertical": 0,
-            "text_color": "#121212",
-            "font_size": 55
+            "font_scale_desktop": 4,
+            "font_scale_mobile": 42,
+            "padding_bottom": 16
           }
         },
         "button_block_DaiYyP": {
           "type": "button_block",
+          "disabled": true,
           "settings": {
-            "button_label": "For Him",
-            "button_link": "",
-            "button_style": "primary",
-            "padding_vertical": 4,
-            "text_color": "#121212",
-            "font_size": 16
+            "button_label_1": "SHOP WOMEN",
+            "button_link_1": "",
+            "button_label_2": "SHOP MEN",
+            "button_link_2": "",
+            "button_style": "primary"
           }
         }
       },
@@ -52,12 +53,13 @@
       "name": "Editorial Spotlight",
       "settings": {
         "image_desktop": "shopify://shop_images/Untitled_3b57e759-f769-4600-b256-1247fb625c65.png",
-        "height_desktop": 750,
-        "heading": "",
-        "button_text": "",
-        "button_link": "",
+        "image_mobile": "shopify://shop_images/Mobile_banner_vertical.jpg",
+        "section_height": "full",
+        "overlay_opacity": 10,
+        "text_position": "center",
+        "mobile_text_below": true,
         "text_color": "#ffffff",
-        "overlay_opacity": 10
+        "mobile_text_color": "#000000"
       }
     },
     "rich_text_XdggXL": {
