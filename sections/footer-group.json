@@ -18,7 +18,7 @@
           "type": "menu_column",
           "settings": {
             "title": "MAY WE HELP YOU?",
-            "menu": ""
+            "menu": "footer-help"
           }
         },
         "menu_column_kjaGG3": {
