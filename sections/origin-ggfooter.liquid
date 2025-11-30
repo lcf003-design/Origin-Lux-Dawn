@@ -37,13 +37,61 @@
     },
     {
       "type": "header",
-      "content": "Bottom Logo"
+      "content": "Bottom Logo Settings"
     },
     {
       "type": "text",
       "id": "huge_logo_text",
       "label": "Huge Logo Text",
       "default": "GUCCI"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width_logo",
+      "label": "Stretch Logo to Screen Edges",
+      "default": true,
+      "info": "Removes side padding so logo touches the edges."
+    },
+    {
+      "type": "range",
+      "id": "huge_logo_size_desktop",
+      "min": 5,
+      "max": 30,
+      "step": 0.5,
+      "unit": "vw",
+      "label": "Logo Font Size (Desktop)",
+      "default": 13.5,
+      "info": "Adjust this until your text fits on one line."
+    },
+    {
+      "type": "range",
+      "id": "huge_logo_size_mobile",
+      "min": 5,
+      "max": 30,
+      "step": 0.5,
+      "unit": "vw",
+      "label": "Logo Font Size (Mobile)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "huge_logo_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo Padding Top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "huge_logo_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo Padding Bottom",
+      "default": 20
     },
     {
       "type": "image_picker",
@@ -58,7 +106,7 @@
       "max": 100,
       "step": 5,
       "unit": "%",
-      "label": "Logo Width",
+      "label": "Image Logo Width",
       "default": 100
     },
     {
@@ -117,7 +165,8 @@
   .origin-gg-footer {
     background-color: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
-    padding: 60px 40px 0;
+    /* Padding Top/Sides/Bottom. Bottom is 0 because logo handles its own padding */
+    padding: 60px 40px 0; 
     font-family: var(--font-body-family);
     overflow: hidden;
   }
@@ -253,11 +302,11 @@
     display: block;
   }
 
-  /* --- BOTTOM LOGO --- */
+  /* --- BOTTOM SECTION --- */
   .origin-gg-footer__bottom {
     border-top: 1px solid rgba(255,255,255,0.1);
     padding-top: 40px;
-    padding-bottom: 40px;
+    /* Removed padding-bottom here, moved to logo container */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -273,12 +322,21 @@
     margin-right: auto;
   }
 
+  /* --- HUGE LOGO --- */
   .origin-gg-huge-logo {
     width: 100%;
     text-align: center;
     line-height: 0.8;
     overflow: hidden;
-    padding-bottom: 20px;
+    padding-top: {{ section.settings.huge_logo_padding_top }}px;
+    padding-bottom: {{ section.settings.huge_logo_padding_bottom }}px;
+  }
+
+  /* Logic to break out of container if full width is selected */
+  .origin-gg-huge-logo.is-full-width {
+    margin-left: -40px; /* Counteracts the parent padding */
+    margin-right: -40px;
+    width: calc(100% + 80px); /* Restores full width */
   }
 
   .origin-gg-huge-logo svg,
@@ -290,18 +348,31 @@
   }
 
   .origin-gg-huge-logo-text {
-    font-size: 18vw;
+    /* Responsive font size based on settings */
+    font-size: {{ section.settings.huge_logo_size_desktop }}vw; 
     font-family: serif;
     text-transform: uppercase;
     letter-spacing: -0.02em;
     margin: 0;
     display: block;
+    white-space: nowrap; /* Prevents wrapping to next line */
   }
 
-  /* --- MOBILE RESPONSIVENESS (The Magic Part) --- */
+  /* --- MOBILE RESPONSIVENESS --- */
   @media (max-width: 768px) {
     .origin-gg-footer {
       padding: 40px 20px 0;
+    }
+
+    .origin-gg-huge-logo-text {
+      font-size: {{ section.settings.huge_logo_size_mobile }}vw;
+    }
+
+    /* Update full width logic for mobile padding */
+    .origin-gg-huge-logo.is-full-width {
+      margin-left: -20px;
+      margin-right: -20px;
+      width: calc(100% + 40px);
     }
 
     .origin-gg-footer__top {
@@ -311,30 +382,28 @@
     
     .origin-gg-footer__links-area {
       flex-direction: column;
-      gap: 0; /* Remove horizontal gap for vertical stacking */
+      gap: 0; 
       width: 100%;
     }
 
     .origin-gg-footer__column {
       max-width: 100%;
-      border-bottom: 1px solid rgba(255,255,255,0.15); /* Separator lines */
+      border-bottom: 1px solid rgba(255,255,255,0.15);
     }
 
-    /* Enable clicking on mobile */
     .origin-gg-accordion-trigger {
       pointer-events: auto;
       cursor: pointer;
-      padding: 24px 0; /* Touch target size */
+      padding: 24px 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
     
     .origin-gg-footer__heading {
-      margin-bottom: 0; /* Remove margin so it centers vertically */
+      margin-bottom: 0;
     }
 
-    /* Show the arrow icon on mobile */
     .origin-gg-accordion-icon {
       display: block;
       width: 12px;
@@ -342,13 +411,11 @@
       transition: transform 0.3s ease;
     }
 
-    /* Hide list by default on mobile */
     .origin-gg-footer__list {
       display: none;
       padding-bottom: 24px;
     }
     
-    /* Open State Styles */
     .origin-gg-footer__column.is-open .origin-gg-footer__list {
       display: block;
       animation: slideDown 0.3s ease;
@@ -378,7 +445,6 @@
     <div class="origin-gg-footer__links-area">
       {% for block in section.blocks %}
         <div class="origin-gg-footer__column" {{ block.shopify_attributes }}>
-          <!-- Trigger Button (Disabled on Desktop, Clickable on Mobile) -->
           <button type="button" class="origin-gg-accordion-trigger" aria-expanded="false">
             <span class="origin-gg-footer__heading">{{ block.settings.title }}</span>
             <svg class="origin-gg-accordion-icon" viewBox="0 0 14 8" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -386,7 +452,6 @@
             </svg>
           </button>
           
-          <!-- Menu Content -->
           {% if block.settings.menu != blank %}
             <ul class="origin-gg-footer__list">
               {% for link in linklists[block.settings.menu].links %}
@@ -438,7 +503,7 @@
       {{ section.settings.copyright_text }}
     </div>
 
-    <div class="origin-gg-huge-logo">
+    <div class="origin-gg-huge-logo {% if section.settings.full_width_logo %}is-full-width{% endif %}">
       {% if section.settings.huge_logo_image %}
         <img 
           src="{{ section.settings.huge_logo_image | image_url: width: 2400 }}" 
@@ -471,9 +536,6 @@
 
         const parent = this.closest('.origin-gg-footer__column');
         const wasOpen = parent.classList.contains('is-open');
-
-        // Optional: Close other accordions when one opens
-        // footer.querySelectorAll('.origin-gg-footer__column').forEach(col => col.classList.remove('is-open'));
 
         if (!wasOpen) {
           parent.classList.add('is-open');
