@@ -116,13 +116,12 @@
   }
 
   /* --- WRAPPER --- */
-  /* Position absolute to overlay the content below, but pointer-events none so it doesn't block clicks */
   .origin-gucci-header {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 0; /* Zero height to not push content */
+    height: 0; 
     z-index: 50;
     pointer-events: none; 
   }
@@ -142,10 +141,9 @@
     transition: var(--header-transition);
     background-color: transparent; 
     color: var(--header-text-initial);
-    pointer-events: auto; /* CRITICAL: Ensures buttons are clickable */
+    pointer-events: auto; 
   }
 
-  /* Scrolled State for Bar */
   .origin-gucci-header.is-shrunk .origin-sticky-bar {
     background-color: var(--header-bg-shrunk);
     color: var(--header-text-shrunk);
@@ -154,7 +152,7 @@
     padding-bottom: 12px;
   }
 
-  /* --- STICKY BAR LOGO (HIDDEN INITIALLY) --- */
+  /* --- STICKY BAR LOGO --- */
   .origin-sticky-bar__logo {
     opacity: 0;
     visibility: hidden;
@@ -186,7 +184,6 @@
     text-transform: uppercase;
   }
 
-  /* Scrolled State for Sticky Logo */
   .origin-gucci-header.is-shrunk .origin-sticky-bar__logo {
     opacity: 1;
     visibility: visible;
@@ -202,10 +199,9 @@
     width: 100%;
     height: 100vh;
     z-index: 40; 
-    pointer-events: none; /* Allows clicks to pass through to Hero below */
+    pointer-events: none; 
     display: flex;
     justify-content: center;
-    /* transition: opacity 0.5s ease, transform 0.5s ease; */
     transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
     transform-origin: center top;
   }
@@ -233,11 +229,10 @@
     margin: 0;
   }
 
-  /* Scrolled State for Huge Logo: Shrink and vanish */
   .origin-gucci-header.is-shrunk .origin-huge-logo-wrapper {
     opacity: 0;
     visibility: hidden;
-    transform: scale(0.8) translateY(-100px); /* Moves up and shrinks */
+    transform: scale(0.8) translateY(-100px); 
   }
 
   /* --- ICONS & MENU --- */
@@ -307,26 +302,25 @@
     }
   }
 
-  /* --- MENU OVERLAY (MOBILE) --- */
-  .origin-menu-overlay {
+  /* --- DRAWER COMMONS --- */
+  .origin-overlay-base {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(4px);
-    z-index: 200; /* Highest Z-index */
+    z-index: 200;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s;
-    display: flex;
-    justify-content: flex-start;
-    pointer-events: auto; /* Ensure menu catches clicks */
+    pointer-events: auto;
   }
-
-  .origin-menu-overlay.is-open {
+  
+  .origin-overlay-base.is-open {
     opacity: 1;
     visibility: visible;
   }
 
+  /* --- MENU DRAWER SPECIFIC --- */
   .origin-menu-drawer {
     background: #fff;
     width: 320px;
@@ -337,10 +331,10 @@
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     display: flex;
     flex-direction: column;
-    color: #111; /* Always black text in menu */
+    color: #111;
   }
 
-  .origin-menu-overlay.is-open .origin-menu-drawer {
+  .origin-overlay-base.is-open .origin-menu-drawer {
     transform: translateX(0);
   }
 
@@ -370,6 +364,67 @@
     font-weight: 500;
     text-transform: uppercase;
   }
+
+  /* --- SEARCH MODAL SPECIFIC --- */
+  .origin-search-container {
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: #111;
+  }
+
+  .origin-search-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #111;
+  }
+
+  .origin-search-form {
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+  }
+
+  .origin-search-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #000;
+    font-size: 32px;
+    padding: 10px 0;
+    background: transparent;
+    border-radius: 0;
+    outline: none;
+    font-family: inherit;
+    color: #111;
+  }
+
+  .origin-search-input::placeholder {
+    color: #999;
+  }
+
+  .origin-search-submit {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
 </style>
 
 <!-- Main Container -->
@@ -390,7 +445,7 @@
       {% endif %}
     </div>
 
-    <!-- Small Logo (Hidden initially, appears on scroll) -->
+    <!-- Small Logo -->
     <div class="origin-sticky-bar__logo">
       <a href="{{ routes.root_url }}">
         {% if section.settings.logo_image %}
@@ -405,12 +460,12 @@
     </div>
 
     <div class="origin-sticky-bar__actions">
-      <!-- Search (Now a proper link) -->
-      <a href="{{ routes.search_url }}" class="origin-icon-button" aria-label="Search">
+      <!-- Search Trigger (Button instead of link) -->
+      <button type="button" class="origin-icon-button" aria-label="Search" id="origin-search-trigger-{{ section.id }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      </a>
+      </button>
       
-      <!-- Account / Profile (Added Back) -->
+      <!-- Account -->
       {% if shop.customer_accounts_enabled %}
         <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="origin-icon-button" aria-label="Account">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -441,7 +496,7 @@
   </div>
 
   <!-- 3. MOBILE MENU DRAWER -->
-  <div class="origin-menu-overlay" id="origin-menu-overlay-{{ section.id }}">
+  <div class="origin-menu-overlay origin-overlay-base" id="origin-menu-overlay-{{ section.id }}">
     <div class="origin-menu-drawer">
       <button class="origin-menu-close" id="origin-menu-close-{{ section.id }}" aria-label="Close">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -451,7 +506,6 @@
           {% for link in linklists[section.settings.menu].links %}
             <li><a href="{{ link.url }}">{{ link.title }}</a></li>
           {% endfor %}
-          <!-- Mobile Links for Account/Search often helpful here too -->
           {% if shop.customer_accounts_enabled %}
             <li style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
               <a href="{{ routes.account_url }}">Account</a>
@@ -461,6 +515,27 @@
       </nav>
     </div>
   </div>
+
+  <!-- 4. SEARCH MODAL OVERLAY -->
+  <div class="origin-search-overlay origin-overlay-base" id="origin-search-overlay-{{ section.id }}">
+    <div class="origin-search-container">
+      <button class="origin-search-close" id="origin-search-close-{{ section.id }}" aria-label="Close search">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <form action="{{ routes.search_url }}" method="get" role="search" class="origin-search-form">
+        <input type="search" 
+               name="q" 
+               id="origin-search-input-{{ section.id }}" 
+               value="{{ search.terms | escape }}" 
+               placeholder="Search..." 
+               class="origin-search-input"
+               autocomplete="off">
+        <input type="hidden" name="type" value="product">
+        <button type="submit" class="origin-search-submit">Search</button>
+      </form>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -470,58 +545,90 @@
     
     if (!headerContainer) return;
 
-    // --- 1. Scroll / Shrink Logic ---
+    // --- 1. Scroll Logic ---
     const handleScroll = () => {
       const scrollY = window.scrollY || document.documentElement.scrollTop;
-      // Threshold: 20px ensures it triggers quickly
       if (scrollY > 20) {
         headerContainer.classList.add('is-shrunk');
       } else {
         headerContainer.classList.remove('is-shrunk');
       }
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Check on load
+    handleScroll();
 
-    // --- 2. Menu Logic ---
-    const menuTrigger = document.getElementById(`origin-menu-trigger-${sectionId}`);
-    const menuClose = document.getElementById(`origin-menu-close-${sectionId}`);
-    const menuOverlay = document.getElementById(`origin-menu-overlay-${sectionId}`);
+    // --- 2. Overlay Manager (Handles Menu & Search) ---
+    const toggleOverlay = (overlayId, isOpen) => {
+      const overlay = document.getElementById(overlayId);
+      if (!overlay) return;
 
-    const toggleMenu = (open) => {
-      if (!menuOverlay) return;
-      if (open) {
-        menuOverlay.classList.add('is-open');
-        document.body.style.overflow = 'hidden'; // Lock page scroll
+      if (isOpen) {
+        overlay.classList.add('is-open');
+        document.body.style.overflow = 'hidden'; // Lock scroll
       } else {
-        menuOverlay.classList.remove('is-open');
-        document.body.style.overflow = ''; // Unlock page scroll
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = ''; // Unlock scroll
       }
     };
+
+    // --- 3. Menu Event Listeners ---
+    const menuTrigger = document.getElementById(`origin-menu-trigger-${sectionId}`);
+    const menuClose = document.getElementById(`origin-menu-close-${sectionId}`);
+    const menuOverlayId = `origin-menu-overlay-${sectionId}`;
 
     if (menuTrigger) {
       menuTrigger.addEventListener('click', (e) => {
         e.preventDefault();
-        toggleMenu(true);
+        toggleOverlay(menuOverlayId, true);
       });
     }
 
     if (menuClose) {
       menuClose.addEventListener('click', (e) => {
         e.preventDefault();
-        toggleMenu(false);
+        toggleOverlay(menuOverlayId, false);
       });
     }
 
+    const menuOverlay = document.getElementById(menuOverlayId);
     if (menuOverlay) {
       menuOverlay.addEventListener('click', (e) => {
-        // Close if clicking the dark overlay background
-        if (e.target === menuOverlay) {
-          toggleMenu(false);
-        }
+        if (e.target === menuOverlay) toggleOverlay(menuOverlayId, false);
       });
     }
+
+    // --- 4. Search Event Listeners ---
+    const searchTrigger = document.getElementById(`origin-search-trigger-${sectionId}`);
+    const searchClose = document.getElementById(`origin-search-close-${sectionId}`);
+    const searchOverlayId = `origin-search-overlay-${sectionId}`;
+    const searchInput = document.getElementById(`origin-search-input-${sectionId}`);
+
+    if (searchTrigger) {
+      searchTrigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleOverlay(searchOverlayId, true);
+        // Auto-focus input after transition
+        setTimeout(() => {
+          if (searchInput) searchInput.focus();
+        }, 100);
+      });
+    }
+
+    if (searchClose) {
+      searchClose.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleOverlay(searchOverlayId, false);
+      });
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        toggleOverlay(menuOverlayId, false);
+        toggleOverlay(searchOverlayId, false);
+      }
+    });
+
   })();
 </script>
 
