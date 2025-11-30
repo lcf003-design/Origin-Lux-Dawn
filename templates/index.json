@@ -68,12 +68,13 @@
           "type": "hotspot",
           "settings": {
             "product": "",
-            "pos_x": 40,
-            "pos_y": 40
+            "pos_x": 24,
+            "pos_y": 59
           }
         },
         "hotspot_ajEKxL": {
           "type": "hotspot",
+          "disabled": true,
           "settings": {
             "product": "",
             "pos_x": 60,
