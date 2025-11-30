@@ -20,6 +20,13 @@
       "default": "GUCCI"
     },
     {
+      "type": "color",
+      "id": "huge_logo_color",
+      "label": "Huge Logo Text Color",
+      "default": "#FFFFFF",
+      "info": "Specific color for the large fallback text."
+    },
+    {
       "type": "range",
       "id": "hero_logo_width_desktop",
       "min": 20,
@@ -53,18 +60,18 @@
     },
     {
       "type": "header",
-      "content": "Sticky Bar Colors"
+      "content": "Sticky Bar Colors (Scrolled)"
     },
     {
       "type": "color",
       "id": "header_bg_color_shrunk",
-      "label": "Background (Scrolled)",
+      "label": "Background Color",
       "default": "#FFFFFF"
     },
     {
       "type": "color",
       "id": "header_text_color_shrunk",
-      "label": "Text/Icons (Scrolled)",
+      "label": "Text & Icons Color",
       "default": "#111111"
     },
     {
@@ -74,9 +81,20 @@
     {
       "type": "color",
       "id": "header_text_color_initial",
-      "label": "Text/Icons/Huge Logo",
+      "label": "Icons & Small Logo Color",
       "default": "#FFFFFF",
-      "info": "Make sure this contrasts with your Hero Section underneath."
+      "info": "Color for the sticky bar icons before scrolling."
+    },
+    {
+      "type": "header",
+      "content": "Menu & Search Overlay"
+    },
+    {
+      "type": "color",
+      "id": "menu_text_color",
+      "label": "Menu & Search Text Color",
+      "default": "#FFFFFF",
+      "info": "Color of text inside the hamburger menu and search screen."
     },
     {
       "type": "header",
@@ -113,6 +131,8 @@
     --header-bg-shrunk: {{ section.settings.header_bg_color_shrunk }};
     --header-text-shrunk: {{ section.settings.header_text_color_shrunk }};
     --header-text-initial: {{ section.settings.header_text_color_initial }};
+    --menu-text-color: {{ section.settings.menu_text_color }};
+    --huge-logo-text-color: {{ section.settings.huge_logo_color }};
   }
 
   /* --- WRAPPER --- */
@@ -213,7 +233,7 @@
     width: var(--logo-width-desktop);
     max-width: 1200px;
     text-align: center;
-    color: var(--header-text-initial);
+    /* Removed default color inheritance to prefer specific class */
   }
 
   .origin-huge-logo-img {
@@ -228,6 +248,8 @@
     font-family: serif;
     text-transform: uppercase;
     margin: 0;
+    /* Explicitly use the new specific variable */
+    color: var(--huge-logo-text-color) !important; 
   }
 
   .origin-gucci-header.is-shrunk .origin-huge-logo-wrapper {
@@ -242,8 +264,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    /* SUPER HIGH Z-INDEX to sit above everything */
-    z-index: 2147483647; 
+    z-index: 2147483647; /* MAX Z-INDEX */
     pointer-events: auto !important; 
     position: relative;
   }
@@ -272,7 +293,7 @@
   .origin-sticky-button svg {
     width: 24px;
     height: 24px;
-    pointer-events: none; /* Let click pass to parent link/button */
+    pointer-events: none;
   }
 
   .origin-desktop-menu {
@@ -316,9 +337,9 @@
   .origin-overlay-base {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5); /* Semi-transparent black */
+    background: rgba(0,0,0,0.5); 
     backdrop-filter: blur(4px);
-    z-index: 2147483647; /* Highest possible */
+    z-index: 2147483647; 
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s;
@@ -343,8 +364,7 @@
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     display: flex;
     flex-direction: column;
-    /* White Text */
-    color: #ffffff;
+    color: var(--menu-text-color); /* Controlled by setting */
   }
 
   .origin-overlay-base.is-open .origin-menu-drawer {
@@ -357,7 +377,7 @@
     border: none;
     cursor: pointer;
     margin-bottom: 30px;
-    color: #ffffff; 
+    color: var(--menu-text-color); /* Controlled by setting */
   }
   
   .origin-menu-list {
@@ -372,7 +392,7 @@
 
   .origin-menu-list a {
     text-decoration: none;
-    color: #ffffff; 
+    color: var(--menu-text-color); /* Controlled by setting */
     font-size: 18px;
     font-weight: 500;
     text-transform: uppercase;
@@ -380,7 +400,6 @@
 
   /* --- SEARCH MODAL SPECIFIC --- */
   .origin-search-container {
-    /* Transparent Black Background */
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(20px);
     width: 100%;
@@ -390,7 +409,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    color: #ffffff;
+    color: var(--menu-text-color); /* Controlled by setting */
   }
 
   .origin-search-close {
@@ -400,7 +419,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: #ffffff; 
+    color: var(--menu-text-color); /* Controlled by setting */
     z-index: 10;
   }
 
@@ -413,18 +432,19 @@
   .origin-search-input {
     width: 100%;
     border: none;
-    border-bottom: 2px solid #ffffff; 
+    border-bottom: 2px solid var(--menu-text-color); 
     font-size: 32px;
     padding: 10px 0;
     background: transparent;
     border-radius: 0;
     outline: none;
     font-family: inherit;
-    color: #ffffff; 
+    color: var(--menu-text-color); /* Controlled by setting */
   }
 
   .origin-search-input::placeholder {
-    color: rgba(255, 255, 255, 0.6); 
+    color: var(--menu-text-color); 
+    opacity: 0.6;
   }
 
   .origin-search-submit {
@@ -439,7 +459,7 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 600;
-    color: #ffffff; 
+    color: var(--menu-text-color); /* Controlled by setting */
   }
 
 </style>
@@ -482,7 +502,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       </button>
       
-      <!-- Account Link (Priority Fix) -->
+      <!-- Account Link -->
       {% if shop.customer_accounts_enabled %}
         <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" 
            class="origin-icon-button" 
