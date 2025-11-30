@@ -44,12 +44,17 @@
       "name": "Origin GG Footer",
       "settings": {
         "bg_color": "#000000",
-        "text_color": "#FFFFFF",
+        "text_color": "#ffffff",
         "newsletter_title": "SIGN UP FOR GUCCI UPDATES",
         "newsletter_text": "By entering your email address below, you consent to receiving our newsletter with access to our latest collections, events and initiatives.",
         "huge_logo_text": "Origin intl",
+        "full_width_logo": true,
+        "huge_logo_size_desktop": 13.5,
+        "huge_logo_size_mobile": 18,
+        "huge_logo_padding_top": 20,
+        "huge_logo_padding_bottom": 20,
         "huge_logo_width": 100,
-        "copyright_text": "© 2016 - 2025 Guccio Gucci S.p.A. - All rights reserved."
+        "copyright_text": "© 2016 - 2025 Origin Intl Boutique - All rights reserved."
       }
     },
     "footer": {
