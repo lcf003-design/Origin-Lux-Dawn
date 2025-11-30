@@ -32,7 +32,7 @@
           "type": "menu_column",
           "settings": {
             "title": "ORIGIN SERVICES",
-            "menu": ""
+            "menu": "footer"
           }
         }
       },
