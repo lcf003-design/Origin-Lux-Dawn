@@ -1,0 +1,402 @@
+{% schema %}
+{
+  "name": "Origin GG Footer",
+  "class": "origin-gg-footer-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Store Locator"
+    },
+    {
+      "type": "text",
+      "id": "store_locator_title",
+      "label": "Title",
+      "default": "STORE LOCATOR"
+    },
+    {
+      "type": "text",
+      "id": "store_locator_placeholder",
+      "label": "Input Placeholder",
+      "default": "Country/Region, City"
+    },
+    {
+      "type": "url",
+      "id": "store_locator_link",
+      "label": "Link to Map Page"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Title",
+      "default": "SIGN UP FOR GUCCI UPDATES"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_text",
+      "label": "Description",
+      "default": "By entering your email address below, you consent to receiving our newsletter with access to our latest collections, events and initiatives."
+    },
+    {
+      "type": "header",
+      "content": "Bottom Logo"
+    },
+    {
+      "type": "text",
+      "id": "huge_logo_text",
+      "label": "Huge Logo Text",
+      "default": "GUCCI"
+    },
+    {
+      "type": "image_picker",
+      "id": "huge_logo_image",
+      "label": "Huge Logo Image (Optional)",
+      "info": "Overrides text if set."
+    },
+    {
+      "type": "range",
+      "id": "huge_logo_width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Logo Width",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Copyright"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "default": "© 2016 - 2025 Guccio Gucci S.p.A. - All rights reserved."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu_column",
+      "name": "Footer Menu Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Column Heading",
+          "default": "MAY WE HELP YOU?"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin GG Footer"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .origin-gg-footer {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding: 60px 20px 0;
+    font-family: var(--font-body-family);
+    overflow: hidden;
+  }
+
+  /* --- GRID LAYOUT --- */
+  .origin-gg-footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto 80px;
+    gap: 40px;
+  }
+
+  .origin-gg-footer__links-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+    flex: 2;
+    min-width: 300px;
+  }
+
+  .origin-gg-footer__column {
+    min-width: 160px;
+  }
+
+  .origin-gg-footer__heading {
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0.7;
+    font-weight: 600;
+  }
+
+  .origin-gg-footer__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .origin-gg-footer__list li {
+    margin-bottom: 14px;
+  }
+
+  .origin-gg-footer__list a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+    font-size: 14px;
+    transition: opacity 0.3s;
+  }
+
+  .origin-gg-footer__list a:hover {
+    opacity: 0.7;
+  }
+
+  /* --- RIGHT SIDE (INPUTS) --- */
+  .origin-gg-footer__interactions {
+    flex: 1;
+    min-width: 300px;
+    max-width: 450px;
+  }
+
+  .origin-gg-footer__block {
+    margin-bottom: 50px;
+  }
+
+  .origin-gg-footer__desc {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+
+  /* --- MINIMALIST INPUTS --- */
+  .origin-gg-input-wrapper {
+    position: relative;
+    border-bottom: 1px solid {{ section.settings.text_color }};
+    display: flex;
+    align-items: center;
+    padding-bottom: 8px;
+  }
+
+  .origin-gg-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: {{ section.settings.text_color }};
+    font-size: 15px;
+    outline: none;
+    padding: 0;
+  }
+
+  .origin-gg-input::placeholder {
+    color: {{ section.settings.text_color }};
+    opacity: 0.6;
+  }
+
+  .origin-gg-submit {
+    background: transparent;
+    border: none;
+    color: {{ section.settings.text_color }};
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .origin-gg-submit svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+
+  /* --- BOTTOM SECTION --- */
+  .origin-gg-footer__bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 40px;
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .origin-gg-copyright {
+    font-size: 11px;
+    opacity: 0.8;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* --- HUGE LOGO --- */
+  .origin-gg-huge-logo {
+    width: 100%;
+    text-align: center;
+    line-height: 0.8;
+    overflow: hidden;
+    padding-bottom: 20px;
+  }
+
+  .origin-gg-huge-logo svg,
+  .origin-gg-huge-logo img {
+    width: {{ section.settings.huge_logo_width }}%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .origin-gg-huge-logo-text {
+    font-size: 18vw;
+    font-family: serif; /* Use a serif font for that classic look */
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0;
+    display: block;
+  }
+
+  /* --- MOBILE --- */
+  @media (max-width: 768px) {
+    .origin-gg-footer__top {
+      flex-direction: column;
+      gap: 60px;
+    }
+    
+    .origin-gg-footer__links-area {
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .origin-gg-footer__interactions {
+      max-width: 100%;
+    }
+  }
+</style>
+
+<footer class="origin-gg-footer">
+  
+  <div class="origin-gg-footer__top">
+    
+    <!-- LEFT SIDE: MENU COLUMNS -->
+    <div class="origin-gg-footer__links-area">
+      {% for block in section.blocks %}
+        <div class="origin-gg-footer__column" {{ block.shopify_attributes }}>
+          {% if block.settings.title != blank %}
+            <div class="origin-gg-footer__heading">{{ block.settings.title }}</div>
+          {% endif %}
+          
+          {% if block.settings.menu != blank %}
+            <ul class="origin-gg-footer__list">
+              {% for link in linklists[block.settings.menu].links %}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- RIGHT SIDE: INTERACTIONS -->
+    <div class="origin-gg-footer__interactions">
+      
+      <!-- STORE LOCATOR -->
+      <div class="origin-gg-footer__block">
+        <div class="origin-gg-footer__heading">{{ section.settings.store_locator_title }}</div>
+        <form action="{{ section.settings.store_locator_link | default: '#' }}" method="get">
+          <div class="origin-gg-input-wrapper">
+            <input type="text" class="origin-gg-input" placeholder="{{ section.settings.store_locator_placeholder }}" readonly style="cursor: pointer;" onclick="window.location.href='{{ section.settings.store_locator_link | default: '#' }}'">
+            <button type="button" class="origin-gg-submit">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 1L11 7L5 13"/></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- NEWSLETTER -->
+      <div class="origin-gg-footer__block">
+        <div class="origin-gg-footer__heading">{{ section.settings.newsletter_title }}</div>
+        {% if section.settings.newsletter_text != blank %}
+          <p class="origin-gg-footer__desc">{{ section.settings.newsletter_text }}</p>
+        {% endif %}
+        
+        {% form 'customer', class: 'origin-gg-newsletter-form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="origin-gg-input-wrapper">
+            <input 
+              type="email" 
+              name="contact[email]" 
+              class="origin-gg-input" 
+              value="{{ form.email }}" 
+              aria-required="true" 
+              autocorrect="off" 
+              autocapitalize="off" 
+              placeholder="Email" 
+              required
+            >
+            <button type="submit" class="origin-gg-submit" aria-label="Subscribe">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 1L11 7L5 13"/></svg>
+            </button>
+          </div>
+          {% if form.posted_successfully? %}
+            <p style="margin-top: 10px; font-size: 13px; color: #fff; opacity: 0.7;">Thanks for subscribing.</p>
+          {% endif %}
+        {% endform %}
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM SECTION -->
+  <div class="origin-gg-footer__bottom">
+    <div class="origin-gg-copyright">
+      {{ section.settings.copyright_text }}
+    </div>
+
+    <div class="origin-gg-huge-logo">
+      {% if section.settings.huge_logo_image %}
+        <img 
+          src="{{ section.settings.huge_logo_image | image_url: width: 2400 }}" 
+          alt="{{ shop.name }}" 
+          loading="lazy"
+          width="{{ section.settings.huge_logo_image.width }}"
+          height="{{ section.settings.huge_logo_image.height }}"
+        >
+      {% else %}
+        <span class="origin-gg-huge-logo-text">{{ section.settings.huge_logo_text }}</span>
+      {% endif %}
+    </div>
+  </div>
+
+</footer>
+
+
