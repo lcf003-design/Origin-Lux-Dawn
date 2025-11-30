@@ -141,7 +141,7 @@
     transition: var(--header-transition);
     background-color: transparent; 
     color: var(--header-text-initial);
-    pointer-events: auto; /* Ensures buttons are clickable */
+    pointer-events: none; /* Container passes clicks, children catch them */
   }
 
   .origin-gucci-header.is-shrunk .origin-sticky-bar {
@@ -242,7 +242,9 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    pointer-events: auto; /* Ensure actions are always clickable */
+    pointer-events: auto !important; /* Force clickable */
+    position: relative;
+    z-index: 101; /* Above standard content */
   }
 
   .origin-sticky-bar__actions {
@@ -254,21 +256,23 @@
     background: transparent;
     border: none;
     padding: 8px;
-    cursor: pointer;
+    cursor: pointer !important;
     color: inherit; 
     display: inline-flex;
     align-items: center;
     justify-content: center;
     transition: var(--header-transition);
-    pointer-events: auto;
-    text-decoration: none; /* Fix for anchor tags */
+    pointer-events: auto !important; /* Force clickable */
+    text-decoration: none;
+    position: relative;
+    z-index: 102; /* Top layer */
   }
 
   .origin-icon-button svg,
   .origin-sticky-button svg {
     width: 24px;
     height: 24px;
-    pointer-events: none; /* Let clicks pass to the button/link */
+    pointer-events: none; /* Let click pass to parent link/button */
   }
 
   .origin-desktop-menu {
@@ -330,7 +334,7 @@
   .origin-menu-drawer {
     /* Transparent Black Background */
     background: rgba(0, 0, 0, 0.5); 
-    backdrop-filter: blur(20px); /* Heavy blur for readability */
+    backdrop-filter: blur(20px);
     width: 320px;
     max-width: 85vw;
     height: 100%;
@@ -353,7 +357,7 @@
     border: none;
     cursor: pointer;
     margin-bottom: 30px;
-    color: #ffffff; /* White close button */
+    color: #ffffff; 
   }
   
   .origin-menu-list {
@@ -368,7 +372,7 @@
 
   .origin-menu-list a {
     text-decoration: none;
-    color: #ffffff; /* White links */
+    color: #ffffff; 
     font-size: 18px;
     font-weight: 500;
     text-transform: uppercase;
@@ -386,7 +390,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    color: #ffffff; /* White Text */
+    color: #ffffff;
   }
 
   .origin-search-close {
@@ -396,7 +400,8 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: #ffffff; /* White close button */
+    color: #ffffff; 
+    z-index: 10;
   }
 
   .origin-search-form {
@@ -408,18 +413,18 @@
   .origin-search-input {
     width: 100%;
     border: none;
-    border-bottom: 2px solid #ffffff; /* White underline */
+    border-bottom: 2px solid #ffffff; 
     font-size: 32px;
     padding: 10px 0;
     background: transparent;
     border-radius: 0;
     outline: none;
     font-family: inherit;
-    color: #ffffff; /* White input text */
+    color: #ffffff; 
   }
 
   .origin-search-input::placeholder {
-    color: rgba(255, 255, 255, 0.6); /* Semi-transparent white placeholder */
+    color: rgba(255, 255, 255, 0.6); 
   }
 
   .origin-search-submit {
@@ -434,7 +439,7 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 600;
-    color: #ffffff; /* White submit text */
+    color: #ffffff; 
   }
 
 </style>
@@ -477,15 +482,15 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       </button>
       
-      <!-- Account Link (Explicitly forced to be clickable) -->
+      <!-- Account Link (Priority Fix) -->
       {% if shop.customer_accounts_enabled %}
-        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="origin-icon-button" aria-label="Account" style="pointer-events: auto;">
+        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="origin-icon-button" aria-label="Account">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </a>
       {% endif %}
 
       <!-- Cart -->
-      <a href="{{ routes.cart_url }}" class="origin-icon-button" aria-label="Cart" style="pointer-events: auto;">
+      <a href="{{ routes.cart_url }}" class="origin-icon-button" aria-label="Cart">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2zM6 5H4V3h2l.6 3h13.8l.6-3H23v2h-2"/><path d="M6 5l1.5 10h11L20 5"/></svg>
       </a>
     </div>
