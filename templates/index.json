@@ -61,6 +61,37 @@
         "overlay_opacity": 10
       }
     },
+    "origin_shop_the_look_HQYUCp": {
+      "type": "origin-shop-the-look",
+      "blocks": {
+        "hotspot_JrfTwe": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "pos_x": 40,
+            "pos_y": 40
+          }
+        },
+        "hotspot_ajEKxL": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "pos_x": 60,
+            "pos_y": 60
+          }
+        }
+      },
+      "block_order": [
+        "hotspot_JrfTwe",
+        "hotspot_ajEKxL"
+      ],
+      "name": "Origin Shop The Look",
+      "settings": {
+        "image_desktop": "shopify://shop_images/B377C9DE-3F09-42A2-A12A-ABC246F815B5.jpg",
+        "heading": "",
+        "hotspot_color": "#ffffff"
+      }
+    },
     "1764515948ffeeb3a7": {
       "type": "_blocks",
       "blocks": {
@@ -190,6 +221,7 @@
   },
   "order": [
     "editorial_spotlight_xjEVgn",
+    "origin_shop_the_look_HQYUCp",
     "1764515948ffeeb3a7",
     "origin_marquee_MhwXkK",
     "gucci_grid_8G6xe9",
