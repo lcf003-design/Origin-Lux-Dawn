@@ -27,15 +27,47 @@
       "info": "Specific color for the large fallback text."
     },
     {
+      "type": "header",
+      "content": "Huge Logo Sizing"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width_logo",
+      "label": "Stretch Logo to Screen Edges",
+      "default": true,
+      "info": "Allows the text/image to go full width."
+    },
+    {
+      "type": "range",
+      "id": "huge_logo_size_desktop",
+      "min": 5,
+      "max": 30,
+      "step": 0.5,
+      "unit": "vw",
+      "label": "Font Size (Desktop)",
+      "default": 13.5,
+      "info": "Adjust to fit text on one line."
+    },
+    {
+      "type": "range",
+      "id": "huge_logo_size_mobile",
+      "min": 5,
+      "max": 30,
+      "step": 0.5,
+      "unit": "vw",
+      "label": "Font Size (Mobile)",
+      "default": 18
+    },
+    {
       "type": "range",
       "id": "hero_logo_width_desktop",
       "min": 20,
       "max": 100,
       "step": 5,
       "unit": "%",
-      "label": "Huge Logo Width (Desktop)",
+      "label": "Image Width (Desktop)",
       "default": 60,
-      "info": "Percentage of screen width"
+      "info": "Only applies if using an Image Logo."
     },
     {
       "type": "range",
@@ -44,7 +76,7 @@
       "max": 100,
       "step": 5,
       "unit": "%",
-      "label": "Huge Logo Width (Mobile)",
+      "label": "Image Width (Mobile)",
       "default": 80
     },
     {
@@ -124,8 +156,8 @@
   /* --- VARS --- */
   .origin-gucci-header-section {
     --header-transition: all 0.4s ease-out;
-    --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}vw;
-    --logo-width-mobile: {{ section.settings.hero_logo_width_mobile }}vw;
+    --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}%;
+    --logo-width-mobile: {{ section.settings.hero_logo_width_mobile }}%;
     --logo-vertical-pos: {{ section.settings.logo_vertical_position }}vh;
     
     --header-bg-shrunk: {{ section.settings.header_bg_color_shrunk }};
@@ -133,6 +165,9 @@
     --header-text-initial: {{ section.settings.header_text_color_initial }};
     --menu-text-color: {{ section.settings.menu_text_color }};
     --huge-logo-text-color: {{ section.settings.huge_logo_color }};
+    
+    --huge-logo-size-desktop: {{ section.settings.huge_logo_size_desktop }}vw;
+    --huge-logo-size-mobile: {{ section.settings.huge_logo_size_mobile }}vw;
   }
 
   /* --- WRAPPER --- */
@@ -233,22 +268,30 @@
     width: var(--logo-width-desktop);
     max-width: 1200px;
     text-align: center;
-    /* Removed default color inheritance to prefer specific class */
+    padding: 0 20px;
+  }
+  
+  /* FULL WIDTH LOGIC */
+  .origin-huge-logo-inner.is-full-width {
+    width: 100vw;
+    max-width: none;
+    padding: 0;
   }
 
   .origin-huge-logo-img {
     width: 100%;
     height: auto;
     display: block;
+    margin: 0 auto;
   }
 
   .origin-huge-logo-text {
-    font-size: 10vw;
+    font-size: var(--huge-logo-size-desktop); /* Dynamic Size */
     line-height: 1;
     font-family: serif;
     text-transform: uppercase;
     margin: 0;
-    /* Explicitly use the new specific variable */
+    white-space: nowrap; /* Prevent Wrapping */
     color: var(--huge-logo-text-color) !important; 
   }
 
@@ -264,7 +307,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    z-index: 2147483647; /* MAX Z-INDEX */
+    z-index: 2147483647; 
     pointer-events: auto !important; 
     position: relative;
   }
@@ -322,6 +365,15 @@
     .origin-huge-logo-inner {
       width: var(--logo-width-mobile);
     }
+    
+    .origin-huge-logo-inner.is-full-width {
+      width: 100vw;
+    }
+    
+    .origin-huge-logo-text {
+      font-size: var(--huge-logo-size-mobile);
+    }
+
     .origin-sticky-bar {
       padding: 12px 16px;
     }
@@ -377,7 +429,7 @@
     border: none;
     cursor: pointer;
     margin-bottom: 30px;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: var(--menu-text-color); 
   }
   
   .origin-menu-list {
@@ -392,7 +444,7 @@
 
   .origin-menu-list a {
     text-decoration: none;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: var(--menu-text-color); 
     font-size: 18px;
     font-weight: 500;
     text-transform: uppercase;
@@ -409,7 +461,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: var(--menu-text-color); 
   }
 
   .origin-search-close {
@@ -419,7 +471,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: var(--menu-text-color); 
     z-index: 10;
   }
 
@@ -439,7 +491,7 @@
     border-radius: 0;
     outline: none;
     font-family: inherit;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: var(--menu-text-color); 
   }
 
   .origin-search-input::placeholder {
@@ -459,7 +511,7 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 600;
-    color: var(--menu-text-color); /* Controlled by setting */
+    color: var(--menu-text-color); 
   }
 
 </style>
@@ -522,7 +574,7 @@
 
   <!-- 2. HUGE LOGO OVERLAY -->
   <div class="origin-huge-logo-wrapper">
-    <div class="origin-huge-logo-inner">
+    <div class="origin-huge-logo-inner {% if section.settings.full_width_logo %}is-full-width{% endif %}">
       {% if section.settings.logo_image %}
         <img src="{{ section.settings.logo_image | image_url: width: 1600 }}" 
              alt="{{ section.settings.logo_text | escape }}" 

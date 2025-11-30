@@ -18,21 +18,21 @@
           "type": "menu_column",
           "settings": {
             "title": "MAY WE HELP YOU?",
-            "menu": ""
+            "menu": "footer-help"
           }
         },
         "menu_column_kjaGG3": {
           "type": "menu_column",
           "settings": {
             "title": "THE COMPANY",
-            "menu": ""
+            "menu": "footer-legal"
           }
         },
         "menu_column_nithan": {
           "type": "menu_column",
           "settings": {
-            "title": "GUCCI SERVICES",
-            "menu": ""
+            "title": "ORIGIN SERVICES",
+            "menu": "footer"
           }
         }
       },
@@ -45,7 +45,7 @@
       "settings": {
         "bg_color": "#000000",
         "text_color": "#ffffff",
-        "newsletter_title": "SIGN UP FOR GUCCI UPDATES",
+        "newsletter_title": "SIGN UP FOR ORIGIN UPDATES",
         "newsletter_text": "By entering your email address below, you consent to receiving our newsletter with access to our latest collections, events and initiatives.",
         "huge_logo_text": "Origin intl",
         "full_width_logo": true,
