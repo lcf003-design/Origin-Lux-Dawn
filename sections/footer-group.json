@@ -1,15 +1,60 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
-    "origin_footer_Uf4D33": {
-      "type": "origin-footer",
-      "name": "Origin Footer (Grand)",
+    "origin_ggfooter_T9RUEP": {
+      "type": "origin-ggfooter",
+      "blocks": {
+        "menu_column_9k3aXw": {
+          "type": "menu_column",
+          "settings": {
+            "title": "MAY WE HELP YOU?",
+            "menu": ""
+          }
+        },
+        "menu_column_kjaGG3": {
+          "type": "menu_column",
+          "settings": {
+            "title": "THE COMPANY",
+            "menu": ""
+          }
+        },
+        "menu_column_nithan": {
+          "type": "menu_column",
+          "settings": {
+            "title": "GUCCI SERVICES",
+            "menu": ""
+          }
+        }
+      },
+      "block_order": [
+        "menu_column_9k3aXw",
+        "menu_column_kjaGG3",
+        "menu_column_nithan"
+      ],
+      "name": "Origin GG Footer",
       "settings": {
-        "brand_name": "ORIGIN INTL",
-        "menu": "footer-legal",
         "bg_color": "#000000",
-        "text_color": "#ffffff"
+        "text_color": "#ffffff",
+        "newsletter_title": "SIGN UP FOR GUCCI UPDATES",
+        "newsletter_text": "By entering your email address below, you consent to receiving our newsletter with access to our latest collections, events and initiatives.",
+        "huge_logo_text": "Origin intl",
+        "full_width_logo": true,
+        "huge_logo_size_desktop": 17,
+        "huge_logo_size_mobile": 18,
+        "huge_logo_padding_top": 20,
+        "huge_logo_padding_bottom": 20,
+        "huge_logo_width": 100,
+        "copyright_text": "© 2016 - 2025 Origin Intl Boutique - All rights reserved."
       }
     },
     "footer": {
@@ -32,7 +77,7 @@
     }
   },
   "order": [
-    "origin_footer_Uf4D33",
+    "origin_ggfooter_T9RUEP",
     "footer"
   ]
 }

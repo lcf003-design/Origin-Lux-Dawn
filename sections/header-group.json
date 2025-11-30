@@ -15,13 +15,15 @@
       "type": "origin-ggheader",
       "name": "Origin GG Header",
       "settings": {
-        "logo_text": "GUCCI",
-        "hero_logo_width_desktop": 60,
+        "logo_text": "origin intl",
+        "huge_logo_color": "#ffffff",
+        "hero_logo_width_desktop": 70,
         "hero_logo_width_mobile": 80,
         "logo_vertical_position": 40,
         "header_bg_color_shrunk": "#ffffff",
         "header_text_color_shrunk": "#111111",
         "header_text_color_initial": "#ffffff",
+        "menu_text_color": "#ffffff",
         "menu": "",
         "show_desktop_menu": true
       }
