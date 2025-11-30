@@ -28,8 +28,8 @@
           "settings": {
             "heading_text": "Featured story",
             "padding_vertical": 0,
-            "text_color": "#ffffff",
-            "font_size": 32
+            "text_color": "#121212",
+            "font_size": 55
           }
         },
         "button_block_DaiYyP": {
@@ -51,14 +51,69 @@
       ],
       "name": "Editorial Spotlight",
       "settings": {
-        "image_desktop": "shopify://shop_images/Hero_banner_2.jpg",
-        "image_mobile": "shopify://shop_images/Hero_banner_2.jpg",
+        "image_desktop": "shopify://shop_images/Untitled_3b57e759-f769-4600-b256-1247fb625c65.png",
         "height_desktop": 750,
         "heading": "",
         "button_text": "",
         "button_link": "",
         "text_color": "#ffffff",
         "overlay_opacity": 10
+      }
+    },
+    "rich_text_XdggXL": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_dRzPjq": {
+          "type": "heading",
+          "settings": {
+            "heading": "SHOP THE LOOK",
+            "heading_size": "h0"
+          }
+        }
+      },
+      "block_order": [
+        "heading_dRzPjq"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "origin_shop_the_look_HQYUCp": {
+      "type": "origin-shop-the-look",
+      "blocks": {
+        "hotspot_JrfTwe": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "pos_x": 24,
+            "pos_y": 59
+          }
+        },
+        "hotspot_ajEKxL": {
+          "type": "hotspot",
+          "disabled": true,
+          "settings": {
+            "product": "",
+            "pos_x": 60,
+            "pos_y": 60
+          }
+        }
+      },
+      "block_order": [
+        "hotspot_JrfTwe",
+        "hotspot_ajEKxL"
+      ],
+      "name": "Origin Shop The Look",
+      "settings": {
+        "image_desktop": "shopify://shop_images/B377C9DE-3F09-42A2-A12A-ABC246F815B5.jpg",
+        "heading": "",
+        "hotspot_color": "#ffffff"
       }
     },
     "1764515948ffeeb3a7": {
@@ -190,6 +245,8 @@
   },
   "order": [
     "editorial_spotlight_xjEVgn",
+    "rich_text_XdggXL",
+    "origin_shop_the_look_HQYUCp",
     "1764515948ffeeb3a7",
     "origin_marquee_MhwXkK",
     "gucci_grid_8G6xe9",
