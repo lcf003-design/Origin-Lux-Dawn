@@ -254,6 +254,27 @@
 }
 {% endschema %}
 
+<style>
+  .section-editorial-spotlight .spotlight-button-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 749px) {
+    .section-editorial-spotlight .spotlight-button-row {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .section-editorial-spotlight .spotlight-button-row .spotlight-block-button {
+      width: 100%;
+    }
+  }
+</style>
+
 <div
   class="editorial-spotlight-wrapper{% if section.settings.image_mobile != blank %} has-mobile-image{% endif %}"
   style="--origin-spotlight-height: {{ section.settings.height_desktop }}px; --origin-spotlight-text-color: {{ section.settings.text_color }}; --origin-spotlight-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"
@@ -291,6 +312,7 @@
 
     {% if section.blocks.size > 0 %}
       <div class="spotlight-blocks" style="color: var(--origin-spotlight-text-color); text-align: center; width: 100%; max-width: 960px; margin: 0 auto;">
+        {% assign button_row_open = false %}
         {% for block in section.blocks %}
         {% case block.type %}
         {% when 'heading_block' %}
@@ -342,6 +364,10 @@
             {% assign padding_val = block.settings.padding_vertical | default: 0 %}
             {% assign color_val = block.settings.text_color | default: '#FFFFFF' %}
             {% assign font_size_val = block.settings.font_size | default: 16 %}
+            {% if button_row_open == false %}
+              <div class="spotlight-button-row">
+              {% assign button_row_open = true %}
+            {% endif %}
             {% if btn_style == 'link' %}
               {% assign btn_classes = btn_classes | append: ' spotlight-block-button--link' %}
             {% else %}
@@ -362,6 +388,7 @@
           {% endif %}
         {% endcase %}
         {% endfor %}
+        {% if button_row_open %}</div>{% endif %}
       </div>
     {% endif %}
   </div>
