@@ -61,6 +61,10 @@
         "overlay_opacity": 10
       }
     },
+    "17645158603348f1f2": {
+      "type": "_blocks",
+      "settings": {}
+    },
     "origin_marquee_MhwXkK": {
       "type": "origin-marquee",
       "disabled": true,
@@ -160,6 +164,7 @@
   },
   "order": [
     "editorial_spotlight_xjEVgn",
+    "17645158603348f1f2",
     "origin_marquee_MhwXkK",
     "gucci_grid_8G6xe9",
     "origin_split_mCWFfX"
