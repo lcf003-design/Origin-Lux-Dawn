@@ -17,9 +17,11 @@
       "settings": {
         "logo_text": "origin intl",
         "huge_logo_color": "#121212",
+        "font_huge_logo": "serif",
+        "font_menu": "system_ui_n4",
         "full_width_logo": true,
         "huge_logo_size_desktop": 13.5,
-        "huge_logo_size_mobile": 18,
+        "huge_logo_size_mobile": 13,
         "hero_logo_width_desktop": 70,
         "hero_logo_width_mobile": 80,
         "logo_vertical_position": 40,
