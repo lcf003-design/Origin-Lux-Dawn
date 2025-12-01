@@ -25,10 +25,9 @@
         "logo_vertical_position": 40,
         "header_bg_color_shrunk": "#ffffff",
         "header_text_color_shrunk": "#111111",
-        "header_text_color_initial": "#f22f6c",
+        "header_text_color_initial": "#121212",
         "menu_text_color": "#ffffff",
-        "menu": "orgin-lux",
-        "show_desktop_menu": true
+        "menu": "orgin-lux"
       }
     },
     "header": {
@@ -76,23 +75,11 @@
         "enable_country_selector": false,
         "enable_language_selector": false
       }
-    },
-    "origin_header_Rg9Xxk": {
-      "type": "origin-header",
-      "disabled": true,
-      "name": "Origin Header V4 (Final)",
-      "settings": {
-        "logo_width": 160,
-        "padding_top": 20,
-        "padding_side": 40,
-        "menu": "origin-menu"
-      }
     }
   },
   "order": [
     "origin_ggheader_zynrDj",
     "header",
-    "announcement_bar_Pmqzea",
-    "origin_header_Rg9Xxk"
+    "announcement_bar_Pmqzea"
   ]
 }

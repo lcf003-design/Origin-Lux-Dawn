@@ -4,6 +4,10 @@
   "class": "section-editorial-spotlight",
   "settings": [
     {
+      "type": "header",
+      "content": "Image Settings"
+    },
+    {
       "type": "image_picker",
       "id": "image_desktop",
       "label": "Desktop Image",
@@ -16,39 +20,61 @@
       "info": "Portrait Mode (9:16)"
     },
     {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#000000",
+      "info": "Useful if using transparent PNG images."
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "Desktop Section Height",
+      "default": "full",
+      "options": [
+        { "value": "full", "label": "Full Screen (100vh)" },
+        { "value": "large", "label": "Large (80vh)" },
+        { "value": "medium", "label": "Medium (60vh)" },
+        { "value": "auto", "label": "Adapt to Image (Natural Height)" }
+      ]
+    },
+    {
       "type": "range",
-      "id": "height_desktop",
-      "min": 400,
-      "max": 1000,
-      "step": 50,
-      "unit": "px",
-      "label": "Desktop Height",
-      "default": 750
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 0
     },
     {
       "type": "header",
-      "content": "TEXT"
+      "content": "Content Alignment"
     },
     {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Cruise 2026 Collection"
+      "type": "select",
+      "id": "text_position",
+      "label": "Desktop Text Position",
+      "default": "bottom-center",
+      "options": [
+        { "value": "top-left", "label": "Top Left" },
+        { "value": "top-center", "label": "Top Center" },
+        { "value": "top-right", "label": "Top Right" },
+        { "value": "center-left", "label": "Center Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "center-right", "label": "Center Right" },
+        { "value": "bottom-left", "label": "Bottom Left" },
+        { "value": "bottom-center", "label": "Bottom Center" },
+        { "value": "bottom-right", "label": "Bottom Right" }
+      ]
     },
     {
-      "type": "text",
-      "id": "button_text",
-      "label": "Button Label",
-      "default": "SHOP NOW"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Link"
-    },
-    {
-      "type": "header",
-      "content": "COLORS"
+      "type": "checkbox",
+      "id": "mobile_text_below",
+      "label": "Show text below image on mobile",
+      "default": true,
+      "info": "RECOMMENDED: Allows full mobile image to be seen without cropping."
     },
     {
       "type": "color",
@@ -57,14 +83,10 @@
       "default": "#FFFFFF"
     },
     {
-      "type": "range",
-      "id": "overlay_opacity",
-      "min": 0,
-      "max": 60,
-      "step": 5,
-      "unit": "%",
-      "label": "Black Overlay",
-      "default": 10
+      "type": "color",
+      "id": "mobile_text_color",
+      "label": "Mobile Text Color (if below image)",
+      "default": "#000000"
     }
   ],
   "blocks": [
@@ -76,33 +98,37 @@
           "type": "text",
           "id": "heading_text",
           "label": "Heading",
-          "default": "Featured story"
+          "default": "THE COLLECTION"
         },
         {
           "type": "range",
-          "id": "padding_vertical",
+          "id": "font_scale_desktop",
+          "min": 1,
+          "max": 15,
+          "step": 0.5,
+          "unit": "vw",
+          "label": "Font Scale (Desktop)",
+          "default": 4
+        },
+        {
+          "type": "range",
+          "id": "font_scale_mobile",
+          "min": 20,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "label": "Font Size (Mobile)",
+          "default": 42
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
           "min": 0,
-          "max": 80,
+          "max": 60,
           "step": 4,
           "unit": "px",
-          "label": "Vertical padding",
-          "default": 0
-        },
-        {
-          "type": "color",
-          "id": "text_color",
-          "label": "Text color",
-          "default": "#FFFFFF"
-        },
-        {
-          "type": "range",
-          "id": "font_size",
-          "min": 10,
-          "max": 72,
-          "step": 1,
-          "unit": "px",
-          "label": "Font size",
-          "default": 32
+          "label": "Bottom Spacing",
+          "default": 16
         }
       ]
     },
@@ -114,276 +140,413 @@
           "type": "text",
           "id": "subheading_text",
           "label": "Subheading",
-          "default": "A closer look"
-        },
-        {
-          "type": "range",
-          "id": "padding_vertical",
-          "min": 0,
-          "max": 80,
-          "step": 4,
-          "unit": "px",
-          "label": "Vertical padding",
-          "default": 0
-        },
-        {
-          "type": "color",
-          "id": "text_color",
-          "label": "Text color",
-          "default": "#FFFFFF"
+          "default": "New Arrivals"
         },
         {
           "type": "range",
           "id": "font_size",
           "min": 10,
-          "max": 48,
+          "max": 30,
           "step": 1,
           "unit": "px",
-          "label": "Font size",
-          "default": 22
+          "label": "Font Size",
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "letter_spacing",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "unit": "px",
+          "label": "Letter Spacing",
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "min": 0,
+          "max": 60,
+          "step": 4,
+          "unit": "px",
+          "label": "Bottom Spacing",
+          "default": 16
         }
       ]
     },
     {
       "type": "body_block",
-      "name": "Body",
+      "name": "Body Text",
       "settings": [
         {
           "type": "richtext",
           "id": "body_content",
           "label": "Body text",
-          "default": "<p>Share the story behind this edit or add supporting copy for the collection.</p>"
+          "default": "<p>Explore the campaign.</p>"
         },
         {
           "type": "range",
-          "id": "padding_vertical",
+          "id": "padding_bottom",
           "min": 0,
-          "max": 80,
+          "max": 60,
           "step": 4,
           "unit": "px",
-          "label": "Vertical padding",
-          "default": 0
-        },
-        {
-          "type": "color",
-          "id": "text_color",
-          "label": "Text color",
-          "default": "#FFFFFF"
-        },
-        {
-          "type": "range",
-          "id": "font_size",
-          "min": 10,
-          "max": 36,
-          "step": 1,
-          "unit": "px",
-          "label": "Font size",
-          "default": 16
+          "label": "Bottom Spacing",
+          "default": 24
         }
       ]
     },
     {
       "type": "button_block",
-      "name": "Button",
+      "name": "Buttons",
       "settings": [
         {
           "type": "text",
-          "id": "button_label",
-          "label": "Label",
-          "default": "For Her"
+          "id": "button_label_1",
+          "label": "Button 1 Label",
+          "default": "SHOP WOMEN"
         },
         {
           "type": "url",
-          "id": "button_link",
-          "label": "Link"
+          "id": "button_link_1",
+          "label": "Button 1 Link"
+        },
+        {
+          "type": "text",
+          "id": "button_label_2",
+          "label": "Button 2 Label",
+          "default": "SHOP MEN"
+        },
+        {
+          "type": "url",
+          "id": "button_link_2",
+          "label": "Button 2 Link"
         },
         {
           "type": "select",
           "id": "button_style",
-          "label": "Button style",
-          "default": "primary",
+          "label": "Button Style",
+          "default": "solid",
           "options": [
-            {"value": "primary", "label": "Primary"},
-            {"value": "secondary", "label": "Secondary"},
-            {"value": "link", "label": "Link"}
+            {"value": "solid", "label": "Solid Box"},
+            {"value": "outline", "label": "Outline"},
+            {"value": "underline", "label": "Underline Text"}
           ]
-        },
-        {
-          "type": "range",
-          "id": "padding_vertical",
-          "min": 0,
-          "max": 80,
-          "step": 4,
-          "unit": "px",
-          "label": "Vertical padding",
-          "default": 0
-        },
-        {
-          "type": "color",
-          "id": "text_color",
-          "label": "Text color",
-          "default": "#FFFFFF"
-        },
-        {
-          "type": "range",
-          "id": "font_size",
-          "min": 10,
-          "max": 32,
-          "step": 1,
-          "unit": "px",
-          "label": "Font size",
-          "default": 16
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Editorial Spotlight"
+      "name": "Origin Editorial Spotlight",
+      "blocks": [
+        { "type": "subheading_block" },
+        { "type": "heading_block" },
+        { "type": "button_block" }
+      ]
     }
   ]
 }
 {% endschema %}
 
 <style>
-  .section-editorial-spotlight .spotlight-button-row {
+  .origin-spotlight {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 16px;
-    row-gap: 12px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    background-color: {{ section.settings.section_bg_color }}; /* Fix for PNGs */
   }
 
-  @media (max-width: 749px) {
-    .section-editorial-spotlight .spotlight-button-row {
-      flex-direction: column;
-      width: 100%;
-    }
+  /* --- HEIGHT SETTINGS --- */
+  .origin-spotlight--full { height: 100vh; }
+  .origin-spotlight--large { height: 80vh; }
+  .origin-spotlight--medium { height: 60vh; }
+  .origin-spotlight--auto { height: auto; }
 
-    .section-editorial-spotlight .spotlight-button-row .spotlight-block-button {
-      width: 100%;
-    }
+  /* --- IMAGE LAYER --- */
+  .origin-spotlight__bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  /* Auto height override */
+  .origin-spotlight--auto .origin-spotlight__bg {
+    position: relative;
+    height: auto;
+  }
+
+  .origin-spotlight__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Overlay */
+  .origin-spotlight__overlay {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 2;
+  }
+
+  /* --- CONTENT LAYER (CSS GRID FIX) --- */
+  .origin-spotlight__content-wrapper {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+    z-index: 3;
+    pointer-events: none;
+    padding: 60px 40px;
+    box-sizing: border-box;
+    color: {{ section.settings.text_color }};
+    
+    /* THE MAGIC: CSS Grid for Bulletproof Positioning */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+
+  .origin-spotlight__content {
+    max-width: 1200px;
+    width: 100%;
+    pointer-events: auto;
+  }
+
+  /* Grid Area Mapping */
+  .pos-top-left      { grid-column: 1; grid-row: 1; justify-self: start; align-self: start; text-align: left; }
+  .pos-top-center    { grid-column: 2; grid-row: 1; justify-self: center; align-self: start; text-align: center; }
+  .pos-top-right     { grid-column: 3; grid-row: 1; justify-self: end; align-self: start; text-align: right; }
+  
+  .pos-center-left   { grid-column: 1; grid-row: 2; justify-self: start; align-self: center; text-align: left; }
+  .pos-center        { grid-column: 2; grid-row: 2; justify-self: center; align-self: center; text-align: center; }
+  .pos-center-right  { grid-column: 3; grid-row: 2; justify-self: end; align-self: center; text-align: right; }
+  
+  .pos-bottom-left   { grid-column: 1; grid-row: 3; justify-self: start; align-self: end; text-align: left; }
+  .pos-bottom-center { grid-column: 1 / span 3; grid-row: 3; justify-self: center; align-self: end; text-align: center; } /* Spans all cols to ensure center */
+  .pos-bottom-right  { grid-column: 3; grid-row: 3; justify-self: end; align-self: end; text-align: right; }
+
+  /* --- TYPOGRAPHY --- */
+  .origin-spotlight__heading {
+    margin: 0;
+    line-height: 0.9;
+    font-family: serif;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .origin-spotlight__subheading {
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
+  .origin-spotlight__body p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* --- BUTTONS --- */
+  .origin-spotlight__buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  
+  /* Inherit text alignment for buttons */
+  .pos-top-center .origin-spotlight__buttons,
+  .pos-center .origin-spotlight__buttons,
+  .pos-bottom-center .origin-spotlight__buttons {
+    justify-content: center;
+  }
+  .pos-top-right .origin-spotlight__buttons,
+  .pos-center-right .origin-spotlight__buttons,
+  .pos-bottom-right .origin-spotlight__buttons {
+    justify-content: flex-end;
+  }
+
+  .origin-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  /* Solid Style */
+  .btn-solid {
+    background: #fff;
+    color: #000;
+    border: 1px solid #fff;
+  }
+  .btn-solid:hover {
+    background: transparent;
+    color: #fff;
+  }
+
+  /* Outline Style */
+  .btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+  }
+  .btn-outline:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  /* Underline Style */
+  .btn-underline {
+    background: transparent;
+    color: #fff;
+    padding: 10px 0;
+    border-bottom: 1px solid #fff;
+  }
+  .btn-underline:hover {
+    opacity: 0.7;
+  }
+
+  /* --- MOBILE LOGIC --- */
+  @media (max-width: 768px) {
+    .desktop-img { display: none !important; }
+    .mobile-img { display: block !important; }
+
+    /* Mobile Text Below Mode */
+    {% if section.settings.mobile_text_below %}
+      .origin-spotlight {
+        height: auto !important;
+        min-height: 0 !important;
+        display: block; 
+      }
+      .origin-spotlight__bg {
+        position: relative; /* Normal flow */
+        width: 100%;
+        height: auto;
+        inset: auto;
+      }
+      .origin-spotlight__img.mobile-img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        display: block;
+      }
+      .origin-spotlight__overlay {
+        display: none; 
+      }
+      .origin-spotlight__content-wrapper {
+        position: relative; /* Back to normal flow */
+        height: auto;
+        width: 100%;
+        padding: 40px 20px;
+        background: {{ section.settings.section_bg_color }}; /* Match section bg */
+        color: {{ section.settings.mobile_text_color }};
+        display: flex; /* Reset grid to flex for simple stack */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        pointer-events: auto;
+      }
+      
+      .origin-spotlight__content { 
+        grid-column: auto; grid-row: auto; /* Reset grid placement */
+      }
+
+      .origin-spotlight__buttons { justify-content: center; }
+      
+      /* Only invert colors if background is white/light */
+      /* Note: You can now control Mobile Text Color in settings */
+      .btn-solid { background: {{ section.settings.mobile_text_color }}; color: {{ section.settings.section_bg_color }}; border-color: {{ section.settings.mobile_text_color }}; }
+      .btn-outline { color: {{ section.settings.mobile_text_color }}; border-color: {{ section.settings.mobile_text_color }}; }
+      .btn-underline { color: {{ section.settings.mobile_text_color }}; border-color: {{ section.settings.mobile_text_color }}; }
+    {% else %}
+      /* Overlay Mode on Mobile */
+      .origin-spotlight__content-wrapper { padding: 30px 20px; }
+    {% endif %}
+  }
+
+  @media (min-width: 769px) {
+    .mobile-img { display: none !important; }
+    .desktop-img { display: block !important; }
   }
 </style>
 
-<div
-  class="editorial-spotlight-wrapper{% if section.settings.image_mobile != blank %} has-mobile-image{% endif %}"
-  style="--origin-spotlight-height: {{ section.settings.height_desktop }}px; --origin-spotlight-text-color: {{ section.settings.text_color }}; --origin-spotlight-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"
->
-  <div class="hero-bg">
-    <div class="overlay"></div>
-    
+<div class="origin-spotlight origin-spotlight--{{ section.settings.section_height }}">
+  
+  <div class="origin-spotlight__bg">
+    <div class="origin-spotlight__overlay"></div>
     {% if section.settings.image_desktop %}
-      <img src="{{ section.settings.image_desktop | image_url: width: 2000 }}" 
-           class="hero-img desktop-img" 
-           loading="eager" 
-           alt="{{ section.settings.heading }}"
-           width="2000" height="1000"> 
+      <img src="{{ section.settings.image_desktop | image_url: width: 2400 }}" class="origin-spotlight__img desktop-img" loading="lazy" alt="" width="{{ section.settings.image_desktop.width }}" height="{{ section.settings.image_desktop.height }}">
     {% else %}
-      {{ 'lifestyle-1' | placeholder_svg_tag: 'hero-img placeholder' }}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'origin-spotlight__img desktop-img' }}
     {% endif %}
 
     {% if section.settings.image_mobile %}
-      <img src="{{ section.settings.image_mobile | image_url: width: 1000 }}" 
-           class="hero-img mobile-img" 
-           loading="eager" 
-           alt="{{ section.settings.heading }}"
-           width="1000" height="1500"> 
+      <img src="{{ section.settings.image_mobile | image_url: width: 1200 }}" class="origin-spotlight__img mobile-img" loading="lazy" alt="" width="{{ section.settings.image_mobile.width }}" height="{{ section.settings.image_mobile.height }}">
+    {% else %}
+      {% if section.settings.image_desktop %}
+        <img src="{{ section.settings.image_desktop | image_url: width: 1200 }}" class="origin-spotlight__img mobile-img" loading="lazy" alt="" width="{{ section.settings.image_desktop.width }}" height="{{ section.settings.image_desktop.height }}">
+      {% else %}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'origin-spotlight__img mobile-img' }}
+      {% endif %}
     {% endif %}
   </div>
 
-  <div class="hero-content" style="position: static; top: auto; left: auto; transform: none; width: 100%; max-width: 960px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; min-height: 100vh; padding: 0 16px 96px; box-sizing: border-box;">
-    <h2 class="hero-title">{{ section.settings.heading }}</h2>
-    
-    {% if section.settings.button_text != blank %}
-      <a href="{{ section.settings.button_link }}" class="hero-btn">
-        {{ section.settings.button_text }}
-      </a>
-    {% endif %}
-
-    {% if section.blocks.size > 0 %}
-      <div class="spotlight-blocks" style="color: var(--origin-spotlight-text-color); text-align: center; width: 100%; max-width: 960px; margin: 0 auto;">
-        {% assign button_row_open = false %}
-        {% for block in section.blocks %}
-          {% case block.type %}
+  <div class="origin-spotlight__content-wrapper">
+    <div class="origin-spotlight__content pos-{{ section.settings.text_position }}">
+      {% for block in section.blocks %}
+        {% case block.type %}
           {% when 'heading_block' %}
-            {% if block.settings.heading_text != blank %}
-              {% assign padding_val = block.settings.padding_vertical | default: 0 %}
-              {% assign color_val = block.settings.text_color | default: '#FFFFFF' %}
-              {% assign font_size_val = block.settings.font_size | default: 32 %}
-              <h3
-                class="spotlight-block-heading"
-                style="padding-top: {{ padding_val }}px; padding-bottom: {{ padding_val }}px; color: {{ color_val }}; font-size: {{ font_size_val }}px;"
-                {{ block.shopify_attributes }}
-              >
-                {{ block.settings.heading_text }}
-              </h3>
-            {% endif %}
+            <h2 class="origin-spotlight__heading" 
+                style="font-size: clamp({{ block.settings.font_scale_mobile }}px, {{ block.settings.font_scale_desktop }}vw, 200px); padding-bottom: {{ block.settings.padding_bottom }}px;">
+              {{ block.settings.heading_text }}
+            </h2>
 
           {% when 'subheading_block' %}
-            {% if block.settings.subheading_text != blank %}
-              {% assign padding_val = block.settings.padding_vertical | default: 0 %}
-              {% assign color_val = block.settings.text_color | default: '#FFFFFF' %}
-              {% assign font_size_val = block.settings.font_size | default: 22 %}
-              <h4
-                class="spotlight-block-subheading"
-                style="padding-top: {{ padding_val }}px; padding-bottom: {{ padding_val }}px; color: {{ color_val }}; font-size: {{ font_size_val }}px;"
-                {{ block.shopify_attributes }}
-              >
-                {{ block.settings.subheading_text }}
-              </h4>
-            {% endif %}
+            <h3 class="origin-spotlight__subheading" 
+                style="font-size: {{ block.settings.font_size }}px; letter-spacing: {{ block.settings.letter_spacing }}px; padding-bottom: {{ block.settings.padding_bottom }}px;">
+              {{ block.settings.subheading_text }}
+            </h3>
 
           {% when 'body_block' %}
-            {% if block.settings.body_content != blank %}
-              {% assign padding_val = block.settings.padding_vertical | default: 0 %}
-              {% assign color_val = block.settings.text_color | default: '#FFFFFF' %}
-              {% assign font_size_val = block.settings.font_size | default: 16 %}
-              <div
-                class="spotlight-block-body rte"
-                style="padding-top: {{ padding_val }}px; padding-bottom: {{ padding_val }}px; color: {{ color_val }}; font-size: {{ font_size_val }}px;"
-                {{ block.shopify_attributes }}
-              >
-                {{ block.settings.body_content }}
-              </div>
-            {% endif %}
+            <div class="origin-spotlight__body" style="padding-bottom: {{ block.settings.padding_bottom }}px;">
+              {{ block.settings.body_content }}
+            </div>
 
           {% when 'button_block' %}
-            {% if block.settings.button_label != blank %}
-              {% assign btn_style = block.settings.button_style | default: 'primary' %}
-              {% assign btn_classes = 'spotlight-block-button' %}
-              {% assign padding_val = block.settings.padding_vertical | default: 0 %}
-              {% assign color_val = block.settings.text_color | default: '#FFFFFF' %}
-              {% assign font_size_val = block.settings.font_size | default: 16 %}
-              {% if button_row_open == false %}
-                {{ '<div class="spotlight-button-row">' }}
-                {% assign button_row_open = true %}
+            <div class="origin-spotlight__buttons">
+              {% if block.settings.button_label_1 != blank %}
+                <a href="{{ block.settings.button_link_1 }}" class="origin-btn btn-{{ block.settings.button_style }}">
+                  {{ block.settings.button_label_1 }}
+                </a>
               {% endif %}
-              {% if btn_style == 'link' %}
-                {% assign btn_classes = btn_classes | append: ' spotlight-block-button--link' %}
-              {% else %}
-                {% assign btn_classes = btn_classes | append: ' hero-btn' %}
-                {% if btn_style == 'secondary' %}
-                  {% assign btn_classes = btn_classes | append: ' hero-btn--secondary' %}
-                {% endif %}
+              {% if block.settings.button_label_2 != blank %}
+                <a href="{{ block.settings.button_link_2 }}" class="origin-btn btn-{{ block.settings.button_style }}">
+                  {{ block.settings.button_label_2 }}
+                </a>
               {% endif %}
-
-              <a
-                href="{{ block.settings.button_link | default: '#' }}"
-                class="{{ btn_classes }}"
-                style="padding-top: {{ padding_val }}px; padding-bottom: {{ padding_val }}px; color: {{ color_val }}; font-size: {{ font_size_val }}px;"
-                {{ block.shopify_attributes }}
-              >
-                {{ block.settings.button_label }}
-              </a>
-            {% endif %}
-          {% endcase %}
-        {% endfor %}
-        {% if button_row_open %}
-          {{ '</div>' }}
-        {% endif %}
-      </div>
-    {% endif %}
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
   </div>
+
 </div>
+
+

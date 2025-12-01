@@ -12,52 +12,41 @@
     "editorial_spotlight_xjEVgn": {
       "type": "editorial-spotlight",
       "blocks": {
-        "button_block_P9WtHL": {
-          "type": "button_block",
-          "settings": {
-            "button_label": "For Her",
-            "button_link": "",
-            "button_style": "primary",
-            "padding_vertical": 4,
-            "text_color": "#121212",
-            "font_size": 16
-          }
-        },
-        "heading_block_xzp6Ly": {
+        "heading_block_V8rfCm": {
           "type": "heading_block",
           "settings": {
-            "heading_text": "Featured story",
-            "padding_vertical": 0,
-            "text_color": "#121212",
-            "font_size": 55
+            "heading_text": "THE COLLECTION",
+            "font_scale_desktop": 4,
+            "font_scale_mobile": 42,
+            "padding_bottom": 16
           }
         },
-        "button_block_DaiYyP": {
+        "button_block_QUCGkh": {
           "type": "button_block",
           "settings": {
-            "button_label": "For Him",
-            "button_link": "",
-            "button_style": "primary",
-            "padding_vertical": 4,
-            "text_color": "#121212",
-            "font_size": 16
+            "button_label_1": "SHOP WOMEN",
+            "button_link_1": "",
+            "button_label_2": "SHOP MEN",
+            "button_link_2": "",
+            "button_style": "solid"
           }
         }
       },
       "block_order": [
-        "button_block_P9WtHL",
-        "heading_block_xzp6Ly",
-        "button_block_DaiYyP"
+        "heading_block_V8rfCm",
+        "button_block_QUCGkh"
       ],
       "name": "Editorial Spotlight",
       "settings": {
         "image_desktop": "shopify://shop_images/Untitled_3b57e759-f769-4600-b256-1247fb625c65.png",
-        "height_desktop": 750,
-        "heading": "",
-        "button_text": "",
-        "button_link": "",
+        "image_mobile": "shopify://shop_images/Mobile_banner_vertical.jpg",
+        "section_bg_color": "#ffffff",
+        "section_height": "auto",
+        "overlay_opacity": 10,
+        "text_position": "bottom-center",
+        "mobile_text_below": true,
         "text_color": "#ffffff",
-        "overlay_opacity": 10
+        "mobile_text_color": "#000000"
       }
     },
     "rich_text_XdggXL": {
@@ -87,33 +76,89 @@
     "origin_shop_the_look_HQYUCp": {
       "type": "origin-shop-the-look",
       "blocks": {
+        "hotspot_qjzxC4": {
+          "type": "hotspot",
+          "settings": {
+            "product": "keepall-bandouliere-45-red-supreme-epi",
+            "pos_x": 12,
+            "pos_y": 97
+          }
+        },
         "hotspot_JrfTwe": {
           "type": "hotspot",
           "settings": {
-            "product": "",
-            "pos_x": 24,
-            "pos_y": 59
-          }
-        },
-        "hotspot_ajEKxL": {
-          "type": "hotspot",
-          "disabled": true,
-          "settings": {
-            "product": "",
-            "pos_x": 60,
-            "pos_y": 60
+            "product": "keepall-bandouliere-45-red-supreme-epi",
+            "pos_x": 82,
+            "pos_y": 28
           }
         }
       },
       "block_order": [
-        "hotspot_JrfTwe",
-        "hotspot_ajEKxL"
+        "hotspot_qjzxC4",
+        "hotspot_JrfTwe"
       ],
       "name": "Origin Shop The Look",
       "settings": {
-        "image_desktop": "shopify://shop_images/B377C9DE-3F09-42A2-A12A-ABC246F815B5.jpg",
+        "image_desktop": "shopify://shop_images/editorial_origin_shop_the_look.webp",
         "heading": "",
         "hotspot_color": "#ffffff"
+      }
+    },
+    "origin_grid_4_col_wN8LiD": {
+      "type": "origin-grid-4-col",
+      "blocks": {
+        "item_RAaqch": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Photoroom_20251201_004240.jpg",
+            "title": "Her Bags",
+            "link": ""
+          }
+        },
+        "item_aFnXjM": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/final_of_this.jpg",
+            "title": "Her Shoes",
+            "link": ""
+          }
+        },
+        "item_9nB8Wm": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Photoroom_20251201_001623.jpg",
+            "title": "His Shoes",
+            "link": ""
+          }
+        },
+        "item_YcipD8": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Photoroom_20251201_003645.jpg",
+            "title": "His Bags",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_RAaqch",
+        "item_aFnXjM",
+        "item_9nB8Wm",
+        "item_YcipD8"
+      ],
+      "name": "Origin Luxury Grid (4-Col)",
+      "settings": {
+        "grid_gap": 20,
+        "image_ratio": "auto",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "side_padding": 40,
+        "text_color": "#000000",
+        "font_size": 14,
+        "font_weight": 600,
+        "letter_spacing": 0.5,
+        "text_transform": "uppercase",
+        "text_alignment": "center"
       }
     },
     "1764515948ffeeb3a7": {
@@ -157,56 +202,6 @@
         "speed": 40
       }
     },
-    "gucci_grid_8G6xe9": {
-      "type": "gucci-grid",
-      "blocks": {
-        "collection_block_tfQDRa": {
-          "type": "collection_block",
-          "settings": {
-            "image": "shopify://shop_images/3F38CF77-2D0D-4D19-A0CD-867ECF5590CA.png",
-            "heading": "CATEGORY",
-            "link": ""
-          }
-        },
-        "collection_block_P9micx": {
-          "type": "collection_block",
-          "settings": {
-            "image": "shopify://shop_images/82DC3915-DC57-454B-9A7B-D0392F7BEBCC.png",
-            "heading": "CATEGORY",
-            "link": ""
-          }
-        },
-        "collection_block_VxN3iK": {
-          "type": "collection_block",
-          "settings": {
-            "image": "shopify://shop_images/03A32D6A-1B5C-42AD-BD6D-6C8EE9E21BFA.png",
-            "heading": "CATEGORY",
-            "link": ""
-          }
-        },
-        "collection_block_EgQ3PY": {
-          "type": "collection_block",
-          "settings": {
-            "image": "shopify://shop_images/1E2EBA60-CA10-45FF-9B91-9EDA1E115776.png",
-            "heading": "CATEGORY",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_block_tfQDRa",
-        "collection_block_P9micx",
-        "collection_block_VxN3iK",
-        "collection_block_EgQ3PY"
-      ],
-      "name": "Gucci Grid (4-Col Origin)",
-      "settings": {
-        "grid_gap": 20,
-        "side_padding": 40,
-        "top_padding": 0,
-        "text_color": "#000000"
-      }
-    },
     "origin_split_mCWFfX": {
       "type": "origin-split",
       "blocks": {
@@ -237,9 +232,14 @@
       "settings": {
         "gap": 10,
         "height_desktop": 700,
+        "height_mobile": 500,
         "side_padding": 0,
         "padding_bottom": 60,
-        "text_color": "#ffffff"
+        "heading_color": "#ffffff",
+        "heading_size": 24,
+        "heading_weight": 400,
+        "button_color": "#ffffff",
+        "button_size": 13
       }
     }
   },
@@ -247,9 +247,9 @@
     "editorial_spotlight_xjEVgn",
     "rich_text_XdggXL",
     "origin_shop_the_look_HQYUCp",
+    "origin_grid_4_col_wN8LiD",
     "1764515948ffeeb3a7",
     "origin_marquee_MhwXkK",
-    "gucci_grid_8G6xe9",
     "origin_split_mCWFfX"
   ]
 }
