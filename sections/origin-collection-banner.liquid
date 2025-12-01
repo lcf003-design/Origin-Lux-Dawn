@@ -31,7 +31,7 @@
     },
     {
       "type": "header",
-      "content": "Sizing"
+      "content": "Dimensions"
     },
     {
       "type": "select",
@@ -42,7 +42,7 @@
         { "value": "60vh", "label": "Medium (60vh)" },
         { "value": "80vh", "label": "Large (80vh)" },
         { "value": "100vh", "label": "Full Screen" },
-        { "value": "auto", "label": "Adapt to Image" }
+        { "value": "auto", "label": "Adapt to Image (Natural Height)" }
       ],
       "default": "60vh"
     },
@@ -54,13 +54,13 @@
         { "value": "40vh", "label": "Small (40vh)" },
         { "value": "60vh", "label": "Medium (60vh)" },
         { "value": "80vh", "label": "Large (80vh)" },
-        { "value": "auto", "label": "Adapt to Image" }
+        { "value": "auto", "label": "Adapt to Image (Natural Height)" }
       ],
-      "default": "60vh"
+      "default": "auto"
     },
     {
       "type": "header",
-      "content": "Content Position"
+      "content": "Positioning"
     },
     {
       "type": "select",
@@ -97,13 +97,33 @@
     },
     {
       "type": "header",
-      "content": "Typography"
+      "content": "Typography & Sizing"
     },
     {
       "type": "text",
       "id": "title_override",
       "label": "Title Override",
       "info": "Leave blank to use Collection Title"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 16,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop Title Size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 14,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Title Size",
+      "default": 28
     },
     {
       "type": "richtext",
@@ -116,6 +136,26 @@
       "id": "show_description",
       "label": "Show Description",
       "default": true
+    },
+     {
+      "type": "range",
+      "id": "description_size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 300,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 800
     },
     {
       "type": "color",
@@ -141,46 +181,90 @@
 {% style %}
   {{ section.settings.font_heading | font_face: font_display: 'swap' }}
 
+  /* Base wrapper defaults */
   .origin-banner-wrapper {
     position: relative;
     width: 100%;
-    display: flex;
-    /* Use settings for alignment */
-    align-items: {{ section.settings.vertical_position }};
-    justify-content: {{ section.settings.horizontal_position }};
     overflow: hidden;
     background-color: #f4f4f4;
   }
 
-  /* --- HEIGHTS --- */
-  .origin-banner-wrapper--fixed {
-    height: var(--height-mobile);
+  /* --- MODE LOGIC --- */
+  
+  /* MOBILE DEFAULT */
+  /* If auto, wrapper height is auto, image is relative */
+  .origin-banner-wrapper.mobile-adapt {
+    height: auto;
   }
+  .origin-banner-wrapper.mobile-adapt .origin-banner-bg {
+    position: relative;
+    height: auto;
+    width: 100%;
+  }
+  .origin-banner-wrapper.mobile-adapt .origin-banner-bg img {
+    position: relative;
+    height: auto;
+    width: 100%;
+    display: block;
+  }
+  
+  /* If fixed, wrapper height is fixed, image is absolute */
+  .origin-banner-wrapper.mobile-fixed {
+    height: {{ section.settings.height_mobile }};
+  }
+  .origin-banner-wrapper.mobile-fixed .origin-banner-bg {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .origin-banner-wrapper.mobile-fixed .origin-banner-bg img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* DESKTOP OVERRIDES */
   @media (min-width: 750px) {
-    .origin-banner-wrapper--fixed {
-      height: var(--height-desktop);
+    /* If auto, wrapper height is auto, image is relative */
+    .origin-banner-wrapper.desktop-adapt {
+      height: auto;
+    }
+    .origin-banner-wrapper.desktop-adapt .origin-banner-bg {
+      position: relative;
+      height: auto;
+      width: 100%;
+    }
+    .origin-banner-wrapper.desktop-adapt .origin-banner-bg img {
+      position: relative;
+      height: auto;
+      width: 100%;
+      object-fit: contain; /* Ensure it doesn't crop in adapt mode */
+    }
+
+    /* If fixed, wrapper height is fixed, image is absolute */
+    .origin-banner-wrapper.desktop-fixed {
+      height: {{ section.settings.height_desktop }};
+    }
+    .origin-banner-wrapper.desktop-fixed .origin-banner-bg {
+      position: absolute;
+      top: 0; 
+      left: 0;
+      height: 100%;
+      width: 100%;
+    }
+    .origin-banner-wrapper.desktop-fixed .origin-banner-bg img {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
     }
   }
 
   /* --- IMAGES --- */
-  .origin-banner-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-  }
-  
-  .origin-banner-bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-  }
-
-  /* Mobile specific image logic */
+  /* Display switching */
   .origin-img-desktop { display: none; }
   .origin-img-mobile { display: block; }
 
@@ -202,67 +286,77 @@
     pointer-events: none;
   }
 
-  /* --- CONTENT --- */
-  .origin-banner-content {
-    position: relative;
+  /* --- CONTENT WRAPPER (This floats on top of everything) --- */
+  .origin-banner-content-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 3;
-    /* User selected alignment */
-    text-align: {{ section.settings.text_alignment }};
-    max-width: 800px;
-    padding: 40px; /* Padding to prevent text hitting edges */
-    color: {{ section.settings.text_color }};
-    width: 100%; 
+    display: flex;
+    align-items: {{ section.settings.vertical_position }};
+    justify-content: {{ section.settings.horizontal_position }};
+    padding: 20px;
+    pointer-events: none; /* Allow clicking through if needed */
   }
 
+  .origin-banner-text-box {
+    max-width: {{ section.settings.content_max_width }}px;
+    width: 100%;
+    text-align: {{ section.settings.text_alignment }};
+    color: {{ section.settings.text_color }};
+    pointer-events: auto; /* Re-enable clicks on text */
+  }
+
+  /* Typography */
   .origin-banner-title {
-    margin: 0 0 16px 0;
+    margin: 0 0 12px 0;
     font-family: {{ section.settings.font_heading.family }}, serif;
-    font-size: 32px;
     font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    line-height: 1.2;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+    word-wrap: break-word; /* Prevent overflow */
+    
+    /* Mobile Size */
+    font-size: {{ section.settings.title_size_mobile }}px;
   }
 
   .origin-banner-desc {
-    margin-bottom: 0;
-    font-size: 16px;
-    line-height: 1.6;
-    max-width: 600px;
-    opacity: 0.9;
-    
-    /* Align description block based on text alignment */
-    {% if section.settings.text_alignment == 'center' %}
-      margin-left: auto; 
-      margin-right: auto;
-    {% elsif section.settings.text_alignment == 'right' %}
-      margin-left: auto; 
-      margin-right: 0;
-    {% else %}
-      margin-left: 0; 
-      margin-right: auto;
-    {% endif %}
-  }
-
-  .origin-banner-desc p {
     margin: 0;
+    opacity: 0.9;
+    line-height: 1.5;
+    font-size: {{ section.settings.description_size }}px;
+  }
+  
+  .origin-banner-desc p { margin: 0; }
+
+  /* Desktop Typography Overrides */
+  @media (min-width: 750px) {
+    .origin-banner-content-container {
+      padding: 40px;
+    }
+    .origin-banner-title {
+      font-size: {{ section.settings.title_size_desktop }}px;
+      margin: 0 0 16px 0;
+    }
   }
 
-  @media (min-width: 750px) {
-    .origin-banner-title {
-      font-size: 48px;
-    }
-    .origin-banner-desc {
-      font-size: 18px;
-    }
-  }
 {% endstyle %}
 
 {% comment %}
-  LOGIC: 
-  1. Determine Images (Section Settings -> Collection Image -> Placeholder)
-  2. Determine Text (Section Settings -> Collection Data)
+  Logic: Determine classes for height modes
 {% endcomment %}
+{% assign mobile_class = 'mobile-fixed' %}
+{% if section.settings.height_mobile == 'auto' %}
+  {% assign mobile_class = 'mobile-adapt' %}
+{% endif %}
+
+{% assign desktop_class = 'desktop-fixed' %}
+{% if section.settings.height_desktop == 'auto' %}
+  {% assign desktop_class = 'desktop-adapt' %}
+{% endif %}
 
 {% assign desktop_img = section.settings.image_desktop | default: collection.image %}
 {% assign mobile_img = section.settings.image_mobile | default: desktop_img %}
@@ -270,46 +364,46 @@
 {% assign title_text = section.settings.title_override | default: collection.title %}
 {% assign desc_text = section.settings.description_override | default: collection.description %}
 
-<div class="origin-banner-wrapper {% unless section.settings.height_desktop == 'auto' %}origin-banner-wrapper--fixed{% endunless %}"
-     style="--height-desktop: {{ section.settings.height_desktop }}; --height-mobile: {{ section.settings.height_mobile }};">
+<div class="origin-banner-wrapper {{ mobile_class }} {{ desktop_class }}">
   
-  <!-- BACKGROUND IMAGES -->
+  <!-- BACKGROUND LAYER -->
   <div class="origin-banner-bg">
     {% if desktop_img != blank %}
-      <!-- Desktop -->
-      <img src="{{ desktop_img | image_url: width: 2000 }}" 
+      <!-- Desktop Image -->
+      <img src="{{ desktop_img | image_url: width: 2400 }}" 
            alt="{{ desktop_img.alt | escape }}" 
            class="origin-img-desktop"
            loading="eager"
            width="{{ desktop_img.width }}"
            height="{{ desktop_img.height }}">
            
-      <!-- Mobile -->
-      <img src="{{ mobile_img | image_url: width: 800 }}" 
+      <!-- Mobile Image -->
+      <img src="{{ mobile_img | image_url: width: 1200 }}" 
            alt="{{ mobile_img.alt | escape }}" 
            class="origin-img-mobile"
            loading="eager"
            width="{{ mobile_img.width }}"
            height="{{ mobile_img.height }}">
     {% else %}
-      <!-- Fallback SVG if no image exists -->
-      {{ 'collection-1' | placeholder_svg_tag: 'origin-img-desktop' }}
-      {{ 'collection-1' | placeholder_svg_tag: 'origin-img-mobile' }}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'origin-img-desktop' }}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'origin-img-mobile' }}
     {% endif %}
   </div>
 
-  <!-- OVERLAY -->
+  <!-- OVERLAY LAYER -->
   <div class="origin-banner-overlay"></div>
 
-  <!-- TEXT CONTENT -->
-  <div class="origin-banner-content">
-    <h1 class="origin-banner-title">{{ title_text }}</h1>
-    
-    {% if section.settings.show_description and desc_text != blank %}
-      <div class="origin-banner-desc rte">
-        {{ desc_text }}
-      </div>
-    {% endif %}
+  <!-- CONTENT LAYER -->
+  <div class="origin-banner-content-container">
+    <div class="origin-banner-text-box">
+      <h1 class="origin-banner-title">{{ title_text }}</h1>
+      
+      {% if section.settings.show_description and desc_text != blank %}
+        <div class="origin-banner-desc rte">
+          {{ desc_text }}
+        </div>
+      {% endif %}
+    </div>
   </div>
 
 </div>
