@@ -16,7 +16,7 @@
         "image_desktop": "shopify://shop_images/Photoroom_20251201_153048.png",
         "overlay_opacity": 10,
         "height_desktop": "60vh",
-        "height_mobile": "60vh",
+        "height_mobile": "auto",
         "title_override": "",
         "description_override": "",
         "show_description": true,
