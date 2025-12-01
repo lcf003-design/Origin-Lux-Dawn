@@ -9,6 +9,62 @@
  */
 {
   "sections": {
+    "editorial_spotlight_3QWrGw": {
+      "type": "editorial-spotlight",
+      "blocks": {
+        "subheading_block_83HGDR": {
+          "type": "subheading_block",
+          "settings": {
+            "subheading_text": "New Arrivals",
+            "font_size": 14,
+            "letter_spacing": 2,
+            "padding_bottom": 16
+          }
+        },
+        "heading_block_NW8QHF": {
+          "type": "heading_block",
+          "settings": {
+            "heading_text": "THE COLLECTION",
+            "font_scale_desktop": 4,
+            "font_scale_mobile": 42,
+            "padding_bottom": 16
+          }
+        },
+        "button_block_gmHFqj": {
+          "type": "button_block",
+          "settings": {
+            "button_label_1": "SHOP WOMEN",
+            "button_link_1": "",
+            "button_label_2": "SHOP MEN",
+            "button_link_2": "",
+            "button_style": "solid",
+            "btn_text": "#000000",
+            "btn_bg": "#FFFFFF",
+            "btn_border": "#FFFFFF",
+            "btn_hover_text": "#FFFFFF",
+            "btn_hover_bg": "#000000",
+            "btn_hover_border": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_block_83HGDR",
+        "heading_block_NW8QHF",
+        "button_block_gmHFqj"
+      ],
+      "name": "Origin Editorial Spotlight",
+      "settings": {
+        "section_bg_color": "#000000",
+        "section_height": "full",
+        "overlay_opacity": 0,
+        "font_heading": "serif",
+        "font_body": "system_ui_n4",
+        "text_position": "bottom-center",
+        "mobile_text_below": true,
+        "text_color": "#FFFFFF",
+        "mobile_text_color": "#000000"
+      }
+    },
     "banner": {
       "type": "main-collection-banner",
       "settings": {
@@ -22,6 +78,7 @@
       "settings": {
         "products_per_page": 16,
         "columns_desktop": 4,
+        "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "image_ratio": "adapt",
         "image_shape": "default",
@@ -32,13 +89,13 @@
         "enable_filtering": true,
         "filter_type": "horizontal",
         "enable_sorting": true,
-        "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 36
       }
     }
   },
   "order": [
+    "editorial_spotlight_3QWrGw",
     "banner",
     "product-grid"
   ]
