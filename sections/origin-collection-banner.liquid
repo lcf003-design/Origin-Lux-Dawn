@@ -60,6 +60,43 @@
     },
     {
       "type": "header",
+      "content": "Content Position"
+    },
+    {
+      "type": "select",
+      "id": "vertical_position",
+      "label": "Vertical Position",
+      "options": [
+        { "value": "flex-start", "label": "Top" },
+        { "value": "center", "label": "Middle" },
+        { "value": "flex-end", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "horizontal_position",
+      "label": "Horizontal Position",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
       "content": "Typography"
     },
     {
@@ -108,10 +145,11 @@
     position: relative;
     width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    /* Use settings for alignment */
+    align-items: {{ section.settings.vertical_position }};
+    justify-content: {{ section.settings.horizontal_position }};
     overflow: hidden;
-    background-color: #f4f4f4; /* Loading placeholder color */
+    background-color: #f4f4f4;
   }
 
   /* --- HEIGHTS --- */
@@ -168,10 +206,12 @@
   .origin-banner-content {
     position: relative;
     z-index: 3;
-    text-align: center;
+    /* User selected alignment */
+    text-align: {{ section.settings.text_alignment }};
     max-width: 800px;
-    padding: 0 20px;
+    padding: 40px; /* Padding to prevent text hitting edges */
     color: {{ section.settings.text_color }};
+    width: 100%; 
   }
 
   .origin-banner-title {
@@ -185,11 +225,23 @@
   }
 
   .origin-banner-desc {
-    margin: 0 auto;
+    margin-bottom: 0;
     font-size: 16px;
     line-height: 1.6;
     max-width: 600px;
     opacity: 0.9;
+    
+    /* Align description block based on text alignment */
+    {% if section.settings.text_alignment == 'center' %}
+      margin-left: auto; 
+      margin-right: auto;
+    {% elsif section.settings.text_alignment == 'right' %}
+      margin-left: auto; 
+      margin-right: 0;
+    {% else %}
+      margin-left: 0; 
+      margin-right: auto;
+    {% endif %}
   }
 
   .origin-banner-desc p {
@@ -261,4 +313,5 @@
   </div>
 
 </div>
+
 
