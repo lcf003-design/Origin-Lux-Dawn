@@ -76,16 +76,25 @@
     "origin_shop_the_look_HQYUCp": {
       "type": "origin-shop-the-look",
       "blocks": {
+        "hotspot_qjzxC4": {
+          "type": "hotspot",
+          "settings": {
+            "product": "keepall-bandouliere-45-red-supreme-epi",
+            "pos_x": 12,
+            "pos_y": 97
+          }
+        },
         "hotspot_JrfTwe": {
           "type": "hotspot",
           "settings": {
-            "product": "",
+            "product": "keepall-bandouliere-45-red-supreme-epi",
             "pos_x": 82,
             "pos_y": 28
           }
         }
       },
       "block_order": [
+        "hotspot_qjzxC4",
         "hotspot_JrfTwe"
       ],
       "name": "Origin Shop The Look",
