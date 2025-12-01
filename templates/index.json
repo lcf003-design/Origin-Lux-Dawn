@@ -43,6 +43,8 @@
         "section_bg_color": "#ffffff",
         "section_height": "auto",
         "overlay_opacity": 10,
+        "font_heading": "assistant_n4",
+        "font_body": "system_ui_n4",
         "text_position": "bottom-center",
         "mobile_text_below": true,
         "text_color": "#ffffff",
