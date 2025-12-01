@@ -248,6 +248,50 @@
             {"value": "outline", "label": "Outline"},
             {"value": "underline", "label": "Underline Text"}
           ]
+        },
+        {
+          "type": "header",
+          "content": "Button Colors (Normal)"
+        },
+        {
+          "type": "color",
+          "id": "btn_text",
+          "label": "Text Color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "btn_bg",
+          "label": "Background Color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "btn_border",
+          "label": "Border Color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "header",
+          "content": "Button Colors (Hover)"
+        },
+        {
+          "type": "color",
+          "id": "btn_hover_text",
+          "label": "Hover Text Color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "btn_hover_bg",
+          "label": "Hover Background Color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "btn_hover_border",
+          "label": "Hover Border Color",
+          "default": "#000000"
         }
       ]
     }
@@ -408,40 +452,46 @@
     font-weight: 600;
     transition: all 0.3s ease;
     cursor: pointer;
-    font-family: var(--font-body); /* User Selected Font */
+    font-family: var(--font-body);
+    
+    /* CSS Variables assigned via inline style on the link */
+    color: var(--btn-text);
+    background-color: var(--btn-bg);
+    border: 1px solid var(--btn-border);
   }
 
-  /* Solid Style */
-  .btn-solid {
-    background: #fff;
-    color: #000;
-    border: 1px solid #fff;
-  }
-  .btn-solid:hover {
-    background: transparent;
-    color: #fff;
+  .origin-btn:hover {
+    color: var(--btn-hover-text);
+    background-color: var(--btn-hover-bg);
+    border-color: var(--btn-hover-border);
   }
 
-  /* Outline Style */
-  .btn-outline {
-    background: transparent;
-    color: #fff;
-    border: 1px solid #fff;
+  /* Specific Override Logic for Styles */
+  /* Solid: Uses colors exactly as defined */
+  /* Outline: Transparent BG, Text color as border */
+  .origin-btn.btn-outline {
+    background-color: transparent;
+    color: var(--btn-text);
+    border-color: var(--btn-border);
   }
-  .btn-outline:hover {
-    background: #fff;
-    color: #000;
+  .origin-btn.btn-outline:hover {
+    background-color: var(--btn-hover-bg); /* Usually solid on hover */
+    color: var(--btn-hover-text);
+    border-color: var(--btn-hover-border);
   }
 
-  /* Underline Style */
-  .btn-underline {
-    background: transparent;
-    color: #fff;
+  /* Underline: No box, just bottom border */
+  .origin-btn.btn-underline {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--btn-border);
     padding: 10px 0;
-    border-bottom: 1px solid #fff;
   }
-  .btn-underline:hover {
+  .origin-btn.btn-underline:hover {
+    background-color: transparent;
     opacity: 0.7;
+    color: var(--btn-hover-text);
+    border-bottom-color: var(--btn-hover-border);
   }
 
   /* --- MOBILE LOGIC --- */
@@ -485,9 +535,9 @@
       .origin-spotlight__content { grid-column: auto; grid-row: auto; }
       .origin-spotlight__buttons { justify-content: center; }
       
-      .btn-solid { background: {{ section.settings.mobile_text_color }}; color: {{ section.settings.section_bg_color }}; border-color: {{ section.settings.mobile_text_color }}; }
-      .btn-outline { color: {{ section.settings.mobile_text_color }}; border-color: {{ section.settings.mobile_text_color }}; }
-      .btn-underline { color: {{ section.settings.mobile_text_color }}; border-color: {{ section.settings.mobile_text_color }}; }
+      /* Mobile Text Below: Force high contrast buttons based on mobile text color */
+      /* Note: We actually keep the block settings, but user should adjust them in the block settings if needed. */
+      /* If you want to force specific mobile colors, add mobile color settings. For now, block settings rule. */
     {% else %}
       .origin-spotlight__content-wrapper { padding: 30px 20px; }
     {% endif %}
@@ -543,16 +593,30 @@
 
           {% when 'button_block' %}
             <div class="origin-spotlight__buttons">
-              {% if block.settings.button_label_1 != blank %}
-                <a href="{{ block.settings.button_link_1 }}" class="origin-btn btn-{{ block.settings.button_style }}">
-                  {{ block.settings.button_label_1 }}
-                </a>
-              {% endif %}
-              {% if block.settings.button_label_2 != blank %}
-                <a href="{{ block.settings.button_link_2 }}" class="origin-btn btn-{{ block.settings.button_style }}">
-                  {{ block.settings.button_label_2 }}
-                </a>
-              {% endif %}
+              {% comment %} Define Variables for this block's specific colors {% endcomment %}
+              {% style %}
+                #btn-block-{{ block.id }} .origin-btn {
+                  --btn-text: {{ block.settings.btn_text }};
+                  --btn-bg: {{ block.settings.btn_bg }};
+                  --btn-border: {{ block.settings.btn_border }};
+                  --btn-hover-text: {{ block.settings.btn_hover_text }};
+                  --btn-hover-bg: {{ block.settings.btn_hover_bg }};
+                  --btn-hover-border: {{ block.settings.btn_hover_border }};
+                }
+              {% endstyle %}
+              
+              <div id="btn-block-{{ block.id }}" class="origin-spotlight__buttons-inner" style="display:contents;">
+                {% if block.settings.button_label_1 != blank %}
+                  <a href="{{ block.settings.button_link_1 }}" class="origin-btn btn-{{ block.settings.button_style }}">
+                    {{ block.settings.button_label_1 }}
+                  </a>
+                {% endif %}
+                {% if block.settings.button_label_2 != blank %}
+                  <a href="{{ block.settings.button_link_2 }}" class="origin-btn btn-{{ block.settings.button_style }}">
+                    {{ block.settings.button_label_2 }}
+                  </a>
+                {% endif %}
+              </div>
             </div>
         {% endcase %}
       {% endfor %}
