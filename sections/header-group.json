@@ -25,7 +25,7 @@
         "logo_vertical_position": 40,
         "header_bg_color_shrunk": "#ffffff",
         "header_text_color_shrunk": "#111111",
-        "header_text_color_initial": "#f22f6c",
+        "header_text_color_initial": "#121212",
         "menu_text_color": "#ffffff",
         "menu": "orgin-lux",
         "show_desktop_menu": true
