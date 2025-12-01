@@ -80,27 +80,17 @@
           "type": "hotspot",
           "settings": {
             "product": "",
-            "pos_x": 24,
-            "pos_y": 59
-          }
-        },
-        "hotspot_ajEKxL": {
-          "type": "hotspot",
-          "disabled": true,
-          "settings": {
-            "product": "",
-            "pos_x": 60,
-            "pos_y": 60
+            "pos_x": 82,
+            "pos_y": 28
           }
         }
       },
       "block_order": [
-        "hotspot_JrfTwe",
-        "hotspot_ajEKxL"
+        "hotspot_JrfTwe"
       ],
       "name": "Origin Shop The Look",
       "settings": {
-        "image_desktop": "shopify://shop_images/B377C9DE-3F09-42A2-A12A-ABC246F815B5.jpg",
+        "image_desktop": "shopify://shop_images/editorial_origin_shop_the_look.webp",
         "heading": "",
         "hotspot_color": "#ffffff"
       }
