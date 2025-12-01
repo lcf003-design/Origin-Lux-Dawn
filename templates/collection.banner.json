@@ -9,6 +9,20 @@
  */
 {
   "sections": {
+    "origin_collection_banner_JkJgwx": {
+      "type": "origin-collection-banner",
+      "name": "Origin Collection Banner",
+      "settings": {
+        "overlay_opacity": 10,
+        "height_desktop": "60vh",
+        "height_mobile": "60vh",
+        "title_override": "",
+        "description_override": "",
+        "show_description": true,
+        "text_color": "#FFFFFF",
+        "font_heading": "serif"
+      }
+    },
     "editorial_spotlight_3QWrGw": {
       "type": "editorial-spotlight",
       "blocks": {
@@ -39,9 +53,9 @@
             "button_link_2": "",
             "button_style": "solid",
             "btn_text": "#000000",
-            "btn_bg": "#FFFFFF",
-            "btn_border": "#FFFFFF",
-            "btn_hover_text": "#FFFFFF",
+            "btn_bg": "#ffffff",
+            "btn_border": "#ffffff",
+            "btn_hover_text": "#ffffff",
             "btn_hover_bg": "#000000",
             "btn_hover_border": "#000000"
           }
@@ -61,7 +75,7 @@
         "font_body": "system_ui_n4",
         "text_position": "bottom-center",
         "mobile_text_below": true,
-        "text_color": "#FFFFFF",
+        "text_color": "#ffffff",
         "mobile_text_color": "#000000"
       }
     },
@@ -95,6 +109,7 @@
     }
   },
   "order": [
+    "origin_collection_banner_JkJgwx",
     "editorial_spotlight_3QWrGw",
     "banner",
     "product-grid"
