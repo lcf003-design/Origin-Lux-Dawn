@@ -28,7 +28,13 @@
             "button_link_1": "",
             "button_label_2": "SHOP MEN",
             "button_link_2": "",
-            "button_style": "solid"
+            "button_style": "solid",
+            "btn_text": "#000000",
+            "btn_bg": "#334fb4",
+            "btn_border": "#121212",
+            "btn_hover_text": "#ffffff",
+            "btn_hover_bg": "#000000",
+            "btn_hover_border": "#000000"
           }
         }
       },
