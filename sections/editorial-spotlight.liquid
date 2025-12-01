@@ -50,6 +50,22 @@
     },
     {
       "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "font_picker",
+      "id": "font_heading",
+      "label": "Heading Font",
+      "default": "serif"
+    },
+    {
+      "type": "font_picker",
+      "id": "font_body",
+      "label": "Body & UI Font",
+      "default": "sans-serif"
+    },
+    {
+      "type": "header",
       "content": "Content Alignment"
     },
     {
@@ -232,6 +248,50 @@
             {"value": "outline", "label": "Outline"},
             {"value": "underline", "label": "Underline Text"}
           ]
+        },
+        {
+          "type": "header",
+          "content": "Button Colors (Normal)"
+        },
+        {
+          "type": "color",
+          "id": "btn_text",
+          "label": "Text Color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "btn_bg",
+          "label": "Background Color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "btn_border",
+          "label": "Border Color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "header",
+          "content": "Button Colors (Hover)"
+        },
+        {
+          "type": "color",
+          "id": "btn_hover_text",
+          "label": "Hover Text Color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "btn_hover_bg",
+          "label": "Hover Background Color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "btn_hover_border",
+          "label": "Hover Border Color",
+          "default": "#000000"
         }
       ]
     }
@@ -249,14 +309,21 @@
 }
 {% endschema %}
 
-<style>
+{% style %}
+  {{ section.settings.font_heading | font_face: font_display: 'swap' }}
+  {{ section.settings.font_body | font_face: font_display: 'swap' }}
+
   .origin-spotlight {
     position: relative;
     width: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    background-color: {{ section.settings.section_bg_color }}; /* Fix for PNGs */
+    background-color: {{ section.settings.section_bg_color }};
+    
+    /* CSS Variables for Fonts */
+    --font-heading: {{ section.settings.font_heading.family }}, {{ section.settings.font_heading.fallback_families }};
+    --font-body: {{ section.settings.font_body.family }}, {{ section.settings.font_body.fallback_families }};
   }
 
   /* --- HEIGHT SETTINGS --- */
@@ -275,7 +342,6 @@
     z-index: 1;
   }
 
-  /* Auto height override */
   .origin-spotlight--auto .origin-spotlight__bg {
     position: relative;
     height: auto;
@@ -297,7 +363,7 @@
     z-index: 2;
   }
 
-  /* --- CONTENT LAYER (CSS GRID FIX) --- */
+  /* --- CONTENT LAYER (CSS GRID) --- */
   .origin-spotlight__content-wrapper {
     position: absolute; 
     top: 0;
@@ -309,8 +375,6 @@
     padding: 60px 40px;
     box-sizing: border-box;
     color: {{ section.settings.text_color }};
-    
-    /* THE MAGIC: CSS Grid for Bulletproof Positioning */
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
@@ -322,7 +386,7 @@
     pointer-events: auto;
   }
 
-  /* Grid Area Mapping */
+  /* Grid Alignment */
   .pos-top-left      { grid-column: 1; grid-row: 1; justify-self: start; align-self: start; text-align: left; }
   .pos-top-center    { grid-column: 2; grid-row: 1; justify-self: center; align-self: start; text-align: center; }
   .pos-top-right     { grid-column: 3; grid-row: 1; justify-self: end; align-self: start; text-align: right; }
@@ -332,14 +396,14 @@
   .pos-center-right  { grid-column: 3; grid-row: 2; justify-self: end; align-self: center; text-align: right; }
   
   .pos-bottom-left   { grid-column: 1; grid-row: 3; justify-self: start; align-self: end; text-align: left; }
-  .pos-bottom-center { grid-column: 1 / span 3; grid-row: 3; justify-self: center; align-self: end; text-align: center; } /* Spans all cols to ensure center */
+  .pos-bottom-center { grid-column: 1 / span 3; grid-row: 3; justify-self: center; align-self: end; text-align: center; }
   .pos-bottom-right  { grid-column: 3; grid-row: 3; justify-self: end; align-self: end; text-align: right; }
 
   /* --- TYPOGRAPHY --- */
   .origin-spotlight__heading {
     margin: 0;
     line-height: 0.9;
-    font-family: serif;
+    font-family: var(--font-heading); /* User Selected Font */
     text-transform: uppercase;
     font-weight: 400;
   }
@@ -349,12 +413,14 @@
     text-transform: uppercase;
     font-weight: 600;
     opacity: 0.9;
+    font-family: var(--font-body); /* User Selected Font */
   }
 
   .origin-spotlight__body p {
     margin: 0;
     font-size: 16px;
     line-height: 1.6;
+    font-family: var(--font-body); /* User Selected Font */
   }
 
   /* --- BUTTONS --- */
@@ -365,7 +431,6 @@
     margin-top: 10px;
   }
   
-  /* Inherit text alignment for buttons */
   .pos-top-center .origin-spotlight__buttons,
   .pos-center .origin-spotlight__buttons,
   .pos-bottom-center .origin-spotlight__buttons {
@@ -387,39 +452,46 @@
     font-weight: 600;
     transition: all 0.3s ease;
     cursor: pointer;
+    font-family: var(--font-body);
+    
+    /* CSS Variables assigned via inline style on the link */
+    color: var(--btn-text);
+    background-color: var(--btn-bg);
+    border: 1px solid var(--btn-border);
   }
 
-  /* Solid Style */
-  .btn-solid {
-    background: #fff;
-    color: #000;
-    border: 1px solid #fff;
-  }
-  .btn-solid:hover {
-    background: transparent;
-    color: #fff;
+  .origin-btn:hover {
+    color: var(--btn-hover-text);
+    background-color: var(--btn-hover-bg);
+    border-color: var(--btn-hover-border);
   }
 
-  /* Outline Style */
-  .btn-outline {
-    background: transparent;
-    color: #fff;
-    border: 1px solid #fff;
+  /* Specific Override Logic for Styles */
+  /* Solid: Uses colors exactly as defined */
+  /* Outline: Transparent BG, Text color as border */
+  .origin-btn.btn-outline {
+    background-color: transparent;
+    color: var(--btn-text);
+    border-color: var(--btn-border);
   }
-  .btn-outline:hover {
-    background: #fff;
-    color: #000;
+  .origin-btn.btn-outline:hover {
+    background-color: var(--btn-hover-bg); /* Usually solid on hover */
+    color: var(--btn-hover-text);
+    border-color: var(--btn-hover-border);
   }
 
-  /* Underline Style */
-  .btn-underline {
-    background: transparent;
-    color: #fff;
+  /* Underline: No box, just bottom border */
+  .origin-btn.btn-underline {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--btn-border);
     padding: 10px 0;
-    border-bottom: 1px solid #fff;
   }
-  .btn-underline:hover {
+  .origin-btn.btn-underline:hover {
+    background-color: transparent;
     opacity: 0.7;
+    color: var(--btn-hover-text);
+    border-bottom-color: var(--btn-hover-border);
   }
 
   /* --- MOBILE LOGIC --- */
@@ -427,7 +499,6 @@
     .desktop-img { display: none !important; }
     .mobile-img { display: block !important; }
 
-    /* Mobile Text Below Mode */
     {% if section.settings.mobile_text_below %}
       .origin-spotlight {
         height: auto !important;
@@ -435,7 +506,7 @@
         display: block; 
       }
       .origin-spotlight__bg {
-        position: relative; /* Normal flow */
+        position: relative;
         width: 100%;
         height: auto;
         inset: auto;
@@ -446,37 +517,28 @@
         object-fit: contain;
         display: block;
       }
-      .origin-spotlight__overlay {
-        display: none; 
-      }
+      .origin-spotlight__overlay { display: none; }
       .origin-spotlight__content-wrapper {
-        position: relative; /* Back to normal flow */
+        position: relative;
         height: auto;
         width: 100%;
         padding: 40px 20px;
-        background: {{ section.settings.section_bg_color }}; /* Match section bg */
+        background: {{ section.settings.section_bg_color }};
         color: {{ section.settings.mobile_text_color }};
-        display: flex; /* Reset grid to flex for simple stack */
+        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
         pointer-events: auto;
       }
-      
-      .origin-spotlight__content { 
-        grid-column: auto; grid-row: auto; /* Reset grid placement */
-      }
-
+      .origin-spotlight__content { grid-column: auto; grid-row: auto; }
       .origin-spotlight__buttons { justify-content: center; }
       
-      /* Only invert colors if background is white/light */
-      /* Note: You can now control Mobile Text Color in settings */
-      .btn-solid { background: {{ section.settings.mobile_text_color }}; color: {{ section.settings.section_bg_color }}; border-color: {{ section.settings.mobile_text_color }}; }
-      .btn-outline { color: {{ section.settings.mobile_text_color }}; border-color: {{ section.settings.mobile_text_color }}; }
-      .btn-underline { color: {{ section.settings.mobile_text_color }}; border-color: {{ section.settings.mobile_text_color }}; }
+      /* Mobile Text Below: Force high contrast buttons based on mobile text color */
+      /* Note: We actually keep the block settings, but user should adjust them in the block settings if needed. */
+      /* If you want to force specific mobile colors, add mobile color settings. For now, block settings rule. */
     {% else %}
-      /* Overlay Mode on Mobile */
       .origin-spotlight__content-wrapper { padding: 30px 20px; }
     {% endif %}
   }
@@ -485,7 +547,7 @@
     .mobile-img { display: none !important; }
     .desktop-img { display: block !important; }
   }
-</style>
+{% endstyle %}
 
 <div class="origin-spotlight origin-spotlight--{{ section.settings.section_height }}">
   
@@ -531,16 +593,30 @@
 
           {% when 'button_block' %}
             <div class="origin-spotlight__buttons">
-              {% if block.settings.button_label_1 != blank %}
-                <a href="{{ block.settings.button_link_1 }}" class="origin-btn btn-{{ block.settings.button_style }}">
-                  {{ block.settings.button_label_1 }}
-                </a>
-              {% endif %}
-              {% if block.settings.button_label_2 != blank %}
-                <a href="{{ block.settings.button_link_2 }}" class="origin-btn btn-{{ block.settings.button_style }}">
-                  {{ block.settings.button_label_2 }}
-                </a>
-              {% endif %}
+              {% comment %} Define Variables for this block's specific colors {% endcomment %}
+              {% style %}
+                #btn-block-{{ block.id }} .origin-btn {
+                  --btn-text: {{ block.settings.btn_text }};
+                  --btn-bg: {{ block.settings.btn_bg }};
+                  --btn-border: {{ block.settings.btn_border }};
+                  --btn-hover-text: {{ block.settings.btn_hover_text }};
+                  --btn-hover-bg: {{ block.settings.btn_hover_bg }};
+                  --btn-hover-border: {{ block.settings.btn_hover_border }};
+                }
+              {% endstyle %}
+              
+              <div id="btn-block-{{ block.id }}" class="origin-spotlight__buttons-inner" style="display:contents;">
+                {% if block.settings.button_label_1 != blank %}
+                  <a href="{{ block.settings.button_link_1 }}" class="origin-btn btn-{{ block.settings.button_style }}">
+                    {{ block.settings.button_label_1 }}
+                  </a>
+                {% endif %}
+                {% if block.settings.button_label_2 != blank %}
+                  <a href="{{ block.settings.button_link_2 }}" class="origin-btn btn-{{ block.settings.button_style }}">
+                    {{ block.settings.button_label_2 }}
+                  </a>
+                {% endif %}
+              </div>
             </div>
         {% endcase %}
       {% endfor %}

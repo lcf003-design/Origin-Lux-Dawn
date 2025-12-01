@@ -28,7 +28,13 @@
             "button_link_1": "",
             "button_label_2": "SHOP MEN",
             "button_link_2": "",
-            "button_style": "solid"
+            "button_style": "solid",
+            "btn_text": "#000000",
+            "btn_bg": "#334fb4",
+            "btn_border": "#121212",
+            "btn_hover_text": "#ffffff",
+            "btn_hover_bg": "#000000",
+            "btn_hover_border": "#000000"
           }
         }
       },
@@ -43,6 +49,8 @@
         "section_bg_color": "#ffffff",
         "section_height": "auto",
         "overlay_opacity": 10,
+        "font_heading": "assistant_n4",
+        "font_body": "system_ui_n4",
         "text_position": "bottom-center",
         "mobile_text_below": true,
         "text_color": "#ffffff",
