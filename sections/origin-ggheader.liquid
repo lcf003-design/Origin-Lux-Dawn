@@ -28,6 +28,22 @@
     },
     {
       "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "font_picker",
+      "id": "font_huge_logo",
+      "label": "Huge Logo Font",
+      "default": "serif"
+    },
+    {
+      "type": "font_picker",
+      "id": "font_menu",
+      "label": "Menu & UI Font",
+      "default": "sans-serif"
+    },
+    {
+      "type": "header",
       "content": "Huge Logo Sizing"
     },
     {
@@ -146,7 +162,11 @@
 }
 {% endschema %}
 
-<style>
+{% style %}
+  /* Load the selected fonts */
+  {{ section.settings.font_huge_logo | font_face: font_display: 'swap' }}
+  {{ section.settings.font_menu | font_face: font_display: 'swap' }}
+
   /* --- VARS --- */
   .origin-gucci-header-section {
     --header-transition: all 0.4s ease-out;
@@ -162,6 +182,10 @@
     
     --huge-logo-size-desktop: {{ section.settings.huge_logo_size_desktop }}vw;
     --huge-logo-size-mobile: {{ section.settings.huge_logo_size_mobile }}vw;
+
+    /* FONTS */
+    --font-huge-logo: {{ section.settings.font_huge_logo.family }}, {{ section.settings.font_huge_logo.fallback_families }};
+    --font-menu: {{ section.settings.font_menu.family }}, {{ section.settings.font_menu.fallback_families }};
   }
 
   /* --- WRAPPER --- */
@@ -191,6 +215,7 @@
     background-color: transparent; 
     color: var(--header-text-initial);
     pointer-events: none; 
+    font-family: var(--font-menu); /* Apply menu font to header elements */
   }
 
   .origin-gucci-header.is-shrunk .origin-sticky-bar {
@@ -232,6 +257,7 @@
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    font-family: var(--font-huge-logo); /* Small logo matches huge logo font */
   }
 
   .origin-gucci-header.is-shrunk .origin-sticky-bar__logo {
@@ -282,7 +308,7 @@
   .origin-huge-logo-text {
     font-size: var(--huge-logo-size-desktop); 
     line-height: 1;
-    font-family: serif;
+    font-family: var(--font-huge-logo); /* User Selected Font */
     text-transform: uppercase;
     margin: 0;
     white-space: nowrap; 
@@ -390,6 +416,7 @@
     flex-direction: column;
     color: var(--menu-text-color); 
     overflow-y: auto;
+    font-family: var(--font-menu); /* User Selected Font */
   }
 
   .origin-overlay-base.is-open .origin-menu-drawer {
@@ -487,6 +514,7 @@
     justify-content: center;
     position: relative;
     color: var(--menu-text-color); 
+    font-family: var(--font-menu); /* User Selected Font */
   }
 
   .origin-search-close {
@@ -539,7 +567,7 @@
     color: var(--menu-text-color); 
   }
 
-</style>
+{% endstyle %}
 
 <!-- Main Container -->
 <div id="origin-gucci-header-{{ section.id }}" class="origin-gucci-header" data-section-id="{{ section.id }}">
