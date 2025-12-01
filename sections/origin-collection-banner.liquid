@@ -187,48 +187,51 @@
     width: 100%;
     overflow: hidden;
     background-color: #f4f4f4;
+    display: block; 
+  }
+
+  /* --- VISIBILITY HELPERS (Critical for preventing double images) --- */
+  .origin-img-desktop { display: none !important; }
+  .origin-img-mobile { display: block !important; }
+
+  @media (min-width: 750px) {
+    .origin-img-desktop { display: block !important; }
+    .origin-img-mobile { display: none !important; }
   }
 
   /* --- MODE LOGIC --- */
   
-  /* MOBILE DEFAULT */
-  /* If auto, wrapper height is auto, image is relative */
+  /* MOBILE LAYOUT */
   .origin-banner-wrapper.mobile-adapt {
     height: auto;
   }
+  /* In adapt mode, the ACTIVE image determines height */
   .origin-banner-wrapper.mobile-adapt .origin-banner-bg {
     position: relative;
     height: auto;
     width: 100%;
   }
   .origin-banner-wrapper.mobile-adapt .origin-banner-bg img {
-    position: relative;
-    height: auto;
     width: 100%;
-    display: block;
+    height: auto;
+    object-fit: contain;
   }
-  
-  /* If fixed, wrapper height is fixed, image is absolute */
+
   .origin-banner-wrapper.mobile-fixed {
     height: {{ section.settings.height_mobile }};
   }
   .origin-banner-wrapper.mobile-fixed .origin-banner-bg {
     position: absolute;
-    top: 0; 
-    left: 0;
-    height: 100%;
-    width: 100%;
+    top: 0; left: 0;
+    height: 100%; width: 100%;
   }
   .origin-banner-wrapper.mobile-fixed .origin-banner-bg img {
-    height: 100%;
-    width: 100%;
+    width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center;
   }
 
-  /* DESKTOP OVERRIDES */
+  /* DESKTOP LAYOUT OVERRIDES */
   @media (min-width: 750px) {
-    /* If auto, wrapper height is auto, image is relative */
     .origin-banner-wrapper.desktop-adapt {
       height: auto;
     }
@@ -238,39 +241,23 @@
       width: 100%;
     }
     .origin-banner-wrapper.desktop-adapt .origin-banner-bg img {
-      position: relative;
-      height: auto;
       width: 100%;
-      object-fit: contain; /* Ensure it doesn't crop in adapt mode */
+      height: auto;
+      object-fit: contain;
     }
 
-    /* If fixed, wrapper height is fixed, image is absolute */
     .origin-banner-wrapper.desktop-fixed {
       height: {{ section.settings.height_desktop }};
     }
     .origin-banner-wrapper.desktop-fixed .origin-banner-bg {
       position: absolute;
-      top: 0; 
-      left: 0;
-      height: 100%;
-      width: 100%;
+      top: 0; left: 0;
+      height: 100%; width: 100%;
     }
     .origin-banner-wrapper.desktop-fixed .origin-banner-bg img {
-      position: absolute;
-      height: 100%;
-      width: 100%;
+      width: 100%; height: 100%;
       object-fit: cover;
     }
-  }
-
-  /* --- IMAGES --- */
-  /* Display switching */
-  .origin-img-desktop { display: none; }
-  .origin-img-mobile { display: block; }
-
-  @media (min-width: 750px) {
-    .origin-img-desktop { display: block; }
-    .origin-img-mobile { display: none; }
   }
 
   /* --- OVERLAY --- */
@@ -286,7 +273,7 @@
     pointer-events: none;
   }
 
-  /* --- CONTENT WRAPPER (This floats on top of everything) --- */
+  /* --- CONTENT WRAPPER --- */
   .origin-banner-content-container {
     position: absolute;
     top: 0;
@@ -298,7 +285,7 @@
     align-items: {{ section.settings.vertical_position }};
     justify-content: {{ section.settings.horizontal_position }};
     padding: 20px;
-    pointer-events: none; /* Allow clicking through if needed */
+    pointer-events: none; 
   }
 
   .origin-banner-text-box {
@@ -306,7 +293,7 @@
     width: 100%;
     text-align: {{ section.settings.text_alignment }};
     color: {{ section.settings.text_color }};
-    pointer-events: auto; /* Re-enable clicks on text */
+    pointer-events: auto; 
   }
 
   /* Typography */
@@ -317,7 +304,7 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     line-height: 1.1;
-    word-wrap: break-word; /* Prevent overflow */
+    word-wrap: break-word;
     
     /* Mobile Size */
     font-size: {{ section.settings.title_size_mobile }}px;
@@ -332,7 +319,6 @@
   
   .origin-banner-desc p { margin: 0; }
 
-  /* Desktop Typography Overrides */
   @media (min-width: 750px) {
     .origin-banner-content-container {
       padding: 40px;
