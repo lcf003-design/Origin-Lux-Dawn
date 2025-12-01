@@ -14,6 +14,7 @@
       "name": "Origin Collection Banner",
       "settings": {
         "image_desktop": "shopify://shop_images/Photoroom_20251201_153048.png",
+        "image_mobile": "shopify://shop_images/Banner_mobile.jpg",
         "overlay_opacity": 10,
         "height_desktop": "60vh",
         "height_mobile": "auto",
