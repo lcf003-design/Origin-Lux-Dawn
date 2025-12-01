@@ -4241,50 +4241,6 @@ a,
   background: #f6f6f6;
 }
 
-/* ================================
-   TIER 15 – DARK MODE
-================================ */
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #0b0b0d;
-    color: #f3f3f3;
-  }
-
-  header.header,
-  footer,
-  .origin-footer {
-    background: #0e0e11;
-    color: #f3f3f3;
-  }
-
-  .card-wrapper,
-  .product-card-wrapper,
-  .cart-drawer__footer,
-  .origin-product-reassurance,
-  .origin-cart-upsell,
-  .origin-carousel__slide {
-    background: #131318;
-    border-color: rgba(255, 255, 255, 0.08);
-  }
-
-  .button,
-  .btn,
-  .origin-carousel__button,
-  .origin-cart-upsell__button {
-    background: #f3f3f3;
-    color: #0b0b0d;
-  }
-
-  .origin-size-guide-modal__dialog {
-    background: #16161c;
-    color: #f3f3f3;
-  }
-
-  .origin-size-guide-modal__close {
-    background: #f3f3f3;
-    color: #0b0b0d;
-  }
-}
 /* ===== Gucci-style logo scale animation ===== */
 
 .header__heading-logo {
