@@ -1,6 +1,6 @@
 {% schema %}
 {
-  "name": "Origin Luxury Grid",
+  "name": "Origin Lux Grid (4-Col)",
   "class": "origin-luxury-grid-section",
   "settings": [
     {
@@ -173,7 +173,8 @@
 
   .origin-grid-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Force 4 columns */
+    /* FORCE 4 Columns on Desktop/Laptop/Tablet Landscape */
+    grid-template-columns: repeat(4, 1fr); 
     gap: {{ section.settings.grid_gap }}px;
     width: 100%;
     max-width: 1800px;
@@ -184,14 +185,14 @@
     display: block;
     text-decoration: none;
     color: {{ section.settings.text_color }};
-    group: "item"; /* Logic for hover */
+    group: "item"; 
   }
 
   .origin-grid-img-wrapper {
     width: 100%;
     overflow: hidden;
     position: relative;
-    background: #f4f4f4; /* Placeholder color */
+    background: #f4f4f4; 
     margin-bottom: 16px;
   }
 
@@ -228,7 +229,7 @@
     width: 100%;
   }
 
-  /* Hover Effect: Underline Text (Only if centered or left) */
+  /* Hover Effect: Underline Text */
   .origin-grid-title span {
     position: relative;
     display: inline-block;
@@ -251,10 +252,11 @@
   }
 
   /* --- MOBILE RESPONSIVE --- */
-  @media (max-width: 990px) {
+  /* Only switch to 2 columns on VERY small screens (Mobile Phones) */
+  @media (max-width: 767px) {
     .origin-grid-container {
-      grid-template-columns: repeat(2, 1fr); /* 2 Columns on Tablet/Mobile */
-      gap: 16px;
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 12px;
     }
     .origin-grid-section {
       padding-left: 16px;
@@ -282,4 +284,5 @@
     {% endfor %}
   </div>
 </div>
+
 
