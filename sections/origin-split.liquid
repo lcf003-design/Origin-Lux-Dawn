@@ -27,6 +27,16 @@
       "default": 650
     },
     {
+      "type": "range",
+      "id": "height_mobile",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Mobile Height",
+      "default": 500
+    },
+    {
       "type": "header",
       "content": "SPACING"
     },
@@ -48,18 +58,61 @@
       "step": 5,
       "unit": "px",
       "label": "Bottom Spacing",
-      "default": 60,
-      "info": "Space between this section and the footer."
+      "default": 60
     },
     {
       "type": "header",
-      "content": "CONTENT"
+      "content": "TYPOGRAPHY & COLORS"
+    },
+    {
+      "type": "paragraph",
+      "content": "Heading Settings (Gifts for Her/Him)"
     },
     {
       "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
+      "id": "heading_color",
+      "label": "Heading Color",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 12,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Size",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "heading_weight",
+      "min": 300,
+      "max": 900,
+      "step": 100,
+      "label": "Heading Thickness",
+      "default": 400,
+      "info": "400 is Normal, 700 is Bold"
+    },
+    {
+      "type": "paragraph",
+      "content": "Button Settings (Shop Now)"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Size",
+      "default": 13
     }
   ],
   "blocks": [
@@ -105,10 +158,119 @@
 }
 {% endschema %}
 
-<div
-  class="origin-split-wrapper"
-  style="--origin-split-gap: {{ section.settings.gap }}px; --origin-split-height: {{ section.settings.height_desktop }}px; --origin-split-side-padding: {{ section.settings.side_padding }}px; --origin-split-padding-bottom: {{ section.settings.padding_bottom }}px; --origin-split-text-color: {{ section.settings.text_color }};"
->
+<style>
+  .origin-split-wrapper {
+    width: 100%;
+    padding-left: {{ section.settings.side_padding }}px;
+    padding-right: {{ section.settings.side_padding }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    box-sizing: border-box;
+  }
+
+  .origin-split-container {
+    display: flex;
+    width: 100%;
+    gap: {{ section.settings.gap }}px;
+    height: {{ section.settings.height_desktop }}px;
+  }
+
+  .split-item {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+  }
+
+  .split-image-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .split-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+
+  /* Hover Zoom Effect */
+  .split-item:hover .split-img {
+    transform: scale(1.03);
+  }
+
+  .split-content {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .split-heading {
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    /* User Custom Settings */
+    color: {{ section.settings.heading_color }};
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: {{ section.settings.heading_weight }};
+  }
+
+  .split-btn {
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    position: relative;
+    padding-bottom: 4px;
+    /* User Custom Settings */
+    color: {{ section.settings.button_color }};
+    font-size: {{ section.settings.button_size }}px;
+  }
+
+  /* Underline animation for button */
+  .split-btn::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    background: {{ section.settings.button_color }};
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  .split-item:hover .split-btn::after {
+    width: 100%;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .origin-split-container {
+      flex-direction: column;
+      height: auto;
+    }
+    
+    .split-item {
+      height: {{ section.settings.height_mobile }}px;
+      width: 100%;
+    }
+    
+    .origin-split-wrapper {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+</style>
+
+<div class="origin-split-wrapper">
   <div class="origin-split-container">
     {% for block in section.blocks %}
       <a href="{{ block.settings.link }}" class="split-item">
@@ -128,3 +290,4 @@
     {% endfor %}
   </div>
 </div>
+
