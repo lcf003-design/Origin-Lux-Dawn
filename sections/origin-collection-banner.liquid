@@ -1,0 +1,264 @@
+{% schema %}
+{
+  "name": "Origin Collection Banner",
+  "class": "origin-collection-banner-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop Image",
+      "info": "If blank, uses the Collection's featured image."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Image",
+      "info": "Optional. Falls back to Desktop image if blank."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Sizing"
+    },
+    {
+      "type": "select",
+      "id": "height_desktop",
+      "label": "Desktop Height",
+      "options": [
+        { "value": "40vh", "label": "Small (40vh)" },
+        { "value": "60vh", "label": "Medium (60vh)" },
+        { "value": "80vh", "label": "Large (80vh)" },
+        { "value": "100vh", "label": "Full Screen" },
+        { "value": "auto", "label": "Adapt to Image" }
+      ],
+      "default": "60vh"
+    },
+    {
+      "type": "select",
+      "id": "height_mobile",
+      "label": "Mobile Height",
+      "options": [
+        { "value": "40vh", "label": "Small (40vh)" },
+        { "value": "60vh", "label": "Medium (60vh)" },
+        { "value": "80vh", "label": "Large (80vh)" },
+        { "value": "auto", "label": "Adapt to Image" }
+      ],
+      "default": "60vh"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "text",
+      "id": "title_override",
+      "label": "Title Override",
+      "info": "Leave blank to use Collection Title"
+    },
+    {
+      "type": "richtext",
+      "id": "description_override",
+      "label": "Description Override",
+      "info": "Leave blank to use Collection Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show Description",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "font_picker",
+      "id": "font_heading",
+      "label": "Heading Font",
+      "default": "serif"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin Collection Banner"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  {{ section.settings.font_heading | font_face: font_display: 'swap' }}
+
+  .origin-banner-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #f4f4f4; /* Loading placeholder color */
+  }
+
+  /* --- HEIGHTS --- */
+  .origin-banner-wrapper--fixed {
+    height: var(--height-mobile);
+  }
+  @media (min-width: 750px) {
+    .origin-banner-wrapper--fixed {
+      height: var(--height-desktop);
+    }
+  }
+
+  /* --- IMAGES --- */
+  .origin-banner-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  .origin-banner-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Mobile specific image logic */
+  .origin-img-desktop { display: none; }
+  .origin-img-mobile { display: block; }
+
+  @media (min-width: 750px) {
+    .origin-img-desktop { display: block; }
+    .origin-img-mobile { display: none; }
+  }
+
+  /* --- OVERLAY --- */
+  .origin-banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* --- CONTENT --- */
+  .origin-banner-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    max-width: 800px;
+    padding: 0 20px;
+    color: {{ section.settings.text_color }};
+  }
+
+  .origin-banner-title {
+    margin: 0 0 16px 0;
+    font-family: {{ section.settings.font_heading.family }}, serif;
+    font-size: 32px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1.2;
+  }
+
+  .origin-banner-desc {
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 600px;
+    opacity: 0.9;
+  }
+
+  .origin-banner-desc p {
+    margin: 0;
+  }
+
+  @media (min-width: 750px) {
+    .origin-banner-title {
+      font-size: 48px;
+    }
+    .origin-banner-desc {
+      font-size: 18px;
+    }
+  }
+{% endstyle %}
+
+{% comment %}
+  LOGIC: 
+  1. Determine Images (Section Settings -> Collection Image -> Placeholder)
+  2. Determine Text (Section Settings -> Collection Data)
+{% endcomment %}
+
+{% assign desktop_img = section.settings.image_desktop | default: collection.image %}
+{% assign mobile_img = section.settings.image_mobile | default: desktop_img %}
+
+{% assign title_text = section.settings.title_override | default: collection.title %}
+{% assign desc_text = section.settings.description_override | default: collection.description %}
+
+<div class="origin-banner-wrapper {% unless section.settings.height_desktop == 'auto' %}origin-banner-wrapper--fixed{% endunless %}"
+     style="--height-desktop: {{ section.settings.height_desktop }}; --height-mobile: {{ section.settings.height_mobile }};">
+  
+  <!-- BACKGROUND IMAGES -->
+  <div class="origin-banner-bg">
+    {% if desktop_img != blank %}
+      <!-- Desktop -->
+      <img src="{{ desktop_img | image_url: width: 2000 }}" 
+           alt="{{ desktop_img.alt | escape }}" 
+           class="origin-img-desktop"
+           loading="eager"
+           width="{{ desktop_img.width }}"
+           height="{{ desktop_img.height }}">
+           
+      <!-- Mobile -->
+      <img src="{{ mobile_img | image_url: width: 800 }}" 
+           alt="{{ mobile_img.alt | escape }}" 
+           class="origin-img-mobile"
+           loading="eager"
+           width="{{ mobile_img.width }}"
+           height="{{ mobile_img.height }}">
+    {% else %}
+      <!-- Fallback SVG if no image exists -->
+      {{ 'collection-1' | placeholder_svg_tag: 'origin-img-desktop' }}
+      {{ 'collection-1' | placeholder_svg_tag: 'origin-img-mobile' }}
+    {% endif %}
+  </div>
+
+  <!-- OVERLAY -->
+  <div class="origin-banner-overlay"></div>
+
+  <!-- TEXT CONTENT -->
+  <div class="origin-banner-content">
+    <h1 class="origin-banner-title">{{ title_text }}</h1>
+    
+    {% if section.settings.show_description and desc_text != blank %}
+      <div class="origin-banner-desc rte">
+        {{ desc_text }}
+      </div>
+    {% endif %}
+  </div>
+
+</div>
+
