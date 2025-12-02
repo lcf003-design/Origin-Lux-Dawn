@@ -77,7 +77,8 @@
   .origin-shop-look {
     position: relative;
     width: 100%;
-    overflow: hidden;
+    /* Removed overflow:hidden so cards near edges don't get clipped on desktop */
+    /* overflow: hidden; */ 
     background: #000;
   }
 
@@ -98,7 +99,9 @@
     position: absolute;
     width: 32px;
     height: 32px;
-    transform: translate(-50%, -50%); /* Centers the dot on the coordinates */
+    /* FIX: Changed from transform to margins to prevent containing block issue */
+    margin-left: -16px; 
+    margin-top: -16px;
     cursor: pointer;
     z-index: 10;
     display: flex;
@@ -262,7 +265,7 @@
       border-radius: 12px 12px 0 0;
       padding: 20px;
       box-sizing: border-box;
-      z-index: 100;
+      z-index: 2147483647; /* MAX Z-INDEX */
     }
 
     .origin-hotspot-card::after { display: none; } /* Hide arrow */
@@ -276,7 +279,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.5);
-      z-index: 90;
+      z-index: 2147483640; /* Just below card */
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.3s;
@@ -343,7 +346,6 @@
         height="{{ section.settings.image_mobile.height }}">
     {% else %}
       {% if section.settings.image_desktop %}
-        <!-- Fallback to desktop image on mobile if no mobile img set, but apply mobile class -->
         <img 
           src="{{ section.settings.image_desktop | image_url: width: 1200 }}" 
           class="mobile-img" 
