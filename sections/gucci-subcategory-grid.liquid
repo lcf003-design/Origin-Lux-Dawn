@@ -1,7 +1,11 @@
 {% schema %}
 {
-  "name": "Gucci Sub-Category Grid",
+  "name": "Gucci Mosaic Grid",
   "settings": [
+    {
+      "type": "header",
+      "content": "Layout & Content"
+    },
     {
       "type": "text",
       "id": "heading",
@@ -9,13 +13,35 @@
       "default": "Men's Accessories"
     },
     {
-      "type": "range",
-      "id": "columns_desktop",
-      "min": 2,
-      "max": 4,
-      "step": 1,
-      "default": 3,
-      "label": "Columns on Desktop"
+      "type": "select",
+      "id": "layout_style",
+      "label": "Grid Layout",
+      "options": [
+        { "value": "grid", "label": "Standard Equal Grid" },
+        { "value": "mosaic", "label": "2 Top / 3 Bottom (Mosaic)" }
+      ],
+      "default": "mosaic"
+    },
+    {
+      "type": "header",
+      "content": "Design & Style"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text Position",
+      "options": [
+        { "value": "overlay", "label": "Overlay (Text on Image)" },
+        { "value": "below", "label": "Below Image (Classic Editorial)" }
+      ],
+      "default": "below"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background Color",
+      "default": "#F2F2F2",
+      "info": "Used when Text Position is 'Below Image'"
     },
     {
       "type": "range",
@@ -23,7 +49,7 @@
       "min": 300,
       "max": 800,
       "step": 50,
-      "default": 500,
+      "default": 550,
       "unit": "px",
       "label": "Card Height (Desktop)"
     }
@@ -42,7 +68,13 @@
           "type": "text",
           "id": "title",
           "label": "Category Title",
-          "default": "Belts"
+          "default": "TIES"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "Discover More"
         },
         {
           "type": "url",
@@ -54,8 +86,10 @@
   ],
   "presets": [
     {
-      "name": "Gucci Sub-Category Grid",
+      "name": "Gucci Mosaic Grid",
       "blocks": [
+        { "type": "category" },
+        { "type": "category" },
         { "type": "category" },
         { "type": "category" },
         { "type": "category" }
@@ -70,121 +104,162 @@
     <h2 class="gucci-heading">{{ section.settings.heading }}</h2>
   {% endif %}
 
-  <div class="gucci-grid-container">
+  <div class="gucci-grid-container style-{{ section.settings.layout_style }} text-pos-{{ section.settings.text_position }}">
     {% for block in section.blocks %}
-      <a href="{{ block.settings.link }}" class="gucci-card">
+      <a href="{{ block.settings.link }}" class="gucci-card" style="background-color: {{ section.settings.card_bg }};">
+        
         <div class="gucci-image-wrapper">
           {% if block.settings.image != blank %}
             <img 
-              src="{{ block.settings.image | image_url: width: 1200 }}" 
+              src="{{ block.settings.image | image_url: width: 1600 }}" 
               alt="{{ block.settings.title }}"
               width="{{ block.settings.image.width }}"
               height="{{ block.settings.image.height }}"
               loading="lazy"
             >
           {% else %}
-            {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
           {% endif %}
-          <div class="gucci-overlay"></div>
+          
+          {% if section.settings.text_position == 'overlay' %}
+            <div class="gucci-overlay"></div>
+          {% endif %}
         </div>
         
         <div class="gucci-content">
-          <div class="gucci-label">
-            <span class="gucci-text">{{ block.settings.title }}</span>
+          <div class="gucci-text-group">
+            <span class="gucci-title">{{ block.settings.title }}</span>
+            {% if block.settings.link_text != blank %}
+              <span class="gucci-link-text">{{ block.settings.link_text }}</span>
+            {% endif %}
           </div>
         </div>
+
       </a>
     {% endfor %}
   </div>
 </div>
 
 <style>
-  /* --- CONTAINER STYLES --- */
+  /* --- CONTAINER --- */
   .gucci-grid-wrapper {
-    padding: 40px 20px;
-    background-color: #fff; /* Or #fcfcfc for subtle off-white */
+    padding: 60px 20px;
+    background-color: #fff;
   }
 
   .gucci-heading {
     text-align: center;
-    font-family: var(--font-heading-family); /* Uses your theme's font */
-    font-size: 2.2rem;
-    margin-bottom: 40px;
-    letter-spacing: 0.05em;
-    font-weight: 400;
+    font-family: var(--font-heading-family);
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: #1a1a1a;
+    font-weight: 400;
   }
 
-  /* --- GRID LAYOUT --- */
+  /* --- GRID LAYOUTS --- */
   .gucci-grid-container {
     display: grid;
-    grid-template-columns: 1fr; /* Mobile default */
-    gap: 2px; /* Very tight gap like luxury sites */
-    max-width: 1400px;
+    gap: 2px;
+    max-width: 1600px;
     margin: 0 auto;
   }
 
+  /* Standard Grid */
+  .style-grid { grid-template-columns: 1fr; }
+  @media (min-width: 768px) { .style-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .style-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  /* Mosaic Grid (2 Top / 3 Bottom) */
+  .style-mosaic { grid-template-columns: 1fr; }
   @media (min-width: 768px) {
-    .gucci-grid-container {
-      grid-template-columns: repeat(2, 1fr);
-    }
+    .style-mosaic { grid-template-columns: repeat(6, 1fr); }
+    .style-mosaic .gucci-card:nth-child(1),
+    .style-mosaic .gucci-card:nth-child(2) { grid-column: span 3; }
+    .style-mosaic .gucci-card:nth-child(n+3) { grid-column: span 2; }
   }
 
-  @media (min-width: 1024px) {
-    .gucci-grid-container {
-      /* Dynamic columns based on settings */
-      grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
-    }
-  }
-
-  /* --- CARD STYLES --- */
+  /* --- CARD BASE --- */
   .gucci-card {
     position: relative;
-    display: block;
+    display: flex;
+    flex-direction: column; /* Allows stacking image then text */
     overflow: hidden;
-    height: 400px; /* Mobile height */
     text-decoration: none;
+    height: 500px; /* Default height */
+    transition: opacity 0.3s ease;
   }
 
   @media (min-width: 1024px) {
-    .gucci-card {
-      height: {{ section.settings.height_desktop }}px;
-    }
+    .gucci-card { height: {{ section.settings.height_desktop }}px; }
   }
 
-  /* --- IMAGE ANIMATION --- */
+  /* --- IMAGE HANDLING --- */
   .gucci-image-wrapper {
-    width: 100%;
-    height: 100%;
     position: relative;
+    width: 100%;
+    overflow: hidden;
+    transition: transform 0.8s ease;
   }
 
   .gucci-image-wrapper img,
   .gucci-image-wrapper svg {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s ease; /* Smooth slow zoom */
+    object-fit: cover; /* Keeps images filling the space */
+    transition: transform 0.8s ease;
   }
 
+  /* Hover Zoom Effect */
   .gucci-card:hover .gucci-image-wrapper img {
-    transform: scale(1.05); /* Subtle zoom on hover */
+    transform: scale(1.04);
   }
 
-  /* --- DARK OVERLAY --- */
-  .gucci-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.15); /* Slight dark tint for text contrast */
-    transition: background 0.3s ease;
+  /* --- TEXT STYLES: "BELOW IMAGE" (The one you asked for) --- */
+  .text-pos-below .gucci-image-wrapper {
+    height: 75%; /* Image takes top 75% */
   }
+
+  .text-pos-below .gucci-content {
+    height: 25%; /* Text takes bottom 25% */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: flex-start; /* Align to top of text area */
+    padding-top: 20px;
+    background: transparent;
+  }
+
+  .text-pos-below .gucci-text-group {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .text-pos-below .gucci-title {
+    color: #000;
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: var(--font-heading-family); /* Matches theme font */
+  }
+
+  .text-pos-below .gucci-link-text {
+    color: #4a4a4a;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-decoration: underline;
+    text-underline-offset: 4px; /* The gap between text and line */
+    font-weight: 600;
+    font-family: sans-serif;
+  }
+
+  /* --- TEXT STYLES: "OVERLAY" (The original style) --- */
+  .text-pos-overlay .gucci-image-wrapper { height: 100%; }
   
-  .gucci-card:hover .gucci-overlay {
-    background: rgba(0,0,0,0.25);
-  }
-
-  /* --- TEXT CONTENT --- */
-  .gucci-content {
+  .text-pos-overlay .gucci-content {
     position: absolute;
     inset: 0;
     display: flex;
@@ -193,21 +268,21 @@
     z-index: 2;
   }
 
-  .gucci-label {
-    background: rgba(255, 255, 255, 0.9); /* White glass effect */
-    backdrop-filter: blur(4px);
+  .text-pos-overlay .gucci-label {
+    background: rgba(255, 255, 255, 0.9);
     padding: 15px 30px;
-    min-width: 180px;
-    text-align: center;
   }
 
-  .gucci-text {
-    color: #1a1a1a;
-    font-family: sans-serif; /* Clean sans-serif like Gucci */
-    font-size: 0.85rem;
+  .text-pos-overlay .gucci-title {
+    color: #000;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
     font-weight: 600;
   }
+  
+  .text-pos-overlay .gucci-link-text { display: none; } /* Hide link text in overlay mode */
+
 </style>
+
 
