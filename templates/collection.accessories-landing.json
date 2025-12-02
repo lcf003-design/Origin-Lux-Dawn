@@ -9,6 +9,66 @@
  */
 {
   "sections": {
+    "gucci_subcategory_grid_JA9n7Y": {
+      "type": "gucci-subcategory-grid",
+      "blocks": {
+        "category_qkt8Uy": {
+          "type": "category",
+          "settings": {
+            "title": "Belts",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        },
+        "category_KxwxJQ": {
+          "type": "category",
+          "settings": {
+            "title": "Belts",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        },
+        "category_xnQc79": {
+          "type": "category",
+          "settings": {
+            "title": "Belts",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        },
+        "category_HG6Rzt": {
+          "type": "category",
+          "settings": {
+            "title": "Belts",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        },
+        "category_dphUh9": {
+          "type": "category",
+          "settings": {
+            "title": "Belts",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_qkt8Uy",
+        "category_KxwxJQ",
+        "category_xnQc79",
+        "category_HG6Rzt",
+        "category_dphUh9"
+      ],
+      "name": "Gucci Sub-Category Grid",
+      "settings": {
+        "heading": "Men's Accessories",
+        "layout_style": "mosaic",
+        "text_position": "below",
+        "card_bg": "#f2f2f2",
+        "height_desktop": 500
+      }
+    },
     "banner": {
       "type": "main-collection-banner",
       "disabled": true,
@@ -39,63 +99,11 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "gucci_subcategory_grid_JA9n7Y": {
-      "type": "gucci-subcategory-grid",
-      "blocks": {
-        "category_qkt8Uy": {
-          "type": "category",
-          "settings": {
-            "title": "Belts",
-            "link": ""
-          }
-        },
-        "category_KxwxJQ": {
-          "type": "category",
-          "settings": {
-            "title": "Belts",
-            "link": ""
-          }
-        },
-        "category_xnQc79": {
-          "type": "category",
-          "settings": {
-            "title": "Belts",
-            "link": ""
-          }
-        },
-        "category_HG6Rzt": {
-          "type": "category",
-          "settings": {
-            "title": "Belts",
-            "link": ""
-          }
-        },
-        "category_dphUh9": {
-          "type": "category",
-          "settings": {
-            "title": "Belts",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "category_qkt8Uy",
-        "category_KxwxJQ",
-        "category_xnQc79",
-        "category_HG6Rzt",
-        "category_dphUh9"
-      ],
-      "name": "Gucci Sub-Category Grid",
-      "settings": {
-        "heading": "Men's Accessories",
-        "height_desktop": 500
-      }
     }
   },
   "order": [
+    "gucci_subcategory_grid_JA9n7Y",
     "banner",
-    "product-grid",
-    "gucci_subcategory_grid_JA9n7Y"
+    "product-grid"
   ]
 }
