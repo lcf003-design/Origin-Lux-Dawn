@@ -1,0 +1,422 @@
+{% schema %}
+{
+  "name": "Origin Collection Banner",
+  "class": "origin-collection-banner-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop Image",
+      "info": "If blank, uses the Collection's featured image."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Image",
+      "info": "Optional. Falls back to Desktop image if blank."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Dimensions"
+    },
+    {
+      "type": "select",
+      "id": "height_desktop",
+      "label": "Desktop Height",
+      "options": [
+        { "value": "40vh", "label": "Small (40vh)" },
+        { "value": "60vh", "label": "Medium (60vh)" },
+        { "value": "80vh", "label": "Large (80vh)" },
+        { "value": "100vh", "label": "Full Screen" },
+        { "value": "auto", "label": "Adapt to Image (Natural Height)" }
+      ],
+      "default": "60vh"
+    },
+    {
+      "type": "select",
+      "id": "height_mobile",
+      "label": "Mobile Height",
+      "options": [
+        { "value": "40vh", "label": "Small (40vh)" },
+        { "value": "60vh", "label": "Medium (60vh)" },
+        { "value": "80vh", "label": "Large (80vh)" },
+        { "value": "auto", "label": "Adapt to Image (Natural Height)" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "header",
+      "content": "Positioning"
+    },
+    {
+      "type": "select",
+      "id": "vertical_position",
+      "label": "Vertical Position",
+      "options": [
+        { "value": "flex-start", "label": "Top" },
+        { "value": "center", "label": "Middle" },
+        { "value": "flex-end", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "horizontal_position",
+      "label": "Horizontal Position",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Typography & Sizing"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show Title",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "title_override",
+      "label": "Title Override",
+      "info": "Leave blank to use Collection Title"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 16,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop Title Size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 14,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Title Size",
+      "default": 28
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show Description",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "description_override",
+      "label": "Description Override",
+      "info": "Leave blank to use Collection Description"
+    },
+     {
+      "type": "range",
+      "id": "description_size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 300,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 800
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "font_picker",
+      "id": "font_heading",
+      "label": "Heading Font",
+      "default": "serif"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin Collection Banner"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  {{ section.settings.font_heading | font_face: font_display: 'swap' }}
+
+  /* Base wrapper defaults */
+  .origin-banner-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #f4f4f4;
+    display: block; 
+  }
+
+  /* --- VISIBILITY HELPERS --- */
+  .origin-img-desktop { display: none !important; }
+  .origin-img-mobile { display: block !important; }
+
+  @media (min-width: 750px) {
+    .origin-img-desktop { display: block !important; }
+    .origin-img-mobile { display: none !important; }
+  }
+
+  /* --- MODE LOGIC --- */
+  
+  /* MOBILE LAYOUT */
+  .origin-banner-wrapper.mobile-adapt {
+    height: auto;
+  }
+  .origin-banner-wrapper.mobile-adapt .origin-banner-bg {
+    position: relative;
+    height: auto;
+    width: 100%;
+  }
+  .origin-banner-wrapper.mobile-adapt .origin-banner-bg img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .origin-banner-wrapper.mobile-fixed {
+    height: {{ section.settings.height_mobile }};
+  }
+  .origin-banner-wrapper.mobile-fixed .origin-banner-bg {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%; width: 100%;
+  }
+  .origin-banner-wrapper.mobile-fixed .origin-banner-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+
+  /* DESKTOP LAYOUT OVERRIDES */
+  @media (min-width: 750px) {
+    .origin-banner-wrapper.desktop-adapt {
+      height: auto;
+    }
+    .origin-banner-wrapper.desktop-adapt .origin-banner-bg {
+      position: relative;
+      height: auto;
+      width: 100%;
+    }
+    .origin-banner-wrapper.desktop-adapt .origin-banner-bg img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .origin-banner-wrapper.desktop-fixed {
+      height: {{ section.settings.height_desktop }};
+    }
+    .origin-banner-wrapper.desktop-fixed .origin-banner-bg {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%; width: 100%;
+    }
+    .origin-banner-wrapper.desktop-fixed .origin-banner-bg img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  /* --- OVERLAY --- */
+  .origin-banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* --- CONTENT WRAPPER --- */
+  .origin-banner-content-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    align-items: {{ section.settings.vertical_position }};
+    justify-content: {{ section.settings.horizontal_position }};
+    padding: 20px;
+    pointer-events: none; 
+  }
+
+  .origin-banner-text-box {
+    max-width: {{ section.settings.content_max_width }}px;
+    width: 100%;
+    text-align: {{ section.settings.text_alignment }};
+    color: {{ section.settings.text_color }};
+    pointer-events: auto; 
+  }
+
+  /* Typography */
+  .origin-banner-title {
+    margin: 0 0 12px 0;
+    font-family: {{ section.settings.font_heading.family }}, serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+    word-wrap: break-word;
+    font-size: {{ section.settings.title_size_mobile }}px;
+  }
+
+  .origin-banner-desc {
+    margin: 0;
+    opacity: 0.9;
+    line-height: 1.5;
+    font-size: {{ section.settings.description_size }}px;
+  }
+  
+  .origin-banner-desc p { margin: 0; }
+
+  @media (min-width: 750px) {
+    .origin-banner-content-container {
+      padding: 40px;
+    }
+    .origin-banner-title {
+      font-size: {{ section.settings.title_size_desktop }}px;
+      margin: 0 0 16px 0;
+    }
+  }
+
+{% endstyle %}
+
+{% comment %}
+  Logic: 
+  1. Image Selection
+  2. Text Selection (Strict 'blank' check)
+{% endcomment %}
+
+{% assign desktop_img = section.settings.image_desktop | default: collection.image %}
+{% assign mobile_img = section.settings.image_mobile | default: desktop_img %}
+
+{% comment %} STRICT TITLE LOGIC {% endcomment %}
+{% assign title_override_clean = section.settings.title_override | strip %}
+
+{% if title_override_clean != blank %}
+  {% assign title_text = title_override_clean %}
+{% else %}
+  {% assign title_text = collection.title | default: "Collection Title" %}
+{% endif %}
+
+{% comment %} STRICT DESCRIPTION LOGIC {% endcomment %}
+{% assign desc_override_clean = section.settings.description_override | strip %}
+
+{% if desc_override_clean != blank %}
+  {% assign desc_text = desc_override_clean %}
+{% else %}
+  {% assign desc_text = collection.description %}
+{% endif %}
+
+{% comment %} Height Class Logic {% endcomment %}
+{% assign mobile_class = 'mobile-fixed' %}
+{% if section.settings.height_mobile == 'auto' %}
+  {% assign mobile_class = 'mobile-adapt' %}
+{% endif %}
+
+{% assign desktop_class = 'desktop-fixed' %}
+{% if section.settings.height_desktop == 'auto' %}
+  {% assign desktop_class = 'desktop-adapt' %}
+{% endif %}
+
+
+<div class="origin-banner-wrapper {{ mobile_class }} {{ desktop_class }}">
+  
+  <!-- BACKGROUND LAYER -->
+  <div class="origin-banner-bg">
+    {% if desktop_img != blank %}
+      <!-- Desktop Image -->
+      <img src="{{ desktop_img | image_url: width: 2400 }}" 
+           alt="{{ desktop_img.alt | escape }}" 
+           class="origin-img-desktop"
+           loading="eager"
+           width="{{ desktop_img.width }}"
+           height="{{ desktop_img.height }}">
+           
+      <!-- Mobile Image -->
+      <img src="{{ mobile_img | image_url: width: 1200 }}" 
+           alt="{{ mobile_img.alt | escape }}" 
+           class="origin-img-mobile"
+           loading="eager"
+           width="{{ mobile_img.width }}"
+           height="{{ mobile_img.height }}">
+    {% else %}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'origin-img-desktop' }}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'origin-img-mobile' }}
+    {% endif %}
+  </div>
+
+  <!-- OVERLAY LAYER -->
+  <div class="origin-banner-overlay"></div>
+
+  <!-- CONTENT LAYER -->
+  <div class="origin-banner-content-container">
+    <div class="origin-banner-text-box">
+      
+      {% if section.settings.show_title %}
+        <h1 class="origin-banner-title">{{ title_text }}</h1>
+      {% endif %}
+      
+      {% if section.settings.show_description and desc_text != blank %}
+        <div class="origin-banner-desc rte">
+          {{ desc_text }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
