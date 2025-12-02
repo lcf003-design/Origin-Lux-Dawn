@@ -114,8 +114,8 @@
   .gs-nav-btn svg { width: 12px; height: 12px; }
 
 
-  /* --- ZONE 2: SPLIT GRID --- */
-  .gucci-content-grid {
+  /* --- ZONE 2: SPLIT GRID (APPLIED TO PRODUCT-INFO) --- */
+  .gucci-product-info-grid {
     display: flex;
     flex-direction: column;
     padding: 30px 20px;
@@ -125,7 +125,7 @@
   }
 
   @media screen and (min-width: 990px) {
-    .gucci-content-grid {
+    .gucci-product-info-grid {
       display: grid;
       /* 1fr for Story (Left), 380px fixed for Action (Right) */
       grid-template-columns: 1fr 380px; 
@@ -139,7 +139,7 @@
   .gucci-narrative-col {
     display: flex;
     flex-direction: column;
-    min-width: 0; /* Prevent grid blowout */
+    min-width: 0; 
   }
 
   .product__title h1 {
@@ -239,6 +239,7 @@
   .gucci-action-col {
     position: relative;
     width: 100%;
+    z-index: 10; /* FORCE ON TOP to fix clickability */
   }
   @media screen and (min-width: 990px) {
     .gucci-action-col {
@@ -253,25 +254,6 @@
     flex-direction: column;
     gap: 10px;
   }
-
-  /* Custom Main Button Style */
-  .gucci-add-btn {
-    width: 100%;
-    background: #000;
-    color: #fff;
-    border: none;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.3s;
-  }
-  .gucci-add-btn:hover { opacity: 0.8; }
 
   /* Shipping & Service Text */
   .shipping-text {
@@ -345,71 +327,75 @@
 
 
   <!-- ZONE 2: SPLIT CONTENT -->
-  <div class="gucci-content-grid">
-    <product-info id="ProductInfo-{{ section.id }}" class="contents" data-section="{{ section.id }}" data-url="{{ product.url }}">
+  <!-- We apply the GRID class directly to product-info to ensure layout holds -->
+  <product-info id="ProductInfo-{{ section.id }}" class="gucci-product-info-grid" data-section="{{ section.id }}" data-url="{{ product.url }}">
       
       <!-- LEFT COL: STORY -->
+      <!-- We explicitly exclude the buy buttons here -->
       <div class="gucci-narrative-col">
         {%- assign product_form_id = 'product-form-' | append: section.id -%}
         
         {%- for block in section.blocks -%}
-          {%- case block.type -%}
-            
-            {%- when 'title' -%}
-              <div class="product__title" {{ block.shopify_attributes }}>
-                <h1>{{ product.title | escape }}</h1>
-              </div>
+           {%- if block.type != 'buy_buttons' -%}
+              {%- case block.type -%}
+                
+                {%- when 'title' -%}
+                  <div class="product__title" {{ block.shopify_attributes }}>
+                    <h1>{{ product.title | escape }}</h1>
+                  </div>
 
-            {%- when 'price' -%}
-              <div class="price-area" {{ block.shopify_attributes }}>
-                {% render 'price', product: product, use_variant: true, show_badges: false %}
-              </div>
+                {%- when 'price' -%}
+                  <div class="price-area" {{ block.shopify_attributes }}>
+                    {% render 'price', product: product, use_variant: true, show_badges: false %}
+                  </div>
 
-            {%- when 'variant_picker' -%}
-              <div {{ block.shopify_attributes }}>
-                {%- unless product.has_only_default_variant -%}
-                  {%- for option in product.options_with_values -%}
-                    <div class="variation-label">Variation: <span>{{ option.selected_value }}</span></div>
-                    <fieldset class="product-form__input">
-                      {%- for value in option.values -%}
-                        <input type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                              name="{{ option.name }}"
-                              value="{{ value | escape }}"
-                              form="{{ product_form_id }}"
-                              {% if option.selected_value == value %}checked{% endif %}
-                              class="custom-swatch-input visually-hidden"
-                        >
-                        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="custom-swatch-label">
-                           {{ value }}
-                        </label>
+                {%- when 'variant_picker' -%}
+                  <div {{ block.shopify_attributes }}>
+                    {%- unless product.has_only_default_variant -%}
+                      {%- for option in product.options_with_values -%}
+                        <div class="variation-label">Variation: <span>{{ option.selected_value }}</span></div>
+                        <fieldset class="product-form__input">
+                          {%- for value in option.values -%}
+                            <input type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                                  name="{{ option.name }}"
+                                  value="{{ value | escape }}"
+                                  form="{{ product_form_id }}"
+                                  {% if option.selected_value == value %}checked{% endif %}
+                                  class="custom-swatch-input visually-hidden"
+                            >
+                            <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="custom-swatch-label">
+                              {{ value }}
+                            </label>
+                          {%- endfor -%}
+                        </fieldset>
                       {%- endfor -%}
-                    </fieldset>
-                  {%- endfor -%}
-                {%- endunless -%}
-              </div>
+                    {%- endunless -%}
+                  </div>
 
-            {%- when 'description' -%}
-              <div class="product__description rte" {{ block.shopify_attributes }}>
-                {{ product.description }}
-              </div>
+                {%- when 'description' -%}
+                  <div class="product__description rte" {{ block.shopify_attributes }}>
+                    {{ product.description }}
+                  </div>
 
-            {%- when 'collapsible_tab' -%}
-              <details class="gucci-accordion" {{ block.shopify_attributes }}>
-                <summary>
-                  <span class="accordion-title">{{ block.settings.heading }}</span>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </summary>
-                <div class="accordion__content rte">{{ block.settings.content }}</div>
-              </details>
+                {%- when 'collapsible_tab' -%}
+                  <details class="gucci-accordion" {{ block.shopify_attributes }}>
+                    <summary>
+                      <span class="accordion-title">{{ block.settings.heading }}</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </summary>
+                    <div class="accordion__content rte">{{ block.settings.content }}</div>
+                  </details>
 
-            {%- when 'text' -%}
-               <p class="product__text" style="margin-bottom:15px; font-size: 0.85rem;" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+                {%- when 'text' -%}
+                  <p class="product__text" style="margin-bottom:15px; font-size: 0.85rem;" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
 
-          {%- endcase -%}
+              {%- endcase -%}
+           {%- endif -%}
         {%- endfor -%}
       </div>
 
       <!-- RIGHT COL: ACTION -->
+      <!-- We explicitly ONLY include buy buttons here -->
       <div class="gucci-action-col">
         {%- for block in section.blocks -%}
            {%- if block.type == 'buy_buttons' -%}
@@ -430,8 +416,18 @@
                     font-weight: 600 !important;
                     padding: 15px !important;
                     width: 100% !important;
+                    cursor: pointer !important;
+                    pointer-events: auto !important;
                   }
                   #ProductSubmitButton-{{ section.id }}:hover { opacity: 0.8; }
+                  
+                  /* Disabled State */
+                  #ProductSubmitButton-{{ section.id }}:disabled {
+                    background: #f5f5f5 !important;
+                    color: #999 !important;
+                    border-color: #e5e5e5 !important;
+                    cursor: not-allowed !important;
+                  }
 
                   /* Ensure Dynamic Buttons (Shop Pay) are visible below */
                   .shopify-payment-button__button--unbranded {
@@ -439,12 +435,19 @@
                     color: white !important;
                     border-radius: 0 !important;
                     text-transform: uppercase !important;
+                    pointer-events: auto !important;
                   }
                   /* Branded buttons (ShopPay/PayPal) - Leave defaults but ensure spacing */
                   .shopify-payment-button__button {
                     border-radius: 0px !important;
                     margin-top: 10px;
                     overflow: hidden;
+                    pointer-events: auto !important;
+                  }
+                  /* Fix for z-index layering issues */
+                  .shopify-payment-button {
+                    position: relative;
+                    z-index: 20;
                   }
                </style>
 
@@ -461,8 +464,7 @@
         {%- endfor -%}
       </div>
 
-    </product-info>
-  </div>
+  </product-info>
 
 </div>
 
