@@ -22,9 +22,7 @@
         },
         "variant_picker_GHDcHG": {
           "type": "variant_picker",
-          "settings": {
-            "picker_type": "button"
-          }
+          "settings": {}
         },
         "description_39wtK4": {
           "type": "description",
@@ -32,9 +30,7 @@
         },
         "buy_buttons_UQeeRa": {
           "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": true
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -107,7 +103,6 @@
         "description",
         "share"
       ],
-      "disabled": true,
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
