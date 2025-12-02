@@ -63,7 +63,7 @@
       "name": "Gucci Sub-Category Grid",
       "settings": {
         "heading": "Men's Accessories",
-        "layout_style": "mosaic",
+        "layout_style": "mosaic_extended",
         "text_position": "below",
         "card_bg": "#f2f2f2",
         "height_desktop": 500
