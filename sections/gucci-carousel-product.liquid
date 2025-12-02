@@ -278,11 +278,16 @@
     align-items: center;
     gap: 8px;
     font-size: 0.85rem;
-    text-decoration: underline;
-    text-underline-offset: 4px;
     color: #333;
     margin-bottom: 12px;
-    cursor: pointer;
+  }
+  .service-link a {
+    color: #333;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .service-link a:hover {
+    color: #000;
   }
 {% endstyle %}
 
@@ -314,7 +319,7 @@
       <div class="gs-thumb-list hidden-mobile">
         {% for media in product.media %}
           <div class="gs-thumb {% if forloop.first %}active{% endif %}" onclick="goToSlide({{ forloop.index0 }})">
-             <img src="{{ media | image_url: width: 100 }}" alt="{{ media.alt | escape }}" width="100" height="100">
+             <img src="{{ media | image_url: width: 100 }}" width="100" height="100" alt="{{ media.alt | escape }}">
           </div>
         {% endfor %}
       </div>
@@ -332,7 +337,6 @@
 
 
   <!-- ZONE 2: SPLIT CONTENT -->
-  <!-- We apply the GRID class directly to product-info to ensure layout holds -->
   <product-info id="ProductInfo-{{ section.id }}" class="gucci-product-info-grid" data-section="{{ section.id }}" data-url="{{ product.url }}">
       
       <!-- LEFT COL: STORY -->
@@ -406,9 +410,7 @@
                
                {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
                
-               <!-- Manual Gucci Styles for Standard Forms -->
                <style>
-                  /* Target ONLY the Add to Cart button to make it black/square */
                   #ProductSubmitButton-{{ section.id }} {
                     background: #000 !important;
                     color: #fff !important;
@@ -421,7 +423,7 @@
                     width: 100% !important;
                     cursor: pointer !important;
                     pointer-events: auto !important;
-                    font-size: {{ section.settings.btn_text_size }}px !important; /* SETTING */
+                    font-size: {{ section.settings.btn_text_size }}px !important; 
                   }
                   #ProductSubmitButton-{{ section.id }}:hover { opacity: 0.8; }
                   
@@ -438,7 +440,7 @@
                     border-radius: 0 !important;
                     text-transform: uppercase !important;
                     pointer-events: auto !important;
-                    font-size: {{ section.settings.btn_text_size }}px !important; /* SETTING */
+                    font-size: {{ section.settings.btn_text_size }}px !important; 
                   }
                   .shopify-payment-button__button {
                     border-radius: 0px !important;
@@ -452,15 +454,27 @@
                   }
                </style>
 
+               <!-- Editable Gucci Services -->
+               <div class="shipping-text">
+                  <span>▪</span>
+                  <span>{{ block.settings.delivery_text }}</span>
+               </div>
+               
+               {% if block.settings.contact_text != blank %}
+               <div class="service-link">
+                 <span>▪</span> 
+                 <a href="{{ block.settings.contact_url }}">{{ block.settings.contact_text }}</a>
+               </div>
+               {% endif %}
+               
+               {% if block.settings.store_text != blank %}
+               <div class="service-link">
+                 <span>▪</span> 
+                 <a href="{{ block.settings.store_url }}">{{ block.settings.store_text }}</a>
+               </div>
+               {% endif %}
+
              </div>
-             
-             <!-- Gucci Services -->
-             <div class="shipping-text">
-                <span>▪</span>
-                <span>Estimated delivery: 2-4 Business Days</span>
-             </div>
-             <div class="service-link"><span>▪</span> <span>Contact Us</span></div>
-             <div class="service-link"><span>▪</span> <span>Find in store</span></div>
            {%- endif -%}
         {%- endfor -%}
       </div>
@@ -577,6 +591,38 @@
           "id": "show_dynamic_checkout",
           "default": true,
           "label": "Show dynamic checkout buttons"
+        },
+        {
+           "type": "header",
+           "content": "Service Links"
+        },
+        {
+           "type": "text",
+           "id": "delivery_text",
+           "label": "Delivery Text",
+           "default": "Estimated delivery: 2-4 Business Days"
+        },
+        {
+           "type": "text",
+           "id": "contact_text",
+           "label": "Contact Label",
+           "default": "Contact Us"
+        },
+        {
+           "type": "url",
+           "id": "contact_url",
+           "label": "Contact Link"
+        },
+        {
+           "type": "text",
+           "id": "store_text",
+           "label": "Store Label",
+           "default": "Find in store"
+        },
+        {
+           "type": "url",
+           "id": "store_url",
+           "label": "Store Link"
         }
       ]
     },
