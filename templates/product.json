@@ -28,9 +28,11 @@
           "type": "description",
           "settings": {}
         },
-        "buy_buttons_UQeeRa": {
+        "buy_buttons_hW93MG": {
           "type": "buy_buttons",
-          "settings": {}
+          "settings": {
+            "show_dynamic_checkout": true
+          }
         }
       },
       "block_order": [
@@ -38,7 +40,7 @@
         "price_MmemPq",
         "variant_picker_GHDcHG",
         "description_39wtK4",
-        "buy_buttons_UQeeRa"
+        "buy_buttons_hW93MG"
       ],
       "name": "Gucci Full Spread",
       "settings": {
