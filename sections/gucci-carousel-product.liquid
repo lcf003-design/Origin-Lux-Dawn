@@ -126,30 +126,35 @@
     }
   }
 
-  /* --- MOBILE REORDERING LOGIC --- */
-  /* This allows us to reorder items on mobile even though they are in different HTML columns */
+  /* --- MOBILE REORDERING (CRITICAL FIX) --- */
   @media screen and (max-width: 989px) {
+    /* 1. Force the main container to be a column flexbox */
+    .gucci-product-info-grid {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    
+    /* 2. "Unwrap" the columns so their children sit directly in the main flexbox */
     .gucci-narrative-col, 
     .gucci-action-col {
-      display: contents; /* Flattens the DOM structure visually */
+      display: contents !important;
     }
     
-    /* Assign specific order to blocks on mobile */
-    .gucci-block-title { order: 1; }
-    .gucci-block-price { order: 2; }
-    .gucci-block-text  { order: 3; }
-    .gucci-block-variant_picker { order: 4; }
+    /* 3. Explicitly order every block */
+    .gucci-block-title          { order: 1 !important; }
+    .gucci-block-price          { order: 2 !important; }
+    .gucci-block-text           { order: 3 !important; }
+    .gucci-block-variant_picker { order: 4 !important; }
     
-    /* MOVES BUTTONS ABOVE DESCRIPTION */
+    /* THE FIX: Buy Buttons at Order 5 (Before Description) */
     .gucci-block-buy_buttons { 
-      order: 5; 
-      z-index: 20; /* Ensure clickable on mobile */
-      position: relative; 
-      margin-bottom: 30px; /* spacing before description */
+      order: 5 !important; 
+      margin-bottom: 30px; /* Add space below buttons */
+      z-index: 20;
     }
     
-    .gucci-block-description { order: 6; }
-    .gucci-block-collapsible_tab { order: 7; }
+    .gucci-block-description    { order: 6 !important; }
+    .gucci-block-collapsible_tab { order: 7 !important; }
   }
 
   /* --- LEFT COL: NARRATIVE --- */
@@ -347,9 +352,10 @@
   </div>
 
   <!-- CONTENT -->
+  <!-- Note: We added wrappers (gucci-block-title, etc) to every block to control their order -->
   <product-info id="ProductInfo-{{ section.id }}" class="gucci-product-info-grid" data-section="{{ section.id }}" data-url="{{ product.url }}">
       
-      <!-- LEFT COL -->
+      <!-- LEFT COL: STORY -->
       <div class="gucci-narrative-col">
         {%- assign product_form_id = 'product-form-' | append: section.id -%}
         
@@ -398,15 +404,15 @@
         {%- endfor -%}
       </div>
 
-      <!-- RIGHT COL -->
+      <!-- RIGHT COL: ACTION -->
       <div class="gucci-action-col">
         {%- for block in section.blocks -%}
            {%- if block.type == 'buy_buttons' -%}
+             <!-- Wrapped in gucci-block-buy_buttons for Mobile Ordering -->
              <div class="gucci-block-buy_buttons" {{ block.shopify_attributes }}>
                
                {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
                
-               <!-- BLOCK SPECIFIC STYLES FOR FONT SIZES -->
                <style>
                   #ProductSubmitButton-{{ section.id }} {
                     background: #000 !important;
@@ -420,7 +426,6 @@
                     width: 100% !important;
                     cursor: pointer !important;
                     pointer-events: auto !important;
-                    /* Use Block Setting */
                     font-size: {{ block.settings.btn_text_size }}px !important; 
                   }
                   #ProductSubmitButton-{{ section.id }}:hover { opacity: 0.8; }
@@ -448,7 +453,6 @@
                   }
                </style>
 
-               <!-- Editable Gucci Services with INLINE Styles from Block Settings -->
                <div class="shipping-text" style="font-size: {{ block.settings.service_text_size }}px;">
                   <span>▪</span>
                   <span>{{ block.settings.delivery_text }}</span>
