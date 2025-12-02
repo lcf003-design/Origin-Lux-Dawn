@@ -126,30 +126,25 @@
     }
   }
 
-  /* --- MOBILE REORDERING (CRITICAL FIX) --- */
+  /* --- MOBILE REORDERING --- */
   @media screen and (max-width: 989px) {
-    /* 1. Force the main container to be a column flexbox */
     .gucci-product-info-grid {
       display: flex !important;
       flex-direction: column !important;
     }
-    
-    /* 2. "Unwrap" the columns so their children sit directly in the main flexbox */
     .gucci-narrative-col, 
     .gucci-action-col {
       display: contents !important;
     }
-    
-    /* 3. Explicitly order every block */
     .gucci-block-title          { order: 1 !important; }
     .gucci-block-price          { order: 2 !important; }
     .gucci-block-text           { order: 3 !important; }
     .gucci-block-variant_picker { order: 4 !important; }
     
-    /* THE FIX: Buy Buttons at Order 5 (Before Description) */
+    /* Buttons before Description */
     .gucci-block-buy_buttons { 
       order: 5 !important; 
-      margin-bottom: 30px; /* Add space below buttons */
+      margin-bottom: 30px; 
       z-index: 20;
     }
     
@@ -281,31 +276,57 @@
     gap: 10px;
   }
 
-  /* Service Text Base Styles */
+  /* Service Text & Icons */
   .shipping-text {
     color: #111;
     margin-top: 25px;
     margin-bottom: 20px;
     line-height: 1.5;
     display: flex;
-    gap: 8px;
+    gap: 12px; /* Space for icon */
     padding-top: 20px;
     border-top: 1px solid #eee;
+    align-items: flex-start;
   }
 
   .service-link {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px; /* Space for icon */
     color: #333;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
   }
+  
+  /* THE HOVER BAR ANIMATION */
   .service-link a {
     color: #333;
-    text-decoration: underline;
-    text-underline-offset: 4px;
+    text-decoration: none; /* remove standard underline */
+    position: relative;
+    padding-bottom: 2px;
   }
-  .service-link a:hover { color: #000; }
+  /* The "Bar" */
+  .service-link a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    transition: width 0.3s ease;
+  }
+  /* Expand on Hover */
+  .service-link a:hover::after {
+    width: 100%;
+  }
+
+  /* Icons */
+  .gucci-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
 {% endstyle %}
 
 <div class="gucci-section-wrapper" id="GucciSection-{{ section.id }}">
@@ -352,7 +373,6 @@
   </div>
 
   <!-- CONTENT -->
-  <!-- Note: We added wrappers (gucci-block-title, etc) to every block to control their order -->
   <product-info id="ProductInfo-{{ section.id }}" class="gucci-product-info-grid" data-section="{{ section.id }}" data-url="{{ product.url }}">
       
       <!-- LEFT COL: STORY -->
@@ -408,7 +428,6 @@
       <div class="gucci-action-col">
         {%- for block in section.blocks -%}
            {%- if block.type == 'buy_buttons' -%}
-             <!-- Wrapped in gucci-block-buy_buttons for Mobile Ordering -->
              <div class="gucci-block-buy_buttons" {{ block.shopify_attributes }}>
                
                {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
@@ -437,6 +456,19 @@
                     cursor: not-allowed !important;
                   }
 
+                  /* --- BAG ICON IN BUTTON --- */
+                  #ProductSubmitButton-{{ section.id }}::before {
+                    content: '';
+                    display: inline-block;
+                    width: 14px;
+                    height: 14px;
+                    margin-right: 10px;
+                    vertical-align: -2px;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='square' stroke-linejoin='round'%3E%3Cpath d='M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z'%3E%3C/path%3E%3Cline x1='3' y1='6' x2='21' y2='6'%3E%3C/line%3E%3Cpath d='M16 10a4 4 0 0 1-8 0'%3E%3C/path%3E%3C/svg%3E");
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                  }
+
                   .shopify-payment-button__button--unbranded {
                     background-color: #000 !important;
                     color: white !important;
@@ -453,21 +485,25 @@
                   }
                </style>
 
+               <!-- Service Links with Icons & Hover Bars -->
                <div class="shipping-text" style="font-size: {{ block.settings.service_text_size }}px;">
-                  <span>▪</span>
+                  <!-- Box/Truck Icon -->
+                  <svg class="gucci-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                   <span>{{ block.settings.delivery_text }}</span>
                </div>
                
                {% if block.settings.contact_text != blank %}
                <div class="service-link" style="font-size: {{ block.settings.service_text_size }}px;">
-                 <span>▪</span> 
+                 <!-- Chat Bubble Icon -->
+                 <svg class="gucci-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                  <a href="{{ block.settings.contact_url }}">{{ block.settings.contact_text }}</a>
                </div>
                {% endif %}
                
                {% if block.settings.store_text != blank %}
                <div class="service-link" style="font-size: {{ block.settings.service_text_size }}px;">
-                 <span>▪</span> 
+                 <!-- Location Pin Icon -->
+                 <svg class="gucci-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                  <a href="{{ block.settings.store_url }}">{{ block.settings.store_text }}</a>
                </div>
                {% endif %}
