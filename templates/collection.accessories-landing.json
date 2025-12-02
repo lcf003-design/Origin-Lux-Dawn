@@ -1,0 +1,127 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "gucci_subcategory_grid_JA9n7Y": {
+      "type": "gucci-subcategory-grid",
+      "blocks": {
+        "category_n4MrTY": {
+          "type": "category",
+          "settings": {
+            "title": "Category",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        },
+        "category_G3G8KE": {
+          "type": "category",
+          "settings": {
+            "title": "Category",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        },
+        "category_qkt8Uy": {
+          "type": "category",
+          "settings": {
+            "title": "Belts",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        },
+        "category_KxwxJQ": {
+          "type": "category",
+          "settings": {
+            "title": "Belts",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        },
+        "category_xnQc79": {
+          "type": "category",
+          "settings": {
+            "title": "Belts",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        },
+        "category_HG6Rzt": {
+          "type": "category",
+          "settings": {
+            "title": "Belts",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        },
+        "category_dphUh9": {
+          "type": "category",
+          "settings": {
+            "title": "Belts",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_n4MrTY",
+        "category_G3G8KE",
+        "category_qkt8Uy",
+        "category_KxwxJQ",
+        "category_xnQc79",
+        "category_HG6Rzt",
+        "category_dphUh9"
+      ],
+      "name": "Gucci Sub-Category Grid",
+      "settings": {
+        "heading": "",
+        "layout_style": "mosaic_extended",
+        "text_position": "below",
+        "card_bg": "#f2f2f2",
+        "height_desktop": 500
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": false,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "disabled": true,
+      "settings": {
+        "products_per_page": 16,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "enable_load_more": true,
+        "enable_filtering": true,
+        "filter_type": "horizontal",
+        "enable_sorting": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "gucci_subcategory_grid_JA9n7Y",
+    "banner",
+    "product-grid"
+  ]
+}
