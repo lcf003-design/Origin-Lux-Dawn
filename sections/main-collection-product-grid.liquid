@@ -34,6 +34,35 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  /* Load More Button Styles */
+  .load-more-container {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  .load-more-btn {
+    min-width: 200px;
+    transition: all 0.3s ease;
+  }
+  .load-more-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(0,0,0,0.3);
+    border-radius: 50%;
+    border-top-color: currentColor;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .hidden {
+    display: none !important;
+  }
 {%- endstyle -%}
 
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
@@ -182,8 +211,22 @@
               {%- endfor -%}
             </ul>
 
+            {% comment %} PAGINATION LOGIC {% endcomment %}
             {%- if paginate.pages > 1 -%}
-              {% render 'pagination', paginate: paginate, anchor: '' %}
+              {%- if section.settings.enable_load_more -%}
+                {% comment %} LOAD MORE BUTTON IMPLEMENTATION {% endcomment %}
+                {%- if paginate.next -%}
+                  <div class="load-more-container">
+                    <button class="button button--secondary load-more-btn" id="load-more-button" data-next-url="{{ paginate.next.url }}">
+                      <span>Load More</span>
+                      <div class="load-more-spinner hidden"></div>
+                    </button>
+                  </div>
+                {%- endif -%}
+              {%- else -%}
+                {% comment %} STANDARD PAGINATION {% endcomment %}
+                {% render 'pagination', paginate: paginate, anchor: '' %}
+              {%- endif -%}
             {%- endif -%}
           </div>
         {%- endif -%}
@@ -194,6 +237,66 @@
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
 </div>
+
+{% comment %} LOAD MORE JAVASCRIPT {% endcomment %}
+{%- if section.settings.enable_load_more -%}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const loadMoreBtn = document.getElementById('load-more-button');
+    const productGrid = document.getElementById('product-grid');
+    
+    if (loadMoreBtn && productGrid) {
+      loadMoreBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // UI States
+        const btn = e.currentTarget;
+        const spinner = btn.querySelector('.load-more-spinner');
+        const span = btn.querySelector('span');
+        
+        btn.setAttribute('disabled', true);
+        spinner.classList.remove('hidden');
+        span.textContent = 'Loading...';
+
+        const nextUrl = btn.dataset.nextUrl;
+
+        // Fetch Next Page
+        fetch(nextUrl)
+          .then(response => response.text())
+          .then(data => {
+            // Parse Response
+            const parser = new DOMParser();
+            const html = parser.parseFromString(data, 'text/html');
+            const newProducts = html.querySelectorAll('#product-grid > .grid__item');
+            const nextButtonInNewPage = html.getElementById('load-more-button');
+
+            // Append New Products
+            newProducts.forEach(item => {
+              productGrid.appendChild(item);
+            });
+
+            // Update Button or Hide if no more pages
+            if (nextButtonInNewPage && nextButtonInNewPage.dataset.nextUrl) {
+              btn.dataset.nextUrl = nextButtonInNewPage.dataset.nextUrl;
+              btn.removeAttribute('disabled');
+              span.textContent = 'Load More';
+              spinner.classList.add('hidden');
+            } else {
+              btn.closest('.load-more-container').remove();
+            }
+
+          })
+          .catch(err => {
+            console.error('Error loading products:', err);
+            span.textContent = 'Error. Try again.';
+            btn.removeAttribute('disabled');
+            spinner.classList.add('hidden');
+          });
+      });
+    }
+  });
+</script>
+{%- endif -%}
 
 {% schema %}
 {
@@ -346,6 +449,17 @@
     },
     {
       "type": "header",
+      "content": "Pagination"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_load_more",
+      "default": true,
+      "label": "Enable 'Load More' Button",
+      "info": "Replaces standard pagination with a Load More button."
+    },
+    {
+      "type": "header",
       "content": "t:sections.main-collection-product-grid.settings.header__1.content"
     },
     {
@@ -408,3 +522,4 @@
   ]
 }
 {% endschema %}
+
