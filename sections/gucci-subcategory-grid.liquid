@@ -130,7 +130,11 @@
               loading="lazy"
             >
           {% else %}
-            {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- comment -%} 
+              FIX: This calculates a number between 1 and 6 to prevent errors if you have 7+ blocks 
+            {%- endcomment -%}
+            {% assign placeholder_index = forloop.index0 | modulo: 6 | plus: 1 %}
+            {{ 'collection-' | append: placeholder_index | placeholder_svg_tag: 'placeholder-svg' }}
           {% endif %}
           
           {% if section.settings.text_position == 'overlay' %}
