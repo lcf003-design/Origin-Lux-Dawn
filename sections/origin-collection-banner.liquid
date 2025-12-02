@@ -5,6 +5,17 @@
   "settings": [
     {
       "type": "header",
+      "content": "Duplicate Prevention"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_standard_title",
+      "label": "Hide Standard Page Title",
+      "default": true,
+      "info": "Check this to hide the original text title below the image so it doesn't show twice."
+    },
+    {
+      "type": "header",
       "content": "Image Settings"
     },
     {
@@ -332,6 +343,17 @@
     }
   }
 
+  /* --- HIDE DUPLICATE TITLES --- */
+  {% if section.settings.hide_standard_title %}
+    /* This targets common themes to hide the standard collection title */
+    .collection-hero__title,
+    .section-header .title,
+    .template-collection .title--primary,
+    .collection__title.title-wrapper {
+      display: none !important;
+    }
+  {% endif %}
+
 {% endstyle %}
 
 {% comment %}
@@ -419,5 +441,4 @@
   </div>
 
 </div>
-
 
