@@ -100,6 +100,12 @@
       "content": "Typography & Sizing"
     },
     {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show Title",
+      "default": true
+    },
+    {
       "type": "text",
       "id": "title_override",
       "label": "Title Override",
@@ -126,16 +132,16 @@
       "default": 28
     },
     {
-      "type": "richtext",
-      "id": "description_override",
-      "label": "Description Override",
-      "info": "Leave blank to use Collection Description"
-    },
-    {
       "type": "checkbox",
       "id": "show_description",
       "label": "Show Description",
       "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "description_override",
+      "label": "Description Override",
+      "info": "Leave blank to use Collection Description"
     },
      {
       "type": "range",
@@ -399,7 +405,10 @@
   <!-- CONTENT LAYER -->
   <div class="origin-banner-content-container">
     <div class="origin-banner-text-box">
-      <h1 class="origin-banner-title">{{ title_text }}</h1>
+      
+      {% if section.settings.show_title %}
+        <h1 class="origin-banner-title">{{ title_text }}</h1>
+      {% endif %}
       
       {% if section.settings.show_description and desc_text != blank %}
         <div class="origin-banner-desc rte">
