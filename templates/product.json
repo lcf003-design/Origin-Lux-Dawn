@@ -31,7 +31,12 @@
         "buy_buttons_hW93MG": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": true
+            "show_dynamic_checkout": true,
+            "delivery_text": "Estimated delivery: 2-4 Business Days",
+            "contact_text": "Contact Us",
+            "contact_url": "",
+            "store_text": "Find in store",
+            "store_url": ""
           }
         }
       },
@@ -44,7 +49,12 @@
       ],
       "name": "Gucci Full Spread",
       "settings": {
-        "bg_color": "#ffffff"
+        "bg_color": "#ffffff",
+        "title_size": 32,
+        "price_size": 18,
+        "body_size": 14,
+        "btn_text_size": 13,
+        "service_text_size": 12
       }
     },
     "main": {
@@ -105,6 +115,7 @@
         "description",
         "share"
       ],
+      "disabled": true,
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
