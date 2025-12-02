@@ -12,6 +12,22 @@
     "gucci_subcategory_grid_JA9n7Y": {
       "type": "gucci-subcategory-grid",
       "blocks": {
+        "category_n4MrTY": {
+          "type": "category",
+          "settings": {
+            "title": "Category",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        },
+        "category_G3G8KE": {
+          "type": "category",
+          "settings": {
+            "title": "Category",
+            "link_text": "Discover More",
+            "link": ""
+          }
+        },
         "category_qkt8Uy": {
           "type": "category",
           "settings": {
@@ -54,6 +70,8 @@
         }
       },
       "block_order": [
+        "category_n4MrTY",
+        "category_G3G8KE",
         "category_qkt8Uy",
         "category_KxwxJQ",
         "category_xnQc79",
