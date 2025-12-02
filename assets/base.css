@@ -3779,3 +3779,67 @@ details-disclosure > details {
 .section-header.scrolled-past-header .header__heading-logo {
   transform: scale(0.75); /* adjust if too small/large */
 }
+/* ORIGIN – Product accordion (Gucci-style minimal) */
+.origin-accordion {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 0.75rem 0;
+  margin: 0;
+}
+
+.origin-accordion + .origin-accordion {
+  margin-top: -1px; /* avoid double borders between accordions */
+}
+
+.origin-accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+  padding: 0.25rem 0;
+}
+
+.origin-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.origin-accordion summary span {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+/* Plus / minus icon on the right */
+.origin-accordion summary::after {
+  content: "+";
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.7;
+}
+
+.origin-accordion[open] summary::after {
+  content: "–"; /* minus */
+  opacity: 0.9;
+}
+
+/* Content area */
+.origin-accordion__content {
+  padding: 0.5rem 0 0.25rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* Optional: slightly indent lists inside accordion */
+.origin-accordion__content ul {
+  margin: 0.25rem 0 0.25rem 1rem;
+  padding: 0;
+}
+
+/* Hover / focus luxury touch */
+.origin-accordion summary:hover span,
+.origin-accordion summary:focus-visible span {
+  opacity: 0.8;
+}

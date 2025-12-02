@@ -7,293 +7,642 @@
 <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 
-<div class="gucci-slider-section" id="GucciSlider-{{ section.id }}" style="--origin-gucci-carousel-bg: {{ section.settings.bg_color }};">
+{% style %}
+  /* --- GLOBAL RESET --- */
+  .gucci-section-wrapper {
+    background-color: #fff;
+    width: 100%;
+    overflow-x: hidden;
+  }
   
+  .gucci-section-wrapper p, 
+  .gucci-section-wrapper h1, 
+  .gucci-section-wrapper h2 {
+    margin: 0;
+  }
+
+  /* --- ZONE 1: VISUALS (CAROUSEL) --- */
+  .gucci-visuals-stage {
+    position: relative;
+    width: 100%;
+    background-color: {{ section.settings.bg_color }};
+    aspect-ratio: 1 / 1; 
+    overflow: hidden;
+  }
+  
+  @media screen and (min-width: 990px) {
+    .gucci-visuals-stage {
+      aspect-ratio: 16 / 9; /* Cinematic Widescreen */
+      max-height: 85vh;
+    }
+  }
+
+  .gucci-slider-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); 
+  }
+
+  .gucci-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .gucci-slide img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+
+  /* Controls: Bottom Right Floating */
+  .gs-controls-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 10;
+  }
+
+  /* Thumbnails */
+  .gs-thumb-list {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .gs-thumb {
+    width: 44px;
+    height: 44px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    overflow: hidden;
+    background: #fff;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+  }
+  .gs-thumb.active {
+    opacity: 1;
+    border-color: #000;
+  }
+  .gs-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Arrows */
+  .gs-nav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: #555;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  .gs-nav-btn:hover { background: #000; color: #fff; border-color: #000; }
+  .gs-nav-btn svg { width: 12px; height: 12px; }
+
+
+  /* --- ZONE 2: SPLIT GRID --- */
+  .gucci-product-info-grid {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 40px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .gucci-product-info-grid {
+      display: grid;
+      /* 1fr for Story (Left), 380px fixed for Action (Right) */
+      grid-template-columns: 1fr 380px; 
+      gap: 80px; 
+      padding: 60px 40px;
+      align-items: start;
+    }
+  }
+
+  /* --- LEFT COL: NARRATIVE --- */
+  .gucci-narrative-col {
+    display: flex;
+    flex-direction: column;
+    min-width: 0; 
+  }
+
+  /* TYPOGRAPHY SETTINGS CONNECTED HERE */
+  .product__title h1 {
+    font-family: var(--font-heading-family);
+    font-size: {{ section.settings.title_size }}px; /* SETTING */
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+    margin-bottom: 5px;
+    color: #111;
+    text-transform: uppercase;
+  }
+
+  .price-area {
+    margin-bottom: 25px;
+    font-size: {{ section.settings.price_size }}px; /* SETTING */
+    font-weight: 400;
+    letter-spacing: 0.5px;
+  }
+
+  .variation-label {
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .variation-label span { color: #000; font-weight: 600; }
+
+  /* Variants */
+  fieldset.product-form__input {
+    border: none;
+    padding: 0;
+    margin: 0 0 25px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .custom-swatch-label {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 10px;
+    border: 1px solid #e5e5e5;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 0.8rem;
+    color: #555;
+  }
+  .custom-swatch-input:checked + .custom-swatch-label {
+    border: 1px solid #000;
+    color: #000;
+    background: #f9f9f9;
+  }
+
+  /* Description */
+  .product__description {
+    margin: 30px 0;
+    font-size: {{ section.settings.body_size }}px; /* SETTING */
+    line-height: 1.7;
+    color: #333;
+    max-width: 600px;
+  }
+  
+  .product__text {
+     font-size: {{ section.settings.body_size | minus: 2 }}px;
+  }
+
+  /* Accordions */
+  .gucci-accordion { border-top: 1px solid #e5e5e5; }
+  .gucci-accordion:last-child { border-bottom: 1px solid #e5e5e5; }
+  
+  .gucci-accordion summary {
+    padding: 18px 0;
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .gucci-accordion summary::-webkit-details-marker { display: none; }
+  
+  .accordion-title {
+    font-size: {{ section.settings.body_size }}px; /* SETTING */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .gucci-accordion .accordion__content {
+    padding-bottom: 20px;
+    font-size: {{ section.settings.body_size }}px; /* SETTING */
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* --- RIGHT COL: ACTION --- */
+  .gucci-action-col {
+    position: relative;
+    width: 100%;
+    z-index: 10; /* FORCE ON TOP to fix clickability */
+  }
+  @media screen and (min-width: 990px) {
+    .gucci-action-col {
+      position: sticky;
+      top: 40px;
+    }
+  }
+
+  /* Buttons */
+  .product-form__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Shipping & Service Text */
+  .shipping-text {
+    font-size: {{ section.settings.service_text_size }}px; /* NEW SETTING */
+    color: #111;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    display: flex;
+    gap: 8px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+
+  .service-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: {{ section.settings.service_text_size }}px; /* NEW SETTING */
+    color: #333;
+    margin-bottom: 12px;
+  }
+  .service-link a {
+    color: #333;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .service-link a:hover {
+    color: #000;
+  }
+{% endstyle %}
+
+<div class="gucci-section-wrapper" id="GucciSection-{{ section.id }}">
+  
+  <!-- ZONE 1: VISUALS -->
   <div class="gucci-visuals-stage">
     <div class="gucci-slider-track" id="gsTrack">
       {% if product.media.size > 0 %}
-        
-        {% comment %} 
-          LOGIC: Infinite Loop requires cloning. 
-          We clone the LAST 2 items to the FRONT, and the FIRST 2 items to the BACK.
-          This accommodates the 2-up desktop view.
-        {% endcomment %}
-
-        {% assign last_index = product.media.size | minus: 1 %}
-        {% assign second_last_index = product.media.size | minus: 2 %}
-        
-        <!-- SAFETY: Only run clone logic if we have enough images (>=2) -->
-        {% if product.media.size > 1 %}
-          
-            <!-- CLONES AT START -->
-            <div class="gucci-slide clone-last-2">
-              <img src="{{ product.media[second_last_index] | image_url: width: 2000 }}" alt="" width="2000" height="{{ 2000 | divided_by: product.media[second_last_index].aspect_ratio | ceil }}" loading="lazy">
-            </div>
-            
-            <div class="gucci-slide clone-last-1">
-              <img src="{{ product.media[last_index] | image_url: width: 2000 }}" alt="" width="2000" height="{{ 2000 | divided_by: product.media[last_index].aspect_ratio | ceil }}" loading="lazy">
-            </div>
-
-            <!-- REAL IMAGES -->
-            {% for media in product.media %}
-              <div class="gucci-slide" data-index="{{ forloop.index0 }}">
-                {% comment %} Performance: First 2 images Eager load, others Lazy {% endcomment %}
-                {% assign loading_strat = 'lazy' %}
-                {% if forloop.index <= 2 %}{% assign loading_strat = 'eager' %}{% endif %}
-                
-                <img 
-                  src="{{ media | image_url: width: 2000 }}" 
-                  alt="{{ media.alt | escape }}" 
-                  width="2000" 
-                  height="{{ 2000 | divided_by: media.aspect_ratio | ceil }}" 
-                  loading="{{ loading_strat }}"
-                  {% if forloop.first %}fetchpriority="high"{% endif %}
-                >
-              </div>
-            {% endfor %}
-
-            <!-- CLONES AT END -->
-            <div class="gucci-slide clone-first-1">
-              <img src="{{ product.media[0] | image_url: width: 2000 }}" alt="" width="2000" height="{{ 2000 | divided_by: product.media[0].aspect_ratio | ceil }}" loading="lazy">
-            </div>
-            
-            <div class="gucci-slide clone-first-2">
-              <img src="{{ product.media[1] | image_url: width: 2000 }}" alt="" width="2000" height="{{ 2000 | divided_by: product.media[1].aspect_ratio | ceil }}" loading="lazy">
-            </div>
-
-        {% else %}
-            <!-- FALLBACK FOR SINGLE IMAGE -->
-            <div class="gucci-slide">
-              <img src="{{ product.media[0] | image_url: width: 2000 }}" alt="{{ product.media[0].alt | escape }}" width="2000" height="{{ 2000 | divided_by: product.media[0].aspect_ratio | ceil }}" fetchpriority="high">
-            </div>
-        {% endif %}
-
+        {% for media in product.media %}
+          <div class="gucci-slide">
+            <img 
+              src="{{ media | image_url: width: 2000 }}" 
+              alt="{{ media.alt | escape }}" 
+              width="2000" 
+              height="{{ 2000 | divided_by: media.aspect_ratio | ceil }}" 
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            >
+          </div>
+        {% endfor %}
       {% else %}
         <div class="gucci-slide">{{ 'product-1' | placeholder_svg_tag }}</div>
       {% endif %}
     </div>
-  </div>
 
-  <!-- CONTROL STRIP (Only show if more than 1 image) -->
-  {% if product.media.size > 1 %}
-  <div class="gs-control-strip">
-    <div class="gs-controls-wrapper">
-       
-      <div class="gs-mini-preview">
+    <!-- CONTROLS -->
+    {% if product.media.size > 1 %}
+    <div class="gs-controls-container">
+      <div class="gs-thumb-list hidden-mobile">
         {% for media in product.media %}
-          <div class="gs-mini-thumb {% if forloop.first %}active{% endif %}" onclick="jumpToSlide({{ forloop.index0 }})">
-            <img src="{{ media | image_url: width: 100 }}" alt="Thumb" width="100" height="{{ 100 | divided_by: media.aspect_ratio | ceil }}">
+          <div class="gs-thumb {% if forloop.first %}active{% endif %}" onclick="goToSlide({{ forloop.index0 }})">
+             <img src="{{ media | image_url: width: 100 }}" alt="{{ media.alt | escape }}" width="100" height="100">
           </div>
         {% endfor %}
       </div>
-
-      <div class="gs-nav-group">
-        <button class="gs-nav-btn prev" id="gsPrevBtn" aria-label="Previous">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg>
+      <div class="gs-arrow-group" style="display:flex; gap:10px;">
+        <button class="gs-nav-btn" onclick="prevSlide()" aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
-        <button class="gs-nav-btn next" id="gsNextBtn" aria-label="Next">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l6-6-6-6"/></svg>
+        <button class="gs-nav-btn" onclick="nextSlide()" aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
         </button>
       </div>
-
     </div>
+    {% endif %}
   </div>
-  {% endif %}
 
-  <div class="gs-product-container">
-    <product-info id="ProductInfo-{{ section.id }}" data-section="{{ section.id }}" data-product-id="{{ product.id }}" data-update-url="true" data-url="{{ product.url }}">
-      {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when '@app' -%}{% render block %}
-          {%- when 'text' -%}
-            <p class="product__text {{ block.settings.text_style }}" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
-          {%- when 'title' -%}
-            <div class="product__title" {{ block.shopify_attributes }}><h1>{{ product.title | escape }}</h1></div>
-          {%- when 'price' -%}
-            <div id="price-{{ section.id }}" {{ block.shopify_attributes }}>{%- render 'price', product: product, use_variant: true, show_badges: true -%}</div>
-          {%- when 'variant_picker' -%}
-            {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
-          {%- when 'buy_buttons' -%}
-            {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
-          {%- when 'description' -%}
-            <div class="product__description rte" {{ block.shopify_attributes }}>{{ product.description }}</div>
-          {%- when 'share' -%}
-            {% render 'share-button', block: block, share_link: product.url %}
-          {%- when 'quantity_selector' -%}
-            <div class="product-form__input product-form__quantity" {{ block.shopify_attributes }} style="justify-content: center; display: flex; margin: 0 auto 20px;">
-              <label class="form__label" for="Quantity-{{ section.id }}" style="margin-right: 10px;">Quantity</label>
-              <quantity-input class="quantity">
-                <button class="quantity__button" name="minus" type="button">-</button>
-                <input class="quantity__input" type="number" name="quantity" id="Quantity-{{ section.id }}" min="1" value="1" form="{{ product_form_id }}">
-                <button class="quantity__button" name="plus" type="button">+</button>
-              </quantity-input>
-            </div>
-          {%- when 'collapsible_tab' -%}
-            <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
-              <details id="Details-{{ block.id }}-{{ section.id }}">
-                <summary>
-                  <div class="summary__title">
-                    {% render 'icon-accordion', icon: block.settings.icon %}
-                    <h2 class="h4 accordion__title inline-richtext">{{ block.settings.heading | default: block.settings.page.title }}</h2>
+  <!-- ZONE 2: SPLIT CONTENT -->
+  <product-info id="ProductInfo-{{ section.id }}" class="gucci-product-info-grid" data-section="{{ section.id }}" data-url="{{ product.url }}">
+      
+      <!-- LEFT COL: STORY -->
+      <div class="gucci-narrative-col">
+        {%- assign product_form_id = 'product-form-' | append: section.id -%}
+        
+        {%- for block in section.blocks -%}
+           {%- if block.type != 'buy_buttons' -%}
+              {%- case block.type -%}
+                
+                {%- when 'title' -%}
+                  <div class="product__title" {{ block.shopify_attributes }}>
+                    <h1>{{ product.title | escape }}</h1>
                   </div>
-                  {{- 'icon-caret.svg' | inline_asset_content -}}
-                </summary>
-                <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
-                  {{ block.settings.content }}
-                  {{ block.settings.page.content }}
-                </div>
-              </details>
-            </div>
-        {%- endcase -%}
-      {%- endfor -%}
-    </product-info>
-  </div>
+
+                {%- when 'price' -%}
+                  <div class="price-area" {{ block.shopify_attributes }}>
+                    {% render 'price', product: product, use_variant: true, show_badges: false %}
+                  </div>
+
+                {%- when 'variant_picker' -%}
+                  <div {{ block.shopify_attributes }}>
+                    {%- unless product.has_only_default_variant -%}
+                      {%- for option in product.options_with_values -%}
+                        <div class="variation-label">Variation: <span>{{ option.selected_value }}</span></div>
+                        <fieldset class="product-form__input">
+                          {%- for value in option.values -%}
+                            <input type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                                  name="{{ option.name }}"
+                                  value="{{ value | escape }}"
+                                  form="{{ product_form_id }}"
+                                  {% if option.selected_value == value %}checked{% endif %}
+                                  class="custom-swatch-input visually-hidden"
+                            >
+                            <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="custom-swatch-label">
+                              {{ value }}
+                            </label>
+                          {%- endfor -%}
+                        </fieldset>
+                      {%- endfor -%}
+                    {%- endunless -%}
+                  </div>
+
+                {%- when 'description' -%}
+                  <div class="product__description rte" {{ block.shopify_attributes }}>
+                    {{ product.description }}
+                  </div>
+
+                {%- when 'collapsible_tab' -%}
+                  <details class="gucci-accordion" {{ block.shopify_attributes }}>
+                    <summary>
+                      <span class="accordion-title">{{ block.settings.heading }}</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </summary>
+                    <div class="accordion__content rte">{{ block.settings.content }}</div>
+                  </details>
+
+                {%- when 'text' -%}
+                  <p class="product__text" style="margin-bottom:15px;" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+
+              {%- endcase -%}
+           {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <!-- RIGHT COL: ACTION -->
+      <div class="gucci-action-col">
+        {%- for block in section.blocks -%}
+           {%- if block.type == 'buy_buttons' -%}
+             <div {{ block.shopify_attributes }}>
+               
+               {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
+               
+               <style>
+                  #ProductSubmitButton-{{ section.id }} {
+                    background: #000 !important;
+                    color: #fff !important;
+                    border: 1px solid #000 !important;
+                    border-radius: 0 !important;
+                    text-transform: uppercase !important;
+                    letter-spacing: 1px !important;
+                    font-weight: 600 !important;
+                    padding: 15px !important;
+                    width: 100% !important;
+                    cursor: pointer !important;
+                    pointer-events: auto !important;
+                    font-size: {{ section.settings.btn_text_size }}px !important; 
+                  }
+                  #ProductSubmitButton-{{ section.id }}:hover { opacity: 0.8; }
+                  
+                  #ProductSubmitButton-{{ section.id }}:disabled {
+                    background: #f5f5f5 !important;
+                    color: #999 !important;
+                    border-color: #e5e5e5 !important;
+                    cursor: not-allowed !important;
+                  }
+
+                  .shopify-payment-button__button--unbranded {
+                    background-color: #000 !important;
+                    color: white !important;
+                    border-radius: 0 !important;
+                    text-transform: uppercase !important;
+                    pointer-events: auto !important;
+                    font-size: {{ section.settings.btn_text_size }}px !important; 
+                  }
+                  .shopify-payment-button__button {
+                    border-radius: 0px !important;
+                    margin-top: 10px;
+                    overflow: hidden;
+                    pointer-events: auto !important;
+                  }
+                  .shopify-payment-button {
+                    position: relative;
+                    z-index: 20;
+                  }
+               </style>
+
+               <!-- Editable Gucci Services -->
+               <div class="shipping-text">
+                  <span>▪</span>
+                  <span>{{ block.settings.delivery_text }}</span>
+               </div>
+               
+               {% if block.settings.contact_text != blank %}
+               <div class="service-link">
+                 <span>▪</span> 
+                 <a href="{{ block.settings.contact_url }}">{{ block.settings.contact_text }}</a>
+               </div>
+               {% endif %}
+               
+               {% if block.settings.store_text != blank %}
+               <div class="service-link">
+                 <span>▪</span> 
+                 <a href="{{ block.settings.store_url }}">{{ block.settings.store_text }}</a>
+               </div>
+               {% endif %}
+
+             </div>
+           {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+  </product-info>
 
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const track = document.getElementById('gsTrack');
-    const visualStage = document.querySelector('.gucci-visuals-stage');
-    const realSlides = document.querySelectorAll('.gucci-slide:not([class*="clone-"])');
-    const thumbs = document.querySelectorAll('.gs-mini-thumb');
-    const prevBtn = document.getElementById('gsPrevBtn');
-    const nextBtn = document.getElementById('gsNextBtn');
-    
-    if (realSlides.length < 2) return; // Exit if not enough slides
+  let currentIndex = 0;
+  const track = document.getElementById('gsTrack');
+  const slides = document.querySelectorAll('.gucci-slide');
+  const thumbs = document.querySelectorAll('.gs-thumb');
+  const totalSlides = slides.length;
 
-    // Configuration
-    const cloneCountStart = 2; 
-    let currentIndex = cloneCountStart; 
-    let isTransitioning = false;
-    const totalReal = realSlides.length;
-    const totalSlides = document.querySelectorAll('.gucci-slide').length;
-
-    // --- CORE MOVING LOGIC ---
-    function updatePosition(transition = true) {
-      const isDesktop = window.innerWidth >= 990;
-      const movePercent = isDesktop ? 50 : 100;
-      
-      track.style.transition = transition ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
-      track.style.transform = `translateX(-${currentIndex * movePercent}%)`;
-
-      // Update Thumbs (Map clone indices back to real indices)
-      let realIndex = currentIndex - cloneCountStart;
-      
-      // Loop mapping
-      if (realIndex < 0) realIndex = totalReal + realIndex;
-      if (realIndex >= totalReal) realIndex = realIndex % totalReal;
-
-      thumbs.forEach(t => t.classList.remove('active'));
-      if(thumbs[realIndex]) {
-        thumbs[realIndex].classList.add('active');
-        thumbs[realIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      }
-    }
-
-    // --- INFINITE LOOP JUMP ---
-    track.addEventListener('transitionend', () => {
-      isTransitioning = false;
-      
-      // If at end clones, snap to start
-      if (currentIndex >= totalSlides - 2) {
-        currentIndex = currentIndex - totalReal;
-        updatePosition(false); 
-      }
-      
-      // If at start clones, snap to end
-      if (currentIndex < cloneCountStart) {
-        currentIndex = currentIndex + totalReal;
-        updatePosition(false); 
-      }
+  function updateSlide() {
+    if(totalSlides === 0) return;
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    thumbs.forEach((t, i) => {
+      t.classList.toggle('active', i === currentIndex);
     });
+  }
 
-    function moveSlide(direction) {
-      if (isTransitioning) return;
-      isTransitioning = true;
-      currentIndex += direction;
-      updatePosition();
-    }
+  window.nextSlide = function() {
+    currentIndex = (currentIndex + 1) % totalSlides;
+    updateSlide();
+  }
 
-    // Global accessible function for thumbs
-    window.jumpToSlide = function(index) {
-      currentIndex = index + cloneCountStart;
-      updatePosition();
-    }
+  window.prevSlide = function() {
+    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+    updateSlide();
+  }
 
-    // --- BUTTON EVENTS ---
-    if(prevBtn) prevBtn.addEventListener('click', () => moveSlide(-1));
-    if(nextBtn) nextBtn.addEventListener('click', () => moveSlide(1));
-
-    // --- TOUCH / SWIPE SUPPORT (ROBUST) ---
-    let touchStartX = 0;
-    let touchCurrentX = 0;
-    const swipeThreshold = 50; 
-
-    // 1. Start
-    visualStage.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-      touchCurrentX = touchStartX; // Init current to start
-    }, {passive: true});
-
-    // 2. Move (Track position)
-    visualStage.addEventListener('touchmove', e => {
-      touchCurrentX = e.changedTouches[0].screenX;
-    }, {passive: true});
-
-    // 3. End (Decide)
-    visualStage.addEventListener('touchend', e => {
-      // Ensure we have a valid end position even if move didn't fire
-      if (touchCurrentX === 0) touchCurrentX = e.changedTouches[0].screenX;
-      
-      const deltaX = touchStartX - touchCurrentX;
-      
-      // Reset
-      touchStartX = 0;
-      touchCurrentX = 0;
-
-      if (Math.abs(deltaX) > swipeThreshold) {
-        if (deltaX > 0) moveSlide(1); // Swipe Left -> Next
-        else moveSlide(-1); // Swipe Right -> Prev
-      }
+  window.goToSlide = function(index) {
+    currentIndex = index;
+    updateSlide();
+  }
+  
+  // Swipe
+  let touchStartX = 0;
+  const stage = document.querySelector('.gucci-visuals-stage');
+  if(stage) {
+    stage.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX, {passive: true});
+    stage.addEventListener('touchend', e => {
+      let touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) nextSlide();
+      if (touchEndX - touchStartX > 50) prevSlide();
     });
-
-    // --- RESIZE HANDLER (Debounced) ---
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => updatePosition(false), 100);
-    });
-    
-    // Init
-    setTimeout(() => updatePosition(false), 50); 
-  });
+  }
 </script>
 
 {% schema %}
 {
-  "name": "Gucci Full Spread",
+  "name": "Gucci Product Page",
   "tag": "section",
   "class": "section",
   "settings": [
-    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#F5F5F5" }
+    { "type": "color", "id": "bg_color", "label": "Image Background", "default": "#F5F5F5" },
+    { "type": "header", "content": "Typography Sizing" },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Price Font Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Body/Description Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "btn_text_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Text Size",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "service_text_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Service Links Size",
+      "default": 12
+    }
   ],
   "blocks": [
     { "type": "@app" },
-    { "type": "text", "name": "Text", "settings": [ { "type": "inline_richtext", "id": "text", "label": "Text", "default": "Text block" } ] },
     { "type": "title", "name": "Title", "limit": 1 },
     { "type": "price", "name": "Price", "limit": 1 },
-    { "type": "variant_picker", "name": "Variant Picker", "limit": 1, "settings": [ { "type": "select", "id": "picker_type", "options": [ { "value": "dropdown", "label": "Dropdown" }, { "value": "button", "label": "Buttons" } ], "default": "button", "label": "Picker Type" } ] },
-    { "type": "buy_buttons", "name": "Buy Buttons", "limit": 1, "settings": [ { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout", "default": true } ] },
+    { "type": "text", "name": "Text", "settings": [ { "type": "text", "id": "text", "label": "Text" } ] },
+    { "type": "variant_picker", "name": "Variant Picker", "limit": 1 },
+    { 
+      "type": "buy_buttons", 
+      "name": "Buy Buttons", 
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "default": true,
+          "label": "Show dynamic checkout buttons"
+        },
+        {
+           "type": "header",
+           "content": "Service Links"
+        },
+        {
+           "type": "text",
+           "id": "delivery_text",
+           "label": "Delivery Text",
+           "default": "Estimated delivery: 2-4 Business Days"
+        },
+        {
+           "type": "text",
+           "id": "contact_text",
+           "label": "Contact Label",
+           "default": "Contact Us"
+        },
+        {
+           "type": "url",
+           "id": "contact_url",
+           "label": "Contact Link"
+        },
+        {
+           "type": "text",
+           "id": "store_text",
+           "label": "Store Label",
+           "default": "Find in store"
+        },
+        {
+           "type": "url",
+           "id": "store_url",
+           "label": "Store Link"
+        }
+      ]
+    },
     { "type": "description", "name": "Description", "limit": 1 },
-    { "type": "share", "name": "Share", "limit": 1 },
-    { "type": "quantity_selector", "name": "Quantity Selector", "limit": 1 },
-    { "type": "collapsible_tab", "name": "Collapsible Row", "settings": [ { "type": "text", "id": "heading", "label": "Heading", "default": "Collapsible Row" }, { "type": "richtext", "id": "content", "label": "Row Content" }, { "type": "select", "id": "icon", "label": "Icon", "default": "check_mark", "options": [ { "value": "none", "label": "None" }, { "value": "check_mark", "label": "Check Mark" }, { "value": "heart", "label": "Heart" }, { "value": "ruler", "label": "Ruler" } ] } ] }
+    { "type": "collapsible_tab", "name": "Collapsible Row", "settings": [ { "type": "text", "id": "heading", "label": "Heading", "default": "Product Details" }, { "type": "richtext", "id": "content", "label": "Row Content" } ] }
   ],
   "presets": [
-    { "name": "Gucci Full Spread", "blocks": [ { "type": "title" }, { "type": "price" }, { "type": "variant_picker" }, { "type": "buy_buttons" } ] }
+    { "name": "Gucci Product Page", "blocks": [ { "type": "title" }, { "type": "price" }, { "type": "variant_picker" }, { "type": "description" }, { "type": "collapsible_tab" }, { "type": "buy_buttons" } ] }
   ]
 }
 {% endschema %}
+
+
