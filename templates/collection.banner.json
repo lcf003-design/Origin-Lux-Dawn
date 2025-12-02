@@ -21,6 +21,7 @@
         "vertical_position": "flex-end",
         "horizontal_position": "center",
         "text_alignment": "center",
+        "show_title": false,
         "title_override": "",
         "title_size_desktop": 50,
         "title_size_mobile": 28,
