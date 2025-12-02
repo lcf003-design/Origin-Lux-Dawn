@@ -285,7 +285,7 @@
               <div class="caption-with-letter-spacing light">{{ card_product.vendor }}</div>
             {%- endif -%}
 
-            {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
+            {% render 'price', product: card_product, price_class: '', show_compare_at_price: false %}
           </div>
         </div>
       </div>
@@ -320,7 +320,7 @@
             </a>
           </h3>
           <div class="card-information">
-            {% render 'price', placeholder: placeholder, show_compare_at_price: true %}
+            {% render 'price', placeholder: placeholder, show_compare_at_price: false %}
           </div>
         </div>
       </div>
