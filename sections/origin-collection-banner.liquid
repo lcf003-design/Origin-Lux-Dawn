@@ -190,7 +190,7 @@
     display: block; 
   }
 
-  /* --- VISIBILITY HELPERS (Critical for preventing double images) --- */
+  /* --- VISIBILITY HELPERS --- */
   .origin-img-desktop { display: none !important; }
   .origin-img-mobile { display: block !important; }
 
@@ -205,7 +205,6 @@
   .origin-banner-wrapper.mobile-adapt {
     height: auto;
   }
-  /* In adapt mode, the ACTIVE image determines height */
   .origin-banner-wrapper.mobile-adapt .origin-banner-bg {
     position: relative;
     height: auto;
@@ -305,8 +304,6 @@
     letter-spacing: 0.05em;
     line-height: 1.1;
     word-wrap: break-word;
-    
-    /* Mobile Size */
     font-size: {{ section.settings.title_size_mobile }}px;
   }
 
@@ -332,8 +329,33 @@
 {% endstyle %}
 
 {% comment %}
-  Logic: Determine classes for height modes
+  Logic: 
+  1. Image Selection
+  2. Text Selection (Strict 'blank' check)
 {% endcomment %}
+
+{% assign desktop_img = section.settings.image_desktop | default: collection.image %}
+{% assign mobile_img = section.settings.image_mobile | default: desktop_img %}
+
+{% comment %} STRICT TITLE LOGIC {% endcomment %}
+{% assign title_override_clean = section.settings.title_override | strip %}
+
+{% if title_override_clean != blank %}
+  {% assign title_text = title_override_clean %}
+{% else %}
+  {% assign title_text = collection.title | default: "Collection Title" %}
+{% endif %}
+
+{% comment %} STRICT DESCRIPTION LOGIC {% endcomment %}
+{% assign desc_override_clean = section.settings.description_override | strip %}
+
+{% if desc_override_clean != blank %}
+  {% assign desc_text = desc_override_clean %}
+{% else %}
+  {% assign desc_text = collection.description %}
+{% endif %}
+
+{% comment %} Height Class Logic {% endcomment %}
 {% assign mobile_class = 'mobile-fixed' %}
 {% if section.settings.height_mobile == 'auto' %}
   {% assign mobile_class = 'mobile-adapt' %}
@@ -344,11 +366,6 @@
   {% assign desktop_class = 'desktop-adapt' %}
 {% endif %}
 
-{% assign desktop_img = section.settings.image_desktop | default: collection.image %}
-{% assign mobile_img = section.settings.image_mobile | default: desktop_img %}
-
-{% assign title_text = section.settings.title_override | default: collection.title %}
-{% assign desc_text = section.settings.description_override | default: collection.description %}
 
 <div class="origin-banner-wrapper {{ mobile_class }} {{ desktop_class }}">
   
