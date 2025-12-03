@@ -82,8 +82,11 @@
       "settings": {
         "heading": "",
         "layout_style": "mosaic_extended",
-        "text_position": "below",
         "card_bg": "#f2f2f2",
+        "card_hover_bg": "#ffffff",
+        "font_family": "gucci",
+        "font_scale": 125,
+        "letter_spacing": 3,
         "height_desktop": 500
       }
     },
