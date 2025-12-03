@@ -17,7 +17,7 @@
           "settings": {
             "title": "EYEWEAR",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-eyewear-1"
+            "link": "shopify://collections/womens-eyewear"
           }
         },
         "category_G3G8KE": {
@@ -25,7 +25,7 @@
           "settings": {
             "title": "Belts",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-belts"
+            "link": "shopify://collections/womens-belts"
           }
         },
         "category_KxwxJQ": {
@@ -33,7 +33,7 @@
           "settings": {
             "title": "HATS & GLOVES",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-hats-gloves"
+            "link": "shopify://collections/womens-hats-gloves"
           }
         },
         "category_xnQc79": {
@@ -41,7 +41,7 @@
           "settings": {
             "title": "SILK & SCARVES",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-scarves"
+            "link": "shopify://collections/womens-scarves"
           }
         },
         "category_qkt8Uy": {
@@ -49,7 +49,7 @@
           "settings": {
             "title": "HAIR ACCESSORIES",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-ties"
+            "link": "shopify://collections/womens-hair-accessories"
           }
         },
         "category_dphUh9": {
@@ -57,7 +57,7 @@
           "settings": {
             "title": "BAG CHARMS",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-bag-charms"
+            "link": "shopify://collections/womens-bag-charms"
           }
         },
         "category_HG6Rzt": {
@@ -65,7 +65,7 @@
           "settings": {
             "title": "SOCKS & TIGHTS",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-socks"
+            "link": "shopify://collections/womens-socks-tights"
           }
         }
       },
