@@ -1,6 +1,6 @@
 {% schema %}
 {
-  "name": "Gucci Pro Grid",
+  "name": "Gucci Master Grid",
   "settings": [
     {
       "type": "header",
@@ -25,24 +25,59 @@
     },
     {
       "type": "header",
-      "content": "Design & Style"
-    },
-    {
-      "type": "select",
-      "id": "text_position",
-      "label": "Text Position",
-      "options": [
-        { "value": "overlay", "label": "Overlay (Text on Image)" },
-        { "value": "below", "label": "Below Image (Clean Editorial)" }
-      ],
-      "default": "below"
+      "content": "Colors & Hover Effects"
     },
     {
       "type": "color",
       "id": "card_bg",
-      "label": "Card Background Color",
+      "label": "Default Background",
       "default": "#F2F2F2",
-      "info": "Used when Text Position is 'Below Image'"
+      "info": "The light grey color when NOT hovering."
+    },
+    {
+      "type": "color",
+      "id": "card_hover_bg",
+      "label": "Hover Background",
+      "default": "#FFFFFF",
+      "info": "The color it turns when you hover (Gucci uses White)."
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "font_family",
+      "label": "Font Style",
+      "options": [
+        { "value": "theme", "label": "Use Theme Font" },
+        { "value": "gucci", "label": "Minimal Sans (Gucci Style)" }
+      ],
+      "default": "gucci"
+    },
+    {
+      "type": "range",
+      "id": "font_scale",
+      "min": 80,
+      "max": 150,
+      "step": 5,
+      "default": 100,
+      "unit": "%",
+      "label": "Font Size Scale"
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 3,
+      "unit": "px",
+      "label": "Letter Spacing"
+    },
+    {
+      "type": "header",
+      "content": "Sizing"
     },
     {
       "type": "range",
@@ -93,7 +128,7 @@
   ],
   "presets": [
     {
-      "name": "Gucci Pro Grid",
+      "name": "Gucci Master Grid",
       "blocks": [
         { "type": "category" },
         { "type": "category" },
@@ -108,14 +143,24 @@
 }
 {% endschema %}
 
-<div class="gucci-grid-wrapper" id="GucciGrid-{{ section.id }}">
+<div class="gucci-grid-wrapper" id="GucciGrid-{{ section.id }}" data-section-id="{{ section.id }}">
   {% if section.settings.heading != blank %}
-    <h2 class="gucci-heading reveal-on-scroll">{{ section.settings.heading }}</h2>
+    <h2 class="gucci-heading reveal-on-scroll" style="--font-scale: {{ section.settings.font_scale | divided_by: 100.0 }}; --letter-spacing: {{ section.settings.letter_spacing }}px;">
+      {{ section.settings.heading }}
+    </h2>
   {% endif %}
 
-  <div class="gucci-grid-container style-{{ section.settings.layout_style }} text-pos-{{ section.settings.text_position }}">
+  <div class="gucci-grid-container style-{{ section.settings.layout_style }} font-{{ section.settings.font_family }}">
     {% for block in section.blocks %}
-      <a href="{{ block.settings.link }}" class="gucci-card reveal-on-scroll" style="background-color: {{ section.settings.card_bg }}; transition-delay: {{ forloop.index0 | times: 100 }}ms;">
+      <a href="{{ block.settings.link }}" 
+         class="gucci-card reveal-on-scroll" 
+         style="
+           --bg-default: {{ section.settings.card_bg }}; 
+           --bg-hover: {{ section.settings.card_hover_bg }};
+           transition-delay: {{ forloop.index0 | times: 100 }}ms;
+           --font-scale: {{ section.settings.font_scale | divided_by: 100.0 }};
+           --letter-spacing: {{ section.settings.letter_spacing }}px;
+         ">
         
         <div class="gucci-image-wrapper">
           
@@ -130,16 +175,10 @@
               loading="lazy"
             >
           {% else %}
-            {%- comment -%} 
-              FIX: This calculates a number between 1 and 6 to prevent errors if you have 7+ blocks 
-            {%- endcomment -%}
             {% assign placeholder_index = forloop.index0 | modulo: 6 | plus: 1 %}
             {{ 'collection-' | append: placeholder_index | placeholder_svg_tag: 'placeholder-svg' }}
           {% endif %}
           
-          {% if section.settings.text_position == 'overlay' %}
-            <div class="gucci-overlay"></div>
-          {% endif %}
         </div>
         
         <div class="gucci-content">
@@ -160,25 +199,45 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
+  (function() {
+    function initGucciAnimations() {
+      const container = document.getElementById('GucciGrid-{{ section.id }}');
+      if (!container) return;
 
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target); // Only animate once
-        }
-      });
-    }, observerOptions);
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      };
 
-    const elements = document.querySelectorAll('#GucciGrid-{{ section.id }} .reveal-on-scroll');
-    elements.forEach(el => observer.observe(el));
-  });
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      const elements = container.querySelectorAll('.reveal-on-scroll');
+      elements.forEach(el => observer.observe(el));
+    }
+
+    // Run on initial page load
+    document.addEventListener("DOMContentLoaded", initGucciAnimations);
+
+    // Run when Shopify Theme Editor updates the section (Fixes the hiccup)
+    document.addEventListener("shopify:section:load", function(event) {
+      if (event.detail.sectionId === "{{ section.id }}") {
+        initGucciAnimations();
+      }
+    });
+    
+    // Fallback: If in editor, force run immediately just in case
+    if (window.Shopify && window.Shopify.designMode) {
+       initGucciAnimations();
+    }
+  })();
 </script>
 
 <style>
@@ -186,31 +245,24 @@
   .gucci-grid-wrapper {
     padding: 60px 20px;
     background-color: #fff;
-    overflow: hidden; /* For entrance animations */
+    overflow: hidden;
+  }
+
+  /* --- TYPOGRAPHY SETTINGS --- */
+  .font-gucci .gucci-title,
+  .font-gucci .gucci-heading,
+  .font-gucci .gucci-link-text {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   }
 
   .gucci-heading {
     text-align: center;
-    font-family: var(--font-heading-family);
-    font-size: 2.2rem;
-    margin-bottom: 50px;
+    font-size: calc(2.2rem * var(--font-scale, 1));
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #1a1a1a;
     font-weight: 400;
-  }
-
-  /* --- ENTRANCE ANIMATIONS --- */
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-    will-change: opacity, transform;
-  }
-
-  .reveal-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+    margin-bottom: 50px;
   }
 
   /* --- GRID SYSTEM --- */
@@ -232,14 +284,14 @@
     .style-mosaic_extended .gucci-card:nth-child(4) { grid-column: span 3; }
     .style-mosaic_extended .gucci-card:nth-child(n+5) { grid-column: span 2; }
 
-    /* Other Styles */
+    /* Classic Styles */
     .style-mosaic { grid-template-columns: repeat(6, 1fr); }
     .style-mosaic .gucci-card:nth-child(1), .style-mosaic .gucci-card:nth-child(2) { grid-column: span 3; }
     .style-mosaic .gucci-card:nth-child(n+3) { grid-column: span 2; }
     .style-grid { grid-template-columns: repeat(3, 1fr); }
   }
 
-  /* --- CARD STYLING --- */
+  /* --- CARD STYLING & HOVER LOGIC --- */
   .gucci-card {
     position: relative;
     display: flex;
@@ -247,6 +299,14 @@
     overflow: hidden;
     text-decoration: none;
     height: 500px;
+    
+    /* BACKGROUND TRANSITION LOGIC */
+    background-color: var(--bg-default);
+    transition: background-color 0.4s ease, opacity 0.3s ease;
+  }
+
+  .gucci-card:hover {
+    background-color: var(--bg-hover) !important;
   }
 
   @media (min-width: 1024px) {
@@ -257,6 +317,7 @@
   .gucci-image-wrapper {
     position: relative;
     width: 100%;
+    height: 75%; /* Image takes top 75% */
     overflow: hidden;
   }
 
@@ -265,7 +326,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Longer, smoother zoom */
+    transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .gucci-card:hover .gucci-image-wrapper img,
@@ -273,10 +334,21 @@
     transform: scale(1.05);
   }
 
-  /* --- TEXT: BELOW IMAGE (Clean Editorial) --- */
-  .text-pos-below .gucci-image-wrapper { height: 75%; }
-  
-  .text-pos-below .gucci-content {
+  /* --- ENTRANCE ANIMATIONS --- */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.4s ease;
+    will-change: opacity, transform;
+  }
+
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* --- TEXT CONTENT --- */
+  .gucci-content {
     height: 25%;
     display: flex;
     justify-content: center;
@@ -284,7 +356,7 @@
     padding-top: 25px;
   }
 
-  .text-pos-below .gucci-text-group {
+  .gucci-text-group {
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -292,10 +364,11 @@
     align-items: center;
   }
 
-  .text-pos-below .gucci-title {
+  .gucci-title {
     color: #000;
-    font-size: 1.1rem;
-    letter-spacing: 0.05em;
+    /* FIX: Now uses the scale variable */
+    font-size: calc(1.1rem * var(--font-scale, 1));
+    letter-spacing: var(--letter-spacing, 1px);
     text-transform: uppercase;
     font-family: var(--font-heading-family); 
     transition: color 0.3s ease;
@@ -306,12 +379,13 @@
     position: relative;
     display: inline-block;
     overflow: hidden;
-    padding-bottom: 2px;
+    padding-bottom: 4px;
   }
 
   .gucci-link-text {
     color: #4a4a4a;
-    font-size: 0.7rem;
+    /* FIX: Now uses the scale variable */
+    font-size: calc(0.7rem * var(--font-scale, 1));
     text-transform: uppercase;
     letter-spacing: 0.15em;
     font-weight: 600;
@@ -328,12 +402,11 @@
     width: 100%;
     height: 1px;
     background-color: #1a1a1a;
-    transform: scaleX(0); /* Hidden by default */
+    transform: scaleX(0); 
     transform-origin: right;
     transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
   }
 
-  /* Hover States */
   .gucci-card:hover .gucci-underline {
     transform: scaleX(1);
     transform-origin: left;
@@ -341,22 +414,7 @@
 
   .gucci-card:hover .gucci-link-text {
     color: #000;
-    transform: translateY(-2px); /* Slight lift */
-  }
-
-  /* --- TEXT: OVERLAY --- */
-  .text-pos-overlay .gucci-image-wrapper { height: 100%; }
-  .text-pos-overlay .gucci-content {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-  }
-  .text-pos-overlay .gucci-label {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 15px 30px;
+    transform: translateY(-2px);
   }
 </style>
 
