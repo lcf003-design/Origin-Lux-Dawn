@@ -28,14 +28,6 @@
             "link": "shopify://collections/mens-belts"
           }
         },
-        "category_qkt8Uy": {
-          "type": "category",
-          "settings": {
-            "title": "TIES",
-            "link_text": "Discover More",
-            "link": "shopify://collections/mens-ties"
-          }
-        },
         "category_KxwxJQ": {
           "type": "category",
           "settings": {
@@ -47,17 +39,17 @@
         "category_xnQc79": {
           "type": "category",
           "settings": {
-            "title": "SCARVES",
+            "title": "SILK & SCARVES",
             "link_text": "Discover More",
             "link": "shopify://collections/mens-scarves"
           }
         },
-        "category_HG6Rzt": {
+        "category_qkt8Uy": {
           "type": "category",
           "settings": {
-            "title": "SOCKS",
+            "title": "HAIR ACCESSORIES",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-socks"
+            "link": "shopify://collections/mens-ties"
           }
         },
         "category_dphUh9": {
@@ -67,16 +59,24 @@
             "link_text": "Discover More",
             "link": "shopify://collections/mens-bag-charms"
           }
+        },
+        "category_HG6Rzt": {
+          "type": "category",
+          "settings": {
+            "title": "SOCKS & TIGHTS",
+            "link_text": "Discover More",
+            "link": "shopify://collections/mens-socks"
+          }
         }
       },
       "block_order": [
         "category_n4MrTY",
         "category_G3G8KE",
-        "category_qkt8Uy",
         "category_KxwxJQ",
         "category_xnQc79",
-        "category_HG6Rzt",
-        "category_dphUh9"
+        "category_qkt8Uy",
+        "category_dphUh9",
+        "category_HG6Rzt"
       ],
       "name": "Gucci Sub-Category Grid",
       "settings": {
