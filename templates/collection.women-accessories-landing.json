@@ -33,6 +33,7 @@
         "category_KxwxJQ": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/1280_by_720_final.png",
             "title": "HATS & GLOVES",
             "link_text": "Discover More",
             "link": "shopify://collections/womens-hats-gloves"
