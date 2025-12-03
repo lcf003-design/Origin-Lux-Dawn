@@ -85,8 +85,8 @@
         "card_bg": "#f2f2f2",
         "card_hover_bg": "#ffffff",
         "font_family": "gucci",
-        "font_scale": 125,
-        "letter_spacing": 3,
+        "font_scale": 150,
+        "letter_spacing": 5,
         "height_desktop": 500
       }
     },
