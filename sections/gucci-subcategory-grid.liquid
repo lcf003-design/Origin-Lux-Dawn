@@ -143,7 +143,7 @@
 }
 {% endschema %}
 
-<div class="gucci-grid-wrapper" id="GucciGrid-{{ section.id }}">
+<div class="gucci-grid-wrapper" id="GucciGrid-{{ section.id }}" data-section-id="{{ section.id }}">
   {% if section.settings.heading != blank %}
     <h2 class="gucci-heading reveal-on-scroll" style="--font-scale: {{ section.settings.font_scale | divided_by: 100.0 }}; --letter-spacing: {{ section.settings.letter_spacing }}px;">
       {{ section.settings.heading }}
@@ -199,25 +199,45 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
+  (function() {
+    function initGucciAnimations() {
+      const container = document.getElementById('GucciGrid-{{ section.id }}');
+      if (!container) return;
 
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      };
 
-    const elements = document.querySelectorAll('#GucciGrid-{{ section.id }} .reveal-on-scroll');
-    elements.forEach(el => observer.observe(el));
-  });
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      const elements = container.querySelectorAll('.reveal-on-scroll');
+      elements.forEach(el => observer.observe(el));
+    }
+
+    // Run on initial page load
+    document.addEventListener("DOMContentLoaded", initGucciAnimations);
+
+    // Run when Shopify Theme Editor updates the section (Fixes the hiccup)
+    document.addEventListener("shopify:section:load", function(event) {
+      if (event.detail.sectionId === "{{ section.id }}") {
+        initGucciAnimations();
+      }
+    });
+    
+    // Fallback: If in editor, force run immediately just in case
+    if (window.Shopify && window.Shopify.designMode) {
+       initGucciAnimations();
+    }
+  })();
 </script>
 
 <style>
@@ -230,8 +250,9 @@
 
   /* --- TYPOGRAPHY SETTINGS --- */
   .font-gucci .gucci-title,
-  .font-gucci .gucci-heading {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important; /* Clean System Sans */
+  .font-gucci .gucci-heading,
+  .font-gucci .gucci-link-text {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   }
 
   .gucci-heading {
@@ -345,6 +366,7 @@
 
   .gucci-title {
     color: #000;
+    /* FIX: Now uses the scale variable */
     font-size: calc(1.1rem * var(--font-scale, 1));
     letter-spacing: var(--letter-spacing, 1px);
     text-transform: uppercase;
@@ -362,7 +384,8 @@
 
   .gucci-link-text {
     color: #4a4a4a;
-    font-size: 0.7rem;
+    /* FIX: Now uses the scale variable */
+    font-size: calc(0.7rem * var(--font-scale, 1));
     text-transform: uppercase;
     letter-spacing: 0.15em;
     font-weight: 600;
