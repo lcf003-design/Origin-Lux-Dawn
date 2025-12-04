@@ -88,6 +88,7 @@
     overflow: visible; 
   }
 
+  /* Universal Image/SVG Fix */
   .origin-shop-look img,
   .origin-shop-look svg {
     display: block;
@@ -159,27 +160,21 @@
     100% { transform: scale(1.5); opacity: 0; }
   }
 
-  /* --- POPUP CARD (Default / Desktop) --- */
+  /* --- POPUP CARD (Default Styles) --- */
   .origin-hotspot-card {
-    position: absolute;
-    /* Default positioning for desktop logic (will be overridden by JS for placement usually, 
-       but here we rely on CSS classes toggled by JS) */
+    position: absolute; /* Default for Desktop */
     width: 260px;
     background: #FFFFFF;
     padding: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
     pointer-events: none;
     z-index: 20;
     text-align: left;
     border-radius: 4px;
-    
-    /* Center it relative to the container by default (Desktop) 
-       JS will need to update top/left if we want it floating near the dot, 
-       BUT for simplicity we will position it absolutely relative to the image wrapper using % from the block settings 
-    */
+    /* Desktop Placement Logic handled inline below */
   }
 
   .origin-hotspot-card.is-visible {
@@ -249,7 +244,8 @@
   .origin-hotspot-card__btn:hover {
     background: #333;
   }
-  
+
+  /* Elements hidden on Desktop by default */
   .mobile-chevron { display: none; }
   .mobile-drawer-cta { display: none; }
   .origin-global-backdrop { display: none; }
@@ -278,13 +274,14 @@
   }
 
   /* =========================================
-     MOBILE STYLES
+     MOBILE STYLES (CRITICAL FIXES)
      ========================================= */
   @media (max-width: 768px) {
+    /* Swap Images */
     .desktop-img { display: none !important; }
     .mobile-img { display: block !important; }
 
-    /* 1. THE BACKDROP */
+    /* 1. Backdrop */
     .origin-global-backdrop {
       display: block;
       position: fixed;
@@ -292,122 +289,108 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(0, 0, 0, 0.4) !important;
-      backdrop-filter: blur(6px) !important;
-      -webkit-backdrop-filter: blur(6px) !important;
+      background-color: rgba(0, 0, 0, 0.5) !important;
+      backdrop-filter: blur(4px);
       z-index: 1000;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.3s ease;
       pointer-events: none;
     }
-
+    
     .origin-shop-look.has-active-modal .origin-global-backdrop {
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
     }
 
-    /* 2. THE DRAWER (CARD) - OVERRIDE DESKTOP POSITIONS */
+    /* 2. Drawer Positioning (Reset to Bottom) */
     .origin-hotspot-card {
-      position: fixed !important; /* Force fixed to screen */
-      top: auto !important;       /* Ignore desktop top positioning */
-      left: 0 !important;
+      position: fixed !important;
       bottom: 0 !important;
+      left: 0 !important;
+      top: auto !important;
       right: 0 !important;
       width: 100% !important;
-      max-width: 100% !important;
-      
-      transform: translateY(110%);
-      margin: 0;
+      transform: translateY(110%) !important; /* Start hidden below */
+      margin: 0 !important;
       border-radius: 16px 16px 0 0;
       padding: 20px;
       box-sizing: border-box;
       z-index: 1001;
-      box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 -5px 25px rgba(0,0,0,0.2);
     }
-
-    .origin-hotspot-card::after { display: none; } 
 
     .origin-hotspot-card.is-visible {
-      transform: translateY(0);
+      transform: translateY(0) !important;
     }
 
-    /* 3. CARD LAYOUT (Horizontal Flex) */
+    /* Hide the tooltip arrow on mobile */
+    .origin-hotspot-card::after { display: none; } 
+
+    /* 3. New Layout: Text on Top, Compact Image below */
     .origin-hotspot-card__link {
       display: flex;
-      align-items: center;
-      width: 100%;
-      gap: 16px;
+      flex-direction: column; /* Stack elements vertically */
+      gap: 15px;
     }
 
-    .origin-hotspot-card__img {
-      width: 90px;
-      height: 110px;
-      flex-shrink: 0;
-      margin-bottom: 0;
-      border-radius: 8px;
-    }
-
+    /* Text Section - Moves to Top */
     .origin-hotspot-card__details {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      width: 100%;
       text-align: left;
-      min-width: 0; /* CRITICAL FIX: Allows text to wrap instead of overflowing */
+      /* order: -1; Ensure this is visual top if we used row, but column does it naturally */
     }
 
-    /* 4. THE POP-UP TEXT & BUTTON */
+    /* Mobile CTA Text */
     .mobile-drawer-cta {
       display: block;
       font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #777;
-      margin-bottom: 4px;
+      letter-spacing: 0.1em;
+      color: #888;
+      margin-bottom: 6px;
     }
 
     .origin-hotspot-card__title {
-      font-size: 14px;
+      font-size: 16px; /* Slightly larger for readability */
       margin-bottom: 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    
-    .origin-hotspot-card__price {
-      font-size: 14px;
-      font-weight: 500;
-      color: #333;
-      margin-bottom: 12px;
     }
 
-    .origin-hotspot-card__btn {
-      width: auto;
-      display: inline-block;
-      padding: 8px 16px;
-      font-size: 10px;
-      line-height: 1;
-      background: #000;
-      color: #fff;
-      border-radius: 2px;
+    .origin-hotspot-card__price {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 0; /* Remove margin as it's now above image */
     }
-    
-    /* 5. THE CHEVRON */
-    .mobile-chevron {
-      display: block;
-      width: 24px;
-      height: 24px;
-      color: #000;
-      opacity: 0.3;
+
+    /* Bottom Row Wrapper (Image + Button) */
+    .mobile-card-bottom-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+    }
+
+    /* Small Thumbnail Image */
+    .origin-hotspot-card__img {
+      width: 70px !important;
+      height: 70px !important;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 0 !important;
       flex-shrink: 0;
     }
-    
-    .mobile-chevron svg {
-      width: 100%;
-      height: 100%;
+
+    /* Button takes remaining space */
+    .origin-hotspot-card__btn {
+      flex-grow: 1;
+      height: 40px; /* Consistent height */
+      line-height: 40px;
+      padding: 0;
+      border-radius: 4px;
+      font-size: 12px;
+      letter-spacing: 1px;
     }
   }
 
@@ -415,8 +398,10 @@
     .mobile-img { display: none !important; }
     .desktop-img { display: block !important; }
     
-    /* Position Desktop cards relative to their % coordinates */
-    /* This will be handled by inline styles in the loop below */
+    /* Hide the mobile wrapper div on desktop to avoid layout issues */
+    .mobile-card-bottom-row {
+      display: contents; /* Allows children to behave as if this wrapper didn't exist */
+    }
   }
 </style>
 
@@ -429,6 +414,7 @@
       </div>
     {% endif %}
 
+    <!-- IMAGE LOGIC: Fallback to desktop if mobile is missing -->
     {% assign mobile_image = section.settings.image_mobile | default: section.settings.image_desktop %}
 
     {% if section.settings.image_desktop %}
@@ -443,7 +429,7 @@
       {{ 'lifestyle-2' | placeholder_svg_tag: 'mobile-img' }}
     {% endif %}
 
-    <!-- LOOP 1: RENDER DOTS -->
+    <!-- 1. HOTSPOT DOTS -->
     {% for block in section.blocks %}
       <button class="origin-hotspot" 
            type="button"
@@ -455,48 +441,50 @@
       </button>
     {% endfor %}
 
-    <!-- LOOP 2: RENDER CARDS (OUTSIDE OF DOTS) -->
+    <!-- 2. POPUP CARDS (Outside of dots to prevent squashing) -->
     {% for block in section.blocks %}
       {% assign product = block.settings.product %}
       
-      <!-- Desktop Position Logic: We calculate bottom offset to position it near the dot -->
+      <!-- Inline style positions card on desktop. On mobile, CSS overrides this to fixed bottom. -->
       <div id="hotspot-card-{{ block.id }}" 
            class="origin-hotspot-card"
            role="dialog" 
            aria-modal="true"
-           style="left: {{ block.settings.pos_x }}%; top: {{ block.settings.pos_y }}%; transform: translate(-50%, -120%);"> <!-- Desktop inline style -->
+           style="left: {{ block.settings.pos_x }}%; top: {{ block.settings.pos_y }}%; transform: translate(-50%, -120%);">
         
           {% if product != blank %}
             <a href="{{ product.url }}" class="origin-hotspot-card__link">
-              {% if product.featured_image %}
-                {{ product.featured_image | image_url: width: 400 | image_tag: class: 'origin-hotspot-card__img', loading: 'lazy' }}
-              {% else %}
-                <div class="origin-hotspot-card__img" style="background: #eee;"></div>
-              {% endif %}
               
+              <!-- Text Details (Will be at TOP on mobile) -->
               <div class="origin-hotspot-card__details">
                 <span class="mobile-drawer-cta">{{ section.settings.mobile_cta_text }}</span>
                 <h3 class="origin-hotspot-card__title">{{ product.title }}</h3>
                 <span class="origin-hotspot-card__price">{{ product.price | money }}</span>
+              </div>
+
+              <!-- Image & Button Wrapper (For Mobile Side-by-Side layout at bottom) -->
+              <div class="mobile-card-bottom-row">
+                {% if product.featured_image %}
+                  {{ product.featured_image | image_url: width: 400 | image_tag: class: 'origin-hotspot-card__img', loading: 'lazy' }}
+                {% else %}
+                  <div class="origin-hotspot-card__img" style="background: #eee;"></div>
+                {% endif %}
+
                 <span class="origin-hotspot-card__btn">VIEW PRODUCT</span>
               </div>
-              
-              <div class="mobile-chevron">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-              </div>
+
             </a>
           {% else %}
             <!-- Placeholder -->
             <div class="origin-hotspot-card__link">
-              <div class="origin-hotspot-card__img" style="background: #eee;"></div>
               <div class="origin-hotspot-card__details">
                 <span class="mobile-drawer-cta">TAP TO SHOP</span>
                 <h3 class="origin-hotspot-card__title">Product Title</h3>
                 <span class="origin-hotspot-card__price">$100.00</span>
-                <span class="origin-hotspot-card__btn">VIEW PRODUCT</span>
               </div>
-              <div class="mobile-chevron">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              <div class="mobile-card-bottom-row">
+                <div class="origin-hotspot-card__img" style="background: #eee;"></div>
+                <span class="origin-hotspot-card__btn">VIEW PRODUCT</span>
               </div>
             </div>
           {% endif %}
@@ -526,7 +514,7 @@
 
       hotspots.forEach(hotspot => {
         hotspot.addEventListener('click', function(e) {
-          e.stopPropagation(); 
+          e.stopPropagation();
           
           const targetId = this.getAttribute('data-target-id');
           const targetCard = document.getElementById(targetId);
@@ -535,6 +523,7 @@
 
           const wasVisible = targetCard.classList.contains('is-visible');
           
+          // Close others first
           closeAll();
           
           if (!wasVisible) {
