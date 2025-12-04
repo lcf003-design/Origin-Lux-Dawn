@@ -30,9 +30,9 @@
     {
       "type": "text",
       "id": "mobile_cta_text",
-      "label": "Mobile Drawer Pop-up Text",
-      "default": "TAP TO SHOP",
-      "info": "This text appears above the product title on mobile."
+      "label": "Mobile Helper Text",
+      "default": "Tap to shop",
+      "info": "Small text appearing above title on mobile."
     }
   ],
   "blocks": [
@@ -86,7 +86,7 @@
     position: relative;
     width: 100%;
     background: #000;
-    overflow: hidden; /* Prevents horizontal scrollbars */
+    overflow: visible; 
   }
 
   .origin-shop-look img {
@@ -94,6 +94,7 @@
     width: 100%;
     height: auto;
     object-fit: cover;
+    max-width: 100%;
   }
 
   .origin-shop-look__image-wrapper {
@@ -104,7 +105,7 @@
   /* --- HOTSPOT DOTS --- */
   .origin-hotspot {
     position: absolute;
-    width: 44px; /* Increased touch target */
+    width: 44px; /* Touch target */
     height: 44px;
     margin-left: -22px; 
     margin-top: -22px;
@@ -114,6 +115,14 @@
     align-items: center;
     justify-content: center;
     -webkit-tap-highlight-color: transparent;
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+  
+  .origin-hotspot:focus-visible {
+    outline: 2px solid {{ section.settings.hotspot_color }};
+    outline-offset: 2px;
   }
 
   .origin-hotspot__inner {
@@ -138,6 +147,7 @@
     opacity: 0.4;
     animation: pulse 2s infinite;
     z-index: 1;
+    pointer-events: none;
   }
 
   @keyframes pulse {
@@ -161,6 +171,7 @@
     pointer-events: none;
     z-index: 20;
     text-align: left;
+    border-radius: 4px;
   }
 
   .origin-hotspot.is-active .origin-hotspot-card {
@@ -186,7 +197,7 @@
   .origin-hotspot-card__link {
     text-decoration: none;
     color: inherit;
-    display: block;
+    display: block; /* Desktop default */
   }
 
   .origin-hotspot-card__img {
@@ -227,8 +238,15 @@
     letter-spacing: 0.1em;
     transition: background 0.2s;
   }
+  
+  .origin-hotspot-card__btn:hover {
+    background: #333;
+  }
+  
+  /* Mobile Arrow/Chevron (Hidden on Desktop) */
+  .mobile-chevron { display: none; }
 
-  /* Hide CTA on desktop */
+  /* Hide CTA text on desktop */
   .mobile-drawer-cta { display: none; }
 
   /* --- GLOBAL BACKDROP (MOBILE ONLY) --- */
@@ -274,21 +292,20 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(0, 0, 0, 0.4) !important; /* 40% Black opacity */
-      backdrop-filter: blur(6px) !important; /* The Blur Effect */
+      background-color: rgba(0, 0, 0, 0.4) !important;
+      backdrop-filter: blur(6px) !important;
       -webkit-backdrop-filter: blur(6px) !important;
-      z-index: 1000; /* High z-index */
+      z-index: 1000;
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.4s ease;
       pointer-events: none;
     }
 
-    /* When JS adds class 'has-active-modal' to the main container */
     .origin-shop-look.has-active-modal .origin-global-backdrop {
       opacity: 1;
       visibility: visible;
-      pointer-events: auto; /* Allow clicking to close */
+      pointer-events: auto;
     }
 
     /* 2. THE DRAWER (CARD) */
@@ -298,59 +315,93 @@
       left: 0;
       width: 100%;
       max-width: 100%;
-      transform: translateY(110%); /* Start hidden below screen */
+      transform: translateY(110%);
       margin: 0;
-      border-radius: 16px 16px 0 0; /* Rounded top corners */
-      padding: 24px;
+      border-radius: 16px 16px 0 0;
+      padding: 20px;
       box-sizing: border-box;
-      z-index: 1001; /* Above backdrop */
+      z-index: 1001;
       box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
     }
 
-    .origin-hotspot-card::after { display: none; } /* Remove arrow */
+    .origin-hotspot-card::after { display: none; } /* Remove desktop tooltip arrow */
 
     .origin-hotspot.is-active .origin-hotspot-card {
       transform: translateY(0);
     }
 
-    /* 3. CARD LAYOUT (Horizontal on Mobile) */
+    /* 3. CARD LAYOUT (Horizontal Flex) */
+    .origin-hotspot-card__link {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 16px;
+    }
+
     .origin-hotspot-card__img {
-      width: 100px;
-      height: 120px;
-      float: left;
-      margin-right: 20px;
+      width: 90px;
+      height: 110px;
+      flex-shrink: 0; /* Don't shrink image */
       margin-bottom: 0;
-      border-radius: 4px;
+      border-radius: 8px;
     }
 
     .origin-hotspot-card__details {
+      flex-grow: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-height: 120px;
-      /* removed overflow hidden to ensure pop up text is seen */
+      text-align: left;
     }
 
-    /* 4. THE POP-UP TEXT ("CLICK ME") */
+    /* 4. THE POP-UP TEXT & BUTTON */
     .mobile-drawer-cta {
       display: block;
       font-size: 10px;
-      font-weight: 800;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #333; /* Dark Grey */
-      margin-bottom: 8px;
-      
-      /* Animation */
-      opacity: 0;
-      transform: translateY(15px);
-      transition: all 0.5s ease 0.2s; /* 0.2s delay */
+      letter-spacing: 0.05em;
+      color: #777;
+      margin-bottom: 4px;
     }
 
-    /* Animate text in when active */
-    .origin-hotspot.is-active .mobile-drawer-cta {
-      opacity: 1;
-      transform: translateY(0);
+    .origin-hotspot-card__title {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    
+    .origin-hotspot-card__price {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 12px;
+    }
+
+    /* Make the button look good in horizontal layout */
+    .origin-hotspot-card__btn {
+      width: auto;
+      display: inline-block;
+      padding: 8px 16px;
+      font-size: 10px;
+      line-height: 1;
+      background: #000;
+      color: #fff;
+      border-radius: 2px;
+    }
+    
+    /* 5. THE CHEVRON (ARROW) INDICATOR */
+    .mobile-chevron {
+      display: block;
+      width: 24px;
+      height: 24px;
+      color: #000;
+      opacity: 0.3;
+      flex-shrink: 0;
+    }
+    
+    .mobile-chevron svg {
+      width: 100%;
+      height: 100%;
     }
   }
 
@@ -370,13 +421,13 @@
     {% endif %}
 
     {% if section.settings.image_desktop %}
-      <img src="{{ section.settings.image_desktop | image_url: width: 2400 }}" class="desktop-img" loading="lazy" width="{{ section.settings.image_desktop.width }}" height="{{ section.settings.image_desktop.height }}">
+      {{ section.settings.image_desktop | image_url: width: 2400 | image_tag: class: 'desktop-img', loading: 'lazy' }}
     {% else %}
       {{ 'lifestyle-2' | placeholder_svg_tag: 'desktop-img' }}
     {% endif %}
 
     {% if section.settings.image_mobile %}
-      <img src="{{ section.settings.image_mobile | image_url: width: 1200 }}" class="mobile-img" loading="lazy" width="{{ section.settings.image_mobile.width }}" height="{{ section.settings.image_mobile.height }}">
+      {{ section.settings.image_mobile | image_url: width: 1200 | image_tag: class: 'mobile-img', loading: 'lazy' }}
     {% else %}
       {{ 'lifestyle-2' | placeholder_svg_tag: 'mobile-img' }}
     {% endif %}
@@ -384,35 +435,53 @@
     {% for block in section.blocks %}
       {% assign product = block.settings.product %}
       
-      <div class="origin-hotspot" 
+      <button class="origin-hotspot" 
+           type="button"
            style="top: {{ block.settings.pos_y }}%; left: {{ block.settings.pos_x }}%;"
-           data-hotspot-id="{{ block.id }}">
+           data-hotspot-id="{{ block.id }}"
+           aria-label="View product: {{ product.title | default: 'Product' }}"
+           aria-expanded="false">
         
         <div class="origin-hotspot__inner"></div>
 
-        <div class="origin-hotspot-card">
+        <div class="origin-hotspot-card" role="dialog" aria-modal="true">
           {% if product != blank %}
             <a href="{{ product.url }}" class="origin-hotspot-card__link">
-              <img src="{{ product.featured_image | image_url: width: 400 }}" class="origin-hotspot-card__img" width="400" height="400">
+              {% if product.featured_image %}
+                {{ product.featured_image | image_url: width: 400 | image_tag: class: 'origin-hotspot-card__img', loading: 'lazy' }}
+              {% else %}
+                <div class="origin-hotspot-card__img" style="background: #eee;"></div>
+              {% endif %}
+              
               <div class="origin-hotspot-card__details">
                 <span class="mobile-drawer-cta">{{ section.settings.mobile_cta_text }}</span>
-                
                 <h3 class="origin-hotspot-card__title">{{ product.title }}</h3>
                 <span class="origin-hotspot-card__price">{{ product.price | money }}</span>
-                <span class="origin-hotspot-card__btn">View Product</span>
+                <span class="origin-hotspot-card__btn">VIEW PRODUCT</span>
+              </div>
+              
+              <!-- Mobile Chevron Icon -->
+              <div class="mobile-chevron">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
               </div>
             </a>
           {% else %}
-            <div class="origin-hotspot-card__img" style="background: #eee;"></div>
-            <div class="origin-hotspot-card__details">
-              <span class="mobile-drawer-cta">TAP TO SHOP</span>
-              <h3 class="origin-hotspot-card__title">Product Title</h3>
-              <span class="origin-hotspot-card__price">$100.00</span>
-              <span class="origin-hotspot-card__btn">View Product</span>
+            <!-- Placeholder for Editor -->
+            <div class="origin-hotspot-card__link">
+              <div class="origin-hotspot-card__img" style="background: #eee;"></div>
+              <div class="origin-hotspot-card__details">
+                <span class="mobile-drawer-cta">TAP TO SHOP</span>
+                <h3 class="origin-hotspot-card__title">Product Title</h3>
+                <span class="origin-hotspot-card__price">$100.00</span>
+                <span class="origin-hotspot-card__btn">VIEW PRODUCT</span>
+              </div>
+              <div class="mobile-chevron">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </div>
             </div>
           {% endif %}
         </div>
-      </div>
+      </button>
     {% endfor %}
 
     <div class="origin-global-backdrop"></div>
@@ -421,55 +490,71 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Select the main container
-    const sectionContainer = document.getElementById('OriginShopLook-{{ section.id }}');
-    const hotspots = sectionContainer.querySelectorAll('.origin-hotspot');
-    const backdrop = sectionContainer.querySelector('.origin-global-backdrop');
+  (function() {
+    const initSection = () => {
+      const sectionContainer = document.getElementById('OriginShopLook-{{ section.id }}');
+      if (!sectionContainer) return;
 
-    // Function to close everything
-    function closeAll() {
-      // Remove class from container (hides backdrop)
-      sectionContainer.classList.remove('has-active-modal');
-      // Remove class from all hotspots (hides cards)
-      hotspots.forEach(h => h.classList.remove('is-active'));
-    }
+      const hotspots = sectionContainer.querySelectorAll('.origin-hotspot');
+      const backdrop = sectionContainer.querySelector('.origin-global-backdrop');
 
-    // Loop through hotspots
-    hotspots.forEach(hotspot => {
-      hotspot.addEventListener('click', function(e) {
-        // If clicking the link inside the card, let it go through
-        if (e.target.closest('.origin-hotspot-card')) return;
-
-        e.stopPropagation(); 
-        
-        const wasActive = this.classList.contains('is-active');
-        
-        // Reset everything first
-        closeAll();
-        
-        // If it wasn't already open, open it
-        if (!wasActive) {
-          this.classList.add('is-active');
-          // Activate the global backdrop via the parent container
-          sectionContainer.classList.add('has-active-modal');
-        }
-      });
-    });
-
-    // Close when clicking the backdrop
-    if(backdrop) {
-      backdrop.addEventListener('click', function(e) {
-        e.stopPropagation();
-        closeAll();
-      });
-    }
-
-    // Close when clicking strictly outside of the section
-    document.addEventListener('click', function(e) {
-      if (!sectionContainer.contains(e.target)) {
-        closeAll();
+      function closeAll() {
+        sectionContainer.classList.remove('has-active-modal');
+        hotspots.forEach(h => {
+          h.classList.remove('is-active');
+          h.setAttribute('aria-expanded', 'false');
+        });
       }
-    });
-  });
+
+      hotspots.forEach(hotspot => {
+        // Toggle on click
+        hotspot.addEventListener('click', function(e) {
+          // Allow clicks on link to pass through
+          if (e.target.closest('.origin-hotspot-card__link')) return;
+          
+          e.stopPropagation(); 
+          const wasActive = this.classList.contains('is-active');
+          
+          closeAll();
+          
+          if (!wasActive) {
+            this.classList.add('is-active');
+            this.setAttribute('aria-expanded', 'true');
+            sectionContainer.classList.add('has-active-modal');
+          }
+        });
+      });
+
+      if(backdrop) {
+        backdrop.addEventListener('click', function(e) {
+          e.stopPropagation();
+          closeAll();
+        });
+      }
+
+      const outsideClickListener = function(e) {
+        if(sectionContainer.classList.contains('has-active-modal')) {
+           if (!sectionContainer.contains(e.target)) {
+            closeAll();
+          }
+        }
+      };
+      
+      document.addEventListener('click', outsideClickListener);
+      
+      return () => {
+        document.removeEventListener('click', outsideClickListener);
+      };
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSection);
+    } else {
+      initSection();
+    }
+    
+    document.addEventListener('shopify:section:load', initSection);
+  })();
 </script>
+
+
