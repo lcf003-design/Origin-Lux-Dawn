@@ -22,6 +22,13 @@
       "default": "SHOP THE LOOK"
     },
     {
+      "type": "text",
+      "id": "hotspot_button_text",
+      "label": "Hotspot Button Text",
+      "default": "View Product",
+      "info": "The text on the button inside the popup card."
+    },
+    {
       "type": "color",
       "id": "hotspot_color",
       "label": "Hotspot Color",
@@ -77,8 +84,6 @@
   .origin-shop-look {
     position: relative;
     width: 100%;
-    /* Removed overflow:hidden so cards near edges don't get clipped on desktop */
-    /* overflow: hidden; */ 
     background: #000;
   }
 
@@ -99,7 +104,6 @@
     position: absolute;
     width: 32px;
     height: 32px;
-    /* FIX: Changed from transform to margins to prevent containing block issue */
     margin-left: -16px; 
     margin-top: -16px;
     cursor: pointer;
@@ -120,7 +124,6 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   }
 
-  /* Pulsing Ring Effect */
   .origin-hotspot::after {
     content: '';
     position: absolute;
@@ -145,7 +148,7 @@
   /* --- PRODUCT CARD (POPOVER) --- */
   .origin-hotspot-card {
     position: absolute;
-    bottom: 40px; /* Appears above the dot */
+    bottom: 40px; 
     left: 50%;
     transform: translateX(-50%) translateY(10px);
     width: 260px;
@@ -161,7 +164,6 @@
     text-align: left;
   }
 
-  /* Triangle Pointer */
   .origin-hotspot-card::after {
     content: '';
     position: absolute;
@@ -173,7 +175,6 @@
     background: #FFFFFF;
   }
 
-  /* Active State */
   .origin-hotspot.is-active .origin-hotspot-card {
     opacity: 1;
     visibility: visible;
@@ -181,7 +182,6 @@
     pointer-events: auto;
   }
 
-  /* Card Content */
   .origin-hotspot-card__img {
     width: 100%;
     height: 200px;
@@ -198,6 +198,8 @@
     margin: 0 0 4px;
     font-weight: 600;
     line-height: 1.4;
+    color: #000;
+    text-decoration: none;
   }
 
   .origin-hotspot-card__price {
@@ -207,6 +209,7 @@
     display: block;
   }
 
+  /* Button Styling */
   .origin-hotspot-card__btn {
     display: block;
     width: 100%;
@@ -219,6 +222,7 @@
     letter-spacing: 0.1em;
     text-decoration: none;
     transition: background 0.2s;
+    font-weight: 600;
   }
 
   .origin-hotspot-card__btn:hover {
@@ -253,7 +257,7 @@
     .desktop-img { display: none !important; }
     .mobile-img { display: block !important; }
 
-    /* On mobile, card is fixed at bottom */
+    /* On mobile, card is fixed at bottom (Drawer) */
     .origin-hotspot-card {
       position: fixed;
       bottom: 0;
@@ -265,21 +269,20 @@
       border-radius: 12px 12px 0 0;
       padding: 20px;
       box-sizing: border-box;
-      z-index: 2147483647; /* MAX Z-INDEX */
+      z-index: 2147483647; 
     }
 
-    .origin-hotspot-card::after { display: none; } /* Hide arrow */
+    .origin-hotspot-card::after { display: none; }
 
     .origin-hotspot.is-active .origin-hotspot-card {
       transform: translateY(0);
     }
 
-    /* Backdrop for mobile modal */
     .origin-hotspot-backdrop {
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.5);
-      z-index: 2147483640; /* Just below card */
+      z-index: 2147483640;
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.3s;
@@ -290,20 +293,33 @@
       visibility: visible;
     }
     
+    /* Horizontal Layout for Mobile Drawer */
+    .origin-hotspot-card__link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+
     .origin-hotspot-card__img {
-      height: 120px; /* Smaller image on mobile drawer */
-      width: 100px;
-      float: left;
+      height: 100px; 
+      width: 80px;
       margin-right: 16px;
       margin-bottom: 0;
+      flex-shrink: 0;
     }
     
     .origin-hotspot-card__details {
-      overflow: hidden; /* Clear float */
+      flex-grow: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      height: 120px;
+    }
+
+    .origin-hotspot-card__btn {
+      margin-top: 8px; /* Spacing between price and button */
+      font-size: 10px;
+      padding: 8px 0;
     }
   }
 
@@ -311,6 +327,11 @@
     .mobile-img { display: none !important; }
     .desktop-img { display: block !important; }
     .origin-hotspot-backdrop { display: none; }
+    
+    .origin-hotspot-card__link {
+      text-decoration: none;
+      color: inherit;
+    }
   }
 </style>
 
@@ -325,34 +346,16 @@
 
     <!-- Images -->
     {% if section.settings.image_desktop %}
-      <img 
-        src="{{ section.settings.image_desktop | image_url: width: 2400 }}" 
-        class="desktop-img" 
-        loading="lazy" 
-        alt="Shop The Look"
-        width="{{ section.settings.image_desktop.width }}"
-        height="{{ section.settings.image_desktop.height }}">
+      <img src="{{ section.settings.image_desktop | image_url: width: 2400 }}" class="desktop-img" loading="lazy" alt="Shop The Look" width="{{ section.settings.image_desktop.width }}" height="{{ section.settings.image_desktop.height }}">
     {% else %}
       {{ 'lifestyle-2' | placeholder_svg_tag: 'desktop-img' }}
     {% endif %}
 
     {% if section.settings.image_mobile %}
-      <img 
-        src="{{ section.settings.image_mobile | image_url: width: 1200 }}" 
-        class="mobile-img" 
-        loading="lazy" 
-        alt="Shop The Look"
-        width="{{ section.settings.image_mobile.width }}"
-        height="{{ section.settings.image_mobile.height }}">
+      <img src="{{ section.settings.image_mobile | image_url: width: 1200 }}" class="mobile-img" loading="lazy" alt="Shop The Look" width="{{ section.settings.image_mobile.width }}" height="{{ section.settings.image_mobile.height }}">
     {% else %}
       {% if section.settings.image_desktop %}
-        <img 
-          src="{{ section.settings.image_desktop | image_url: width: 1200 }}" 
-          class="mobile-img" 
-          loading="lazy" 
-          alt="Shop The Look"
-          width="{{ section.settings.image_desktop.width }}"
-          height="{{ section.settings.image_desktop.height }}">
+        <img src="{{ section.settings.image_desktop | image_url: width: 1200 }}" class="mobile-img" loading="lazy" alt="Shop The Look" width="{{ section.settings.image_desktop.width }}" height="{{ section.settings.image_desktop.height }}">
       {% else %}
         {{ 'lifestyle-2' | placeholder_svg_tag: 'mobile-img' }}
       {% endif %}
@@ -372,25 +375,22 @@
         <div class="origin-hotspot-card">
           {% if product != blank %}
             <a href="{{ product.url }}" class="origin-hotspot-card__link">
-              <img 
-                src="{{ product.featured_image | image_url: width: 400 }}" 
-                class="origin-hotspot-card__img" 
-                alt="{{ product.title }}"
-                width="400"
-                height="400">
+              <img src="{{ product.featured_image | image_url: width: 400 }}" class="origin-hotspot-card__img" alt="{{ product.title }}" width="400" height="400">
               <div class="origin-hotspot-card__details">
                 <h3 class="origin-hotspot-card__title">{{ product.title }}</h3>
                 <span class="origin-hotspot-card__price">{{ product.price | money }}</span>
-                <span class="origin-hotspot-card__btn">View Product</span>
+                <span class="origin-hotspot-card__btn">{{ section.settings.hotspot_button_text }}</span>
               </div>
             </a>
           {% else %}
             <!-- Placeholder Content -->
-            <div class="origin-hotspot-card__img" style="background: #eee;"></div>
-            <div class="origin-hotspot-card__details">
-              <h3 class="origin-hotspot-card__title">Product Title</h3>
-              <span class="origin-hotspot-card__price">$1,200.00</span>
-              <span class="origin-hotspot-card__btn">View Product</span>
+            <div class="origin-hotspot-card__link">
+              <div class="origin-hotspot-card__img" style="background: #eee;"></div>
+              <div class="origin-hotspot-card__details">
+                <h3 class="origin-hotspot-card__title">Product Title</h3>
+                <span class="origin-hotspot-card__price">$1,200.00</span>
+                <span class="origin-hotspot-card__btn">{{ section.settings.hotspot_button_text }}</span>
+              </div>
             </div>
           {% endif %}
         </div>
@@ -408,33 +408,26 @@
     const hotspots = document.querySelectorAll('.origin-hotspot');
     const backdrops = document.querySelectorAll('.origin-hotspot-backdrop');
 
-    // Close all logic
     function closeAll() {
       hotspots.forEach(h => h.classList.remove('is-active'));
     }
 
     hotspots.forEach(hotspot => {
       hotspot.addEventListener('click', function(e) {
-        // If clicking the card itself (the link), allow navigation
         if (e.target.closest('.origin-hotspot-card')) return;
-
-        e.stopPropagation(); // Stop click from hitting document
-        
+        e.stopPropagation(); 
         const isActive = this.classList.contains('is-active');
-        closeAll(); // Close others first
-        
+        closeAll(); 
         if (!isActive) {
           this.classList.add('is-active');
         }
       });
     });
 
-    // Close when clicking backdrop (mobile)
     backdrops.forEach(backdrop => {
       backdrop.addEventListener('click', closeAll);
     });
 
-    // Close when clicking anywhere else on page
     document.addEventListener('click', function(e) {
       if (!e.target.closest('.origin-hotspot')) {
         closeAll();
