@@ -51,6 +51,7 @@
         "category_qkt8Uy": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_044131.png",
             "title": "HAIR ACCESSORIES",
             "link_text": "Discover More",
             "link": "shopify://collections/womens-hair-accessories"
@@ -59,6 +60,7 @@
         "category_dphUh9": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_045038.png",
             "title": "BAG CHARMS",
             "link_text": "Discover More",
             "link": "shopify://collections/womens-bag-charms"
@@ -67,6 +69,7 @@
         "category_HG6Rzt": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_045353.png",
             "title": "SOCKS & TIGHTS",
             "link_text": "Discover More",
             "link": "shopify://collections/womens-socks-tights"
