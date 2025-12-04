@@ -281,7 +281,7 @@
     .desktop-img { display: none !important; }
     .mobile-img { display: block !important; }
 
-    /* 1. Backdrop */
+    /* 1. Backdrop (Added Blur) */
     .origin-global-backdrop {
       display: block;
       position: fixed;
@@ -289,8 +289,11 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(0, 0, 0, 0.5) !important;
-      backdrop-filter: blur(4px);
+      /* Semi-transparent black */
+      background-color: rgba(0, 0, 0, 0.4) !important; 
+      /* Blur Effect - including webkit for iOS */
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       z-index: 1000;
       opacity: 0;
       visibility: hidden;
@@ -339,7 +342,6 @@
     .origin-hotspot-card__details {
       width: 100%;
       text-align: left;
-      /* order: -1; Ensure this is visual top if we used row, but column does it naturally */
     }
 
     /* Mobile CTA Text */
