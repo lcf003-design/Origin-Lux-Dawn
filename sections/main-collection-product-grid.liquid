@@ -78,60 +78,45 @@
 
   /* --- Product Card "Pop" Enhancements --- */
 
-  /* 1. Base Card Interaction & Softness */
+  /* 1. Base Card Interaction */
   .grid__item .card-wrapper {
     position: relative; 
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
-    border-radius: 12px; /* Softer corners for the card */
-    overflow: hidden; /* Keeps the zoom inside the rounded corners */
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 1;
+    cursor: pointer !important; /* Forces the hand icon */
   }
 
-  /* 2. Full Clickability Overlay */
-  .grid__item .full-unstyled-link {
-    position: static;
-  }
-  .grid__item .full-unstyled-link::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 10;
-    pointer-events: auto;
-    cursor: pointer;
-  }
-
-  /* 3. Hover Lift Effect */
+  /* 2. Hover Lift Effect */
   /* Exclude bulk mode to prevent interaction issues */
   .grid__item:not(.collection-quick-add-bulk .grid__item):hover .card-wrapper {
-    transform: translateY(-6px); /* Stronger lift */
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); /* Modern diffuse shadow */
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
   }
 
-  /* 4. Cinematic Image Zoom */
-  /* We target the image inside the media container */
+  /* 3. Cinematic Image Zoom */
   .card__media .media img {
-    transition: transform 0.7s ease; /* Slow, smooth zoom */
+    transition: transform 0.7s ease;
   }
   .grid__item:hover .card__media .media img {
-    transform: scale(1.06); /* Subtle zoom in */
+    transform: scale(1.06);
   }
 
-  /* 5. Title Underline Pop */
+  /* 4. Title Underline Pop */
   .grid__item:hover .card__heading {
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 4px;
   }
 
-  /* 6. Badge Pop */
+  /* 5. Badge Pop */
   .badge {
-    border-radius: 6px; /* Soften badge corners */
+    border-radius: 6px;
     font-weight: 600;
   }
 
-  /* 7. Animation for newly loaded items */
+  /* 6. Animation for newly loaded items */
   .product-grid .newly-loaded {
       opacity: 0;
       animation: fadeInUp 0.6s ease-out forwards;
@@ -323,9 +308,8 @@
   {%- endif -%}
 </div>
 
-{% comment %} LOAD MORE JAVASCRIPT: With Pop-Style Staggered Animation {% endcomment %}
-{%- if section.settings.enable_load_more -%}
 <script>
+  /* --- 1. LOAD MORE LOGIC --- */
   document.addEventListener('DOMContentLoaded', function() {
     const loadMoreBtn = document.getElementById('load-more-button');
     const productGrid = document.getElementById('product-grid');
@@ -335,7 +319,6 @@
       loadMoreBtn.addEventListener('click', function(e) {
         e.preventDefault();
         
-        // UI States - show loading spinner
         const btn = e.currentTarget;
         const spinner = btn.querySelector('.load-more-spinner');
         const span = btn.querySelector('span');
@@ -346,40 +329,31 @@
 
         const nextUrl = btn.dataset.nextUrl;
 
-        // Fetch Next Page
         fetch(nextUrl)
           .then(response => response.text())
           .then(data => {
-            // Parse Response
             const parser = new DOMParser();
             const html = parser.parseFromString(data, 'text/html');
             const newProducts = html.querySelectorAll('#product-grid > .grid__item');
             const nextButtonInNewPage = html.getElementById('load-more-button');
 
-            // 1. Append New Products with Fade-Up Animation (Pop Style)
             newProducts.forEach((item, index) => {
-              // Stagger the animation by 80ms per item for a cascading effect
               item.style.setProperty('--animation-delay', `${index * 80}ms`);
               item.classList.add('newly-loaded');
               productGrid.appendChild(item);
             });
 
-            // 2. Update Product Count
             if (productCountEl) {
                 const newProductCount = html.getElementById('ProductCountDesktop');
-                if (newProductCount) {
-                    productCountEl.innerHTML = newProductCount.innerHTML;
-                }
+                if (newProductCount) productCountEl.innerHTML = newProductCount.innerHTML;
             }
 
-            // 3. Update Button or Hide if no more pages
             if (nextButtonInNewPage && nextButtonInNewPage.dataset.nextUrl) {
               btn.dataset.nextUrl = nextButtonInNewPage.dataset.nextUrl;
               btn.removeAttribute('disabled');
               span.textContent = 'Load More';
               spinner.classList.add('hidden');
             } else {
-              // No more pages, remove the button container
               btn.closest('.load-more-container').remove();
             }
 
@@ -393,8 +367,32 @@
       });
     }
   });
+
+  /* --- 2. CLICKABLE CARD LOGIC (Fixes the click issue) --- */
+  document.addEventListener('click', function(e) {
+    // 1. Find if the click was inside a product card wrapper
+    const card = e.target.closest('.card-wrapper');
+    
+    // If not a card, or if we clicked a button (like Quick Add), ignore.
+    if (!card) return;
+    if (e.target.closest('button') || e.target.closest('.quick-add-modal__toggle')) return;
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL') return;
+
+    // 2. Find the main link inside this specific card
+    // We look for the link inside the heading which is the standard product link
+    const link = card.querySelector('.card__heading a') || card.querySelector('a');
+
+    // 3. Go to that link
+    if (link && link.href) {
+      // Prevent default to avoid double-firing if they actually clicked the text link
+      // But only if they didn't click the link itself
+      if (e.target !== link) {
+        e.preventDefault();
+        window.location.href = link.href;
+      }
+    }
+  });
 </script>
-{%- endif -%}
 
 {% schema %}
 {

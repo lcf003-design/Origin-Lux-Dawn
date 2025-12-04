@@ -32,6 +32,8 @@
           "type": "buy_buttons",
           "settings": {
             "show_dynamic_checkout": true,
+            "btn_text_size": 13,
+            "service_text_size": 12,
             "delivery_text": "Estimated delivery: 2-4 Business Days",
             "contact_text": "Contact Us",
             "contact_url": "",
@@ -52,9 +54,7 @@
         "bg_color": "#ffffff",
         "title_size": 32,
         "price_size": 18,
-        "body_size": 14,
-        "btn_text_size": 13,
-        "service_text_size": 12
+        "body_size": 14
       }
     },
     "main": {
@@ -142,7 +142,7 @@
         "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "image_ratio": "adapt",
-        "image_shape": "blob",
+        "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": true,
