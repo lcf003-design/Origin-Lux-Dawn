@@ -15,79 +15,89 @@
         "category_n4MrTY": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251203_082444.png",
             "title": "EYEWEAR",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-eyewear-1"
+            "link": "shopify://collections/womens-eyewear"
           }
         },
         "category_G3G8KE": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251203_083648.png",
             "title": "Belts",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-belts"
-          }
-        },
-        "category_qkt8Uy": {
-          "type": "category",
-          "settings": {
-            "title": "TIES",
-            "link_text": "Discover More",
-            "link": "shopify://collections/mens-ties"
+            "link": "shopify://collections/womens-belts"
           }
         },
         "category_KxwxJQ": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/1280_by_720_final.png",
             "title": "HATS & GLOVES",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-hats-gloves"
+            "link": "shopify://collections/womens-hats-gloves"
           }
         },
         "category_xnQc79": {
           "type": "category",
           "settings": {
-            "title": "SCARVES",
+            "image": "shopify://shop_images/Photoroom_20251204_042809.png",
+            "title": "SILK & SCARVES",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-scarves"
+            "link": "shopify://collections/womens-scarves"
           }
         },
-        "category_HG6Rzt": {
+        "category_qkt8Uy": {
           "type": "category",
           "settings": {
-            "title": "SOCKS",
+            "image": "shopify://shop_images/Photoroom_20251204_044131.png",
+            "title": "HAIR ACCESSORIES",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-socks"
+            "link": "shopify://collections/womens-hair-accessories"
           }
         },
         "category_dphUh9": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_045038.png",
             "title": "BAG CHARMS",
             "link_text": "Discover More",
-            "link": "shopify://collections/mens-bag-charms"
+            "link": "shopify://collections/womens-bag-charms"
+          }
+        },
+        "category_HG6Rzt": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_045353.png",
+            "title": "SOCKS & TIGHTS",
+            "link_text": "Discover More",
+            "link": "shopify://collections/womens-socks-tights"
           }
         }
       },
       "block_order": [
         "category_n4MrTY",
         "category_G3G8KE",
-        "category_qkt8Uy",
         "category_KxwxJQ",
         "category_xnQc79",
-        "category_HG6Rzt",
-        "category_dphUh9"
+        "category_qkt8Uy",
+        "category_dphUh9",
+        "category_HG6Rzt"
       ],
       "name": "Gucci Sub-Category Grid",
       "settings": {
         "heading": "",
         "layout_style": "mosaic_extended",
+        "image_fit": "contain",
+        "image_position": "center center",
+        "height_desktop": 500,
+        "height_mobile": 500,
         "card_bg": "#f2f2f2",
         "card_hover_bg": "#ffffff",
         "font_family": "gucci",
         "font_scale": 150,
-        "letter_spacing": 5,
-        "height_desktop": 500
+        "letter_spacing": 5
       }
     },
     "banner": {

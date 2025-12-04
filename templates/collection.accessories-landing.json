@@ -15,6 +15,7 @@
         "category_n4MrTY": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_050241.png",
             "title": "EYEWEAR",
             "link_text": "Discover More",
             "link": "shopify://collections/mens-eyewear-1"
@@ -23,6 +24,7 @@
         "category_G3G8KE": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_052520.png",
             "title": "Belts",
             "link_text": "Discover More",
             "link": "shopify://collections/mens-belts"
@@ -31,6 +33,7 @@
         "category_qkt8Uy": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_053013.png",
             "title": "TIES",
             "link_text": "Discover More",
             "link": "shopify://collections/mens-ties"
@@ -39,6 +42,7 @@
         "category_KxwxJQ": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_054149.png",
             "title": "HATS & GLOVES",
             "link_text": "Discover More",
             "link": "shopify://collections/mens-hats-gloves"
@@ -47,6 +51,7 @@
         "category_xnQc79": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_054021.png",
             "title": "SCARVES",
             "link_text": "Discover More",
             "link": "shopify://collections/mens-scarves"
@@ -55,6 +60,7 @@
         "category_HG6Rzt": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_053057.png",
             "title": "SOCKS",
             "link_text": "Discover More",
             "link": "shopify://collections/mens-socks"
@@ -63,6 +69,7 @@
         "category_dphUh9": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_053153.png",
             "title": "BAG CHARMS",
             "link_text": "Discover More",
             "link": "shopify://collections/mens-bag-charms"
@@ -82,12 +89,15 @@
       "settings": {
         "heading": "",
         "layout_style": "mosaic_extended",
+        "image_fit": "contain",
+        "image_position": "center center",
+        "height_desktop": 500,
+        "height_mobile": 500,
         "card_bg": "#f2f2f2",
         "card_hover_bg": "#ffffff",
         "font_family": "gucci",
         "font_scale": 150,
-        "letter_spacing": 5,
-        "height_desktop": 500
+        "letter_spacing": 5
       }
     },
     "banner": {
