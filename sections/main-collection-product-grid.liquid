@@ -35,17 +35,29 @@
     }
   }
 
-  /* Load More Button Styles */
+  /* --- Load More Button (Pill Style Pop) --- */
   .load-more-container {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 50px;
     margin-bottom: 20px;
     width: 100%;
   }
   .load-more-btn {
     min-width: 200px;
-    transition: all 0.3s ease;
+    border-radius: 50px; /* Pill shape */
+    padding: 12px 30px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Soft shadow */
+    text-transform: uppercase;
+    font-size: 1.3rem;
   }
+  .load-more-btn:hover:not([disabled]) {
+    transform: translateY(-3px); /* Bounce up */
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15); /* Deepen shadow */
+  }
+
   .load-more-spinner {
     display: inline-block;
     width: 20px;
@@ -62,6 +74,79 @@
   }
   .hidden {
     display: none !important;
+  }
+
+  /* --- Product Card "Pop" Enhancements --- */
+
+  /* 1. Base Card Interaction & Softness */
+  .grid__item .card-wrapper {
+    position: relative; 
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+    border-radius: 12px; /* Softer corners for the card */
+    overflow: hidden; /* Keeps the zoom inside the rounded corners */
+  }
+
+  /* 2. Full Clickability Overlay */
+  .grid__item .full-unstyled-link {
+    position: static;
+  }
+  .grid__item .full-unstyled-link::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  /* 3. Hover Lift Effect */
+  /* Exclude bulk mode to prevent interaction issues */
+  .grid__item:not(.collection-quick-add-bulk .grid__item):hover .card-wrapper {
+    transform: translateY(-6px); /* Stronger lift */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); /* Modern diffuse shadow */
+  }
+
+  /* 4. Cinematic Image Zoom */
+  /* We target the image inside the media container */
+  .card__media .media img {
+    transition: transform 0.7s ease; /* Slow, smooth zoom */
+  }
+  .grid__item:hover .card__media .media img {
+    transform: scale(1.06); /* Subtle zoom in */
+  }
+
+  /* 5. Title Underline Pop */
+  .grid__item:hover .card__heading {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+
+  /* 6. Badge Pop */
+  .badge {
+    border-radius: 6px; /* Soften badge corners */
+    font-weight: 600;
+  }
+
+  /* 7. Animation for newly loaded items */
+  .product-grid .newly-loaded {
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+      animation-delay: var(--animation-delay, 0s);
+  }
+
+  @keyframes fadeInUp {
+      from { 
+        opacity: 0;
+        transform: translateY(20px); 
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0); 
+      }
   }
 {%- endstyle -%}
 
@@ -238,18 +323,19 @@
   {%- endif -%}
 </div>
 
-{% comment %} LOAD MORE JAVASCRIPT {% endcomment %}
+{% comment %} LOAD MORE JAVASCRIPT: With Pop-Style Staggered Animation {% endcomment %}
 {%- if section.settings.enable_load_more -%}
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const loadMoreBtn = document.getElementById('load-more-button');
     const productGrid = document.getElementById('product-grid');
+    const productCountEl = document.getElementById('ProductCountDesktop');
     
     if (loadMoreBtn && productGrid) {
       loadMoreBtn.addEventListener('click', function(e) {
         e.preventDefault();
         
-        // UI States
+        // UI States - show loading spinner
         const btn = e.currentTarget;
         const spinner = btn.querySelector('.load-more-spinner');
         const span = btn.querySelector('span');
@@ -270,18 +356,30 @@
             const newProducts = html.querySelectorAll('#product-grid > .grid__item');
             const nextButtonInNewPage = html.getElementById('load-more-button');
 
-            // Append New Products
-            newProducts.forEach(item => {
+            // 1. Append New Products with Fade-Up Animation (Pop Style)
+            newProducts.forEach((item, index) => {
+              // Stagger the animation by 80ms per item for a cascading effect
+              item.style.setProperty('--animation-delay', `${index * 80}ms`);
+              item.classList.add('newly-loaded');
               productGrid.appendChild(item);
             });
 
-            // Update Button or Hide if no more pages
+            // 2. Update Product Count
+            if (productCountEl) {
+                const newProductCount = html.getElementById('ProductCountDesktop');
+                if (newProductCount) {
+                    productCountEl.innerHTML = newProductCount.innerHTML;
+                }
+            }
+
+            // 3. Update Button or Hide if no more pages
             if (nextButtonInNewPage && nextButtonInNewPage.dataset.nextUrl) {
               btn.dataset.nextUrl = nextButtonInNewPage.dataset.nextUrl;
               btn.removeAttribute('disabled');
               span.textContent = 'Load More';
               spinner.classList.add('hidden');
             } else {
+              // No more pages, remove the button container
               btn.closest('.load-more-container').remove();
             }
 
@@ -522,4 +620,5 @@
   ]
 }
 {% endschema %}
+
 
