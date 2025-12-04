@@ -89,12 +89,15 @@
       "settings": {
         "heading": "",
         "layout_style": "mosaic_extended",
+        "image_fit": "contain",
+        "image_position": "center center",
+        "height_desktop": 500,
+        "height_mobile": 500,
         "card_bg": "#f2f2f2",
         "card_hover_bg": "#ffffff",
         "font_family": "gucci",
         "font_scale": 150,
-        "letter_spacing": 5,
-        "height_desktop": 500
+        "letter_spacing": 5
       }
     },
     "banner": {
