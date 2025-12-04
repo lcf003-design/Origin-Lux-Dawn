@@ -16,6 +16,22 @@
     },
     {
       "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
       "content": "Typography"
     },
     {
@@ -104,12 +120,19 @@
 }
 {% endschema %}
 
+{% comment %} Load standard dependencies to ensure grid works {% endcomment %}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'section-related-products.css' | asset_url | stylesheet_tag }}
+
 {% style %}
   {{ section.settings.font_heading | font_face: font_display: 'swap' }}
 
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
   }
 
   .origin-related-wrapper {
@@ -129,6 +152,7 @@
     margin-bottom: 40px;
     margin-top: 0;
     line-height: 1.2;
+    color: {{ section.settings.text_color }};
   }
 
   /* Grid Layout */
@@ -154,24 +178,15 @@
     }
   }
 
-  /* --- CLICKABLE CARD HACK --- */
-  /* This stretches the title link to cover the whole card */
-  .origin-card .card__heading a::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1; /* Sits above image but below buttons */
+  /* --- FORCE ORIGIN CARD STYLES --- */
+  /* This ensures our new card styling overrides default slider styles */
+  .origin-related-grid .card {
+    background: transparent;
+    border: none;
   }
   
-  /* Ensure Quick Add button stays clickable above the full-card link */
-  .origin-card .quick-add,
-  .origin-card .quick-add__submit,
-  .origin-card .origin-card-quickadd__button {
-    z-index: 5 !important;
-    position: relative; 
+  .origin-related-grid .card__heading {
+    margin-top: 10px;
   }
 {% endstyle %}
 
@@ -190,10 +205,6 @@
       <ul class="origin-related-grid" role="list">
         {% for recommendation in recommendations.products %}
           <li class="grid__item">
-            {% comment %} 
-              We use the existing card-product snippet which now has the Origin Luxury Styles.
-              We ensure 'quick_add' is set to 'standard' to enable the slide-up button.
-            {% endcomment %}
             {% render 'card-product',
               card_product: recommendation,
               media_aspect_ratio: 'portrait',
@@ -208,4 +219,5 @@
     {% endif %}
   </product-recommendations>
 </div>
+
 
