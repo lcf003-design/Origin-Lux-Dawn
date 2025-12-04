@@ -26,6 +26,13 @@
       "id": "hotspot_color",
       "label": "Hotspot Color",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "text",
+      "id": "mobile_cta_text",
+      "label": "Mobile Drawer Pop-up Text",
+      "default": "Tap to shop",
+      "info": "Appears above product title on mobile open"
     }
   ],
   "blocks": [
@@ -77,8 +84,6 @@
   .origin-shop-look {
     position: relative;
     width: 100%;
-    /* Removed overflow:hidden so cards near edges don't get clipped on desktop */
-    /* overflow: hidden; */ 
     background: #000;
   }
 
@@ -99,7 +104,6 @@
     position: absolute;
     width: 32px;
     height: 32px;
-    /* FIX: Changed from transform to margins to prevent containing block issue */
     margin-left: -16px; 
     margin-top: -16px;
     cursor: pointer;
@@ -159,6 +163,11 @@
     pointer-events: none;
     z-index: 20;
     text-align: left;
+  }
+  
+  /* NEW: By default hide mobile CTA on desktop */
+  .mobile-drawer-cta {
+    display: none;
   }
 
   /* Triangle Pointer */
@@ -274,15 +283,19 @@
       transform: translateY(0);
     }
 
-    /* Backdrop for mobile modal */
+    /* UPDATED Backdrop for mobile modal */
     .origin-hotspot-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 2147483640; /* Just below card */
+      /* Changed to 30% opacity */
+      background: rgba(0,0,0,0.3);
+      /* Added Blur effect */
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px); /* Safari support */
+      z-index: 2147483640; 
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.3s;
+      transition: all 0.3s ease;
     }
 
     .origin-hotspot.is-active ~ .origin-hotspot-backdrop {
@@ -291,7 +304,7 @@
     }
     
     .origin-hotspot-card__img {
-      height: 120px; /* Smaller image on mobile drawer */
+      height: 120px; 
       width: 100px;
       float: left;
       margin-right: 16px;
@@ -299,11 +312,36 @@
     }
     
     .origin-hotspot-card__details {
-      overflow: hidden; /* Clear float */
+      overflow: hidden; 
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      /* Changed from center to flex-start to accommodate new CTA */
+      justify-content: flex-start; 
       height: 120px;
+      padding-top: 10px;
+    }
+
+    /* NEW: Mobile CTA "Pop up" text styling */
+    .mobile-drawer-cta {
+        display: block;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        color: #555; /* Slightly lighter than black for subtitle feel */
+        margin-bottom: 6px;
+        
+        /* Animation setup */
+        opacity: 0;
+        transform: translateY(15px);
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        transition-delay: 0.1s; /* Wait for drawer to start opening */
+    }
+
+    /* Trigger animation when active */
+    .origin-hotspot.is-active .mobile-drawer-cta {
+        opacity: 1;
+        transform: translateY(0);
     }
   }
 
@@ -323,7 +361,6 @@
       </div>
     {% endif %}
 
-    <!-- Images -->
     {% if section.settings.image_desktop %}
       <img 
         src="{{ section.settings.image_desktop | image_url: width: 2400 }}" 
@@ -358,7 +395,6 @@
       {% endif %}
     {% endif %}
 
-    <!-- Hotspots -->
     {% for block in section.blocks %}
       {% assign product = block.settings.product %}
       
@@ -368,7 +404,6 @@
         
         <div class="origin-hotspot__inner"></div>
 
-        <!-- Product Card -->
         <div class="origin-hotspot-card">
           {% if product != blank %}
             <a href="{{ product.url }}" class="origin-hotspot-card__link">
@@ -379,15 +414,19 @@
                 width="400"
                 height="400">
               <div class="origin-hotspot-card__details">
+                {% if section.settings.mobile_cta_text != blank %}
+                  <span class="mobile-drawer-cta">{{ section.settings.mobile_cta_text }}</span>
+                {% endif %}
+
                 <h3 class="origin-hotspot-card__title">{{ product.title }}</h3>
                 <span class="origin-hotspot-card__price">{{ product.price | money }}</span>
                 <span class="origin-hotspot-card__btn">View Product</span>
               </div>
             </a>
           {% else %}
-            <!-- Placeholder Content -->
             <div class="origin-hotspot-card__img" style="background: #eee;"></div>
             <div class="origin-hotspot-card__details">
+               <span class="mobile-drawer-cta">{{ section.settings.mobile_cta_text | default: 'Tap to shop' }}</span>
               <h3 class="origin-hotspot-card__title">Product Title</h3>
               <span class="origin-hotspot-card__price">$1,200.00</span>
               <span class="origin-hotspot-card__btn">View Product</span>
@@ -396,7 +435,6 @@
         </div>
       </div>
       
-      <!-- Mobile Backdrop -->
       <div class="origin-hotspot-backdrop" data-for="{{ block.id }}"></div>
     {% endfor %}
 
@@ -442,5 +480,3 @@
     });
   });
 </script>
-
-
