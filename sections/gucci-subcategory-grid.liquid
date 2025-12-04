@@ -25,6 +25,53 @@
     },
     {
       "type": "header",
+      "content": "Image Dimensions & Scaling"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image Scaling",
+      "options": [
+        { "value": "cover", "label": "Fill Card (Crop to Fit)" },
+        { "value": "contain", "label": "Fit Entire Image (No Crop)" }
+      ],
+      "default": "cover",
+      "info": "'Fill' ensures the grid looks uniform but may crop edges. 'Fit' ensures the whole photo is seen but may leave space."
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Focus Position",
+      "options": [
+        { "value": "top center", "label": "Top" },
+        { "value": "center center", "label": "Center" },
+        { "value": "bottom center", "label": "Bottom" }
+      ],
+      "default": "center center",
+      "info": "Only applies if 'Fill Card' is selected. Helps if heads/feet are being cut off."
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 300,
+      "max": 900,
+      "step": 50,
+      "default": 550,
+      "unit": "px",
+      "label": "Card Height (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "min": 200,
+      "max": 700,
+      "step": 10,
+      "default": 500,
+      "unit": "px",
+      "label": "Card Height (Mobile)"
+    },
+    {
+      "type": "header",
       "content": "Colors & Hover Effects"
     },
     {
@@ -39,7 +86,7 @@
       "id": "card_hover_bg",
       "label": "Hover Background",
       "default": "#FFFFFF",
-      "info": "The color it turns when you hover (Gucci uses White)."
+      "info": "The color it turns when you hover."
     },
     {
       "type": "header",
@@ -74,20 +121,6 @@
       "default": 3,
       "unit": "px",
       "label": "Letter Spacing"
-    },
-    {
-      "type": "header",
-      "content": "Sizing"
-    },
-    {
-      "type": "range",
-      "id": "height_desktop",
-      "min": 300,
-      "max": 800,
-      "step": 50,
-      "default": 550,
-      "unit": "px",
-      "label": "Card Height (Desktop)"
     }
   ],
   "blocks": [
@@ -160,6 +193,8 @@
            transition-delay: {{ forloop.index0 | times: 100 }}ms;
            --font-scale: {{ section.settings.font_scale | divided_by: 100.0 }};
            --letter-spacing: {{ section.settings.letter_spacing }}px;
+           --image-fit: {{ section.settings.image_fit }};
+           --image-pos: {{ section.settings.image_position }};
          ">
         
         <div class="gucci-image-wrapper">
@@ -223,17 +258,12 @@
       elements.forEach(el => observer.observe(el));
     }
 
-    // Run on initial page load
     document.addEventListener("DOMContentLoaded", initGucciAnimations);
-
-    // Run when Shopify Theme Editor updates the section (Fixes the hiccup)
     document.addEventListener("shopify:section:load", function(event) {
       if (event.detail.sectionId === "{{ section.id }}") {
         initGucciAnimations();
       }
     });
-    
-    // Fallback: If in editor, force run immediately just in case
     if (window.Shopify && window.Shopify.designMode) {
        initGucciAnimations();
     }
@@ -248,7 +278,7 @@
     overflow: hidden;
   }
 
-  /* --- TYPOGRAPHY SETTINGS --- */
+  /* --- TYPOGRAPHY --- */
   .font-gucci .gucci-title,
   .font-gucci .gucci-heading,
   .font-gucci .gucci-link-text {
@@ -274,9 +304,7 @@
     grid-template-columns: 1fr;
   }
 
-  /* --- DESKTOP LAYOUTS --- */
   @media (min-width: 768px) {
-    /* Mosaic Extended (2 Top / 2 Middle / 3 Bottom) */
     .style-mosaic_extended { grid-template-columns: repeat(6, 1fr); }
     .style-mosaic_extended .gucci-card:nth-child(1),
     .style-mosaic_extended .gucci-card:nth-child(2),
@@ -284,23 +312,24 @@
     .style-mosaic_extended .gucci-card:nth-child(4) { grid-column: span 3; }
     .style-mosaic_extended .gucci-card:nth-child(n+5) { grid-column: span 2; }
 
-    /* Classic Styles */
     .style-mosaic { grid-template-columns: repeat(6, 1fr); }
     .style-mosaic .gucci-card:nth-child(1), .style-mosaic .gucci-card:nth-child(2) { grid-column: span 3; }
     .style-mosaic .gucci-card:nth-child(n+3) { grid-column: span 2; }
+
     .style-grid { grid-template-columns: repeat(3, 1fr); }
   }
 
-  /* --- CARD STYLING & HOVER LOGIC --- */
+  /* --- CARD STYLING --- */
   .gucci-card {
     position: relative;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     text-decoration: none;
-    height: 500px;
     
-    /* BACKGROUND TRANSITION LOGIC */
+    /* Dynamic Mobile Height */
+    height: {{ section.settings.height_mobile }}px;
+    
     background-color: var(--bg-default);
     transition: background-color 0.4s ease, opacity 0.3s ease;
   }
@@ -309,6 +338,7 @@
     background-color: var(--bg-hover) !important;
   }
 
+  /* Dynamic Desktop Height */
   @media (min-width: 1024px) {
     .gucci-card { height: {{ section.settings.height_desktop }}px; }
   }
@@ -317,16 +347,38 @@
   .gucci-image-wrapper {
     position: relative;
     width: 100%;
-    height: 75%; /* Image takes top 75% */
+    height: 75%;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .gucci-image-wrapper img,
   .gucci-image-wrapper video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    
+    /* HERE IS THE FIX: Uses settings variables */
+    object-fit: var(--image-fit, cover);
+    object-position: var(--image-pos, center center);
+    
     transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  /* Ensure placeholder SVGs behave */
+  .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gucci-video-element {
+    min-height: 100%;
+    min-width: 100%;
+    display: block;
+    object-fit: var(--image-fit, cover);
+    object-position: var(--image-pos, center center);
   }
 
   .gucci-card:hover .gucci-image-wrapper img,
@@ -334,7 +386,7 @@
     transform: scale(1.05);
   }
 
-  /* --- ENTRANCE ANIMATIONS --- */
+  /* --- ANIMATIONS & CONTENT --- */
   .reveal-on-scroll {
     opacity: 0;
     transform: translateY(40px);
@@ -347,7 +399,6 @@
     transform: translateY(0);
   }
 
-  /* --- TEXT CONTENT --- */
   .gucci-content {
     height: 25%;
     display: flex;
@@ -366,15 +417,14 @@
 
   .gucci-title {
     color: #000;
-    /* FIX: Now uses the scale variable */
     font-size: calc(1.1rem * var(--font-scale, 1));
     letter-spacing: var(--letter-spacing, 1px);
     text-transform: uppercase;
     font-family: var(--font-heading-family); 
     transition: color 0.3s ease;
+    font-weight: 500;
   }
 
-  /* --- ANIMATED LINK --- */
   .gucci-link-wrapper {
     position: relative;
     display: inline-block;
@@ -384,7 +434,6 @@
 
   .gucci-link-text {
     color: #4a4a4a;
-    /* FIX: Now uses the scale variable */
     font-size: calc(0.7rem * var(--font-scale, 1));
     text-transform: uppercase;
     letter-spacing: 0.15em;
@@ -394,7 +443,6 @@
     transition: transform 0.3s ease, color 0.3s ease;
   }
 
-  /* The animated line */
   .gucci-underline {
     position: absolute;
     bottom: 0;
