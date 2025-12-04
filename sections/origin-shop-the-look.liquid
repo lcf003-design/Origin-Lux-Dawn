@@ -149,7 +149,7 @@
   /* --- PRODUCT CARD (POPOVER) --- */
   .origin-hotspot-card {
     position: absolute;
-    bottom: 40px; /* Appears above the dot */
+    bottom: 40px; 
     left: 50%;
     transform: translateX(-50%) translateY(10px);
     width: 260px;
@@ -165,7 +165,7 @@
     text-align: left;
   }
   
-  /* NEW: By default hide mobile CTA on desktop */
+  /* Hides CTA on desktop */
   .mobile-drawer-cta {
     display: none;
   }
@@ -283,15 +283,13 @@
       transform: translateY(0);
     }
 
-    /* UPDATED Backdrop for mobile modal */
+    /* UPDATED: FORCED BLUR AND GREY */
     .origin-hotspot-backdrop {
       position: fixed;
       inset: 0;
-      /* Changed to 30% opacity */
-      background: rgba(0,0,0,0.3);
-      /* Added Blur effect */
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px); /* Safari support */
+      background: rgba(0,0,0,0.3) !important; /* 30% Grey */
+      backdrop-filter: blur(5px) !important; /* Blur Effect */
+      -webkit-backdrop-filter: blur(5px) !important; /* Safari Support */
       z-index: 2147483640; 
       opacity: 0;
       visibility: hidden;
@@ -315,27 +313,28 @@
       overflow: hidden; 
       display: flex;
       flex-direction: column;
-      /* Changed from center to flex-start to accommodate new CTA */
-      justify-content: flex-start; 
+      justify-content: center;
       height: 120px;
-      padding-top: 10px;
+      /* Aligns content to top to make room for CTA */
+      justify-content: flex-start; 
+      padding-top: 5px;
     }
 
-    /* NEW: Mobile CTA "Pop up" text styling */
+    /* NEW: CTA POP UP TEXT STYLES */
     .mobile-drawer-cta {
         display: block;
-        font-size: 10px;
+        font-size: 11px;
         text-transform: uppercase;
-        letter-spacing: 1px;
-        font-weight: 700;
-        color: #555; /* Slightly lighter than black for subtitle feel */
-        margin-bottom: 6px;
+        letter-spacing: 0.1em;
+        font-weight: 800;
+        color: #000; 
+        margin-bottom: 8px;
         
         /* Animation setup */
         opacity: 0;
-        transform: translateY(15px);
-        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        transition-delay: 0.1s; /* Wait for drawer to start opening */
+        transform: translateY(10px);
+        transition: all 0.5s ease;
+        transition-delay: 0.2s; /* Waits for drawer */
     }
 
     /* Trigger animation when active */
@@ -414,10 +413,8 @@
                 width="400"
                 height="400">
               <div class="origin-hotspot-card__details">
-                {% if section.settings.mobile_cta_text != blank %}
-                  <span class="mobile-drawer-cta">{{ section.settings.mobile_cta_text }}</span>
-                {% endif %}
-
+                <span class="mobile-drawer-cta">{{ section.settings.mobile_cta_text | default: 'TAP TO SHOP' }}</span>
+                
                 <h3 class="origin-hotspot-card__title">{{ product.title }}</h3>
                 <span class="origin-hotspot-card__price">{{ product.price | money }}</span>
                 <span class="origin-hotspot-card__btn">View Product</span>
@@ -426,7 +423,7 @@
           {% else %}
             <div class="origin-hotspot-card__img" style="background: #eee;"></div>
             <div class="origin-hotspot-card__details">
-               <span class="mobile-drawer-cta">{{ section.settings.mobile_cta_text | default: 'Tap to shop' }}</span>
+               <span class="mobile-drawer-cta">{{ section.settings.mobile_cta_text | default: 'TAP TO SHOP' }}</span>
               <h3 class="origin-hotspot-card__title">Product Title</h3>
               <span class="origin-hotspot-card__price">$1,200.00</span>
               <span class="origin-hotspot-card__btn">View Product</span>
