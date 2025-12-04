@@ -108,8 +108,10 @@
       "name": "Origin Shop The Look",
       "settings": {
         "image_desktop": "shopify://shop_images/editorial_origin_shop_the_look.webp",
+        "image_mobile": "shopify://shop_images/editorial_origin_shop_the_look.webp",
         "heading": "",
-        "hotspot_color": "#ffffff"
+        "hotspot_color": "#ffffff",
+        "mobile_cta_text": "Tap to shop"
       }
     },
     "origin_grid_4_col_wN8LiD": {
