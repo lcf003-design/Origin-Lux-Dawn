@@ -33,6 +33,7 @@
         "category_qkt8Uy": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_053013.png",
             "title": "TIES",
             "link_text": "Discover More",
             "link": "shopify://collections/mens-ties"
@@ -41,6 +42,7 @@
         "category_KxwxJQ": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_054149.png",
             "title": "HATS & GLOVES",
             "link_text": "Discover More",
             "link": "shopify://collections/mens-hats-gloves"
@@ -49,6 +51,7 @@
         "category_xnQc79": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/Photoroom_20251204_054021.png",
             "title": "SCARVES",
             "link_text": "Discover More",
             "link": "shopify://collections/mens-scarves"
