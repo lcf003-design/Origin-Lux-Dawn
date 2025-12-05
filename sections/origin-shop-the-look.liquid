@@ -90,7 +90,8 @@
 
   /* Universal Image/SVG Fix */
   .origin-shop-look img,
-  .origin-shop-look svg {
+  .origin-shop-look svg,
+  .origin-shop-look picture {
     display: block;
     width: 100%;
     height: auto;
@@ -277,9 +278,8 @@
      MOBILE STYLES (CRITICAL FIXES)
      ========================================= */
   @media (max-width: 768px) {
-    /* Swap Images */
-    .desktop-img { display: none !important; }
-    .mobile-img { display: block !important; }
+    /* Swap Images handled by picture tag */
+    /* .desktop-img, .mobile-img removed */
 
     /* 1. Backdrop (Added Blur) */
     .origin-global-backdrop {
@@ -397,8 +397,8 @@
   }
 
   @media (min-width: 769px) {
-    .mobile-img { display: none !important; }
-    .desktop-img { display: block !important; }
+    /* Images handled by picture tag */
+    /* .desktop-img, .mobile-img removed */
     
     /* Hide the mobile wrapper div on desktop to avoid layout issues */
     .mobile-card-bottom-row {
@@ -416,19 +416,18 @@
       </div>
     {% endif %}
 
-    <!-- IMAGE LOGIC: Fallback to desktop if mobile is missing -->
+    <!-- IMAGE LOGIC: Responsive Picture Tag -->
     {% assign mobile_image = section.settings.image_mobile | default: section.settings.image_desktop %}
-
     {% if section.settings.image_desktop %}
-      {{ section.settings.image_desktop | image_url: width: 2400 | image_tag: class: 'desktop-img', loading: 'lazy' }}
+      <picture class="origin-shop-look__picture">
+        {% if section.settings.image_mobile %}
+          <source media="(max-width: 768px)" srcset="{{ section.settings.image_mobile | image_url: width: 1200 }}">
+        {% endif %}
+        <source media="(min-width: 769px)" srcset="{{ section.settings.image_desktop | image_url: width: 2400 }}">
+        {{ section.settings.image_desktop | image_url: width: 2400 | image_tag: class: 'origin-shop-look__img', loading: 'lazy' }}
+      </picture>
     {% else %}
-      {{ 'lifestyle-2' | placeholder_svg_tag: 'desktop-img' }}
-    {% endif %}
-
-    {% if mobile_image %}
-      {{ mobile_image | image_url: width: 1200 | image_tag: class: 'mobile-img', loading: 'lazy' }}
-    {% else %}
-      {{ 'lifestyle-2' | placeholder_svg_tag: 'mobile-img' }}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'origin-shop-look__img' }}
     {% endif %}
 
     <!-- 1. HOTSPOT DOTS -->
