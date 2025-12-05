@@ -1,23 +1,181 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
 <style type="text/css">
-  .template-404 .title + * {
+  .template-404 {
+    text-align: center;
+    padding: 6rem 2rem;
+  }
+
+  /* HERO TYPE */
+  .template-404__title {
+    font-family: var(--font-heading-family);
+    font-size: 8rem;
+    line-height: 1;
+    margin: 0;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  .template-404__subtext {
+    font-size: 1.8rem;
     margin-top: 1rem;
+    opacity: 0;
+    animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* SEARCH BAR */
+  .template-404__search {
+    max-width: 40rem;
+    margin: 4rem auto;
+    position: relative;
+    opacity: 0;
+    animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards;
+  }
+
+  .template-404__search-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid currentColor;
+    padding: 1rem 0;
+    font-size: 1.6rem;
+    font-family: inherit;
+    color: currentColor;
+    border-radius: 0;
+  }
+  
+  .template-404__search-input:focus {
+    outline: none;
+    border-bottom-width: 2px;
+  }
+
+  .template-404__search-btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: currentColor;
+  }
+
+  /* DISCOVERY / COLLECTION */
+  .template-404__discovery {
+    margin-top: 8rem;
+    opacity: 0;
+    animation: fadeIn 1.5s ease 0.8s forwards;
+  }
+  
+  .template-404__discovery h2 {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 3rem;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   @media screen and (min-width: 750px) {
-    .template-404 .title + * {
-      margin-top: 2rem;
-    }
+    .template-404__title { font-size: 12rem; }
   }
 </style>
 
-<div class="template-404 page-width page-margin center">
-  <p>
-    {{ 'templates.404.subtext' | t }}
+<div class="template-404 page-width center">
+  
+  <!-- HERO SECTION -->
+  <p class="template-404__subtext">
+    {{ section.settings.subtext | default: 'Page Not Found' }}
   </p>
-  <h1 class="title">
-    {{ 'templates.404.title' | t }}
+  <h1 class="template-404__title">
+    404
   </h1>
-  <a href="{{ routes.all_products_collection_url }}" class="button">
+  
+  <!-- SEARCH FORM -->
+  <div class="template-404__search">
+    <form action="{{ routes.search_url }}" method="get" role="search">
+      <input
+        class="template-404__search-input"
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="{{ 'general.search.search' | t }}"
+        aria-label="{{ 'general.search.search' | t }}"
+      >
+      <button type="submit" class="template-404__search-btn" aria-label="{{ 'general.search.search' | t }}">
+        <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-search" viewBox="0 0 64 64" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="28" cy="28" r="20"/>
+          <line x1="42.4" y1="42.4" x2="60" y2="60"/>
+        </svg>
+      </button>
+      <input type="hidden" name="type" value="product">
+    </form>
+  </div>
+
+  <a href="{{ routes.root_url }}" class="button button--secondary">
     {{ 'general.continue_shopping' | t }}
   </a>
+
+  <!-- CURATED DISCOVERY -->
+  {%- if section.settings.collection != blank -%}
+    <div class="template-404__discovery">
+      <h2>{{ section.settings.collection_heading | default: 'You Might Also Like' }}</h2>
+      <ul class="grid grid--2-col grid--4-col-desktop">
+        {%- for product in section.settings.collection.products limit: 4 -%}
+          <li class="grid__item">
+            {% render 'card-product',
+              card_product: product,
+              media_aspect_ratio: 'adapt',
+              show_secondary_image: true,
+              show_vendor: false,
+              show_rating: false
+            %}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+
 </div>
+
+{% schema %}
+{
+  "name": "404 Page",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Misplaced?"
+    },
+    {
+      "type": "header",
+      "content": "Curated Discovery"
+    },
+    {
+      "type": "text",
+      "id": "collection_heading",
+      "label": "Collection Heading",
+      "default": "The Archive Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Featured Collection to Show"
+    }
+  ]
+}
+{% endschema %}
