@@ -25,7 +25,6 @@
   }
 
   /* --- Container Safety --- */
-  /* This prevents the sidebar from crushing the grid */
   .product-grid-container {
     flex: 1;
     min-width: 0; 
@@ -50,10 +49,9 @@
     box-shadow: 0 0 0 1px rgba(var(--color-foreground), 0.5);
   }
 
-  /* --- AMAZING GRID SYSTEM (Robust) --- */
+  /* --- AMAZING GRID SYSTEM --- */
   .amazing-grid {
     display: grid;
-    /* Mobile: 2 columns by default for modern look */
     grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr); 
     gap: 16px;
     list-style: none;
@@ -64,17 +62,15 @@
 
   @media screen and (min-width: 750px) {
     .amazing-grid {
-      /* Desktop: defined by settings */
       grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
       gap: 24px;
     }
   }
 
   /* --- CARD COMPONENT --- */
-  /* We use a custom class for the list item to avoid theme conflicts */
   .amazing-grid-item {
     position: relative;
-    width: 100%; /* Force full width of the grid cell */
+    width: 100%;
     display: flex;
     flex-direction: column;
   }
@@ -98,7 +94,6 @@
     border-color: transparent;
   }
 
-  /* Clickable Area */
   .amazing-card__link {
     position: absolute;
     top: 0;
@@ -116,15 +111,14 @@
     display: block;
     overflow: hidden;
     background-color: #f0f0f0;
-    /* Default Square aspect ratio if CSS loads late */
     aspect-ratio: 1 / 1; 
   }
 
-  /* Force aspect ratio using padding hack for max compatibility */
   .ratio-square .amazing-card__media-wrapper { padding-top: 100%; aspect-ratio: auto; }
   .ratio-portrait .amazing-card__media-wrapper { padding-top: 125%; aspect-ratio: auto; }
   .ratio-landscape .amazing-card__media-wrapper { padding-top: 66.66%; aspect-ratio: auto; }
 
+  /* --- IMAGE SWAP LOGIC (FIXED) --- */
   .amazing-card__image {
     position: absolute;
     top: 0;
@@ -132,22 +126,36 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
+  }
+
+  .primary-image {
+    z-index: 1;
+    opacity: 1;
+  }
+
+  .secondary-image {
+    z-index: 2;
+    opacity: 0;
   }
 
   /* Hover Effects */
+  
+  /* 1. Zoom primary image on hover */
   .amazing-card:hover .primary-image {
     transform: scale(1.08);
   }
 
-  .secondary-image {
-    opacity: 0;
-    z-index: 2;
-  }
-
+  /* 2. Fade in secondary image on hover */
   .amazing-card:hover .secondary-image {
     opacity: 1;
     transform: scale(1.08);
+  }
+
+  /* 3. CRITICAL FIX: Fade OUT primary image on hover IF a secondary image exists.
+     This prevents "seeing both" if images are transparent PNGs */
+  .amazing-card:hover .media-has-secondary .primary-image {
+    opacity: 0;
   }
 
   /* Badges */
@@ -177,7 +185,7 @@
     flex-grow: 1;
     text-align: {{ section.settings.text_alignment }};
     background: #fff;
-    z-index: 2; /* Ensure text sits above background */
+    z-index: 2;
   }
 
   .amazing-card__vendor {
@@ -194,7 +202,7 @@
     margin: 0 0 10px 0;
     color: rgb(var(--color-foreground));
     line-height: 1.3;
-    word-break: break-word; /* Prevents text overflow */
+    word-break: break-word;
   }
 
   .amazing-card__price {
@@ -312,7 +320,6 @@
               
               <ul class="amazing-grid" role="list">
                 {%- for item in search.results -%}
-                  <!-- Removed 'grid__item' class to prevent theme conflict -->
                   <li class="amazing-grid-item scroll-trigger animate--slide-in {{ ratio_class }}">
                     
                     {%- case item.object_type -%}
@@ -320,8 +327,13 @@
                         <div class="amazing-card">
                           <a href="{{ item.url }}" class="amazing-card__link"><span class="visually-hidden">{{ item.title }}</span></a>
                           
-                          <!-- Image Wrapper -->
-                          <div class="amazing-card__media-wrapper">
+                          {%- assign has_secondary = false -%}
+                          {%- if item.media[1] != nil and section.settings.show_secondary_image -%}
+                            {%- assign has_secondary = true -%}
+                          {%- endif -%}
+
+                          <!-- Image Wrapper with Conditional Class -->
+                          <div class="amazing-card__media-wrapper {% if has_secondary %}media-has-secondary{% endif %}">
                             {%- if item.available == false -%}
                               <span class="amazing-card__badge badge-soldout">{{ 'products.product.sold_out' | t }}</span>
                             {%- elsif item.compare_at_price > item.price and item.available -%}
@@ -337,7 +349,7 @@
                                 height="{{ 600 | divided_by: item.featured_media.aspect_ratio | ceil }}"
                                 class="amazing-card__image primary-image"
                               >
-                              {%- if item.media[1] != nil and section.settings.show_secondary_image -%}
+                              {%- if has_secondary -%}
                                 <img
                                   src="{{ item.media[1] | image_url: width: 600 }}"
                                   alt="{{ item.media[1].alt | escape }}"
@@ -376,7 +388,14 @@
                           <a href="{{ item.url }}" class="amazing-card__link"></a>
                           <div class="amazing-card__media-wrapper">
                             {% if item.image %}
-                               <img src="{{ item.image | image_url: width: 600 }}" class="amazing-card__image primary-image" loading="lazy" alt="{{ item.image.alt }}" width="600" height="{{ 600 | divided_by: item.image.aspect_ratio | ceil }}">
+                               <img
+                                src="{{ item.image | image_url: width: 600 }}"
+                                class="amazing-card__image primary-image"
+                                loading="lazy"
+                                alt="{{ item.image.alt }}"
+                                width="600"
+                                height="{{ 600 | divided_by: item.image.aspect_ratio | ceil }}"
+                               >
                             {% else %}
                                {{ 'image' | placeholder_svg_tag: 'placeholder-svg amazing-card__image' }}
                             {% endif %}
