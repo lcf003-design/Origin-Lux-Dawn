@@ -161,7 +161,6 @@
   ]
 }
 {% endschema %}
-
 {% style %}
   /* Load the selected fonts */
   {{ section.settings.font_huge_logo | font_face: font_display: 'swap' }}
@@ -322,25 +321,22 @@
   }
 
   /* --- SMART HEADER: STANDARD PAGE OVERRIDES --- */
-  /* This runs on everything EXCEPT the Homepage */
-  
   .origin-gucci-header.is-standard-page {
-    position: sticky; /* Sit in the flow, but stick to top */
+    position: sticky; 
     top: 0;
-    height: auto;     /* Take up physical space */
+    height: auto;     
     background-color: var(--header-bg-shrunk);
     border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
   .origin-gucci-header.is-standard-page .origin-sticky-bar {
-    position: relative; /* Sit inside the wrapper */
-    background-color: transparent; /* Wrapper handles bg */
-    color: var(--header-text-shrunk); /* Force dark text */
+    position: relative; 
+    background-color: transparent; 
+    color: var(--header-text-shrunk); 
     padding-top: 12px;
     padding-bottom: 12px;
   }
 
-  /* Force Small Logo Visible Immediately */
   .origin-gucci-header.is-standard-page .origin-sticky-bar__logo {
     opacity: 1;
     visibility: visible;
@@ -348,13 +344,11 @@
     pointer-events: auto;
   }
 
-  /* Hide Huge Logo Entirely */
   .origin-gucci-header.is-standard-page .origin-huge-logo-wrapper {
     display: none !important;
   }
 
-
-  /* --- ICONS & MENU --- */
+  /* --- ICONS & MENU ACTIONS --- */
   .origin-sticky-bar__menu, 
   .origin-sticky-bar__actions {
     display: flex;
@@ -383,47 +377,65 @@
     pointer-events: auto !important;
     text-decoration: none;
     position: relative;
+    overflow: hidden;
   }
 
-  .origin-icon-button svg,
-  .origin-sticky-button svg {
+  /* --- ANIMATED HAMBURGER ICON --- */
+  .origin-hamburger-box {
     width: 24px;
     height: 24px;
-    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .origin-hamburger-line {
+    width: 24px;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 2px;
+    position: absolute;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+
+  .origin-hamburger-line:nth-child(1) { transform: translateY(-7px); }
+  .origin-hamburger-line:nth-child(2) { transform: translateY(0); }
+  .origin-hamburger-line:nth-child(3) { transform: translateY(7px); }
+
+  /* Active State (The X) */
+  .origin-sticky-button.is-active .origin-hamburger-line:nth-child(1) {
+    transform: rotate(45deg);
+  }
+  .origin-sticky-button.is-active .origin-hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  .origin-sticky-button.is-active .origin-hamburger-line:nth-child(3) {
+    transform: rotate(-45deg);
   }
 
   /* --- MOBILE STYLES --- */
   @media (max-width: 749px) {
-    .origin-huge-logo-inner {
-      width: var(--logo-width-mobile);
-    }
-    .origin-huge-logo-inner.is-full-width {
-      width: 100vw;
-    }
-    .origin-huge-logo-text {
-      font-size: var(--huge-logo-size-mobile);
-    }
-    .origin-sticky-bar {
-      padding: 12px 16px;
-    }
-    .origin-sticky-bar__actions {
-      gap: 8px;
-    }
-    .origin-icon-button, .origin-sticky-button {
-      padding: 6px;
-    }
+    .origin-huge-logo-inner { width: var(--logo-width-mobile); }
+    .origin-huge-logo-inner.is-full-width { width: 100vw; }
+    .origin-huge-logo-text { font-size: var(--huge-logo-size-mobile); }
+    .origin-sticky-bar { padding: 12px 16px; }
+    .origin-sticky-bar__actions { gap: 8px; }
+    .origin-icon-button, .origin-sticky-button { padding: 6px; }
   }
 
   /* --- DRAWER COMMONS --- */
   .origin-overlay-base {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5); 
-    backdrop-filter: blur(4px);
+    background: rgba(0,0,0,0.4); 
+    backdrop-filter: blur(8px); 
     z-index: 2147483647; 
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s;
+    transition: opacity 0.4s ease, visibility 0.4s;
     pointer-events: auto;
   }
   
@@ -432,16 +444,17 @@
     visibility: visible;
   }
 
-  /* --- MENU DRAWER SPECIFIC --- */
+  /* --- MENU DRAWER --- */
   .origin-menu-drawer {
-    background: rgba(0, 0, 0, 0.5); 
-    backdrop-filter: blur(20px);
-    width: 320px;
-    max-width: 85vw;
+    /* Premium dark gradient */
+    background: linear-gradient(145deg, rgba(15,15,15,0.95) 0%, rgba(30,30,30,0.98) 100%);
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+    width: 360px;
+    max-width: 90vw;
     height: 100%;
-    padding: 30px;
-    transform: translateX(-100%);
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    padding: 40px 30px;
+    transform: translateX(-102%);
+    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     display: flex;
     flex-direction: column;
     color: var(--menu-text-color); 
@@ -454,26 +467,39 @@
   }
 
   .origin-menu-close {
-    align-self: flex-end;
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 20px;
-    color: var(--menu-text-color); 
+    display: none; 
   }
   
   .origin-menu-list {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 40px 0 0 0;
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 15px;
   }
 
   .origin-menu-item {
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    opacity: 0; 
+    transform: translateY(15px);
   }
+
+  /* Staggered Animation Trigger */
+  .origin-overlay-base.is-open .origin-menu-item {
+    animation: originFadeSlideUp 0.6s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  @keyframes originFadeSlideUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .origin-overlay-base.is-open .origin-menu-item:nth-child(1) { animation-delay: 0.1s; }
+  .origin-overlay-base.is-open .origin-menu-item:nth-child(2) { animation-delay: 0.15s; }
+  .origin-overlay-base.is-open .origin-menu-item:nth-child(3) { animation-delay: 0.2s; }
+  .origin-overlay-base.is-open .origin-menu-item:nth-child(4) { animation-delay: 0.25s; }
+  .origin-overlay-base.is-open .origin-menu-item:nth-child(5) { animation-delay: 0.3s; }
+  .origin-overlay-base.is-open .origin-menu-item:nth-child(6) { animation-delay: 0.35s; }
 
   .origin-menu-link-wrapper {
     display: flex;
@@ -481,35 +507,50 @@
     align-items: center;
     padding: 15px 0;
     cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .origin-menu-link-wrapper:hover {
+    transform: translateX(10px); 
   }
 
   .origin-menu-list a {
     text-decoration: none;
     color: var(--menu-text-color); 
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 22px;
+    font-weight: 400;
     text-transform: uppercase;
     flex-grow: 1;
+    letter-spacing: 0.05em;
+    transition: opacity 0.3s;
+  }
+
+  .origin-menu-link-wrapper:hover a {
+    opacity: 0.7;
   }
 
   .origin-menu-accordion-icon {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     transition: transform 0.3s ease;
+    opacity: 0.7;
   }
 
-  /* SUBMENU STYLES */
+  /* --- SUBMENU STYLES (Level 2) --- */
   .origin-submenu {
     display: none;
     list-style: none;
     padding: 0;
     margin: 0;
-    background: rgba(255,255,255,0.05); 
+    background: rgba(255,255,255,0.03); 
+    border-radius: 4px;
   }
 
   .origin-submenu.is-open {
     display: block;
+    animation: originFadeIn 0.3s ease;
   }
+  @keyframes originFadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   .origin-submenu li {
     padding-left: 20px; 
@@ -517,25 +558,64 @@
   }
 
   .origin-submenu li a {
-    font-size: 15px; 
-    opacity: 0.9;
+    font-size: 16px; 
+    opacity: 0.8;
+    text-transform: none;
+    font-weight: 300;
   }
 
-  /* LEVEL 3 Indent */
-  .origin-submenu .origin-submenu li {
-    padding-left: 20px; 
-    background: rgba(0,0,0,0.2);
+  /* --- LEVEL 3 STYLING (The new Sub-subcategory pop) --- */
+  .origin-submenu .origin-submenu {
+    background: transparent; /* Remove heavy background */
+    margin: 10px 0 10px 10px;
+    border-left: 1px solid rgba(255,255,255,0.15); /* Tree guide line */
+    padding-left: 0;
+    border-radius: 0;
   }
+
+  .origin-submenu .origin-submenu li {
+    padding: 0;
+    border-bottom: none; /* Clean look */
+  }
+
   .origin-submenu .origin-submenu li a {
-    font-size: 14px;
-    opacity: 0.8;
-    text-transform: none; 
+    font-size: 15px;
+    opacity: 0.6;
+    padding: 8px 0 8px 15px; /* Spacing */
+    display: block;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  /* The Pop: Slide, brighten, and custom dot */
+  .origin-submenu .origin-submenu li a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 4px; 
+    height: 4px;
+    background-color: currentColor;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+
+  .origin-submenu .origin-submenu li a:hover {
+    opacity: 1;
+    color: #fff;
+    transform: translateX(5px); /* Slide right */
+  }
+
+  .origin-submenu .origin-submenu li a:hover::before {
+    opacity: 1;
   }
 
   /* --- SEARCH MODAL SPECIFIC --- */
   .origin-search-container {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(20px);
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(25px);
     width: 100%;
     height: 100%;
     display: flex;
@@ -598,22 +678,21 @@
   }
 
 {% endstyle %}
-
-<!-- Main Container -->
-<!-- Logic: IF NOT HOMEPAGE, Add 'is-standard-page' class -->
 <div id="origin-gucci-header-{{ section.id }}" 
      class="origin-gucci-header {% unless request.page_type == 'index' %}is-standard-page{% endunless %}" 
      data-section-id="{{ section.id }}">
   
-  <!-- 1. STICKY BAR (Nav) -->
   <header class="origin-sticky-bar">
     <div class="origin-sticky-bar__menu">
-      <button class="origin-sticky-button" type="button" aria-label="Menu" id="origin-menu-trigger-{{ section.id }}">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+      <button class="origin-sticky-button" type="button" aria-label="Menu" id="origin-menu-trigger-{{ section.id }}" style="z-index: 2147483650;">
+        <div class="origin-hamburger-box">
+          <span class="origin-hamburger-line"></span>
+          <span class="origin-hamburger-line"></span>
+          <span class="origin-hamburger-line"></span>
+        </div>
       </button>
     </div>
 
-    <!-- Small Logo -->
     <div class="origin-sticky-bar__logo">
       <a href="{{ routes.root_url }}">
         {% if section.settings.logo_image %}
@@ -628,30 +707,26 @@
     </div>
 
     <div class="origin-sticky-bar__actions">
-      <!-- Search Trigger -->
       <button type="button" class="origin-icon-button" aria-label="Search" id="origin-search-trigger-{{ section.id }}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       </button>
       
-      <!-- Account Link -->
       {% if shop.customer_accounts_enabled %}
         <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" 
            class="origin-icon-button" 
            aria-label="Account" 
            onclick="window.location.href = this.href; return false;"
            style="pointer-events: auto !important; z-index: 2147483647;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </a>
       {% endif %}
 
-      <!-- Cart -->
       <a href="{{ routes.cart_url }}" class="origin-icon-button" aria-label="Cart" style="pointer-events: auto;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2zM6 5H4V3h2l.6 3h13.8l.6-3H23v2h-2"/><path d="M6 5l1.5 10h11L20 5"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2zM6 5H4V3h2l.6 3h13.8l.6-3H23v2h-2"/><path d="M6 5l1.5 10h11L20 5"/></svg>
       </a>
     </div>
   </header>
 
-  <!-- 2. HUGE LOGO OVERLAY -->
   <div class="origin-huge-logo-wrapper">
     <div class="origin-huge-logo-inner {% if section.settings.full_width_logo %}is-full-width{% endif %}">
       {% if section.settings.logo_image %}
@@ -667,12 +742,8 @@
     </div>
   </div>
 
-  <!-- 3. MOBILE MENU DRAWER -->
   <div class="origin-menu-overlay origin-overlay-base" id="origin-menu-overlay-{{ section.id }}">
     <div class="origin-menu-drawer">
-      <button class="origin-menu-close" id="origin-menu-close-{{ section.id }}" aria-label="Close">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
       <nav>
         <ul class="origin-menu-list">
           {% for link in linklists[section.settings.menu].links %}
@@ -722,7 +793,6 @@
     </div>
   </div>
 
-  <!-- 4. SEARCH MODAL OVERLAY -->
   <div class="origin-search-overlay origin-overlay-base" id="origin-search-overlay-{{ section.id }}">
     <div class="origin-search-container">
       <button class="origin-search-close" id="origin-search-close-{{ section.id }}" aria-label="Close search">
@@ -743,7 +813,6 @@
   </div>
 
 </div>
-
 <script>
   (function() {
     const sectionId = "{{ section.id }}";
@@ -754,7 +823,6 @@
     // --- 1. Scroll Logic ---
     const handleScroll = () => {
       const scrollY = window.scrollY || document.documentElement.scrollTop;
-      // Note: On standard pages, CSS overrides ensure styles are correct regardless of this class
       if (scrollY > 20) {
         headerContainer.classList.add('is-shrunk');
       } else {
@@ -778,28 +846,39 @@
       }
     };
 
-    // --- 3. Menu Listeners ---
+    // --- 3. Menu Listeners & Burger Animation ---
     const menuTrigger = document.getElementById(`origin-menu-trigger-${sectionId}`);
-    const menuClose = document.getElementById(`origin-menu-close-${sectionId}`);
     const menuOverlayId = `origin-menu-overlay-${sectionId}`;
+    let isMenuOpen = false;
 
     if (menuTrigger) {
       menuTrigger.addEventListener('click', (e) => {
         e.preventDefault();
-        toggleOverlay(menuOverlayId, true);
-      });
-    }
-    if (menuClose) {
-      menuClose.addEventListener('click', (e) => {
-        e.preventDefault();
-        toggleOverlay(menuOverlayId, false);
+        isMenuOpen = !isMenuOpen;
+        
+        toggleOverlay(menuOverlayId, isMenuOpen);
+        
+        if (isMenuOpen) {
+            menuTrigger.classList.add('is-active');
+            menuTrigger.style.color = 'var(--menu-text-color)';
+        } else {
+            menuTrigger.classList.remove('is-active');
+            menuTrigger.style.color = '';
+        }
       });
     }
 
     const menuOverlay = document.getElementById(menuOverlayId);
     if (menuOverlay) {
       menuOverlay.addEventListener('click', (e) => {
-        if (e.target === menuOverlay) toggleOverlay(menuOverlayId, false);
+        if (e.target === menuOverlay) {
+            toggleOverlay(menuOverlayId, false);
+            isMenuOpen = false;
+            if(menuTrigger) {
+                menuTrigger.classList.remove('is-active');
+                menuTrigger.style.color = '';
+            }
+        }
       });
     }
 
@@ -815,7 +894,6 @@
           
           if (submenu) {
             const isOpen = submenu.classList.contains('is-open');
-            // Toggle
             if (isOpen) {
               submenu.classList.remove('is-open');
               if(icon) icon.style.transform = 'rotate(0deg)';
@@ -855,10 +933,14 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         toggleOverlay(menuOverlayId, false);
+        isMenuOpen = false;
+        if(menuTrigger) {
+            menuTrigger.classList.remove('is-active');
+            menuTrigger.style.color = '';
+        }
         toggleOverlay(searchOverlayId, false);
       }
     });
 
   })();
 </script>
-

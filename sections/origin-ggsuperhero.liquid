@@ -1,0 +1,545 @@
+{% schema %}
+{
+  "name": "Origin GG Hero",
+  "class": "origin-hero-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout & Background"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000",
+      "info": "Visible behind transparent images or while loading."
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "Section Height",
+      "default": "100vh",
+      "options": [
+        { "value": "100vh", "label": "Full Screen" },
+        { "value": "80vh", "label": "Large" },
+        { "value": "60vh", "label": "Medium" },
+        { "value": "auto", "label": "Adapt to Image" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Content Position",
+      "default": "center",
+      "options": [
+        { "value": "top-left", "label": "Top Left" },
+        { "value": "top-center", "label": "Top Center" },
+        { "value": "top-right", "label": "Top Right" },
+        { "value": "center-left", "label": "Center Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "center-right", "label": "Center Right" },
+        { "value": "bottom-left", "label": "Bottom Left" },
+        { "value": "bottom-center", "label": "Bottom Center" },
+        { "value": "bottom-right", "label": "Bottom Right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "video",
+      "id": "video_desktop",
+      "label": "Desktop Video (Optional)",
+      "info": "MP4 or Shopify hosted video. Replaces image."
+    },
+    {
+      "type": "video",
+      "id": "video_mobile",
+      "label": "Mobile Video (Optional)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading_text",
+          "label": "Heading",
+          "default": "THE COLLECTION"
+        },
+        {
+          "type": "range",
+          "id": "font_size_desktop",
+          "min": 20,
+          "max": 120,
+          "step": 2,
+          "unit": "px",
+          "label": "Font Size (Desktop)",
+          "default": 80
+        },
+        {
+          "type": "range",
+          "id": "font_size_mobile",
+          "min": 20,
+          "max": 80,
+          "step": 2,
+          "unit": "px",
+          "label": "Font Size (Mobile)",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "min": 0,
+          "max": 60,
+          "step": 4,
+          "unit": "px",
+          "label": "Bottom Margin",
+          "default": 20
+        }
+      ]
+    },
+    {
+      "type": "subheading",
+      "name": "Subheading",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "New Arrivals"
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "min": 0,
+          "max": 60,
+          "step": 4,
+          "unit": "px",
+          "label": "Bottom Margin",
+          "default": 16
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Body Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Content",
+          "default": "<p>Discover the latest campaign.</p>"
+        }
+      ]
+    },
+    {
+      "type": "buttons_group",
+      "name": "Button Group",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Button 1"
+        },
+        {
+          "type": "text",
+          "id": "btn_label_1",
+          "label": "Label",
+          "default": "SHOP WOMEN"
+        },
+        {
+          "type": "url",
+          "id": "btn_link_1",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Button 2"
+        },
+        {
+          "type": "text",
+          "id": "btn_label_2",
+          "label": "Label",
+          "default": "SHOP MEN"
+        },
+        {
+          "type": "url",
+          "id": "btn_link_2",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Style"
+        },
+        {
+          "type": "color",
+          "id": "btn_bg",
+          "label": "Button Background",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "btn_text",
+          "label": "Button Text",
+          "default": "#000000"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin GG Hero",
+      "blocks": [
+        { "type": "subheading" },
+        { "type": "heading" },
+        { "type": "buttons_group" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+{% style %}
+  .origin-hero {
+    position: relative;
+    width: 100%;
+    /* Use CSS Variable for height setting */
+    height: {{ section.settings.section_height }};
+    min-height: 500px;
+    overflow: hidden;
+    background-color: {{ section.settings.bg_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* --- PARALLAX BACKGROUND --- */
+  .origin-hero__media-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%; /* Taller for parallax */
+    z-index: 0;
+    will-change: transform;
+    transform: translateY(0);
+  }
+
+  .origin-hero__media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .origin-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* --- CONTENT WRAPPER (GRID) --- */
+  .origin-hero__content-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    padding: 60px 40px;
+    display: flex;
+    pointer-events: none; /* Let clicks pass through empty space */
+  }
+
+  .origin-hero__inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertical alignment default */
+    pointer-events: auto;
+    color: {{ section.settings.text_color }};
+  }
+
+  /* --- POSITION LOGIC --- */
+  /* Horizontal */
+  .pos-left { align-items: flex-start; text-align: left; }
+  .pos-center { align-items: center; text-align: center; }
+  .pos-right { align-items: flex-end; text-align: right; }
+
+  /* Vertical Mapping via Flex in Parent */
+  .origin-hero-v-top { align-items: flex-start; }
+  .origin-hero-v-center { align-items: center; }
+  .origin-hero-v-bottom { align-items: flex-end; }
+
+  /* --- BLOCKS TYPOGRAPHY --- */
+  .origin-hero__heading {
+    margin: 0;
+    line-height: 0.9;
+    text-transform: uppercase;
+    font-family: serif; 
+    font-weight: 400;
+  }
+
+  .origin-hero__subheading {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  .origin-hero__text p {
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  /* --- BUTTON GROUP (The Fix for Even Buttons) --- */
+  .origin-hero__btn-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  /* Alignment inside the group based on text-align */
+  .pos-center .origin-hero__btn-group { justify-content: center; }
+  .pos-right .origin-hero__btn-group { justify-content: flex-end; }
+  .pos-left .origin-hero__btn-group { justify-content: flex-start; }
+
+  .origin-hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    /* This min-width ensures evenness */
+    min-width: 180px; 
+    flex: 1; /* Grow evenly on mobile */
+    max-width: 300px; /* Don't get too wide */
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .origin-hero-btn:hover {
+    opacity: 0.8;
+  }
+
+  /* --- ANIMATIONS --- */
+  .hero-block-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .origin-hero.is-loaded .hero-block-animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Stagger based on order */
+  .origin-hero__inner > *:nth-child(1) { transition-delay: 0.1s; }
+  .origin-hero__inner > *:nth-child(2) { transition-delay: 0.2s; }
+  .origin-hero__inner > *:nth-child(3) { transition-delay: 0.3s; }
+  .origin-hero__inner > *:nth-child(4) { transition-delay: 0.4s; }
+
+  /* --- MOBILE --- */
+  @media (max-width: 768px) {
+    .origin-hero__content-wrapper { padding: 40px 20px; }
+    .origin-hero-btn { width: 100%; max-width: 100%; }
+    .origin-hero__btn-group { flex-direction: column; gap: 10px; }
+    
+    .hidden-mobile { display: none !important; }
+    .hidden-desktop { display: block !important; }
+  }
+  @media (min-width: 769px) {
+    .hidden-desktop { display: none !important; }
+  }
+{% endstyle %}
+{%- liquid
+  # Determine Vertical and Horizontal classes based on setting
+  assign pos_vertical = 'origin-hero-v-center'
+  assign pos_horizontal = 'pos-center'
+  
+  if section.settings.content_position contains 'top'
+    assign pos_vertical = 'origin-hero-v-top'
+  elsif section.settings.content_position contains 'bottom'
+    assign pos_vertical = 'origin-hero-v-bottom'
+  endif
+
+  if section.settings.content_position contains 'left'
+    assign pos_horizontal = 'pos-left'
+  elsif section.settings.content_position contains 'right'
+    assign pos_horizontal = 'pos-right'
+  endif
+-%}
+
+<div class="origin-hero" id="OriginHero-{{ section.id }}">
+  
+  <div class="origin-hero__media-container" id="HeroParallax-{{ section.id }}">
+    
+    <div class="hidden-mobile" style="width: 100%; height: 100%;">
+      {% if section.settings.video_desktop %}
+        {{ section.settings.video_desktop | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'origin-hero__media', image_size: '2000x' }}
+      {% elsif section.settings.image_desktop %}
+        <img src="{{ section.settings.image_desktop | image_url: width: 2400 }}" width="{{ section.settings.image_desktop.width }}" height="{{ section.settings.image_desktop.height }}" class="origin-hero__media" alt="" loading="eager">
+      {% else %}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'origin-hero__media' }}
+      {% endif %}
+    </div>
+
+    <div class="hidden-desktop" style="width: 100%; height: 100%;">
+      {% if section.settings.video_mobile %}
+        {{ section.settings.video_mobile | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'origin-hero__media', image_size: '1000x' }}
+      {% elsif section.settings.image_mobile %}
+        <img src="{{ section.settings.image_mobile | image_url: width: 1200 }}" width="{{ section.settings.image_mobile.width }}" height="{{ section.settings.image_mobile.height }}" class="origin-hero__media" alt="" loading="eager">
+      {% else %}
+        {% if section.settings.image_desktop %}
+          <img src="{{ section.settings.image_desktop | image_url: width: 1200 }}" width="{{ section.settings.image_desktop.width }}" height="{{ section.settings.image_desktop.height }}" class="origin-hero__media" alt="" loading="eager">
+        {% else %}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'origin-hero__media' }}
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="origin-hero__overlay"></div>
+
+  <div class="origin-hero__content-wrapper {{ pos_vertical }}">
+    <div class="origin-hero__inner {{ pos_horizontal }}">
+      
+      {% for block in section.blocks %}
+        {% case block.type %}
+          
+          {% when 'heading' %}
+            <h2 class="origin-hero__heading hero-block-animate" {{ block.shopify_attributes }}
+                style="margin-bottom: {{ block.settings.margin_bottom }}px; font-size: {{ block.settings.font_size_desktop }}px;">
+              {{ block.settings.heading_text }}
+              <style>
+                @media(max-width:768px) { 
+                  #OriginHero-{{ section.id }} h2 { font-size: {{ block.settings.font_size_mobile }}px !important; } 
+                }
+              </style>
+            </h2>
+
+          {% when 'subheading' %}
+            <p class="origin-hero__subheading hero-block-animate" {{ block.shopify_attributes }}
+               style="margin-bottom: {{ block.settings.margin_bottom }}px;">
+              {{ block.settings.text }}
+            </p>
+
+          {% when 'text' %}
+            <div class="origin-hero__text hero-block-animate" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </div>
+
+          {% when 'buttons_group' %}
+            <div class="origin-hero__btn-group hero-block-animate" {{ block.shopify_attributes }}>
+              
+              {% style %}
+                /* Dynamic button colors for this specific block */
+                #btn-group-{{ block.id }} .origin-hero-btn {
+                  background-color: {{ block.settings.btn_bg }};
+                  color: {{ block.settings.btn_text }};
+                  border: 1px solid {{ block.settings.btn_bg }};
+                }
+                #btn-group-{{ block.id }} .origin-hero-btn:hover {
+                  background-color: transparent;
+                  color: {{ section.settings.text_color }};
+                  border-color: {{ section.settings.text_color }};
+                }
+              {% endstyle %}
+
+              <div id="btn-group-{{ block.id }}" style="display:contents;">
+                {% if block.settings.btn_label_1 != blank %}
+                  <a href="{{ block.settings.btn_link_1 }}" class="origin-hero-btn">
+                    {{ block.settings.btn_label_1 }}
+                  </a>
+                {% endif %}
+                
+                {% if block.settings.btn_label_2 != blank %}
+                  <a href="{{ block.settings.btn_link_2 }}" class="origin-hero-btn">
+                    {{ block.settings.btn_label_2 }}
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+
+        {% endcase %}
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const section = document.getElementById('OriginHero-{{ section.id }}');
+    const parallaxBg = document.getElementById('HeroParallax-{{ section.id }}');
+
+    // 1. Trigger Entrance Animation
+    setTimeout(() => {
+      if(section) section.classList.add('is-loaded');
+    }, 100);
+
+    // 2. Parallax Effect Logic
+    function handleParallax() {
+      if(!section || !parallaxBg) return;
+      const scrollY = window.scrollY;
+      const sectionHeight = section.offsetHeight;
+      
+      if (scrollY <= sectionHeight) {
+        const yPos = scrollY * 0.4; 
+        parallaxBg.style.transform = `translateY(${yPos}px)`;
+      }
+    }
+
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          handleParallax();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  });
+</script>

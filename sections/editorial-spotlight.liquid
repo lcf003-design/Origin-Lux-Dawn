@@ -20,11 +20,17 @@
       "info": "Portrait Mode (9:16)"
     },
     {
+      "type": "checkbox",
+      "id": "lazy_load",
+      "label": "Lazy Load Image",
+      "default": true,
+      "info": "Uncheck this if this section is the first thing on the page (The Hero)."
+    },
+    {
       "type": "color",
       "id": "section_bg_color",
       "label": "Section Background Color",
-      "default": "#000000",
-      "info": "Useful if using transparent PNG images."
+      "default": "#000000"
     },
     {
       "type": "select",
@@ -46,7 +52,7 @@
       "step": 5,
       "unit": "%",
       "label": "Overlay Opacity",
-      "default": 0
+      "default": 10
     },
     {
       "type": "header",
@@ -89,8 +95,7 @@
       "type": "checkbox",
       "id": "mobile_text_below",
       "label": "Show text below image on mobile",
-      "default": true,
-      "info": "RECOMMENDED: Allows full mobile image to be seen without cropping."
+      "default": true
     },
     {
       "type": "color",
@@ -308,7 +313,6 @@
   ]
 }
 {% endschema %}
-
 {% style %}
   {{ section.settings.font_heading | font_face: font_display: 'swap' }}
   {{ section.settings.font_body | font_face: font_display: 'swap' }}
@@ -320,8 +324,7 @@
     display: flex;
     flex-direction: column;
     background-color: {{ section.settings.section_bg_color }};
-    
-    /* CSS Variables for Fonts */
+    /* Font Variables */
     --font-heading: {{ section.settings.font_heading.family }}, {{ section.settings.font_heading.fallback_families }};
     --font-body: {{ section.settings.font_body.family }}, {{ section.settings.font_body.fallback_families }};
   }
@@ -332,27 +335,32 @@
   .origin-spotlight--medium { height: 60vh; }
   .origin-spotlight--auto { height: auto; }
 
-  /* --- IMAGE LAYER --- */
+  /* --- PARALLAX IMAGE LAYER --- */
   .origin-spotlight__bg {
-    width: 100%;
-    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 1;
+    overflow: hidden; /* Clips the parallax image */
   }
 
-  .origin-spotlight--auto .origin-spotlight__bg {
-    position: relative;
-    height: auto;
-  }
+  .origin-spotlight--auto .origin-spotlight__bg { position: relative; height: auto; }
 
   .origin-spotlight__img {
     width: 100%;
-    height: 100%;
+    height: 115%; /* Taller for parallax room */
     object-fit: cover;
     display: block;
+    position: absolute;
+    top: 0; 
+    left: 0;
+    will-change: transform; /* Smooth performance */
   }
+  
+  /* Disable parallax CSS setup for auto height */
+  .origin-spotlight--auto .origin-spotlight__img { position: relative; height: 100%; }
 
   /* Overlay */
   .origin-spotlight__overlay {
@@ -361,15 +369,13 @@
     background: #000;
     opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
     z-index: 2;
+    pointer-events: none;
   }
 
-  /* --- CONTENT LAYER (CSS GRID) --- */
+  /* --- CONTENT LAYER --- */
   .origin-spotlight__content-wrapper {
     position: absolute; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%; 
+    top: 0; left: 0; width: 100%; height: 100%; 
     z-index: 3;
     pointer-events: none;
     padding: 60px 40px;
@@ -386,61 +392,67 @@
     pointer-events: auto;
   }
 
-  /* Grid Alignment */
+  /* Alignment Classes */
   .pos-top-left      { grid-column: 1; grid-row: 1; justify-self: start; align-self: start; text-align: left; }
   .pos-top-center    { grid-column: 2; grid-row: 1; justify-self: center; align-self: start; text-align: center; }
   .pos-top-right     { grid-column: 3; grid-row: 1; justify-self: end; align-self: start; text-align: right; }
-  
   .pos-center-left   { grid-column: 1; grid-row: 2; justify-self: start; align-self: center; text-align: left; }
   .pos-center        { grid-column: 2; grid-row: 2; justify-self: center; align-self: center; text-align: center; }
   .pos-center-right  { grid-column: 3; grid-row: 2; justify-self: end; align-self: center; text-align: right; }
-  
   .pos-bottom-left   { grid-column: 1; grid-row: 3; justify-self: start; align-self: end; text-align: left; }
   .pos-bottom-center { grid-column: 1 / span 3; grid-row: 3; justify-self: center; align-self: end; text-align: center; }
   .pos-bottom-right  { grid-column: 3; grid-row: 3; justify-self: end; align-self: end; text-align: right; }
 
+  /* --- ANIMATIONS ("THE POP") --- */
+  .anim-item {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  
+  .origin-spotlight.is-visible .anim-item {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger delays */
+  .anim-delay-1 { transition-delay: 0.1s; }
+  .anim-delay-2 { transition-delay: 0.2s; }
+  .anim-delay-3 { transition-delay: 0.3s; }
+  .anim-delay-4 { transition-delay: 0.4s; }
+
   /* --- TYPOGRAPHY --- */
   .origin-spotlight__heading {
     margin: 0;
-    line-height: 0.9;
-    font-family: var(--font-heading); /* User Selected Font */
+    line-height: 0.95;
+    font-family: var(--font-heading);
     text-transform: uppercase;
     font-weight: 400;
   }
-
   .origin-spotlight__subheading {
     margin: 0;
     text-transform: uppercase;
     font-weight: 600;
     opacity: 0.9;
-    font-family: var(--font-body); /* User Selected Font */
+    font-family: var(--font-body);
   }
-
   .origin-spotlight__body p {
     margin: 0;
     font-size: 16px;
     line-height: 1.6;
-    font-family: var(--font-body); /* User Selected Font */
+    font-family: var(--font-body);
   }
 
   /* --- BUTTONS --- */
   .origin-spotlight__buttons {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-top: 10px;
+    display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;
   }
-  
   .pos-top-center .origin-spotlight__buttons,
   .pos-center .origin-spotlight__buttons,
-  .pos-bottom-center .origin-spotlight__buttons {
-    justify-content: center;
-  }
+  .pos-bottom-center .origin-spotlight__buttons { justify-content: center; }
   .pos-top-right .origin-spotlight__buttons,
   .pos-center-right .origin-spotlight__buttons,
-  .pos-bottom-right .origin-spotlight__buttons {
-    justify-content: flex-end;
-  }
+  .pos-bottom-right .origin-spotlight__buttons { justify-content: flex-end; }
 
   .origin-btn {
     display: inline-block;
@@ -453,119 +465,84 @@
     transition: all 0.3s ease;
     cursor: pointer;
     font-family: var(--font-body);
-    
-    /* CSS Variables assigned via inline style on the link */
     color: var(--btn-text);
     background-color: var(--btn-bg);
     border: 1px solid var(--btn-border);
   }
-
   .origin-btn:hover {
     color: var(--btn-hover-text);
     background-color: var(--btn-hover-bg);
     border-color: var(--btn-hover-border);
+    transform: translateY(-2px); /* Subtle lift on hover */
   }
 
-  /* Specific Override Logic for Styles */
-  /* Solid: Uses colors exactly as defined */
-  /* Outline: Transparent BG, Text color as border */
-  .origin-btn.btn-outline {
-    background-color: transparent;
-    color: var(--btn-text);
-    border-color: var(--btn-border);
-  }
-  .origin-btn.btn-outline:hover {
-    background-color: var(--btn-hover-bg); /* Usually solid on hover */
-    color: var(--btn-hover-text);
-    border-color: var(--btn-hover-border);
-  }
-
-  /* Underline: No box, just bottom border */
-  .origin-btn.btn-underline {
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid var(--btn-border);
-    padding: 10px 0;
-  }
-  .origin-btn.btn-underline:hover {
-    background-color: transparent;
-    opacity: 0.7;
-    color: var(--btn-hover-text);
-    border-bottom-color: var(--btn-hover-border);
-  }
+  .origin-btn.btn-outline { background-color: transparent; color: var(--btn-text); border-color: var(--btn-border); }
+  .origin-btn.btn-outline:hover { background-color: var(--btn-hover-bg); color: var(--btn-hover-text); border-color: var(--btn-hover-border); }
+  
+  .origin-btn.btn-underline { background-color: transparent; border: none; border-bottom: 1px solid var(--btn-border); padding: 10px 0; }
+  .origin-btn.btn-underline:hover { background-color: transparent; opacity: 0.7; color: var(--btn-hover-text); transform: translateY(0); }
 
   /* --- MOBILE LOGIC --- */
   @media (max-width: 768px) {
     .desktop-img { display: none !important; }
     .mobile-img { display: block !important; }
+    .origin-spotlight__img { height: 100%; position: relative; } /* Disable Parallax on mobile */
 
     {% if section.settings.mobile_text_below %}
-      .origin-spotlight {
-        height: auto !important;
-        min-height: 0 !important;
-        display: block; 
-      }
-      .origin-spotlight__bg {
-        position: relative;
-        width: 100%;
-        height: auto;
-        inset: auto;
-      }
-      .origin-spotlight__img.mobile-img {
-        width: 100%;
-        height: auto;
-        object-fit: contain;
-        display: block;
-      }
+      .origin-spotlight { height: auto !important; display: flex; }
+      .origin-spotlight__bg { position: relative; height: auto; }
       .origin-spotlight__overlay { display: none; }
       .origin-spotlight__content-wrapper {
-        position: relative;
-        height: auto;
-        width: 100%;
-        padding: 40px 20px;
+        position: relative; height: auto; padding: 40px 20px;
         background: {{ section.settings.section_bg_color }};
         color: {{ section.settings.mobile_text_color }};
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        pointer-events: auto;
+        display: flex; flex-direction: column; align-items: center; text-align: center;
       }
-      .origin-spotlight__content { grid-column: auto; grid-row: auto; }
+      .origin-spotlight__content { grid-column: auto; }
       .origin-spotlight__buttons { justify-content: center; }
-      
-      /* Mobile Text Below: Force high contrast buttons based on mobile text color */
-      /* Note: We actually keep the block settings, but user should adjust them in the block settings if needed. */
-      /* If you want to force specific mobile colors, add mobile color settings. For now, block settings rule. */
     {% else %}
       .origin-spotlight__content-wrapper { padding: 30px 20px; }
     {% endif %}
   }
-
-  @media (min-width: 769px) {
-    .mobile-img { display: none !important; }
-    .desktop-img { display: block !important; }
-  }
+  @media (min-width: 769px) { .mobile-img { display: none !important; } .desktop-img { display: block !important; } }
 {% endstyle %}
-
-<div class="origin-spotlight origin-spotlight--{{ section.settings.section_height }}">
+<div class="origin-spotlight origin-spotlight--{{ section.settings.section_height }}" data-parallax-section>
   
   <div class="origin-spotlight__bg">
     <div class="origin-spotlight__overlay"></div>
+    
+    {% comment %} Image Logic with Performance Lazy Load Check {% endcomment %}
+    {% liquid
+      assign loading_attr = 'eager'
+      if section.settings.lazy_load
+        assign loading_attr = 'lazy'
+      endif
+    %}
+
     {% if section.settings.image_desktop %}
-      <img src="{{ section.settings.image_desktop | image_url: width: 2400 }}" class="origin-spotlight__img desktop-img" loading="lazy" alt="" width="{{ section.settings.image_desktop.width }}" height="{{ section.settings.image_desktop.height }}">
+      {{ section.settings.image_desktop | image_url: width: 3000 | image_tag: 
+        class: 'origin-spotlight__img desktop-img parallax-img',
+        loading: loading_attr,
+        widths: '1100, 1500, 2000, 3000',
+        sizes: '100vw'
+      }}
     {% else %}
       {{ 'lifestyle-1' | placeholder_svg_tag: 'origin-spotlight__img desktop-img' }}
     {% endif %}
 
     {% if section.settings.image_mobile %}
-      <img src="{{ section.settings.image_mobile | image_url: width: 1200 }}" class="origin-spotlight__img mobile-img" loading="lazy" alt="" width="{{ section.settings.image_mobile.width }}" height="{{ section.settings.image_mobile.height }}">
+      {{ section.settings.image_mobile | image_url: width: 1200 | image_tag: 
+        class: 'origin-spotlight__img mobile-img',
+        loading: loading_attr,
+        widths: '400, 600, 800, 1200',
+        sizes: '100vw'
+      }}
     {% else %}
-      {% if section.settings.image_desktop %}
-        <img src="{{ section.settings.image_desktop | image_url: width: 1200 }}" class="origin-spotlight__img mobile-img" loading="lazy" alt="" width="{{ section.settings.image_desktop.width }}" height="{{ section.settings.image_desktop.height }}">
-      {% else %}
-        {{ 'lifestyle-1' | placeholder_svg_tag: 'origin-spotlight__img mobile-img' }}
+       {% if section.settings.image_desktop %}
+        {{ section.settings.image_desktop | image_url: width: 1200 | image_tag: 
+          class: 'origin-spotlight__img mobile-img',
+          loading: loading_attr
+        }}
       {% endif %}
     {% endif %}
   </div>
@@ -573,39 +550,35 @@
   <div class="origin-spotlight__content-wrapper">
     <div class="origin-spotlight__content pos-{{ section.settings.text_position }}">
       {% for block in section.blocks %}
+        {% assign delay_class = 'anim-delay-' | append: forloop.index %}
+        
         {% case block.type %}
           {% when 'heading_block' %}
-            <h2 class="origin-spotlight__heading" 
+            <h2 class="origin-spotlight__heading anim-item {{ delay_class }}" 
                 style="font-size: clamp({{ block.settings.font_scale_mobile }}px, {{ block.settings.font_scale_desktop }}vw, 200px); padding-bottom: {{ block.settings.padding_bottom }}px;">
               {{ block.settings.heading_text }}
             </h2>
 
           {% when 'subheading_block' %}
-            <h3 class="origin-spotlight__subheading" 
+            <h3 class="origin-spotlight__subheading anim-item {{ delay_class }}" 
                 style="font-size: {{ block.settings.font_size }}px; letter-spacing: {{ block.settings.letter_spacing }}px; padding-bottom: {{ block.settings.padding_bottom }}px;">
               {{ block.settings.subheading_text }}
             </h3>
 
           {% when 'body_block' %}
-            <div class="origin-spotlight__body" style="padding-bottom: {{ block.settings.padding_bottom }}px;">
+            <div class="origin-spotlight__body anim-item {{ delay_class }}" style="padding-bottom: {{ block.settings.padding_bottom }}px;">
               {{ block.settings.body_content }}
             </div>
 
           {% when 'button_block' %}
-            <div class="origin-spotlight__buttons">
-              {% comment %} Define Variables for this block's specific colors {% endcomment %}
-              {% style %}
-                #btn-block-{{ block.id }} .origin-btn {
+            <div class="origin-spotlight__buttons anim-item {{ delay_class }}" style="
                   --btn-text: {{ block.settings.btn_text }};
                   --btn-bg: {{ block.settings.btn_bg }};
                   --btn-border: {{ block.settings.btn_border }};
                   --btn-hover-text: {{ block.settings.btn_hover_text }};
                   --btn-hover-bg: {{ block.settings.btn_hover_bg }};
                   --btn-hover-border: {{ block.settings.btn_hover_border }};
-                }
-              {% endstyle %}
-              
-              <div id="btn-block-{{ block.id }}" class="origin-spotlight__buttons-inner" style="display:contents;">
+                ">
                 {% if block.settings.button_label_1 != blank %}
                   <a href="{{ block.settings.button_link_1 }}" class="origin-btn btn-{{ block.settings.button_style }}">
                     {{ block.settings.button_label_1 }}
@@ -616,13 +589,60 @@
                     {{ block.settings.button_label_2 }}
                   </a>
                 {% endif %}
-              </div>
             </div>
         {% endcase %}
       {% endfor %}
     </div>
   </div>
-
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  
+  // 1. INTERSECTION OBSERVER (For the text "Pop" animation)
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.2
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target); // Only animate once
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.origin-spotlight').forEach(section => {
+    observer.observe(section);
+  });
 
 
+  // 2. PARALLAX LOGIC (Desktop Only)
+  const parallaxSections = document.querySelectorAll('[data-parallax-section]');
+  
+  if(window.innerWidth > 768 && parallaxSections.length > 0) {
+    window.addEventListener('scroll', function() {
+      const scrolled = window.scrollY;
+
+      parallaxSections.forEach(section => {
+        const img = section.querySelector('.parallax-img');
+        if(!img) return;
+
+        // Calculate position relative to viewport
+        const rect = section.getBoundingClientRect();
+        const isVisible = (rect.top <= window.innerHeight && rect.bottom >= 0);
+
+        if (isVisible) {
+          // Speed factor (0.5 means half scroll speed)
+          const speed = 0.4; 
+          const yPos = (rect.top * speed);
+          img.style.transform = `translate3d(0, ${yPos}px, 0)`;
+        }
+      });
+    });
+  }
+
+});
+</script>
