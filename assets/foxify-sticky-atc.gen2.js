@@ -30,6 +30,7 @@ if (!customElements.get('x-sticky-atc-bar')) {
 			this.shopifyButton = this.querySelector('.shopify-payment-button')
 			this.variantInput = this.querySelector('[name="id"]')
 			this.productId = this.dataset.productId
+			this.isSyncingVariant = false
 
 			const isMobile = window.matchMedia('(max-width: 639px)')
 			isMobile.addEventListener('change', this.checkDevice.bind(this))
@@ -68,6 +69,8 @@ if (!customElements.get('x-sticky-atc-bar')) {
 		}
 
 		onVariantChange(event) {
+			const shouldEmit = !this.isSyncingVariant
+			this.isSyncingVariant = false
 			const variantId = event.target.value
 			const btnLabel = this.submitButton?.querySelector('.x-btn__label')
 
@@ -84,6 +87,9 @@ if (!customElements.get('x-sticky-atc-bar')) {
 					btnLabel && (btnLabel.textContent = window.Foxify.Strings.soldOut)
 				}
 				this.updatePrice()
+				if (shouldEmit && window.Foxify && window.Foxify.Events) {
+					window.Foxify.Events.emit(`${this.productId}__VARIANT_CHANGE`, this.selectedVariant, this)
+				}
 			}
 			
 		}
@@ -141,15 +147,21 @@ if (!customElements.get('x-sticky-atc-bar')) {
 
 		syncWithMainProductForm() {
 			const btnLabel = this.submitButton?.querySelector('.x-btn__label')
-			window.Foxify.Events.subscribe(`${this.productId}__VARIANT_CHANGE`, async (variant) => {
-				if (variant) {
-					this.variantInput.value = variant.id
-					this.variantInput.dispatchEvent(new Event('change'))
-				} else {
+			window.Foxify.Events.subscribe(`${this.productId}__VARIANT_CHANGE`, async (variant, source) => {
+				if (source === this) return
+
+				if (!variant) {
 					btnLabel && (btnLabel.textContent = window.Foxify.Strings.unavailable)
 					this.submitButton && this.submitButton.setAttribute('disabled', 'true')
 					this.shopifyButton && this.shopifyButton.setAttribute('disabled', 'true')
+					return
 				}
+
+				if (Number(this.variantInput?.value) === variant.id) return
+
+				this.isSyncingVariant = true
+				this.variantInput.value = variant.id
+				this.variantInput.dispatchEvent(new Event('change'))
 			})
 		}
 	})
