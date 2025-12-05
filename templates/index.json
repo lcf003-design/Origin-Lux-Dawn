@@ -25,9 +25,9 @@
           "type": "button_block",
           "settings": {
             "button_label_1": "SHOP WOMEN",
-            "button_link_1": "",
+            "button_link_1": "shopify://collections/womens-products",
             "button_label_2": "SHOP MEN",
-            "button_link_2": "",
+            "button_link_2": "shopify://collections/mens-products",
             "button_style": "solid",
             "btn_text": "#000000",
             "btn_bg": "#334fb4",
