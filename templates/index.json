@@ -122,7 +122,7 @@
           "settings": {
             "image": "shopify://shop_images/Photoroom_20251201_004240.jpg",
             "title": "Her Bags",
-            "link": ""
+            "link": "shopify://collections/womens-handbags"
           }
         },
         "item_aFnXjM": {
@@ -146,7 +146,7 @@
           "settings": {
             "image": "shopify://shop_images/Photoroom_20251201_003645.jpg",
             "title": "His Bags",
-            "link": ""
+            "link": "shopify://collections/mens-bags-collection"
           }
         }
       },
@@ -221,7 +221,7 @@
             "image": "shopify://shop_images/6C3148A9-DA27-4A02-AC30-7056607A3F6E.png",
             "heading": "GIFTS FOR HER",
             "button_label": "SHOP NOW",
-            "link": ""
+            "link": "shopify://collections/womens-small-leather-goods"
           }
         },
         "banner_EGNtWW": {
@@ -230,7 +230,7 @@
             "image": "shopify://shop_images/57664DF6-7C42-44C0-B7BC-BCF3D910139C.png",
             "heading": "GIFTS FOR HER",
             "button_label": "SHOP NOW",
-            "link": ""
+            "link": "shopify://collections/mens-small-leather-goods"
           }
         }
       },
