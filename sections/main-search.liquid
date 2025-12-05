@@ -24,6 +24,13 @@
     }
   }
 
+  /* --- Container Safety --- */
+  /* This prevents the sidebar from crushing the grid */
+  .product-grid-container {
+    flex: 1;
+    min-width: 0; 
+  }
+
   /* --- Search Header --- */
   .template-search__header {
     margin-bottom: 3rem;
@@ -35,7 +42,6 @@
     max-width: 600px;
   }
 
-  /* Modern Input */
   .search__input.field__input {
     border-radius: 4px; 
     border: 1px solid rgba(var(--color-foreground), 0.1);
@@ -44,41 +50,52 @@
     box-shadow: 0 0 0 1px rgba(var(--color-foreground), 0.5);
   }
 
-  /* --- GRID SYSTEM (Fixed) --- */
+  /* --- AMAZING GRID SYSTEM (Robust) --- */
   .amazing-grid {
     display: grid;
-    /* Mobile columns setting */
+    /* Mobile: 2 columns by default for modern look */
     grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr); 
     gap: 16px;
     list-style: none;
     padding: 0;
     margin: 0;
+    width: 100%;
   }
 
   @media screen and (min-width: 750px) {
     .amazing-grid {
-      /* Desktop columns setting */
+      /* Desktop: defined by settings */
       grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
       gap: 24px;
     }
   }
 
   /* --- CARD COMPONENT --- */
+  /* We use a custom class for the list item to avoid theme conflicts */
+  .amazing-grid-item {
+    position: relative;
+    width: 100%; /* Force full width of the grid cell */
+    display: flex;
+    flex-direction: column;
+  }
+
   .amazing-card {
     position: relative;
     background-color: rgb(var(--color-background));
-    border: 1px solid rgba(var(--color-foreground), 0.05);
+    border: 1px solid rgba(var(--color-foreground), 0.08);
     border-radius: 8px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    height: 100%; /* Ensure card fills grid cell */
+    height: 100%;
+    width: 100%;
   }
 
   .amazing-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    border-color: transparent;
   }
 
   /* Clickable Area */
@@ -92,35 +109,35 @@
     cursor: pointer;
   }
 
-  /* --- IMAGE CONTAINER (Robust Fix) --- */
+  /* --- ROBUST IMAGE RATIO --- */
   .amazing-card__media-wrapper {
     position: relative;
     width: 100%;
+    display: block;
     overflow: hidden;
-    background-color: #f4f4f4;
-    /* Aspect Ratio Hack - Prevents Vertical Elongation */
-    padding-top: 100%; /* Default Square */
+    background-color: #f0f0f0;
+    /* Default Square aspect ratio if CSS loads late */
+    aspect-ratio: 1 / 1; 
   }
 
-  /* Aspect Ratio Modifiers */
-  .ratio-portrait .amazing-card__media-wrapper { padding-top: 125%; } /* 4:5 */
-  .ratio-landscape .amazing-card__media-wrapper { padding-top: 66.66%; } /* 3:2 */
+  /* Force aspect ratio using padding hack for max compatibility */
+  .ratio-square .amazing-card__media-wrapper { padding-top: 100%; aspect-ratio: auto; }
+  .ratio-portrait .amazing-card__media-wrapper { padding-top: 125%; aspect-ratio: auto; }
+  .ratio-landscape .amazing-card__media-wrapper { padding-top: 66.66%; aspect-ratio: auto; }
 
-  /* The Image Itself */
   .amazing-card__image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures image covers area without stretching */
-    object-position: center;
-    transition: transform 0.6s ease, opacity 0.4s ease;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
   }
 
   /* Hover Effects */
   .amazing-card:hover .primary-image {
-    transform: scale(1.05);
+    transform: scale(1.08);
   }
 
   .secondary-image {
@@ -130,58 +147,70 @@
 
   .amazing-card:hover .secondary-image {
     opacity: 1;
-    transform: scale(1.05);
+    transform: scale(1.08);
   }
 
   /* Badges */
   .amazing-card__badge {
     position: absolute;
-    top: 8px;
-    left: 8px;
-    z-index: 4; /* Above link */
-    padding: 4px 8px;
+    top: 10px;
+    left: 10px;
+    z-index: 4;
+    padding: 5px 10px;
     font-size: 1rem;
     font-weight: 700;
     text-transform: uppercase;
-    border-radius: 2px;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
     color: #fff;
     pointer-events: none;
+    line-height: 1;
   }
   .badge-sale { background-color: #D32F2F; }
-  .badge-soldout { background-color: #555; }
+  .badge-soldout { background-color: #333; }
 
   /* Content */
   .amazing-card__content {
-    padding: 1.2rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     text-align: {{ section.settings.text_alignment }};
+    background: #fff;
+    z-index: 2; /* Ensure text sits above background */
   }
 
   .amazing-card__vendor {
     font-size: 1rem;
     color: rgba(var(--color-foreground), 0.6);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
   }
 
   .amazing-card__title {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    margin: 0 0 8px 0;
+    margin: 0 0 10px 0;
     color: rgb(var(--color-foreground));
     line-height: 1.3;
+    word-break: break-word; /* Prevents text overflow */
   }
 
   .amazing-card__price {
-    margin-top: auto; /* Pushes price to bottom */
-    font-size: 1.3rem;
+    margin-top: auto;
+    font-size: 1.4rem;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    {% if section.settings.text_alignment == 'center' %}
+      justify-content: center;
+    {% endif %}
   }
   
-  .price--on-sale { color: #D32F2F; margin-right: 8px; font-weight: 700; }
-  .price--regular { color: rgba(var(--color-foreground), 0.8); }
+  .price--on-sale { color: #D32F2F; font-weight: 700; }
+  .price--regular { color: rgba(var(--color-foreground), 0.9); }
   .price--compare { text-decoration: line-through; color: rgba(var(--color-foreground), 0.5); font-size: 1.2rem; }
 
 {%- endstyle -%}
@@ -191,8 +220,7 @@
   assign terms = search.terms | escape
   assign search_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
   
-  # Image Ratio Class Logic
-  assign ratio_class = ''
+  assign ratio_class = 'ratio-square'
   if section.settings.image_ratio == 'portrait'
     assign ratio_class = 'ratio-portrait'
   elsif section.settings.image_ratio == 'landscape'
@@ -266,7 +294,7 @@
           {%- endif -%}
         {%- endif -%}
 
-        <!-- PRODUCT GRID -->
+        <!-- PRODUCT GRID CONTAINER -->
         <div class="product-grid-container" id="ProductGridContainer">
           {%- if search.results.size == 0 and search.filters != empty -%}
             <div class="template-search__results collection collection--empty" id="product-grid" data-id="{{ section.id }}">
@@ -284,7 +312,8 @@
               
               <ul class="amazing-grid" role="list">
                 {%- for item in search.results -%}
-                  <li class="grid__item scroll-trigger animate--slide-in {{ ratio_class }}">
+                  <!-- Removed 'grid__item' class to prevent theme conflict -->
+                  <li class="amazing-grid-item scroll-trigger animate--slide-in {{ ratio_class }}">
                     
                     {%- case item.object_type -%}
                       {%- when 'product' -%}
