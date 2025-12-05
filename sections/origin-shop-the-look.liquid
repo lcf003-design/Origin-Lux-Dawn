@@ -13,7 +13,7 @@
       "type": "image_picker",
       "id": "image_mobile",
       "label": "Image (Mobile)",
-      "info": "Portrait Mode"
+      "info": "Portrait Mode. If blank, Desktop image will be used."
     },
     {
       "type": "text",
@@ -30,9 +30,9 @@
     {
       "type": "text",
       "id": "mobile_cta_text",
-      "label": "Mobile Drawer Pop-up Text",
+      "label": "Mobile Helper Text",
       "default": "Tap to shop",
-      "info": "Appears above product title on mobile open"
+      "info": "Small text appearing above title on mobile."
     }
   ],
   "blocks": [
@@ -81,17 +81,25 @@
 {% endschema %}
 
 <style>
+  /* --- BASE CONTAINER --- */
   .origin-shop-look {
     position: relative;
     width: 100%;
-    background: #000;
+    overflow: visible; 
   }
 
-  .origin-shop-look img {
+  /* Universal Image/SVG Fix */
+  .origin-shop-look img,
+  .origin-shop-look svg {
     display: block;
     width: 100%;
     height: auto;
     object-fit: cover;
+    max-width: 100%;
+  }
+  
+  .origin-shop-look svg {
+    background-color: #f4f4f4;
   }
 
   .origin-shop-look__image-wrapper {
@@ -99,18 +107,27 @@
     width: 100%;
   }
 
-  /* --- HOTSPOT DOT --- */
+  /* --- HOTSPOT DOTS --- */
   .origin-hotspot {
     position: absolute;
-    width: 32px;
-    height: 32px;
-    margin-left: -16px; 
-    margin-top: -16px;
+    width: 44px; /* Touch target */
+    height: 44px;
+    margin-left: -22px; 
+    margin-top: -22px;
     cursor: pointer;
     z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+  
+  .origin-hotspot:focus-visible {
+    outline: 2px solid {{ section.settings.hotspot_color }};
+    outline-offset: 2px;
   }
 
   .origin-hotspot__inner {
@@ -124,7 +141,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   }
 
-  /* Pulsing Ring Effect */
+  /* Pulsing Animation */
   .origin-hotspot::after {
     content: '';
     position: absolute;
@@ -135,42 +152,38 @@
     opacity: 0.4;
     animation: pulse 2s infinite;
     z-index: 1;
-  }
-
-  .origin-hotspot:hover .origin-hotspot__inner {
-    transform: scale(1.2);
+    pointer-events: none;
   }
 
   @keyframes pulse {
-    0% { transform: scale(0.5); opacity: 0.8; }
-    100% { transform: scale(1.8); opacity: 0; }
+    0% { transform: scale(0.3); opacity: 0.8; }
+    100% { transform: scale(1.5); opacity: 0; }
   }
 
-  /* --- PRODUCT CARD (POPOVER) --- */
+  /* --- POPUP CARD (Default Styles) --- */
   .origin-hotspot-card {
-    position: absolute;
-    bottom: 40px; 
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
+    position: absolute; /* Default for Desktop */
     width: 260px;
     background: #FFFFFF;
-    color: #000000;
     padding: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
     pointer-events: none;
     z-index: 20;
     text-align: left;
-  }
-  
-  /* Hides CTA on desktop */
-  .mobile-drawer-cta {
-    display: none;
+    border-radius: 4px;
+    /* Desktop Placement Logic handled inline below */
   }
 
-  /* Triangle Pointer */
+  .origin-hotspot-card.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* Desktop Arrow */
   .origin-hotspot-card::after {
     content: '';
     position: absolute;
@@ -182,15 +195,13 @@
     background: #FFFFFF;
   }
 
-  /* Active State */
-  .origin-hotspot.is-active .origin-hotspot-card {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-    pointer-events: auto;
+  /* Card Contents */
+  .origin-hotspot-card__link {
+    text-decoration: none;
+    color: inherit;
+    display: block; 
   }
 
-  /* Card Content */
   .origin-hotspot-card__img {
     width: 100%;
     height: 200px;
@@ -207,6 +218,7 @@
     margin: 0 0 4px;
     font-weight: 600;
     line-height: 1.4;
+    color: #000;
   }
 
   .origin-hotspot-card__price {
@@ -226,22 +238,25 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    text-decoration: none;
     transition: background 0.2s;
   }
-
+  
   .origin-hotspot-card__btn:hover {
     background: #333;
   }
 
-  /* --- HEADER OVERLAY --- */
+  /* Elements hidden on Desktop by default */
+  .mobile-chevron { display: none; }
+  .mobile-drawer-cta { display: none; }
+  .origin-global-backdrop { display: none; }
+
+  /* --- HEADER TITLE --- */
   .origin-shop-look__header {
     position: absolute;
     top: 40px;
     left: 0;
     width: 100%;
     text-align: center;
-    color: #fff;
     z-index: 5;
     pointer-events: none;
   }
@@ -251,107 +266,148 @@
     text-transform: uppercase;
     letter-spacing: 0.2em;
     font-weight: 600;
+    color: #fff;
     background: rgba(0,0,0,0.3);
     padding: 8px 16px;
     display: inline-block;
     backdrop-filter: blur(4px);
   }
 
-  /* --- MOBILE SPECIFICS --- */
+  /* =========================================
+     MOBILE STYLES (CRITICAL FIXES)
+     ========================================= */
   @media (max-width: 768px) {
+    /* Swap Images */
     .desktop-img { display: none !important; }
     .mobile-img { display: block !important; }
 
-    /* On mobile, card is fixed at bottom */
-    .origin-hotspot-card {
+    /* 1. Backdrop (Added Blur) */
+    .origin-global-backdrop {
+      display: block;
       position: fixed;
-      bottom: 0;
+      top: 0;
       left: 0;
-      width: 100%;
-      max-width: 100%;
-      transform: translateY(100%);
-      margin: 0;
-      border-radius: 12px 12px 0 0;
-      padding: 20px;
-      box-sizing: border-box;
-      z-index: 2147483647; /* MAX Z-INDEX */
-    }
-
-    .origin-hotspot-card::after { display: none; } /* Hide arrow */
-
-    .origin-hotspot.is-active .origin-hotspot-card {
-      transform: translateY(0);
-    }
-
-    /* UPDATED: FORCED BLUR AND GREY */
-    .origin-hotspot-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.3) !important; /* 30% Grey */
-      backdrop-filter: blur(5px) !important; /* Blur Effect */
-      -webkit-backdrop-filter: blur(5px) !important; /* Safari Support */
-      z-index: 2147483640; 
+      width: 100vw;
+      height: 100vh;
+      /* Semi-transparent black */
+      background-color: rgba(0, 0, 0, 0.4) !important; 
+      /* Blur Effect - including webkit for iOS */
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
     }
-
-    .origin-hotspot.is-active ~ .origin-hotspot-backdrop {
+    
+    .origin-shop-look.has-active-modal .origin-global-backdrop {
       opacity: 1;
       visibility: visible;
+      pointer-events: auto;
     }
-    
-    .origin-hotspot-card__img {
-      height: 120px; 
-      width: 100px;
-      float: left;
-      margin-right: 16px;
-      margin-bottom: 0;
+
+    /* 2. Drawer Positioning (Reset to Bottom) */
+    .origin-hotspot-card {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      top: auto !important;
+      right: 0 !important;
+      width: 100% !important;
+      transform: translateY(110%) !important; /* Start hidden below */
+      margin: 0 !important;
+      border-radius: 16px 16px 0 0;
+      padding: 20px;
+      box-sizing: border-box;
+      z-index: 1001;
+      box-shadow: 0 -5px 25px rgba(0,0,0,0.2);
     }
-    
-    .origin-hotspot-card__details {
-      overflow: hidden; 
+
+    .origin-hotspot-card.is-visible {
+      transform: translateY(0) !important;
+    }
+
+    /* Hide the tooltip arrow on mobile */
+    .origin-hotspot-card::after { display: none; } 
+
+    /* 3. New Layout: Text on Top, Compact Image below */
+    .origin-hotspot-card__link {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      height: 120px;
-      /* Aligns content to top to make room for CTA */
-      justify-content: flex-start; 
-      padding-top: 5px;
+      flex-direction: column; /* Stack elements vertically */
+      gap: 15px;
     }
 
-    /* NEW: CTA POP UP TEXT STYLES */
+    /* Text Section - Moves to Top */
+    .origin-hotspot-card__details {
+      width: 100%;
+      text-align: left;
+    }
+
+    /* Mobile CTA Text */
     .mobile-drawer-cta {
-        display: block;
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        font-weight: 800;
-        color: #000; 
-        margin-bottom: 8px;
-        
-        /* Animation setup */
-        opacity: 0;
-        transform: translateY(10px);
-        transition: all 0.5s ease;
-        transition-delay: 0.2s; /* Waits for drawer */
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #888;
+      margin-bottom: 6px;
     }
 
-    /* Trigger animation when active */
-    .origin-hotspot.is-active .mobile-drawer-cta {
-        opacity: 1;
-        transform: translateY(0);
+    .origin-hotspot-card__title {
+      font-size: 16px; /* Slightly larger for readability */
+      margin-bottom: 4px;
+    }
+
+    .origin-hotspot-card__price {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 0; /* Remove margin as it's now above image */
+    }
+
+    /* Bottom Row Wrapper (Image + Button) */
+    .mobile-card-bottom-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+    }
+
+    /* Small Thumbnail Image */
+    .origin-hotspot-card__img {
+      width: 70px !important;
+      height: 70px !important;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 0 !important;
+      flex-shrink: 0;
+    }
+
+    /* Button takes remaining space */
+    .origin-hotspot-card__btn {
+      flex-grow: 1;
+      height: 40px; /* Consistent height */
+      line-height: 40px;
+      padding: 0;
+      border-radius: 4px;
+      font-size: 12px;
+      letter-spacing: 1px;
     }
   }
 
   @media (min-width: 769px) {
     .mobile-img { display: none !important; }
     .desktop-img { display: block !important; }
-    .origin-hotspot-backdrop { display: none; }
+    
+    /* Hide the mobile wrapper div on desktop to avoid layout issues */
+    .mobile-card-bottom-row {
+      display: contents; /* Allows children to behave as if this wrapper didn't exist */
+    }
   }
 </style>
 
-<div class="origin-shop-look">
+<div class="origin-shop-look" id="OriginShopLook-{{ section.id }}">
   <div class="origin-shop-look__image-wrapper">
     
     {% if section.settings.heading != blank %}
@@ -360,120 +416,157 @@
       </div>
     {% endif %}
 
+    <!-- IMAGE LOGIC: Fallback to desktop if mobile is missing -->
+    {% assign mobile_image = section.settings.image_mobile | default: section.settings.image_desktop %}
+
     {% if section.settings.image_desktop %}
-      <img 
-        src="{{ section.settings.image_desktop | image_url: width: 2400 }}" 
-        class="desktop-img" 
-        loading="lazy" 
-        alt="Shop The Look"
-        width="{{ section.settings.image_desktop.width }}"
-        height="{{ section.settings.image_desktop.height }}">
+      {{ section.settings.image_desktop | image_url: width: 2400 | image_tag: class: 'desktop-img', loading: 'lazy' }}
     {% else %}
       {{ 'lifestyle-2' | placeholder_svg_tag: 'desktop-img' }}
     {% endif %}
 
-    {% if section.settings.image_mobile %}
-      <img 
-        src="{{ section.settings.image_mobile | image_url: width: 1200 }}" 
-        class="mobile-img" 
-        loading="lazy" 
-        alt="Shop The Look"
-        width="{{ section.settings.image_mobile.width }}"
-        height="{{ section.settings.image_mobile.height }}">
+    {% if mobile_image %}
+      {{ mobile_image | image_url: width: 1200 | image_tag: class: 'mobile-img', loading: 'lazy' }}
     {% else %}
-      {% if section.settings.image_desktop %}
-        <img 
-          src="{{ section.settings.image_desktop | image_url: width: 1200 }}" 
-          class="mobile-img" 
-          loading="lazy" 
-          alt="Shop The Look"
-          width="{{ section.settings.image_desktop.width }}"
-          height="{{ section.settings.image_desktop.height }}">
-      {% else %}
-        {{ 'lifestyle-2' | placeholder_svg_tag: 'mobile-img' }}
-      {% endif %}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'mobile-img' }}
     {% endif %}
 
+    <!-- 1. HOTSPOT DOTS -->
+    {% for block in section.blocks %}
+      <button class="origin-hotspot" 
+           type="button"
+           style="top: {{ block.settings.pos_y }}%; left: {{ block.settings.pos_x }}%;"
+           data-target-id="hotspot-card-{{ block.id }}"
+           aria-label="View product"
+           aria-expanded="false">
+        <div class="origin-hotspot__inner"></div>
+      </button>
+    {% endfor %}
+
+    <!-- 2. POPUP CARDS (Outside of dots to prevent squashing) -->
     {% for block in section.blocks %}
       {% assign product = block.settings.product %}
       
-      <div class="origin-hotspot" 
-           style="top: {{ block.settings.pos_y }}%; left: {{ block.settings.pos_x }}%;"
-           data-hotspot-id="{{ block.id }}">
+      <!-- Inline style positions card on desktop. On mobile, CSS overrides this to fixed bottom. -->
+      <div id="hotspot-card-{{ block.id }}" 
+           class="origin-hotspot-card"
+           role="dialog" 
+           aria-modal="true"
+           style="left: {{ block.settings.pos_x }}%; top: {{ block.settings.pos_y }}%; transform: translate(-50%, -120%);">
         
-        <div class="origin-hotspot__inner"></div>
-
-        <div class="origin-hotspot-card">
           {% if product != blank %}
             <a href="{{ product.url }}" class="origin-hotspot-card__link">
-              <img 
-                src="{{ product.featured_image | image_url: width: 400 }}" 
-                class="origin-hotspot-card__img" 
-                alt="{{ product.title }}"
-                width="400"
-                height="400">
+              
+              <!-- Text Details (Will be at TOP on mobile) -->
               <div class="origin-hotspot-card__details">
-                <span class="mobile-drawer-cta">{{ section.settings.mobile_cta_text | default: 'TAP TO SHOP' }}</span>
-                
+                <span class="mobile-drawer-cta">{{ section.settings.mobile_cta_text }}</span>
                 <h3 class="origin-hotspot-card__title">{{ product.title }}</h3>
                 <span class="origin-hotspot-card__price">{{ product.price | money }}</span>
-                <span class="origin-hotspot-card__btn">View Product</span>
               </div>
+
+              <!-- Image & Button Wrapper (For Mobile Side-by-Side layout at bottom) -->
+              <div class="mobile-card-bottom-row">
+                {% if product.featured_image %}
+                  {{ product.featured_image | image_url: width: 400 | image_tag: class: 'origin-hotspot-card__img', loading: 'lazy' }}
+                {% else %}
+                  <div class="origin-hotspot-card__img" style="background: #eee;"></div>
+                {% endif %}
+
+                <span class="origin-hotspot-card__btn">VIEW PRODUCT</span>
+              </div>
+
             </a>
           {% else %}
-            <div class="origin-hotspot-card__img" style="background: #eee;"></div>
-            <div class="origin-hotspot-card__details">
-               <span class="mobile-drawer-cta">{{ section.settings.mobile_cta_text | default: 'TAP TO SHOP' }}</span>
-              <h3 class="origin-hotspot-card__title">Product Title</h3>
-              <span class="origin-hotspot-card__price">$1,200.00</span>
-              <span class="origin-hotspot-card__btn">View Product</span>
+            <!-- Placeholder -->
+            <div class="origin-hotspot-card__link">
+              <div class="origin-hotspot-card__details">
+                <span class="mobile-drawer-cta">TAP TO SHOP</span>
+                <h3 class="origin-hotspot-card__title">Product Title</h3>
+                <span class="origin-hotspot-card__price">$100.00</span>
+              </div>
+              <div class="mobile-card-bottom-row">
+                <div class="origin-hotspot-card__img" style="background: #eee;"></div>
+                <span class="origin-hotspot-card__btn">VIEW PRODUCT</span>
+              </div>
             </div>
           {% endif %}
-        </div>
       </div>
-      
-      <div class="origin-hotspot-backdrop" data-for="{{ block.id }}"></div>
     {% endfor %}
+
+    <div class="origin-global-backdrop"></div>
 
   </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const hotspots = document.querySelectorAll('.origin-hotspot');
-    const backdrops = document.querySelectorAll('.origin-hotspot-backdrop');
+  (function() {
+    const initSection = () => {
+      const sectionContainer = document.getElementById('OriginShopLook-{{ section.id }}');
+      if (!sectionContainer) return;
 
-    // Close all logic
-    function closeAll() {
-      hotspots.forEach(h => h.classList.remove('is-active'));
-    }
+      const hotspots = sectionContainer.querySelectorAll('.origin-hotspot');
+      const cards = sectionContainer.querySelectorAll('.origin-hotspot-card');
+      const backdrop = sectionContainer.querySelector('.origin-global-backdrop');
 
-    hotspots.forEach(hotspot => {
-      hotspot.addEventListener('click', function(e) {
-        // If clicking the card itself (the link), allow navigation
-        if (e.target.closest('.origin-hotspot-card')) return;
-
-        e.stopPropagation(); // Stop click from hitting document
-        
-        const isActive = this.classList.contains('is-active');
-        closeAll(); // Close others first
-        
-        if (!isActive) {
-          this.classList.add('is-active');
-        }
-      });
-    });
-
-    // Close when clicking backdrop (mobile)
-    backdrops.forEach(backdrop => {
-      backdrop.addEventListener('click', closeAll);
-    });
-
-    // Close when clicking anywhere else on page
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.origin-hotspot')) {
-        closeAll();
+      function closeAll() {
+        sectionContainer.classList.remove('has-active-modal');
+        hotspots.forEach(h => h.setAttribute('aria-expanded', 'false'));
+        cards.forEach(c => c.classList.remove('is-visible'));
       }
-    });
-  });
+
+      hotspots.forEach(hotspot => {
+        hotspot.addEventListener('click', function(e) {
+          e.stopPropagation();
+          
+          const targetId = this.getAttribute('data-target-id');
+          const targetCard = document.getElementById(targetId);
+          
+          if(!targetCard) return;
+
+          const wasVisible = targetCard.classList.contains('is-visible');
+          
+          // Close others first
+          closeAll();
+          
+          if (!wasVisible) {
+            targetCard.classList.add('is-visible');
+            this.setAttribute('aria-expanded', 'true');
+            sectionContainer.classList.add('has-active-modal');
+          }
+        });
+      });
+
+      if(backdrop) {
+        backdrop.addEventListener('click', function(e) {
+          e.stopPropagation();
+          closeAll();
+        });
+      }
+
+      const outsideClickListener = function(e) {
+        if(sectionContainer.classList.contains('has-active-modal')) {
+           // If click is NOT inside a card and NOT on a hotspot
+           if (!e.target.closest('.origin-hotspot-card') && !e.target.closest('.origin-hotspot')) {
+             closeAll();
+           }
+        }
+      };
+      
+      document.addEventListener('click', outsideClickListener);
+      
+      return () => {
+        document.removeEventListener('click', outsideClickListener);
+      };
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSection);
+    } else {
+      initSection();
+    }
+    
+    document.addEventListener('shopify:section:load', initSection);
+  })();
 </script>
+
+
