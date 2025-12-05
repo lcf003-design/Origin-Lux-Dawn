@@ -160,15 +160,27 @@
   ]
 }
 {% endschema %}
-
 <style>
   .origin-gg-footer {
     background-color: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
-    /* Padding Top/Sides/Bottom. Bottom is 0 because logo handles its own padding */
-    padding: 60px 40px 0; 
+    padding: 80px 40px 0; 
     font-family: var(--font-body-family);
     overflow: hidden;
+    opacity: 1; /* Reset for JS fade-in */
+  }
+
+  /* --- ANIMATION UTILITIES --- */
+  .origin-reveal-item {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: opacity, transform;
+  }
+  
+  .origin-reveal-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   /* --- GRID LAYOUT --- */
@@ -181,11 +193,10 @@
     gap: 40px;
   }
 
-  /* Left Area: Holds the menu columns */
   .origin-gg-footer__links-area {
     display: flex;
     flex-wrap: wrap;
-    gap: 80px; /* Space between columns on Desktop */
+    gap: 80px;
     flex: 3;
     min-width: 300px;
     align-items: flex-start;
@@ -195,36 +206,16 @@
     min-width: 180px;
   }
 
-  /* --- TYPOGRAPHY --- */
+  /* --- TYPOGRAPHY & LINKS --- */
   .origin-gg-footer__heading {
     font-size: 13px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     font-weight: 600;
     margin-bottom: 24px;
-    opacity: 0.9;
     display: block;
   }
 
-  /* Wrapper for the button (only active on mobile) */
-  .origin-gg-accordion-trigger {
-    background: none;
-    border: none;
-    padding: 0;
-    width: 100%;
-    text-align: left;
-    color: inherit;
-    /* Desktop: disable pointer events so it feels like just text */
-    pointer-events: none; 
-    cursor: default;
-  }
-
-  /* Desktop: Hide the chevron icon */
-  .origin-gg-accordion-icon {
-    display: none; 
-  }
-
-  /* Desktop: List is always visible */
   .origin-gg-footer__list {
     list-style: none;
     padding: 0;
@@ -233,24 +224,42 @@
   }
 
   .origin-gg-footer__list li {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   .origin-gg-footer__list a {
     color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    text-decoration-thickness: 1px;
+    text-decoration: none;
     font-size: 14px;
-    transition: opacity 0.3s;
     display: inline-block;
+    position: relative;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0.8;
   }
 
+  /* LUXURY HOVER: GLIDE RIGHT */
   .origin-gg-footer__list a:hover {
-    opacity: 0.7;
+    opacity: 1;
+    transform: translateX(6px);
   }
 
-  /* --- RIGHT SIDE (NEWSLETTER) --- */
+  /* --- MOBILE ACCORDION STYLES --- */
+  .origin-gg-accordion-trigger {
+    background: none;
+    border: none;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+    color: inherit;
+    pointer-events: none; 
+    cursor: default;
+  }
+  
+  .origin-gg-accordion-icon {
+    display: none; 
+  }
+
+  /* --- NEWSLETTER --- */
   .origin-gg-footer__interactions {
     flex: 1;
     min-width: 300px;
@@ -259,18 +268,47 @@
 
   .origin-gg-footer__desc {
     font-size: 13px;
-    line-height: 1.5;
-    margin-bottom: 20px;
-    opacity: 0.9;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    opacity: 0.7;
   }
 
   .origin-gg-input-wrapper {
     position: relative;
-    border-bottom: 1px solid {{ section.settings.text_color }};
     display: flex;
     align-items: center;
     padding-bottom: 8px;
     margin-top: 24px;
+  }
+
+  /* Animated Border Line */
+  .origin-gg-input-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+    opacity: 0.3;
+  }
+  
+  .origin-gg-input-wrapper::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 1px;
+    background-color: currentColor;
+    opacity: 1;
+    z-index: 1;
+    transition: width 0.4s ease;
+  }
+
+  /* Focus State for Border */
+  .origin-gg-input-wrapper:focus-within::before {
+    width: 100%;
   }
 
   .origin-gg-input {
@@ -285,7 +323,7 @@
 
   .origin-gg-input::placeholder {
     color: {{ section.settings.text_color }};
-    opacity: 0.6;
+    opacity: 0.4;
   }
 
   .origin-gg-submit {
@@ -293,12 +331,17 @@
     border: none;
     color: {{ section.settings.text_color }};
     cursor: pointer;
-    padding: 0;
+    padding: 0 0 0 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  .origin-gg-submit:hover {
+    transform: translateX(3px);
   }
   
   .origin-gg-submit svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     display: block;
   }
 
@@ -306,7 +349,6 @@
   .origin-gg-footer__bottom {
     border-top: 1px solid rgba(255,255,255,0.1);
     padding-top: 40px;
-    /* Removed padding-bottom here, moved to logo container */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -314,12 +356,14 @@
 
   .origin-gg-copyright {
     font-size: 11px;
-    opacity: 0.8;
+    opacity: 0.5;
     margin-bottom: 40px;
     width: 100%;
     max-width: 1600px;
     margin-left: auto;
     margin-right: auto;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   /* --- HUGE LOGO --- */
@@ -332,11 +376,10 @@
     padding-bottom: {{ section.settings.huge_logo_padding_bottom }}px;
   }
 
-  /* Logic to break out of container if full width is selected */
   .origin-gg-huge-logo.is-full-width {
-    margin-left: -40px; /* Counteracts the parent padding */
+    margin-left: -40px; 
     margin-right: -40px;
-    width: calc(100% + 80px); /* Restores full width */
+    width: calc(100% + 80px); 
   }
 
   .origin-gg-huge-logo svg,
@@ -348,27 +391,21 @@
   }
 
   .origin-gg-huge-logo-text {
-    /* Responsive font size based on settings */
     font-size: {{ section.settings.huge_logo_size_desktop }}vw; 
     font-family: serif;
     text-transform: uppercase;
     letter-spacing: -0.02em;
     margin: 0;
     display: block;
-    white-space: nowrap; /* Prevents wrapping to next line */
+    white-space: nowrap; 
+    color: {{ section.settings.text_color }};
   }
 
   /* --- MOBILE RESPONSIVENESS --- */
   @media (max-width: 768px) {
-    .origin-gg-footer {
-      padding: 40px 20px 0;
-    }
+    .origin-gg-footer { padding: 40px 20px 0; }
+    .origin-gg-huge-logo-text { font-size: {{ section.settings.huge_logo_size_mobile }}vw; }
 
-    .origin-gg-huge-logo-text {
-      font-size: {{ section.settings.huge_logo_size_mobile }}vw;
-    }
-
-    /* Update full width logic for mobile padding */
     .origin-gg-huge-logo.is-full-width {
       margin-left: -20px;
       margin-right: -20px;
@@ -388,9 +425,10 @@
 
     .origin-gg-footer__column {
       max-width: 100%;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
+    /* Accordion Trigger */
     .origin-gg-accordion-trigger {
       pointer-events: auto;
       cursor: pointer;
@@ -400,27 +438,28 @@
       align-items: center;
     }
     
-    .origin-gg-footer__heading {
-      margin-bottom: 0;
-    }
+    .origin-gg-footer__heading { margin-bottom: 0; }
 
     .origin-gg-accordion-icon {
       display: block;
       width: 12px;
       height: 12px;
-      transition: transform 0.3s ease;
+      transition: transform 0.4s ease;
     }
 
-    .origin-gg-footer__list {
-      display: none;
-      padding-bottom: 24px;
+    /* Smooth Slide CSS Logic */
+    .origin-gg-footer__list-wrapper {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.2, 1, 0.2, 1);
     }
     
-    .origin-gg-footer__column.is-open .origin-gg-footer__list {
-      display: block;
-      animation: slideDown 0.3s ease;
+    .origin-gg-footer__column.is-open .origin-gg-footer__list-wrapper {
+        max-height: 500px; /* Arbitrary large number */
     }
 
+    .origin-gg-footer__list { padding-bottom: 24px; }
+    
     .origin-gg-footer__column.is-open .origin-gg-accordion-icon {
       transform: rotate(180deg);
     }
@@ -430,21 +469,14 @@
       margin-top: 20px;
     }
   }
-
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
 </style>
-
 <footer class="origin-gg-footer" id="origin-gg-footer-{{ section.id }}">
   
   <div class="origin-gg-footer__top">
     
-    <!-- LEFT SIDE: MENU COLUMNS -->
     <div class="origin-gg-footer__links-area">
       {% for block in section.blocks %}
-        <div class="origin-gg-footer__column" {{ block.shopify_attributes }}>
+        <div class="origin-gg-footer__column origin-reveal-item" {{ block.shopify_attributes }}>
           <button type="button" class="origin-gg-accordion-trigger" aria-expanded="false">
             <span class="origin-gg-footer__heading">{{ block.settings.title }}</span>
             <svg class="origin-gg-accordion-icon" viewBox="0 0 14 8" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -453,18 +485,19 @@
           </button>
           
           {% if block.settings.menu != blank %}
-            <ul class="origin-gg-footer__list">
-              {% for link in linklists[block.settings.menu].links %}
-                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-              {% endfor %}
-            </ul>
+            <div class="origin-gg-footer__list-wrapper">
+              <ul class="origin-gg-footer__list">
+                {% for link in linklists[block.settings.menu].links %}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
           {% endif %}
         </div>
       {% endfor %}
     </div>
 
-    <!-- RIGHT SIDE: NEWSLETTER ONLY -->
-    <div class="origin-gg-footer__interactions">
+    <div class="origin-gg-footer__interactions origin-reveal-item" style="transition-delay: 0.1s;">
       <div class="origin-gg-footer__block">
         <div class="origin-gg-footer__heading" style="margin-bottom: 24px; opacity: 1;">{{ section.settings.newsletter_title }}</div>
         {% if section.settings.newsletter_text != blank %}
@@ -490,20 +523,19 @@
             </button>
           </div>
           {% if form.posted_successfully? %}
-            <p style="margin-top: 10px; font-size: 13px; color: #fff; opacity: 0.7;">Thanks for subscribing.</p>
+            <p style="margin-top: 10px; font-size: 13px; opacity: 0.7;">Thanks for subscribing.</p>
           {% endif %}
         {% endform %}
       </div>
     </div>
   </div>
 
-  <!-- BOTTOM SECTION -->
   <div class="origin-gg-footer__bottom">
-    <div class="origin-gg-copyright">
+    <div class="origin-gg-copyright origin-reveal-item" style="transition-delay: 0.2s;">
       {{ section.settings.copyright_text }}
     </div>
 
-    <div class="origin-gg-huge-logo {% if section.settings.full_width_logo %}is-full-width{% endif %}">
+    <div class="origin-gg-huge-logo origin-reveal-item {% if section.settings.full_width_logo %}is-full-width{% endif %}" style="transition-delay: 0.3s;">
       {% if section.settings.huge_logo_image %}
         <img 
           src="{{ section.settings.huge_logo_image | image_url: width: 2400 }}" 
@@ -519,34 +551,59 @@
   </div>
 
 </footer>
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const footer = document.getElementById('origin-gg-footer-{{ section.id }}');
-    if (!footer) return;
-
-    const triggers = footer.querySelectorAll('.origin-gg-accordion-trigger');
-
-    triggers.forEach(trigger => {
-      trigger.addEventListener('click', function() {
-        // Breakpoint check: We check if the icon is visible (Mobile). 
-        // If hidden (Desktop), click does nothing.
-        const icon = this.querySelector('.origin-gg-accordion-icon');
-        if (getComputedStyle(icon).display === 'none') return;
-
-        const parent = this.closest('.origin-gg-footer__column');
-        const wasOpen = parent.classList.contains('is-open');
-
-        if (!wasOpen) {
-          parent.classList.add('is-open');
-          this.setAttribute('aria-expanded', 'true');
-        } else {
-          parent.classList.remove('is-open');
-          this.setAttribute('aria-expanded', 'false');
+    
+    // --- 1. Scroll Reveal Logic (IntersectionObserver) ---
+    const revealItems = document.querySelectorAll('.origin-reveal-item');
+    
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target); // Trigger only once
         }
       });
+    }, {
+      rootMargin: '0px 0px -50px 0px', // Trigger slightly before element is fully in view
+      threshold: 0.1
     });
+
+    revealItems.forEach(item => {
+      revealObserver.observe(item);
+    });
+
+    // --- 2. Mobile Accordion Logic ---
+    const footer = document.getElementById('origin-gg-footer-{{ section.id }}');
+    if (footer) {
+      const triggers = footer.querySelectorAll('.origin-gg-accordion-trigger');
+
+      triggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+          // Breakpoint check: We check if the icon is visible (Mobile). 
+          const icon = this.querySelector('.origin-gg-accordion-icon');
+          if (getComputedStyle(icon).display === 'none') return;
+
+          const parent = this.closest('.origin-gg-footer__column');
+          const wasOpen = parent.classList.contains('is-open');
+
+          // Close all others (Accordion behavior - Optional, keeps it clean)
+          triggers.forEach(otherTrigger => {
+            if (otherTrigger !== this) {
+               otherTrigger.closest('.origin-gg-footer__column').classList.remove('is-open');
+               otherTrigger.setAttribute('aria-expanded', 'false');
+            }
+          });
+
+          if (!wasOpen) {
+            parent.classList.add('is-open');
+            this.setAttribute('aria-expanded', 'true');
+          } else {
+            parent.classList.remove('is-open');
+            this.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+    }
   });
 </script>
-
-
