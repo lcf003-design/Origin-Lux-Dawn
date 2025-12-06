@@ -251,6 +251,14 @@
             "question": "What if I entered the wrong shipping address?",
             "answer": "<p>Email us immediately at hello@originintlboutique.com.</p><p>If your order is still within the 12-hour processing window, we will try to update the address.</p><p>After that, changes are not guaranteed.</p>"
           }
+        },
+        "faq_item_gdHTTj": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Care & Maintenance",
+            "question": "How should I care for my luxury leather items?",
+            "answer": "<p>To preserve the beauty of your leather goods:</p><ul><li>Store them in a cool, dry place</li><li>Keep them in their dust bag when not in use</li><li>Avoid exposure to direct sunlight or heat</li><li>Avoid contact with water, oils, makeup, or perfumes</li><li>Handle light-colored leather carefully around dark fabrics</li></ul><p></p><p><br/></p><p>Leather naturally develops character over time — this is normal for luxury materials.</p>"
+          }
         }
       },
       "block_order": [
@@ -283,7 +291,8 @@
         "faq_item_HEHrW9",
         "faq_item_FKNpef",
         "faq_item_ytc3Ei",
-        "faq_item_JQeqmf"
+        "faq_item_JQeqmf",
+        "faq_item_gdHTTj"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
