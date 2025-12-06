@@ -103,9 +103,17 @@
         "faq_item_xKwMbM": {
           "type": "faq_item",
           "settings": {
-            "category": "Order & Payments",
+            "category": "Orders & Payments",
             "question": "I didn’t receive an order confirmation — what should I do?",
             "answer": "<p>Check your spam or promotions folder first.</p><p>If it’s not there, email us at hello@originintlboutique.com and we’ll resend your confirmation.</p>"
+          }
+        },
+        "faq_item_hYpcTe": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "Why was my payment declined",
+            "answer": "<p>Answer text here</p>"
           }
         }
       },
@@ -121,7 +129,8 @@
         "faq_item_TryEc9",
         "faq_item_j3n7WG",
         "faq_item_XYTgEm",
-        "faq_item_xKwMbM"
+        "faq_item_xKwMbM",
+        "faq_item_hYpcTe"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
