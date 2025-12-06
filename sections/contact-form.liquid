@@ -12,10 +12,96 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  /* --- GUCCI STYLE CONTACT FORM --- */
+  .gucci-contact-section {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: var(--font-body-family);
+  }
+
+  .gucci-contact-section .title {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 24px;
+    letter-spacing: 2px;
+    font-weight: 400;
+    margin-bottom: 40px;
+  }
+
+  /* INPUTS: Border Bottom Only */
+  .gucci-contact-section .field__input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 0;
+    padding: 15px 0;
+    font-size: 14px;
+    color: #000;
+    box-shadow: none;
+  }
+
+  .gucci-contact-section .field__input:focus {
+    border-bottom: 1px solid #000;
+    box-shadow: none;
+    outline: none;
+    padding-bottom: 14px; /* Maintain height visual with thicker border illusion if needed */
+  }
+
+  /* LABELS: Uppercase & Floating */
+  .gucci-contact-section .field__label {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #666;
+    left: 0;
+    top: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .gucci-contact-section .field__input:focus ~ .field__label,
+  .gucci-contact-section .field__input:not(:placeholder-shown) ~ .field__label {
+    top: -10px;
+    font-size: 10px;
+    color: #000;
+  }
+
+  .gucci-contact-section .field {
+    margin-bottom: 30px;
+  }
+
+  .gucci-contact-section .field:after {
+    display: none; /* Remove default theme box shadow outlines */
+  }
+  .gucci-contact-section .field:before {
+    display: none;
+  }
+
+  /* BUTTON: Sharp & Black */
+  .gucci-contact-section .contact__button .button {
+    background-color: #000;
+    color: #fff;
+    border-radius: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    padding: 15px 40px;
+    width: 100%;
+    min-height: 50px;
+    transition: opacity 0.3s;
+  }
+  
+  .gucci-contact-section .contact__button .button:hover {
+    opacity: 0.8;
+  }
+  .gucci-contact-section .contact__button .button:after {
+    display: none; /* Remove theme button shadow/border */
+  }
+
 {%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="contact page-width page-width--narrow section-{{ section.id }}-padding">
+  <div class="contact page-width page-width--narrow section-{{ section.id }}-padding gucci-contact-section"> <!-- Added class here -->
     {%- if section.settings.heading != blank -%}
       <h2 class="title title-wrapper--no-top-margin inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         {{ section.settings.heading }}
@@ -60,7 +146,7 @@
             id="ContactForm-name"
             name="contact[{{ 'templates.contact.form.name' | t }}]"
             value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-            placeholder="{{ 'templates.contact.form.name' | t }}"
+            placeholder=" "
           >
           <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
         </div>
@@ -79,7 +165,7 @@
               aria-invalid="true"
               aria-describedby="ContactForm-email-error"
             {% endif %}
-            placeholder="{{ 'templates.contact.form.email' | t }}"
+            placeholder=" "
           >
           <label class="field__label" for="ContactForm-email">
             {{- 'templates.contact.form.email' | t }}
@@ -108,7 +194,7 @@
           name="contact[{{ 'templates.contact.form.phone' | t }}]"
           pattern="[0-9\-]*"
           value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-          placeholder="{{ 'templates.contact.form.phone' | t }}"
+          placeholder=" "
         >
         <label class="field__label" for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
       </div>
@@ -118,7 +204,7 @@
           id="ContactForm-body"
           class="text-area field__input"
           name="contact[{{ 'templates.contact.form.comment' | t }}]"
-          placeholder="{{ 'templates.contact.form.comment' | t }}"
+          placeholder=" "
         >
           {{- form.body -}}
         </textarea>
