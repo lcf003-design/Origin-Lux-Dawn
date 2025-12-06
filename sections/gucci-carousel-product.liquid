@@ -55,12 +55,12 @@
     justify-content: center;
     position: relative;
     overflow: hidden;
-    cursor: crosshair; /* Precision target instead of magnifying glass */
+    cursor: crosshair !important; /* Precision target instead of magnifying glass */
   }
 
   /* ZOOM STATE STYLES */
   .gucci-slide.is-zoomed {
-    cursor: zoom-out; /* Keeps zoom-out but crosshair for entry is the key change */
+    cursor: zoom-out !important; /* Keeps zoom-out but crosshair for entry is the key change */
   }
 
   .gucci-slide img {
@@ -265,6 +265,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
+    color: #111; /* Ensure visible color */
   }
   
   .gucci-accordion .accordion__content {
