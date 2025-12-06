@@ -35,12 +35,21 @@
             "question": "Will my item come with original box, dust bag, or authenticity card?",
             "answer": "<p>We aim to make sure every item is nicely packaged in its original box and or dust bag with its certificates of authenticity. </p>"
           }
+        },
+        "faq_item_43mQkr": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Product Information",
+            "question": "Are the colors in the photos accurate?",
+            "answer": "<p>We do our best to photograph items in natural or studio lighting to reflect true colors.</p><p>However, colors may appear slightly different depending on your screen settings.</p>"
+          }
         }
       },
       "block_order": [
         "faq_item_CWkkWH",
         "faq_item_aiwVP4",
-        "faq_item_QdqyaX"
+        "faq_item_QdqyaX",
+        "faq_item_43mQkr"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
