@@ -227,6 +227,22 @@
             "question": "Why are all items final sale?",
             "answer": "<p>Our pieces are often rare, limited, or one-of-a-kind luxury items.To protect product integrity and authenticity, we cannot restock or resell items once they have left our facility.For this reason, all purchases are final sale.</p>"
           }
+        },
+        "faq_item_FKNpef": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Returns & Exchanges",
+            "question": "Can I cancel my order after purchasing?",
+            "answer": "<p>Yes — orders may be cancelled within 12 hours of purchase.</p><p>After 12 hours, processing begins and cancellations are no longer guaranteed.</p>"
+          }
+        },
+        "faq_item_ytc3Ei": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Returns & Exchanges",
+            "question": "Do you offer refunds?",
+            "answer": "<p>Refunds are only issued if:</p><ul><li>Your order cannot be fulfilled, or</li><li>You cancel within the 12-hour window.</li></ul><p>Outside of this, all sales are final.</p>"
+          }
         }
       },
       "block_order": [
@@ -256,7 +272,9 @@
         "faq_item_QP6zcA",
         "faq_item_TT9d4y",
         "faq_item_g7C6JB",
-        "faq_item_HEHrW9"
+        "faq_item_HEHrW9",
+        "faq_item_FKNpef",
+        "faq_item_ytc3Ei"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
