@@ -303,9 +303,17 @@
         "faq_item_PxQjyB": {
           "type": "faq_item",
           "settings": {
-            "category": "General",
-            "question": "Question text here",
-            "answer": "<p>Answer text here</p>"
+            "category": "My Account",
+            "question": "Do I need an account to place an order?",
+            "answer": "<p>No — you can checkout as a guest.</p><p>Creating an account is optional and simply provides added convenience.</p>"
+          }
+        },
+        "faq_item_HJeVzq": {
+          "type": "faq_item",
+          "settings": {
+            "category": "My Account",
+            "question": "What are the benefits of creating an account?",
+            "answer": "<p>Having an account allows you to:</p><ul><li>View past orders</li><li>Save your shipping information for faster checkout</li><li>Track orders more easily</li><li>Access your order history anytime</li></ul><p></p>"
           }
         }
       },
@@ -346,7 +354,8 @@
         "faq_item_bTMfJ7",
         "faq_item_bHETF3",
         "faq_item_xencVG",
-        "faq_item_PxQjyB"
+        "faq_item_PxQjyB",
+        "faq_item_HJeVzq"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
