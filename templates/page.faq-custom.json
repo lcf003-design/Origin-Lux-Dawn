@@ -351,9 +351,9 @@
         "faq_item_iTpMxQ": {
           "type": "faq_item",
           "settings": {
-            "category": "General",
-            "question": "Question text here",
-            "answer": "<p>Answer text here</p>"
+            "category": "My Account",
+            "question": "Is my personal information secure?",
+            "answer": "<p>Yes — all customer information is protected through secure, encrypted systems.</p><p>We never share or sell your personal data.</p>"
           }
         }
       },
