@@ -51,6 +51,14 @@
             "question": "How do I know my size?",
             "answer": "<p>Each listing includes measurements and/or sizing details.</p><p>For belts, bags, and accessories, please check the measurements listed in the description and compare them with pieces you already own for the best fit.</p>"
           }
+        },
+        "faq_item_cwjwQU": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Product Information",
+            "question": "Are all items in stock?",
+            "answer": "<p>Yes — unless a product is marked as pre-order or reserved, all items shown as “Available” on the site are in stock and ready to ship.</p>"
+          }
         }
       },
       "block_order": [
@@ -58,7 +66,8 @@
         "faq_item_aiwVP4",
         "faq_item_QdqyaX",
         "faq_item_43mQkr",
-        "faq_item_jhDpkC"
+        "faq_item_jhDpkC",
+        "faq_item_cwjwQU"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
