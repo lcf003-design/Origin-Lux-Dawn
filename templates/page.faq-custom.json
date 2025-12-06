@@ -113,7 +113,7 @@
           "settings": {
             "category": "Orders & Payments",
             "question": "Why was my payment declined",
-            "answer": "<p>Answer text here</p>"
+            "answer": "<p>Payments may be declined due to:</p><ul><li>Incorrect billing information</li><li>Your bank’s fraud protection system</li><li>Insufficient funds</li><li>A security hold on high-value transactions</li></ul><p>If this happens, please try another payment method or contact your bank directly.</p>"
           }
         }
       },
