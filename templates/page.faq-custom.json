@@ -155,6 +155,22 @@
             "question": "How much is shipping?",
             "answer": "<p>Shipping fees are calculated at checkout based on destination and service level.</p><p>Promotional free shipping may apply during select periods.</p>"
           }
+        },
+        "faq_item_cr8cgm": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "How can I track my order?",
+            "answer": "<p>Once your order ships, you’ll receive an email with your tracking number and tracking link.</p>"
+          }
+        },
+        "faq_item_rLaamQ": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "Why hasn't my tracking updated yet?",
+            "answer": "<p>Tracking may take 2–5 business days to update, especially for international shipments or customs transitions.</p><p>This is normal and does not indicate a problem with your shipment.</p>"
+          }
         }
       },
       "block_order": [
@@ -175,7 +191,9 @@
         "faq_item_AQqPMf",
         "faq_item_EtEBgt",
         "faq_item_K7tF7H",
-        "faq_item_QytheA"
+        "faq_item_QytheA",
+        "faq_item_cr8cgm",
+        "faq_item_rLaamQ"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
