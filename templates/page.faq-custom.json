@@ -43,13 +43,22 @@
             "question": "Are the colors in the photos accurate?",
             "answer": "<p>We do our best to photograph items in natural or studio lighting to reflect true colors.</p><p>However, colors may appear slightly different depending on your screen settings.</p>"
           }
+        },
+        "faq_item_jhDpkC": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Product Information",
+            "question": "How do I know my size?",
+            "answer": "<p>Each listing includes measurements and/or sizing details.</p><p>For belts, bags, and accessories, please check the measurements listed in the description and compare them with pieces you already own for the best fit.</p>"
+          }
         }
       },
       "block_order": [
         "faq_item_CWkkWH",
         "faq_item_aiwVP4",
         "faq_item_QdqyaX",
-        "faq_item_43mQkr"
+        "faq_item_43mQkr",
+        "faq_item_jhDpkC"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
