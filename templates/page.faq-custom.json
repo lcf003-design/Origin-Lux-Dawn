@@ -11,12 +11,44 @@
   "sections": {
     "faq_sidebar_37DdDj": {
       "type": "faq-sidebar",
+      "blocks": {
+        "faq_item_CWkkWH": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Product Information",
+            "question": "What Kind of products do you sell?",
+            "answer": "<p>Origin Intl Boutique curates a selection of luxury handbags, small leather goods, belts, sunglasses, accessories, and ready-to-wear pieces from high-end designer brands.</p>"
+          }
+        },
+        "faq_item_aiwVP4": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Product Information",
+            "question": "Are Items new or pre-owned",
+            "answer": "<p>All of our items we carry are new, but we have hopes to expand to pre-loved in the future.</p>"
+          }
+        },
+        "faq_item_QdqyaX": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Product Information",
+            "question": "Will my item come with original box, dust bag, or authenticity card?",
+            "answer": "<p>We aim to make sure every item is nicely packaged in its original box and or dust bag with its certificates of authenticity. </p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_CWkkWH",
+        "faq_item_aiwVP4",
+        "faq_item_QdqyaX"
+      ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
         "header_bg": "#000000",
         "header_text": "#FFFFFF",
         "section_bg": "#FFFFFF",
-        "text_color": "#000000"
+        "text_color": "#000000",
+        "emblem_logo": "shopify://shop_images/Favicon.png"
       }
     },
     "main": {
