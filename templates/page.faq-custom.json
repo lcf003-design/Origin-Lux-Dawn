@@ -115,6 +115,14 @@
             "question": "Why was my payment declined",
             "answer": "<p>Payments may be declined due to:</p><ul><li>Incorrect billing information</li><li>Your bank’s fraud protection system</li><li>Insufficient funds</li><li>A security hold on high-value transactions</li></ul><p>If this happens, please try another payment method or contact your bank directly.</p>"
           }
+        },
+        "faq_item_GyG8QH": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "Do you charge sales tax?",
+            "answer": "<p>Sales tax is applied at checkout where required by law.</p>"
+          }
         }
       },
       "block_order": [
@@ -130,7 +138,8 @@
         "faq_item_j3n7WG",
         "faq_item_XYTgEm",
         "faq_item_xKwMbM",
-        "faq_item_hYpcTe"
+        "faq_item_hYpcTe",
+        "faq_item_GyG8QH"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
