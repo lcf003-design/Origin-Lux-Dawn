@@ -347,6 +347,14 @@
             "question": "Will my Account show tracking information?",
             "answer": "<p>Once your order ships, tracking details will appear in your account dashboard (in addition to being emailed to you).</p>"
           }
+        },
+        "faq_item_iTpMxQ": {
+          "type": "faq_item",
+          "settings": {
+            "category": "General",
+            "question": "Question text here",
+            "answer": "<p>Answer text here</p>"
+          }
         }
       },
       "block_order": [
@@ -391,7 +399,8 @@
         "faq_item_zcXjAG",
         "faq_item_4HkFB3",
         "faq_item_FN4Fzi",
-        "faq_item_8t3AeA"
+        "faq_item_8t3AeA",
+        "faq_item_iTpMxQ"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
