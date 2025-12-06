@@ -1,86 +1,175 @@
 {% comment %}
   Gucci-Style FAQ Section
-  - Left Sidebar (Sticky)
-  - Right Content (Accordions)
-  - Auto-grouping by Category name
+  - Sticky Sidebar with ScrollSpy
+  - Smooth Scrolling
+  - Premium Accordion Animations
 {% endcomment %}
 
 <style>
-  .faq-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    display: flex;
-    gap: 50px;
-    position: relative;
-    font-family: var(--font-body-family);
+  /* CLIENT SERVICES HEADER */
+  .client-services-header {
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #e0e0e0; /* Optional: Separator if needed, Gucci uses subtle spacing */
+    margin-bottom: 40px;
   }
 
-  /* SIDEBAR STYLES */
+  .client-services-title {
+    font-size: 24px;
+    font-weight: 400; /* Regular weight, elegant */
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    font-family: var(--font-heading-family); /* Use theme heading font */
+    color: {{ section.settings.heading_color }};
+  }
+
+  .client-services-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+  }
+
+  .cs-tab {
+    text-decoration: none;
+    color: #999;
+    padding-bottom: 5px;
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+
+  .cs-tab:hover {
+    color: {{ section.settings.heading_color }};
+  }
+
+  .cs-tab.active {
+    color: {{ section.settings.heading_color }};
+    border-bottom: 1px solid {{ section.settings.heading_color }};
+  }
+
+  /* BASE LAYOUT */
+  .faq-container {
+    max-width: 1400px; /* Wider for premium feel */
+    margin: 0 auto;
+    padding: 0 40px 60px 40px; /* Removed top padding as header handles it */
+    display: flex;
+    gap: 80px; /* More breathing room */
+    position: relative;
+    font-family: var(--font-body-family);
+    color: {{ section.settings.text_color }};
+  }
+
+  /* SIDEBAR (Sticky Navigation) */
   .faq-sidebar {
-    width: 25%;
+    width: 250px;
     flex-shrink: 0;
   }
   
   .faq-sidebar-inner {
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    top: 100px; /* Adjust based on your header height */
+    top: 120px; /* Adjust based on header height */
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    padding-right: 10px; /* Space for scrollbar if needed */
+  }
+
+  /* Hide scrollbar for sidebar */
+  .faq-sidebar-inner::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+
+  .faq-categories-header {
+    margin-bottom: 20px; 
+    font-weight: 600; 
+    font-size: 13px; 
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
   }
 
   .faq-link {
     text-decoration: none;
     color: {{ section.settings.text_color }};
-    font-weight: 500;
+    font-weight: 400;
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: opacity 0.3s;
+    transition: all 0.3s ease;
     cursor: pointer;
+    position: relative;
+    display: inline-block;
+    opacity: 0.6;
   }
 
   .faq-link:hover {
-    opacity: 0.6;
-    text-decoration: underline;
+    opacity: 1;
   }
 
-  /* CONTENT STYLES */
-  .faq-content {
-    width: 75%;
+  .faq-link.active {
+    opacity: 1;
+    font-weight: 600;
   }
 
-  .faq-category-group {
-    margin-bottom: 60px;
-    scroll-margin-top: 120px; /* Prevents header from covering title */
-  }
-
-  .faq-category-title {
-    font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 10px;
+  /* Active indicator dot or underline style */
+  .faq-link.active::before {
+    content: '•';
+    position: absolute;
+    left: -15px;
+    top: 0;
     color: {{ section.settings.heading_color }};
   }
 
-  /* ACCORDION STYLES */
+  /* CONTENT AREA */
+  .faq-content {
+    flex-grow: 1;
+    padding-top: 10px;
+  }
+
+  .faq-category-group {
+    margin-bottom: 80px;
+    scroll-margin-top: 120px; /* Important for clean anchor scrolling */
+  }
+
+  .faq-category-title {
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    color: {{ section.settings.heading_color }};
+    font-weight: 500;
+  }
+
+  /* ACCORDION ITEMS */
   .faq-item {
     border-bottom: 1px solid #e0e0e0;
   }
 
   .faq-item summary {
-    padding: 20px 0;
+    padding: 25px 0;
     cursor: pointer;
     list-style: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 400;
+    transition: opacity 0.3s;
+  }
+  
+  .faq-item summary:hover {
+    opacity: 0.7;
   }
 
   /* Remove default triangle */
@@ -88,80 +177,133 @@
     display: none;
   }
 
-  .faq-item summary:hover {
-    opacity: 0.7;
-  }
-
   .faq-answer {
-    padding-bottom: 20px;
-    line-height: 1.6;
+    line-height: 1.8;
     color: {{ section.settings.text_color }};
     font-size: 14px;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    padding-right: 20px;
   }
 
-  /* Custom + and - Icon */
+  /* Open State Animation */
+  .faq-item[open] .faq-answer {
+    max-height: 500px; /* Arbitrary large height */
+    opacity: 1;
+    padding-bottom: 25px;
+    margin-top: -10px;
+  }
+
+  /* Custom Icons */
   .icon-plus {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 300;
+    transition: transform 0.3s ease;
+    line-height: 1;
   }
   
-  details[open] .icon-plus {
-    transform: rotate(45deg); /* Turns + into x */
-    transition: transform 0.2s ease;
+  .faq-item[open] .icon-plus {
+    transform: rotate(45deg);
   }
 
   /* MOBILE RESPONSIVE */
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     .faq-container {
       flex-direction: column;
+      padding: 30px 20px;
+      gap: 40px;
     }
+    
     .faq-sidebar {
       width: 100%;
-      margin-bottom: 30px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 20px;
+      z-index: 10;
+      background: #fff; /* Ensure generic background in case it overlays */
+      padding-bottom: 0;
     }
+
     .faq-sidebar-inner {
-      position: static;
+      position: sticky;
+      top: 0; /* Stick to top on scroll if within container (optional behavior) or static */
+      /* Note: For pure horizontal scroll nav, standard sticky might interfere if not handled carefully. 
+         Let's keep it static flow but clear sticky props for simplicity on mobile unless desired.
+      */
+      position: static; 
       flex-direction: row;
       overflow-x: auto;
       white-space: nowrap;
-      padding-bottom: 10px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      width: 100vw;
+      margin-left: -20px; /* Negative margin to span full width */
+      padding-left: 20px;
+      padding-right: 20px;
+      -webkit-overflow-scrolling: touch;
+      gap: 30px;
+      max-height: none;
     }
+
+    /* Hide scrollbar mobile */
+    .faq-sidebar-inner::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .faq-categories-header {
+      display: none;
+    }
+
     .faq-link {
-      margin-right: 20px;
-      font-size: 12px;
+      font-size: 13px;
+      opacity: 0.5;
     }
-    .faq-content {
-      width: 100%;
+    
+    .faq-link.active {
+      opacity: 1;
+      border-bottom: 2px solid {{ section.settings.heading_color }};
+      padding-bottom: 5px;
+    }
+    
+    .faq-link.active::before {
+      display: none;
     }
   }
 </style>
+
+<div class="client-services-header">
+  <h1 class="client-services-title">Client Services</h1>
+  <div class="client-services-tabs">
+    <a href="#" class="cs-tab active">FAQs</a>
+    <a href="/pages/contact" class="cs-tab">Contact Us</a>
+  </div>
+</div>
 
 <div class="faq-container">
   
   {%- comment -%} 1. LOGIC TO GET UNIQUE CATEGORIES {%- endcomment -%}
   {% assign categories = section.blocks | map: 'settings' | map: 'category' | uniq %}
 
-  <div class="faq-sidebar">
-    <div class="faq-sidebar-inner">
-      <div style="margin-bottom:15px; font-weight:bold; font-size:12px; color:#888;">CATEGORIES</div>
+  <nav class="faq-sidebar">
+    <div class="faq-sidebar-inner" id="faq-sidebar-nav">
+      <div class="faq-categories-header">Categories</div>
       {% for category in categories %}
         {% if category != blank %}
-          <a href="#{{ category | handleize }}" class="faq-link">{{ category }}</a>
+          {% assign handle = category | handleize %}
+          <a href="#{{ handle }}" class="faq-link" data-handle="{{ handle }}">{{ category }}</a>
         {% endif %}
       {% endfor %}
     </div>
-  </div>
+  </nav>
 
-  <div class="faq-content">
+  <section class="faq-content">
     {% for category in categories %}
       {% if category != blank %}
+        {% assign handle = category | handleize %}
         
-        <div id="{{ category | handleize }}" class="faq-category-group">
+        <div id="{{ handle }}" class="faq-category-group" data-spy-target="{{ handle }}">
           <h2 class="faq-category-title">{{ category }}</h2>
           
-          {% comment %} LOOP THROUGH BLOCKS AND SHOW ONLY MATCHING CATEGORY {% endcomment %}
+          {% comment %} LOOP THROUGH BLOCKS {% endcomment %}
           {% for block in section.blocks %}
             {% if block.settings.category == category %}
               <details class="faq-item">
@@ -179,8 +321,86 @@
         </div>
       {% endif %}
     {% endfor %}
-  </div>
+  </section>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const links = document.querySelectorAll('.faq-link');
+  const sections = document.querySelectorAll('.faq-category-group');
+  const sidebarInner = document.querySelector('.faq-sidebar-inner');
+  const isMobile = window.innerWidth <= 900;
+
+  // 1. SMOOTH SCROLL ON CLICK
+  links.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href').substring(1);
+      const targetSection = document.getElementById(targetId);
+      
+      if(targetSection) {
+        // Offset Calculation (Header height + padding)
+        const headerOffset = 130; 
+        const elementPosition = targetSection.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+        
+        // Update active state manually immediately for feedback
+        updateActiveLink(this);
+      }
+    });
+  });
+
+  // 2. SCROLLSPY
+  const observerOptions = {
+    root: null,
+    rootMargin: '-20% 0px -60% 0px', // Trigger when section is near top of viewport
+    threshold: 0
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        const activeLink = document.querySelector(`.faq-link[href="#${id}"]`);
+        
+        if (activeLink) {
+           updateActiveLink(activeLink);
+        }
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+
+  function updateActiveLink(activeLink) {
+    // Remove active from all
+    links.forEach(l => l.classList.remove('active'));
+    // Add to current
+    activeLink.classList.add('active');
+    
+    // 3. AUTO-SCROLL SIDEBAR ON MOBILE
+    if (window.innerWidth <= 900) {
+      const parent = activeLink.parentNode;
+      const left = activeLink.offsetLeft;
+      // Center the active item
+      const width = activeLink.offsetWidth;
+      const parentWidth = parent.offsetWidth;
+      
+      parent.scrollTo({
+        left: left - (parentWidth / 2) + (width / 2),
+        behavior: 'smooth'
+      });
+    }
+  }
+});
+</script>
 
 {% schema %}
 {
@@ -190,7 +410,7 @@
       "type": "color",
       "id": "text_color",
       "label": "Text Color",
-      "default": "#333333"
+      "default": "#2D2D2D"
     },
     {
       "type": "color",
@@ -208,20 +428,20 @@
           "type": "text",
           "id": "category",
           "label": "Category Name",
-          "info": "Case Sensitive! Type 'Shipping' exactly the same for all shipping questions.",
-          "default": "General"
+          "info": "Case Sensitive! Group questions by typing the same Category name.",
+          "default": "Account"
         },
         {
           "type": "text",
           "id": "question",
           "label": "Question",
-          "default": "What is your return policy?"
+          "default": "How do I create an account?"
         },
         {
           "type": "richtext",
           "id": "answer",
           "label": "Answer",
-          "default": "<p>You can return items within 30 days.</p>"
+          "default": "<p>Registering for an account is easy and provides you with the following benefits...</p>"
         }
       ]
     }
