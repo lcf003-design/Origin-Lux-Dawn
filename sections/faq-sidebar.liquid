@@ -1,0 +1,235 @@
+{% comment %}
+  Gucci-Style FAQ Section
+  - Left Sidebar (Sticky)
+  - Right Content (Accordions)
+  - Auto-grouping by Category name
+{% endcomment %}
+
+<style>
+  .faq-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    gap: 50px;
+    position: relative;
+    font-family: var(--font-body-family);
+  }
+
+  /* SIDEBAR STYLES */
+  .faq-sidebar {
+    width: 25%;
+    flex-shrink: 0;
+  }
+  
+  .faq-sidebar-inner {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 100px; /* Adjust based on your header height */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .faq-link {
+    text-decoration: none;
+    color: {{ section.settings.text_color }};
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: opacity 0.3s;
+    cursor: pointer;
+  }
+
+  .faq-link:hover {
+    opacity: 0.6;
+    text-decoration: underline;
+  }
+
+  /* CONTENT STYLES */
+  .faq-content {
+    width: 75%;
+  }
+
+  .faq-category-group {
+    margin-bottom: 60px;
+    scroll-margin-top: 120px; /* Prevents header from covering title */
+  }
+
+  .faq-category-title {
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+    color: {{ section.settings.heading_color }};
+  }
+
+  /* ACCORDION STYLES */
+  .faq-item {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .faq-item summary {
+    padding: 20px 0;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  /* Remove default triangle */
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary:hover {
+    opacity: 0.7;
+  }
+
+  .faq-answer {
+    padding-bottom: 20px;
+    line-height: 1.6;
+    color: {{ section.settings.text_color }};
+    font-size: 14px;
+  }
+
+  /* Custom + and - Icon */
+  .icon-plus {
+    font-size: 20px;
+    font-weight: 300;
+  }
+  
+  details[open] .icon-plus {
+    transform: rotate(45deg); /* Turns + into x */
+    transition: transform 0.2s ease;
+  }
+
+  /* MOBILE RESPONSIVE */
+  @media (max-width: 768px) {
+    .faq-container {
+      flex-direction: column;
+    }
+    .faq-sidebar {
+      width: 100%;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 20px;
+    }
+    .faq-sidebar-inner {
+      position: static;
+      flex-direction: row;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 10px;
+    }
+    .faq-link {
+      margin-right: 20px;
+      font-size: 12px;
+    }
+    .faq-content {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="faq-container">
+  
+  {%- comment -%} 1. LOGIC TO GET UNIQUE CATEGORIES {%- endcomment -%}
+  {% assign categories = section.blocks | map: 'settings' | map: 'category' | uniq %}
+
+  <div class="faq-sidebar">
+    <div class="faq-sidebar-inner">
+      <div style="margin-bottom:15px; font-weight:bold; font-size:12px; color:#888;">CATEGORIES</div>
+      {% for category in categories %}
+        {% if category != blank %}
+          <a href="#{{ category | handleize }}" class="faq-link">{{ category }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="faq-content">
+    {% for category in categories %}
+      {% if category != blank %}
+        
+        <div id="{{ category | handleize }}" class="faq-category-group">
+          <h2 class="faq-category-title">{{ category }}</h2>
+          
+          {% comment %} LOOP THROUGH BLOCKS AND SHOW ONLY MATCHING CATEGORY {% endcomment %}
+          {% for block in section.blocks %}
+            {% if block.settings.category == category %}
+              <details class="faq-item">
+                <summary>
+                  {{ block.settings.question }}
+                  <span class="icon-plus">+</span>
+                </summary>
+                <div class="faq-answer">
+                  {{ block.settings.answer }}
+                </div>
+              </details>
+            {% endif %}
+          {% endfor %}
+          
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Gucci Style FAQ",
+  "settings": [
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category",
+          "label": "Category Name",
+          "info": "Case Sensitive! Type 'Shipping' exactly the same for all shipping questions.",
+          "default": "General"
+        },
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What is your return policy?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>You can return items within 30 days.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gucci Style FAQ"
+    }
+  ]
+}
+{% endschema %}
