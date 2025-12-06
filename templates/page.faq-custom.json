@@ -267,6 +267,14 @@
             "question": "How should I store my handbag?",
             "answer": "<p>For best results:</p><ul><li>Stuff bags with tissue or soft filler to maintain shape</li><li>Store upright in a dust bag</li><li>Avoid hanging bags by their straps</li><li>Keep them away from humidity and direct sunlight</li></ul><p></p>"
           }
+        },
+        "faq_item_YrHd8r": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Care & Maintenance",
+            "question": "How do I clean my leather goods?",
+            "answer": "<p>Use a soft, dry cloth to gently wipe the surface.</p><p>Avoid harsh cleaners, alcohol, baby wipes, or household chemicals — these can damage luxury leather.</p><p>For deeper cleaning, we recommend a professional leather specialist.</p>"
+          }
         }
       },
       "block_order": [
@@ -301,7 +309,8 @@
         "faq_item_ytc3Ei",
         "faq_item_JQeqmf",
         "faq_item_gdHTTj",
-        "faq_item_WdgRDW"
+        "faq_item_WdgRDW",
+        "faq_item_YrHd8r"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
