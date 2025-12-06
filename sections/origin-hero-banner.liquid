@@ -8,21 +8,27 @@
 
 <section class="origin-hero" data-origin-hero>
   <div class="origin-hero__media">
-    {% if section.settings.image_desktop != blank %}
-      {{ section.settings.image_desktop | image_url: width: 2400 | image_tag:
-        class: 'origin-hero__image origin-hero__image--desktop',
-        loading: 'lazy',
-        alt: section.settings.heading | default: shop.name
-      }}
-    {% endif %}
-
-    {% if section.settings.image_mobile != blank %}
-      {{ section.settings.image_mobile | image_url: width: 1200 | image_tag:
-        class: 'origin-hero__image origin-hero__image--mobile',
-        loading: 'lazy',
-        alt: section.settings.heading | default: shop.name
-      }}
-    {% endif %}
+    {%- if section.settings.image_desktop != blank or section.settings.image_mobile != blank -%}
+      <picture>
+        {%- if section.settings.image_mobile != blank -%}
+          <source media="(max-width: 768px)" srcset="{{ section.settings.image_mobile | image_url: width: 1200 }}">
+        {%- endif -%}
+        {%- if section.settings.image_desktop != blank -%}
+          <source media="(min-width: 769px)" srcset="{{ section.settings.image_desktop | image_url: width: 2400 }}">
+          {{ section.settings.image_desktop | image_url: width: 2400 | image_tag:
+            class: 'origin-hero__image',
+            loading: 'lazy',
+            alt: section.settings.heading | default: shop.name
+          }}
+        {%- else -%}
+          {{ section.settings.image_mobile | image_url: width: 1200 | image_tag:
+            class: 'origin-hero__image',
+            loading: 'lazy',
+            alt: section.settings.heading | default: shop.name
+          }}
+        {%- endif -%}
+      </picture>
+    {%- endif -%}
 
     <div class="origin-hero__overlay"></div>
   </div>

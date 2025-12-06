@@ -1,0 +1,427 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "faq_sidebar_37DdDj": {
+      "type": "faq-sidebar",
+      "blocks": {
+        "faq_item_CWkkWH": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Product Information",
+            "question": "What Kind of products do you sell?",
+            "answer": "<p>Origin Intl Boutique curates a selection of luxury handbags, small leather goods, belts, sunglasses, accessories, and ready-to-wear pieces from high-end designer brands.</p>"
+          }
+        },
+        "faq_item_aiwVP4": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Product Information",
+            "question": "Are Items new or pre-owned",
+            "answer": "<p>All of our items we carry are new, but we have hopes to expand to pre-loved in the future.</p>"
+          }
+        },
+        "faq_item_QdqyaX": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Product Information",
+            "question": "Will my item come with original box, dust bag, or authenticity card?",
+            "answer": "<p>We aim to make sure every item is nicely packaged in its original box and or dust bag with its certificates of authenticity. </p>"
+          }
+        },
+        "faq_item_43mQkr": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Product Information",
+            "question": "Are the colors in the photos accurate?",
+            "answer": "<p>We do our best to photograph items in natural or studio lighting to reflect true colors.</p><p>However, colors may appear slightly different depending on your screen settings.</p>"
+          }
+        },
+        "faq_item_jhDpkC": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Product Information",
+            "question": "How do I know my size?",
+            "answer": "<p>Each listing includes measurements and/or sizing details.</p><p>For belts, bags, and accessories, please check the measurements listed in the description and compare them with pieces you already own for the best fit.</p>"
+          }
+        },
+        "faq_item_cwjwQU": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Product Information",
+            "question": "Are all items in stock?",
+            "answer": "<p>Yes — unless a product is marked as pre-order or reserved, all items shown as “Available” on the site are in stock and ready to ship.</p>"
+          }
+        },
+        "faq_item_RPFNtT": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "How do I place an order?",
+            "answer": "<p>Answer text Simply add your desired items to your cart and complete checkout.</p><p>If you need assistance, email us at hello@originintlboutique.com.here</p>"
+          }
+        },
+        "faq_item_7dDV6j": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "Can I cancel my order after purchasing?",
+            "answer": "<p>Orders may be cancelled within 12 hours of purchase.</p><p>Once processing begins, cancellations are no longer guaranteed.</p>"
+          }
+        },
+        "faq_item_TryEc9": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "Can I modify my order after it's placed?",
+            "answer": "<p>If you need to update your order, email us at hello@originintlboutique.com within 12 hours of checkout.</p><p>We will try to make changes before your order is processed.</p>"
+          }
+        },
+        "faq_item_j3n7WG": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "What payment methods do you accept?",
+            "answer": "<p>We accept:</p><ul><li>Major credit and debit cards</li><li>Apple Pay</li><li>Shop Pay</li><li>PayPal</li></ul><p></p>"
+          }
+        },
+        "faq_item_XYTgEm": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "Is my payment secure?",
+            "answer": "<p>Yes. All payments are processed through encrypted and secure checkout systems.Your financial information is never stored or shared.</p>"
+          }
+        },
+        "faq_item_xKwMbM": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "I didn’t receive an order confirmation — what should I do?",
+            "answer": "<p>Check your spam or promotions folder first.</p><p>If it’s not there, email us at hello@originintlboutique.com and we’ll resend your confirmation.</p>"
+          }
+        },
+        "faq_item_hYpcTe": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "Why was my payment declined",
+            "answer": "<p>Payments may be declined due to:</p><ul><li>Incorrect billing information</li><li>Your bank’s fraud protection system</li><li>Insufficient funds</li><li>A security hold on high-value transactions</li></ul><p>If this happens, please try another payment method or contact your bank directly.</p>"
+          }
+        },
+        "faq_item_GyG8QH": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "Do you charge sales tax?",
+            "answer": "<p>Sales tax is applied at checkout where required by law.</p>"
+          }
+        },
+        "faq_item_AQqPMf": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "How do I know my order went through?",
+            "answer": "<p>As soon as your order is placed, you’ll receive an email confirmation.</p><p>A second email will be sent once your order ships.</p>"
+          }
+        },
+        "faq_item_EtEBgt": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "How long does shipping take",
+            "answer": "<p>Most orders arrive within 10–15 business days.</p><p>Delivery times may vary depending on your location, customs processing, and carrier conditions.</p>"
+          }
+        },
+        "faq_item_K7tF7H": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "Do you ship internationally?",
+            "answer": "<p>Yes — we ship worldwide.<br/>International customers are responsible for any customs duties, VAT, or import taxes required by their country.</p>"
+          }
+        },
+        "faq_item_QytheA": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "How much is shipping?",
+            "answer": "<p>Shipping fees are calculated at checkout based on destination and service level.</p><p>Promotional free shipping may apply during select periods.</p>"
+          }
+        },
+        "faq_item_cr8cgm": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "How can I track my order?",
+            "answer": "<p>Once your order ships, you’ll receive an email with your tracking number and tracking link.</p>"
+          }
+        },
+        "faq_item_rLaamQ": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "Why hasn't my tracking updated yet?",
+            "answer": "<p>Tracking may take 2–5 business days to update, especially for international shipments or customs transitions.</p><p>This is normal and does not indicate a problem with your shipment.</p>"
+          }
+        },
+        "faq_item_3xGtUj": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "What happens if my package is lost in transit?",
+            "answer": "<p>If the carrier confirms the package is lost, we will assist you with next steps depending on item availability, insurance, and shipping method used.</p>"
+          }
+        },
+        "faq_item_aij3D9": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "How are items packaged for shipping?",
+            "answer": "<p>All luxury items are shipped with <strong>protective packaging</strong> to maintain item condition during transit.</p><p>If the item includes a box, dust bag, or accessories, they will be included when applicable.</p>"
+          }
+        },
+        "faq_item_7xDJTi": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "Can I change my shipping address after ordering?",
+            "answer": "<p>Shipping addresses can only be updated within 12 hours of placing your order.</p><p>After processing begins, address changes are not guaranteed.</p>"
+          }
+        },
+        "faq_item_QP6zcA": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "Do you ship to PO Boxes?",
+            "answer": "<p>Some carriers do not deliver high-value packages to PO Boxes. If this affects your order, we will contact you for an alternative address.</p>"
+          }
+        },
+        "faq_item_TT9d4y": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Returns & Exchanges",
+            "question": "Are items eligible for return or exchange?",
+            "answer": "<p>All items at Origin Intl Boutique are final sale.</p><p>Due to the nature of luxury and limited-availability pieces, we do not accept returns, exchanges, or cancellations once an order has been placed.</p>"
+          }
+        },
+        "faq_item_g7C6JB": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Returns & Exchanges",
+            "question": "What if my item arrives damaged or incorrect?",
+            "answer": "<p>If an item arrives damaged or you received the wrong product, email us within 48 hours of delivery at hello@originintlboutique.com with photos of the issue.</p><p>We will review your case and assist you as quickly as possible.</p>"
+          }
+        },
+        "faq_item_HEHrW9": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Returns & Exchanges",
+            "question": "Why are all items final sale?",
+            "answer": "<p>Our pieces are often rare, limited, or one-of-a-kind luxury items.To protect product integrity and authenticity, we cannot restock or resell items once they have left our facility.For this reason, all purchases are final sale.</p>"
+          }
+        },
+        "faq_item_FKNpef": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Returns & Exchanges",
+            "question": "Can I cancel my order after purchasing?",
+            "answer": "<p>Yes — orders may be cancelled within 12 hours of purchase.</p><p>After 12 hours, processing begins and cancellations are no longer guaranteed.</p>"
+          }
+        },
+        "faq_item_ytc3Ei": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Returns & Exchanges",
+            "question": "Do you offer refunds?",
+            "answer": "<p>Refunds are only issued if:</p><ul><li>Your order cannot be fulfilled, or</li><li>You cancel within the 12-hour window.</li></ul><p>Outside of this, all sales are final.</p>"
+          }
+        },
+        "faq_item_JQeqmf": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Returns & Exchanges",
+            "question": "What if I entered the wrong shipping address?",
+            "answer": "<p>Email us immediately at hello@originintlboutique.com.</p><p>If your order is still within the 12-hour processing window, we will try to update the address.</p><p>After that, changes are not guaranteed.</p>"
+          }
+        },
+        "faq_item_gdHTTj": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Care & Maintenance",
+            "question": "How should I care for my luxury leather items?",
+            "answer": "<p>To preserve the beauty of your leather goods:</p><ul><li>Store them in a cool, dry place</li><li>Keep them in their dust bag when not in use</li><li>Avoid exposure to direct sunlight or heat</li><li>Avoid contact with water, oils, makeup, or perfumes</li><li>Handle light-colored leather carefully around dark fabrics</li></ul><p>Leather naturally develops character over time — this is normal for luxury materials.</p>"
+          }
+        },
+        "faq_item_WdgRDW": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Care & Maintenance",
+            "question": "How should I store my handbag?",
+            "answer": "<p>For best results:</p><ul><li>Stuff bags with tissue or soft filler to maintain shape</li><li>Store upright in a dust bag</li><li>Avoid hanging bags by their straps</li><li>Keep them away from humidity and direct sunlight</li></ul><p></p>"
+          }
+        },
+        "faq_item_YrHd8r": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Care & Maintenance",
+            "question": "How do I clean my leather goods?",
+            "answer": "<p>Use a soft, dry cloth to gently wipe the surface.</p><p>Avoid harsh cleaners, alcohol, baby wipes, or household chemicals — these can damage luxury leather.</p><p>For deeper cleaning, we recommend a professional leather specialist.</p>"
+          }
+        },
+        "faq_item_bTMfJ7": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Care & Maintenance",
+            "question": "How do I care for suede items?",
+            "answer": "<p></p><ul><li>Avoid exposure to liquids</li><li>Use a suede brush to gently lift the nap</li><li>Store in a dust bag away from humidity</li><li>Keep away from oily products that may stain</li></ul><p>Suede is delicate — handle with extra care.</p>"
+          }
+        },
+        "faq_item_bHETF3": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Care & Maintenance",
+            "question": "How should I care for sunglasses?",
+            "answer": "<p></p><ul><li>Clean lenses using a microfiber cloth</li><li>If needed, rinse with lukewarm water and mild soap</li><li>Store them in a hard case to avoid scratching</li><li>Avoid leaving them in hot cars or direct heat</li></ul>"
+          }
+        },
+        "faq_item_xencVG": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Care & Maintenance",
+            "question": "How can I keep my items looking new?",
+            "answer": "<p></p><ul><li>Rotate your items instead of daily repeated use</li><li>Avoid setting bags on the floor</li><li>Keep hardware away from abrasive surfaces</li><li>Store items properly to maintain shape and structure</li></ul><p>Proper care significantly extends the life of luxury pieces.Answer text here</p>"
+          }
+        },
+        "faq_item_PxQjyB": {
+          "type": "faq_item",
+          "settings": {
+            "category": "My Account",
+            "question": "Do I need an account to place an order?",
+            "answer": "<p>No — you can checkout as a guest.</p><p>Creating an account is optional and simply provides added convenience.</p>"
+          }
+        },
+        "faq_item_HJeVzq": {
+          "type": "faq_item",
+          "settings": {
+            "category": "My Account",
+            "question": "What are the benefits of creating an account?",
+            "answer": "<p>Having an account allows you to:</p><ul><li>View past orders</li><li>Save your shipping information for faster checkout</li><li>Track orders more easily</li><li>Access your order history anytime</li></ul><p></p>"
+          }
+        },
+        "faq_item_zcXjAG": {
+          "type": "faq_item",
+          "settings": {
+            "category": "My Account",
+            "question": "How do I create an account?",
+            "answer": "<p>Click the Account icon at the top of the site and follow the sign-up steps.</p><p>You’ll receive an email confirmation once your account is created.</p>"
+          }
+        },
+        "faq_item_4HkFB3": {
+          "type": "faq_item",
+          "settings": {
+            "category": "My Account",
+            "question": "I forgot my password - what do I do?",
+            "answer": "<p>Click “Forgot password?” on the login page and follow the steps to reset it.</p><p>A password reset link will be emailed to you.</p>"
+          }
+        },
+        "faq_item_FN4Fzi": {
+          "type": "faq_item",
+          "settings": {
+            "category": "My Account",
+            "question": "Can I change my email or personal information?",
+            "answer": "<p>Yes — log into your account and update your details from the account settings section.</p>"
+          }
+        },
+        "faq_item_8t3AeA": {
+          "type": "faq_item",
+          "settings": {
+            "category": "My Account",
+            "question": "Will my Account show tracking information?",
+            "answer": "<p>Once your order ships, tracking details will appear in your account dashboard (in addition to being emailed to you).</p>"
+          }
+        },
+        "faq_item_iTpMxQ": {
+          "type": "faq_item",
+          "settings": {
+            "category": "My Account",
+            "question": "Is my personal information secure?",
+            "answer": "<p>Yes — all customer information is protected through secure, encrypted systems.</p><p>We never share or sell your personal data.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_CWkkWH",
+        "faq_item_aiwVP4",
+        "faq_item_QdqyaX",
+        "faq_item_43mQkr",
+        "faq_item_jhDpkC",
+        "faq_item_cwjwQU",
+        "faq_item_RPFNtT",
+        "faq_item_7dDV6j",
+        "faq_item_TryEc9",
+        "faq_item_j3n7WG",
+        "faq_item_XYTgEm",
+        "faq_item_xKwMbM",
+        "faq_item_hYpcTe",
+        "faq_item_GyG8QH",
+        "faq_item_AQqPMf",
+        "faq_item_EtEBgt",
+        "faq_item_K7tF7H",
+        "faq_item_QytheA",
+        "faq_item_cr8cgm",
+        "faq_item_rLaamQ",
+        "faq_item_3xGtUj",
+        "faq_item_aij3D9",
+        "faq_item_7xDJTi",
+        "faq_item_QP6zcA",
+        "faq_item_TT9d4y",
+        "faq_item_g7C6JB",
+        "faq_item_HEHrW9",
+        "faq_item_FKNpef",
+        "faq_item_ytc3Ei",
+        "faq_item_JQeqmf",
+        "faq_item_gdHTTj",
+        "faq_item_WdgRDW",
+        "faq_item_YrHd8r",
+        "faq_item_bTMfJ7",
+        "faq_item_bHETF3",
+        "faq_item_xencVG",
+        "faq_item_PxQjyB",
+        "faq_item_HJeVzq",
+        "faq_item_zcXjAG",
+        "faq_item_4HkFB3",
+        "faq_item_FN4Fzi",
+        "faq_item_8t3AeA",
+        "faq_item_iTpMxQ"
+      ],
+      "name": "Gucci FAQ (Grid)",
+      "settings": {
+        "header_bg": "#000000",
+        "header_text": "#FFFFFF",
+        "section_bg": "#FFFFFF",
+        "text_color": "#000000",
+        "emblem_logo": "shopify://shop_images/Favicon.png"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "faq_sidebar_37DdDj",
+    "main"
+  ]
+}

@@ -19,6 +19,8 @@
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
+    position: relative;
+    cursor: pointer; /* Indicate interactivity */
   }
   
   .origin-card .card__inner {
@@ -28,14 +30,26 @@
     position: relative;
   }
 
+  /* MEDIA & ZOOM EFFECT */
   .origin-card .media {
     border-radius: 0 !important;
+    overflow: hidden;
+  }
+
+  .origin-card .media img {
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth slow zoom */
+  }
+
+  .origin-card:hover .media img {
+    transform: scale(1.06); /* Subtle premium zoom */
   }
 
   /* TYPOGRAPHY */
   .origin-card .card__content {
     padding: 16px 0 0 0 !important; /* Remove side padding, add top space */
     text-align: center; /* Center align text */
+    position: relative;
+    z-index: 2; /* Ensure text is above the link if needed, though link is pseudo */
   }
 
   .origin-card .card__heading {
@@ -53,9 +67,15 @@
     color: inherit;
   }
   
-  /* Hover Underline for Title */
+  /* STRETCHED LINK TECHNIQUE (Fixes Clickability) */
   .origin-card .card__heading a::after {
-    display: none; /* Disable default underline */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Covers the whole card */
   }
 
   .origin-card .price {
@@ -71,7 +91,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    z-index: 10;
+    z-index: 3; /* Must be higher than statched link (z-index: 1) */
     transform: translateY(100%); /* Hidden by default */
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     margin: 0 !important;
@@ -95,6 +115,7 @@
     min-height: 44px;
     backdrop-filter: blur(4px);
     transition: background 0.2s;
+    cursor: pointer;
   }
 
   .origin-card .quick-add__submit:hover {
@@ -112,6 +133,7 @@
     background: #000;
     color: #fff;
     border: none;
+    z-index: 2; /* Above the image */
   }
 </style>
 

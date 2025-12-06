@@ -1,0 +1,532 @@
+{% comment %}
+  Gucci-Style FAQ (Grid Navigation Model)
+  - Top Black Header
+  - Category Grid Navigation (Desktop)
+  - Dropdown Selector (Mobile/Sync)
+  - Dynamic Filtering (No page reload)
+{% endcomment %}
+
+<style>
+  /* --- VARS & SETTINGS --- */
+  /* --- VARS & SETTINGS --- */
+  /* Remove :root to avoid global scope issues */
+  
+  .gucci-faq-section {
+    --faq-header-bg: {{ section.settings.header_bg | default: '#000000' }};
+    --faq-header-text: {{ section.settings.header_text | default: '#FFFFFF' }};
+    --faq-bg: {{ section.settings.section_bg | default: '#FFFFFF' }};
+    --faq-text: {{ section.settings.text_color | default: '#000000' }};
+    
+    background-color: var(--faq-bg);
+    color: var(--faq-text);
+    font-family: var(--font-body-family);
+    padding-bottom: 80px;
+  }
+
+  /* --- 1. BLACK HEADER STRIP --- */
+  .faq-main-header {
+    background-color: var(--faq-header-bg);
+    color: var(--faq-header-text);
+    padding: 60px 20px;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .faq-main-title {
+    text-transform: uppercase;
+    font-size: 28px;
+    letter-spacing: 2px;
+    font-weight: 300;
+    margin: 0;
+    font-family: var(--font-heading-family);
+    color: var(--faq-header-text); /* Explicitly set color to override global H1 styles */
+  }
+
+  /* --- 2. GRID NAVIGATION (Desktop) --- */
+  .faq-nav-container {
+    max-width: 1200px;
+    margin: 0 auto 40px auto;
+    padding: 0 20px;
+  }
+
+  .faq-nav-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px 40px;
+    margin-bottom: 30px;
+  }
+
+  .faq-nav-item {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 5px;
+    color: var(--faq-text);
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+
+  .faq-nav-item:hover {
+    opacity: 0.6;
+  }
+
+  .faq-nav-item.active {
+    opacity: 1;
+  }
+  /* Active underline for grid items */
+  .faq-nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--faq-text);
+  }
+
+  /* --- 3. DROPDOWN SELECTOR --- */
+  .faq-dropdown-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+  }
+
+  .faq-select {
+    padding: 12px 20px;
+    font-size: 13px;
+    border: 1px solid #e5e5e5;
+    background-color: transparent;
+    width: 100%;
+    max-width: 400px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: var(--font-body-family);
+    appearance: none; /* Custom arrow handled likely by wrapper or keep standard for now */
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: 10px auto;
+  }
+
+  /* --- 4. CATEGORY TITLE AREA --- */
+  .faq-category-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+    padding: 0 20px;
+  }
+
+  .current-category-title {
+    font-size: 28px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-family: var(--font-heading-family);
+  }
+
+  .expand-all-btn {
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: underline;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--faq-text);
+    float: right; /* Aligns to right like screenshot */
+    margin-top: 10px;
+  }
+
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  /* --- 5. ACCORDIONS --- */
+  .faq-content-container {
+    max-width: 900px; /* Slightly wider than before */
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .faq-group {
+    display: none; /* Hidden by default, JS shows active */
+  }
+  .faq-group.visible {
+    display: block;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid #e5e5e5;
+  }
+  
+  .faq-item:first-child {
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .faq-item summary {
+    padding: 25px 0;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px; /* Smaller, sharper font */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .faq-item summary::-webkit-details-marker { display: none; }
+
+  .faq-answer {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    padding-bottom: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  .faq-item[open] .faq-answer {
+    max-height: 1000px;
+    opacity: 1;
+    padding-bottom: 30px;
+  }
+
+  .icon-toggle {
+    font-size: 18px;
+    font-weight: 300;
+    transition: transform 0.3s;
+  }
+  
+  .faq-item[open] .icon-toggle {
+    transform: rotate(45deg); /* + to x */
+  }
+
+  /* --- 6. FOOTER CTA --- */
+  .faq-footer-cta {
+    text-align: center;
+    margin-top: 80px;
+  }
+  .faq-footer-title {
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+  }
+  .contact-btn {
+    background: #000;
+    color: #fff;
+    padding: 15px 40px;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .faq-nav-grid {
+      display: none; /* Hide grid on mobile */
+    }
+    .faq-main-title {
+      font-size: 22px;
+    }
+    .current-category-title {
+      font-size: 24px;
+      text-align: center;
+    }
+    .expand-all-btn {
+      float: none;
+      display: block;
+      text-align: center;
+      margin: 10px auto;
+    }
+  }
+  /* --- 7. EMBLEM DIVIDER --- */
+  .faq-header-divider {
+    position: absolute;
+    bottom: -30px; /* Half of height (60px) */
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 60px;
+    height: 60px;
+    background-color: var(--faq-header-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .faq-emblem-img {
+    transform: rotate(-45deg); /* Counter-rotate image so it's upright */
+    width: 30px;
+    height: auto;
+    display: block;
+  }
+</style>
+
+<div class="gucci-faq-section">
+  
+  {%- comment -%} LOGIC: Get Categories {%- endcomment -%}
+  {% assign categories = section.blocks | map: 'settings' | map: 'category' | uniq %}
+
+  <!-- 1. HEADER -->
+  <div class="faq-main-header" style="position: relative;"> <!-- Added relative for emblem positioning -->
+    <h1 class="faq-main-title">FREQUENTLY ASKED QUESTIONS</h1>
+    
+    <!-- EMBLEM -->
+    {% if section.settings.emblem_logo != blank %}
+      <div class="faq-header-divider">
+        <img src="{{ section.settings.emblem_logo | image_url: width: 100 }}" 
+             alt="{{ section.settings.emblem_logo.alt }}" 
+             class="faq-emblem-img"
+             loading="lazy"
+             width="30"
+             height="30">
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="faq-nav-container">
+    
+    <!-- 2. GRID NAV (Desktop) -->
+    <div class="faq-nav-grid">
+      {% for category in categories %}
+        {% if category != blank %}
+          {% assign handle = category | handleize %}
+          <div class="faq-nav-item {% if forloop.first %}active{% endif %}" data-target="{{ handle }}">
+            {{ category }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <!-- 3. DROPDOWN (Mobile/All) -->
+    <div class="faq-dropdown-wrapper">
+      <select class="faq-select" id="faq-category-select">
+        {% for category in categories %}
+          {% if category != blank %}
+            <option value="{{ category | handleize }}">{{ category }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+
+  </div>
+
+  <!-- 4. DYNAMIC TITLE AREA -->
+  <div class="faq-category-header clearfix">
+    <!-- Title updates via JS -->
+    <h2 class="current-category-title" id="active-category-title">
+      {{ categories.first }}
+    </h2>
+    <button class="expand-all-btn" id="expand-all-btn">Expand All</button>
+  </div>
+
+  <!-- 5. CONTENT AREA -->
+  <div class="faq-content-container">
+    {% for category in categories %}
+      {% if category != blank %}
+        {% assign handle = category | handleize %}
+        
+        <!-- Group Container (Only one visible at a time) -->
+        <div class="faq-group {% if forloop.first %}visible{% endif %}" id="group-{{ handle }}">
+          {% for block in section.blocks %}
+            {% if block.settings.category == category %}
+              <details class="faq-item">
+                <summary>
+                  {{ block.settings.question }}
+                  <span class="icon-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                  {{ block.settings.answer }}
+                </div>
+              </details>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- 6. FOOTER CTA -->
+  <div class="faq-footer-cta">
+    <div class="faq-footer-title">Still have questions?</div>
+    <a href="/pages/contact" class="contact-btn">Contact Us</a>
+  </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const navItems = document.querySelectorAll('.faq-nav-item');
+  const select = document.getElementById('faq-category-select');
+  const groups = document.querySelectorAll('.faq-group');
+  const title = document.getElementById('active-category-title');
+  const expandBtn = document.getElementById('expand-all-btn');
+
+  // --- FILTER FUNCTION ---
+  function filterCategory(handle, name) {
+    // 1. Update Grid Active State
+    navItems.forEach(item => {
+      if(item.dataset.target === handle) item.classList.add('active');
+      else item.classList.remove('active');
+    });
+
+    // 2. Update Dropdown Value
+    select.value = handle; // Sync dropdown if triggered via grid
+
+    // 3. Update Title
+    title.textContent = name;
+
+    // 4. Show/Hide Groups
+    groups.forEach(group => {
+      if(group.id === `group-${handle}`) {
+        group.classList.add('visible');
+      } else {
+        group.classList.remove('visible');
+      }
+    });
+  }
+
+  // --- EVENT LISTENERS ---
+  
+  // Grid Click
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const handle = item.dataset.target;
+      const name = item.textContent.trim();
+      filterCategory(handle, name);
+    });
+  });
+
+  // Dropdown Change
+  select.addEventListener('change', (e) => {
+    const handle = e.target.value;
+    const name = e.target.options[e.target.selectedIndex].text;
+    filterCategory(handle, name);
+  });
+
+  // Expand All
+  expandBtn.addEventListener('click', () => {
+    // Find currently visible group
+    const visibleGroup = document.querySelector('.faq-group.visible');
+    if(!visibleGroup) return;
+
+    const details = visibleGroup.querySelectorAll('details');
+    // Check if any are closed, if so open all. If all open, close all? 
+    // Usually "Expand All" just opens.
+    
+    // Check state:
+    const allOpen = Array.from(details).every(d => d.hasAttribute('open'));
+    
+    details.forEach(d => {
+      if(allOpen) {
+        d.removeAttribute('open');
+        expandBtn.textContent = 'Expand All';
+      } else {
+        d.setAttribute('open', 'true');
+        expandBtn.textContent = 'Collapse All';
+      }
+    });
+  });
+
+});
+</script>
+
+{% schema %}
+{
+  "name": "Gucci Style FAQ (Grid)",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "header_bg",
+      "label": "Header Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "header_text",
+      "label": "Header Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Page Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Emblem Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "emblem_logo",
+      "label": "Divider Emblem Logo",
+      "info": "Small logo to appear in the diamond divider (e.g. GG logo). White/transparent PNG recommended."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category",
+          "label": "Category Name",
+          "info": "Groups questions together (e.g. Shipping, Returns)",
+          "default": "General"
+        },
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Question text here"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Answer text here</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gucci FAQ (Grid)"
+    }
+  ]
+}
+{% endschema %}
