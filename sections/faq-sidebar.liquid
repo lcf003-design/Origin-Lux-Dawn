@@ -8,14 +8,15 @@
 
 <style>
   /* --- VARS & SETTINGS --- */
-  :root {
+  /* --- VARS & SETTINGS --- */
+  /* Remove :root to avoid global scope issues */
+  
+  .gucci-faq-section {
     --faq-header-bg: {{ section.settings.header_bg | default: '#000000' }};
     --faq-header-text: {{ section.settings.header_text | default: '#FFFFFF' }};
     --faq-bg: {{ section.settings.section_bg | default: '#FFFFFF' }};
     --faq-text: {{ section.settings.text_color | default: '#000000' }};
-  }
-
-  .gucci-faq-section {
+    
     background-color: var(--faq-bg);
     color: var(--faq-text);
     font-family: var(--font-body-family);
