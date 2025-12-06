@@ -243,6 +243,14 @@
             "question": "Do you offer refunds?",
             "answer": "<p>Refunds are only issued if:</p><ul><li>Your order cannot be fulfilled, or</li><li>You cancel within the 12-hour window.</li></ul><p>Outside of this, all sales are final.</p>"
           }
+        },
+        "faq_item_JQeqmf": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Returns & Exchanges",
+            "question": "What if I entered the wrong shipping address?",
+            "answer": "<p>Email us immediately at hello@originintlboutique.com.</p><p>If your order is still within the 12-hour processing window, we will try to update the address.</p><p>After that, changes are not guaranteed.</p>"
+          }
         }
       },
       "block_order": [
@@ -274,7 +282,8 @@
         "faq_item_g7C6JB",
         "faq_item_HEHrW9",
         "faq_item_FKNpef",
-        "faq_item_ytc3Ei"
+        "faq_item_ytc3Ei",
+        "faq_item_JQeqmf"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
