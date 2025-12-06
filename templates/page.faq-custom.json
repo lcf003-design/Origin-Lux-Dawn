@@ -259,6 +259,14 @@
             "question": "How should I care for my luxury leather items?",
             "answer": "<p>To preserve the beauty of your leather goods:</p><ul><li>Store them in a cool, dry place</li><li>Keep them in their dust bag when not in use</li><li>Avoid exposure to direct sunlight or heat</li><li>Avoid contact with water, oils, makeup, or perfumes</li><li>Handle light-colored leather carefully around dark fabrics</li></ul><p>Leather naturally develops character over time — this is normal for luxury materials.</p>"
           }
+        },
+        "faq_item_WdgRDW": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Care & Maintenance",
+            "question": "How should I store my handbag?",
+            "answer": "<p>For best results:</p><ul><li>Stuff bags with tissue or soft filler to maintain shape</li><li>Store upright in a dust bag</li><li>Avoid hanging bags by their straps</li><li>Keep them away from humidity and direct sunlight</li></ul><p></p>"
+          }
         }
       },
       "block_order": [
@@ -292,7 +300,8 @@
         "faq_item_FKNpef",
         "faq_item_ytc3Ei",
         "faq_item_JQeqmf",
-        "faq_item_gdHTTj"
+        "faq_item_gdHTTj",
+        "faq_item_WdgRDW"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
