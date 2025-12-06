@@ -275,6 +275,14 @@
             "question": "How do I clean my leather goods?",
             "answer": "<p>Use a soft, dry cloth to gently wipe the surface.</p><p>Avoid harsh cleaners, alcohol, baby wipes, or household chemicals — these can damage luxury leather.</p><p>For deeper cleaning, we recommend a professional leather specialist.</p>"
           }
+        },
+        "faq_item_bTMfJ7": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Care & Maintenance",
+            "question": "How do I care for suede items?",
+            "answer": "<p></p><ul><li>Avoid exposure to liquids</li><li>Use a suede brush to gently lift the nap</li><li>Store in a dust bag away from humidity</li><li>Keep away from oily products that may stain</li></ul><p>Suede is delicate — handle with extra care.</p>"
+          }
         }
       },
       "block_order": [
@@ -310,7 +318,8 @@
         "faq_item_JQeqmf",
         "faq_item_gdHTTj",
         "faq_item_WdgRDW",
-        "faq_item_YrHd8r"
+        "faq_item_YrHd8r",
+        "faq_item_bTMfJ7"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
