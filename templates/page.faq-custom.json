@@ -283,6 +283,14 @@
             "question": "How do I care for suede items?",
             "answer": "<p></p><ul><li>Avoid exposure to liquids</li><li>Use a suede brush to gently lift the nap</li><li>Store in a dust bag away from humidity</li><li>Keep away from oily products that may stain</li></ul><p>Suede is delicate — handle with extra care.</p>"
           }
+        },
+        "faq_item_bHETF3": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Care & Maintenance",
+            "question": "How should I care for sunglasses?",
+            "answer": "<p></p><ul><li>Clean lenses using a microfiber cloth</li><li>If needed, rinse with lukewarm water and mild soap</li><li>Store them in a hard case to avoid scratching</li><li>Avoid leaving them in hot cars or direct heat</li></ul>"
+          }
         }
       },
       "block_order": [
@@ -319,7 +327,8 @@
         "faq_item_gdHTTj",
         "faq_item_WdgRDW",
         "faq_item_YrHd8r",
-        "faq_item_bTMfJ7"
+        "faq_item_bTMfJ7",
+        "faq_item_bHETF3"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
