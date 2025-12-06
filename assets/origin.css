@@ -799,7 +799,9 @@
   z-index: 160;
   background: var(--header-bg);
   color: var(--header-text);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .origin-gucci-header.scrolled {
@@ -813,7 +815,9 @@
   align-items: center;
   height: var(--header-height-large);
   padding: 0 32px;
-  transition: height 0.3s ease, padding 0.3s ease;
+  transition:
+    height 0.3s ease,
+    padding 0.3s ease;
 }
 
 .origin-gucci-header.scrolled .header-bar {
@@ -866,7 +870,9 @@
   display: block;
   height: auto;
   width: var(--logo-large);
-  transition: opacity 0.3s ease, width 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    width 0.3s ease;
 }
 
 .logo-small {
@@ -918,7 +924,9 @@
   background: rgba(0, 0, 0, 0.45);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.35s ease, visibility 0.35s ease;
+  transition:
+    opacity 0.35s ease,
+    visibility 0.35s ease;
   z-index: 150;
 }
 
@@ -1116,7 +1124,9 @@
   top: 0;
   z-index: 50;
   background-color: transparent;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 /* When Dawn's sticky script adds this class = user has scrolled */
@@ -1142,7 +1152,9 @@
 /* Logo starts big, shrinks on scroll */
 .header__heading-logo-wrapper {
   max-width: 220px;
-  transition: max-width 0.25s ease, transform 0.25s ease;
+  transition:
+    max-width 0.25s ease,
+    transform 0.25s ease;
 }
 
 .scrolled-past-header .header__heading-logo-wrapper {
@@ -1211,11 +1223,8 @@
 .origin-hero__overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-      circle at top,
-      rgba(0, 0, 0, 0.3),
-      transparent 55%
-    ),
+  background:
+    radial-gradient(circle at top, rgba(0, 0, 0, 0.3), transparent 55%),
     linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.75));
 }
 
@@ -1280,8 +1289,11 @@
   text-transform: uppercase;
   text-decoration: none;
   border: 1px solid #ffffff;
-  transition: background-color 0.2s ease, color 0.2s ease,
-    border-color 0.2s ease, transform 0.15s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
 }
 
 .origin-hero__button--primary {
@@ -1366,7 +1378,9 @@
 .card--product {
   border-radius: 0;
   background-color: #ffffff;
-  transition: transform 0.18s ease, box-shadow 0.18s ease,
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
     border-color 0.18s ease;
   border: 1px solid rgba(0, 0, 0, 0.04);
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.02);
@@ -1866,8 +1880,12 @@ a,
 .button--primary,
 .button--secondary,
 .shopify-payment-button__button--unbranded {
-  transition: color 0.18s ease, background-color 0.18s ease,
-    border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
 }
 
 /* Card + hero + product + footer subtle fade-up on first load */
@@ -1998,7 +2016,9 @@ a,
 
   /* Drawer animation (smooth slide) */
   .menu-drawer.animate {
-    transition: transform 0.35s ease, opacity 0.3s ease;
+    transition:
+      transform 0.35s ease,
+      opacity 0.3s ease;
   }
 
   /* Links inside mobile nav */
@@ -2224,6 +2244,9 @@ a,
   height: 42px;
   border-radius: 999px;
   border: none;
+  background-color: #000; /* Black background */
+  color: #fff; /* White icon */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle inner border for luxury feel */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2233,7 +2256,11 @@ a,
   cursor: pointer;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
   z-index: 40;
 }
 
@@ -2533,7 +2560,9 @@ a,
   transform: translateY(100%);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
 }
 
 .origin-sticky-atc.is-visible {
@@ -2625,7 +2654,9 @@ a,
   letter-spacing: 0.18em;
   font-size: 11px;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .origin-card-quickadd__button:hover {
@@ -2647,7 +2678,9 @@ a,
     opacity: 0;
     transform: translateY(10px);
     pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
   }
 
   .card--product:hover .origin-card-quickadd {
@@ -2821,7 +2854,9 @@ a,
   font-size: 12px;
   background: #000;
   color: #fff;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .origin-hero__button--secondary {
@@ -2848,7 +2883,9 @@ a,
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .origin-hero__scroll-icon {
@@ -3507,7 +3544,9 @@ a,
   display: block;
   width: 100%;
   height: auto;
-  transition: transform 0.4s ease-out, opacity 0.3s ease-out;
+  transition:
+    transform 0.4s ease-out,
+    opacity 0.3s ease-out;
 }
 
 /* Slight lift on hover (desktop only) */
@@ -3536,7 +3575,9 @@ a,
 }
 
 .template-product .thumbnail img {
-  transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+  transition:
+    opacity 0.25s ease-out,
+    transform 0.25s ease-out;
 }
 
 /* Active thumbnail */
@@ -4163,7 +4204,9 @@ a,
    GUCCI-STYLE SCROLL HEADER
 ================================ */
 .header {
-  transition: background-color 0.35s ease, border-color 0.35s ease,
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
     color 0.35s ease;
 }
 
@@ -4217,7 +4260,10 @@ a,
 .header__icon,
 .header__menu-item,
 .header__menu-item svg {
-  transition: color 0.35s ease, fill 0.35s ease, stroke 0.35s ease;
+  transition:
+    color 0.35s ease,
+    fill 0.35s ease,
+    stroke 0.35s ease;
 }
 
 .hero-logo {
@@ -4228,7 +4274,9 @@ a,
   max-width: min(60vw, 420px);
   height: auto;
   opacity: 1;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
   pointer-events: none;
   z-index: 2;
 }
@@ -4250,7 +4298,9 @@ a,
   max-height: none;
   transform-origin: center top;
   transform: scale(1.1);
-  transition: transform 0.35s ease, height 0.35s ease;
+  transition:
+    transform 0.35s ease,
+    height 0.35s ease;
 }
 
 /* When header gets the scrolled class, shrink the logo */
