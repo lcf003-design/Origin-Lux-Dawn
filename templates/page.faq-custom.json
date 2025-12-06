@@ -219,6 +219,14 @@
             "question": "What if my item arrives damaged or incorrect?",
             "answer": "<p>If an item arrives damaged or you received the wrong product, email us within 48 hours of delivery at hello@originintlboutique.com with photos of the issue.</p><p>We will review your case and assist you as quickly as possible.</p>"
           }
+        },
+        "faq_item_HEHrW9": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Returns & Exchanges",
+            "question": "Why are all items final sale?",
+            "answer": "<p>Our pieces are often rare, limited, or one-of-a-kind luxury items.To protect product integrity and authenticity, we cannot restock or resell items once they have left our facility.For this reason, all purchases are final sale.</p>"
+          }
         }
       },
       "block_order": [
@@ -247,7 +255,8 @@
         "faq_item_7xDJTi",
         "faq_item_QP6zcA",
         "faq_item_TT9d4y",
-        "faq_item_g7C6JB"
+        "faq_item_g7C6JB",
+        "faq_item_HEHrW9"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
