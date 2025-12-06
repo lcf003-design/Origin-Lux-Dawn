@@ -331,6 +331,14 @@
             "question": "I forgot my password - what do I do?",
             "answer": "<p>Click “Forgot password?” on the login page and follow the steps to reset it.</p><p>A password reset link will be emailed to you.</p>"
           }
+        },
+        "faq_item_FN4Fzi": {
+          "type": "faq_item",
+          "settings": {
+            "category": "My Account",
+            "question": "Can I change my email or personal information?",
+            "answer": "<p>Yes — log into your account and update your details from the account settings section.</p>"
+          }
         }
       },
       "block_order": [
@@ -373,7 +381,8 @@
         "faq_item_PxQjyB",
         "faq_item_HJeVzq",
         "faq_item_zcXjAG",
-        "faq_item_4HkFB3"
+        "faq_item_4HkFB3",
+        "faq_item_FN4Fzi"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
