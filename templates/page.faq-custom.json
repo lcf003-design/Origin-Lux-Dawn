@@ -171,6 +171,14 @@
             "question": "Why hasn't my tracking updated yet?",
             "answer": "<p>Tracking may take 2–5 business days to update, especially for international shipments or customs transitions.</p><p>This is normal and does not indicate a problem with your shipment.</p>"
           }
+        },
+        "faq_item_3xGtUj": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "What happens if my package is lost in transit?",
+            "answer": "<p>If the carrier confirms the package is lost, we will assist you with next steps depending on item availability, insurance, and shipping method used.</p>"
+          }
         }
       },
       "block_order": [
@@ -193,7 +201,8 @@
         "faq_item_K7tF7H",
         "faq_item_QytheA",
         "faq_item_cr8cgm",
-        "faq_item_rLaamQ"
+        "faq_item_rLaamQ",
+        "faq_item_3xGtUj"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
