@@ -147,6 +147,14 @@
             "question": "Do you ship internationally?",
             "answer": "<p>Yes — we ship worldwide.<br/>International customers are responsible for any customs duties, VAT, or import taxes required by their country.</p>"
           }
+        },
+        "faq_item_QytheA": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "How much is shipping?",
+            "answer": "<p>Shipping fees are calculated at checkout based on destination and service level.</p><p>Promotional free shipping may apply during select periods.</p>"
+          }
         }
       },
       "block_order": [
@@ -166,7 +174,8 @@
         "faq_item_GyG8QH",
         "faq_item_AQqPMf",
         "faq_item_EtEBgt",
-        "faq_item_K7tF7H"
+        "faq_item_K7tF7H",
+        "faq_item_QytheA"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
