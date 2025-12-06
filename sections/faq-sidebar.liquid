@@ -260,6 +260,27 @@
       margin: 10px auto;
     }
   }
+  /* --- 7. EMBLEM DIVIDER --- */
+  .faq-header-divider {
+    position: absolute;
+    bottom: -30px; /* Half of height (60px) */
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 60px;
+    height: 60px;
+    background-color: var(--faq-header-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .faq-emblem-img {
+    transform: rotate(-45deg); /* Counter-rotate image so it's upright */
+    width: 30px;
+    height: auto;
+    display: block;
+  }
 </style>
 
 <div class="gucci-faq-section">
@@ -268,8 +289,20 @@
   {% assign categories = section.blocks | map: 'settings' | map: 'category' | uniq %}
 
   <!-- 1. HEADER -->
-  <div class="faq-main-header">
+  <div class="faq-main-header" style="position: relative;"> <!-- Added relative for emblem positioning -->
     <h1 class="faq-main-title">FREQUENTLY ASKED QUESTIONS</h1>
+    
+    <!-- EMBLEM -->
+    {% if section.settings.emblem_logo != blank %}
+      <div class="faq-header-divider">
+        <img src="{{ section.settings.emblem_logo | image_url: width: 100 }}" 
+             alt="{{ section.settings.emblem_logo.alt }}" 
+             class="faq-emblem-img"
+             loading="lazy"
+             width="30"
+             height="30">
+      </div>
+    {% endif %}
   </div>
 
   <div class="faq-nav-container">
@@ -451,6 +484,16 @@ document.addEventListener('DOMContentLoaded', function() {
       "id": "text_color",
       "label": "Text Color",
       "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Emblem Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "emblem_logo",
+      "label": "Divider Emblem Logo",
+      "info": "Small logo to appear in the diamond divider (e.g. GG logo). White/transparent PNG recommended."
     }
   ],
   "blocks": [
