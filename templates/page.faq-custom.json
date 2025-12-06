@@ -179,6 +179,14 @@
             "question": "What happens if my package is lost in transit?",
             "answer": "<p>If the carrier confirms the package is lost, we will assist you with next steps depending on item availability, insurance, and shipping method used.</p>"
           }
+        },
+        "faq_item_aij3D9": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "How are items packaged for shipping?",
+            "answer": "<p>All luxury items are shipped with <strong>protective packaging</strong> to maintain item condition during transit.</p><p>If the item includes a box, dust bag, or accessories, they will be included when applicable.</p>"
+          }
         }
       },
       "block_order": [
@@ -202,7 +210,8 @@
         "faq_item_QytheA",
         "faq_item_cr8cgm",
         "faq_item_rLaamQ",
-        "faq_item_3xGtUj"
+        "faq_item_3xGtUj",
+        "faq_item_aij3D9"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
