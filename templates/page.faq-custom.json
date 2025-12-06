@@ -67,6 +67,30 @@
             "question": "How do I place an order?",
             "answer": "<p>Answer text Simply add your desired items to your cart and complete checkout.</p><p>If you need assistance, email us at hello@originintlboutique.com.here</p>"
           }
+        },
+        "faq_item_7dDV6j": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "Can I cancel my order after purchasing?",
+            "answer": "<p>Orders may be cancelled within 12 hours of purchase.</p><p>Once processing begins, cancellations are no longer guaranteed.</p>"
+          }
+        },
+        "faq_item_TryEc9": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "Can I modify my order after it's placed?",
+            "answer": "<p>If you need to update your order, email us at hello@originintlboutique.com within 12 hours of checkout.</p><p>We will try to make changes before your order is processed.</p>"
+          }
+        },
+        "faq_item_j3n7WG": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "What payment methods do you accept?",
+            "answer": "<p>We accept:</p><ul><li>Major credit and debit cards</li><li>Apple Pay</li><li>Shop Pay</li><li>PayPal</li></ul><p></p>"
+          }
         }
       },
       "block_order": [
@@ -76,7 +100,10 @@
         "faq_item_43mQkr",
         "faq_item_jhDpkC",
         "faq_item_cwjwQU",
-        "faq_item_RPFNtT"
+        "faq_item_RPFNtT",
+        "faq_item_7dDV6j",
+        "faq_item_TryEc9",
+        "faq_item_j3n7WG"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
