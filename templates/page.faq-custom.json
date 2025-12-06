@@ -59,6 +59,14 @@
             "question": "Are all items in stock?",
             "answer": "<p>Yes — unless a product is marked as pre-order or reserved, all items shown as “Available” on the site are in stock and ready to ship.</p>"
           }
+        },
+        "faq_item_RPFNtT": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Orders & Payments",
+            "question": "How do I place an order?",
+            "answer": "<p>Answer text Simply add your desired items to your cart and complete checkout.</p><p>If you need assistance, email us at hello@originintlboutique.com.here</p>"
+          }
         }
       },
       "block_order": [
@@ -67,7 +75,8 @@
         "faq_item_QdqyaX",
         "faq_item_43mQkr",
         "faq_item_jhDpkC",
-        "faq_item_cwjwQU"
+        "faq_item_cwjwQU",
+        "faq_item_RPFNtT"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
