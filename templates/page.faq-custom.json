@@ -291,6 +291,14 @@
             "question": "How should I care for sunglasses?",
             "answer": "<p></p><ul><li>Clean lenses using a microfiber cloth</li><li>If needed, rinse with lukewarm water and mild soap</li><li>Store them in a hard case to avoid scratching</li><li>Avoid leaving them in hot cars or direct heat</li></ul>"
           }
+        },
+        "faq_item_xencVG": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Care & Maintenance",
+            "question": "How can I keep my items looking new?",
+            "answer": "<p></p><ul><li>Rotate your items instead of daily repeated use</li><li>Avoid setting bags on the floor</li><li>Keep hardware away from abrasive surfaces</li><li>Store items properly to maintain shape and structure</li></ul><p>Proper care significantly extends the life of luxury pieces.Answer text here</p>"
+          }
         }
       },
       "block_order": [
@@ -328,7 +336,8 @@
         "faq_item_WdgRDW",
         "faq_item_YrHd8r",
         "faq_item_bTMfJ7",
-        "faq_item_bHETF3"
+        "faq_item_bHETF3",
+        "faq_item_xencVG"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
