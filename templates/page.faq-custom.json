@@ -131,6 +131,22 @@
             "question": "How do I know my order went through?",
             "answer": "<p>As soon as your order is placed, you’ll receive an email confirmation.</p><p>A second email will be sent once your order ships.</p>"
           }
+        },
+        "faq_item_EtEBgt": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "How long does shipping take",
+            "answer": "<p>Most orders arrive within 10–15 business days.</p><p>Delivery times may vary depending on your location, customs processing, and carrier conditions.</p>"
+          }
+        },
+        "faq_item_K7tF7H": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "Do you ship internationally?",
+            "answer": "<p>Yes — we ship worldwide.<br/>International customers are responsible for any customs duties, VAT, or import taxes required by their country.</p>"
+          }
         }
       },
       "block_order": [
@@ -148,7 +164,9 @@
         "faq_item_xKwMbM",
         "faq_item_hYpcTe",
         "faq_item_GyG8QH",
-        "faq_item_AQqPMf"
+        "faq_item_AQqPMf",
+        "faq_item_EtEBgt",
+        "faq_item_K7tF7H"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
