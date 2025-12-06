@@ -323,6 +323,14 @@
             "question": "How do I create an account?",
             "answer": "<p>Click the Account icon at the top of the site and follow the sign-up steps.</p><p>You’ll receive an email confirmation once your account is created.</p>"
           }
+        },
+        "faq_item_4HkFB3": {
+          "type": "faq_item",
+          "settings": {
+            "category": "My Account",
+            "question": "I forgot my password - what do I do?",
+            "answer": "<p>Click “Forgot password?” on the login page and follow the steps to reset it.</p><p>A password reset link will be emailed to you.</p>"
+          }
         }
       },
       "block_order": [
@@ -364,7 +372,8 @@
         "faq_item_xencVG",
         "faq_item_PxQjyB",
         "faq_item_HJeVzq",
-        "faq_item_zcXjAG"
+        "faq_item_zcXjAG",
+        "faq_item_4HkFB3"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
