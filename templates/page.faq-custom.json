@@ -187,6 +187,22 @@
             "question": "How are items packaged for shipping?",
             "answer": "<p>All luxury items are shipped with <strong>protective packaging</strong> to maintain item condition during transit.</p><p>If the item includes a box, dust bag, or accessories, they will be included when applicable.</p>"
           }
+        },
+        "faq_item_7xDJTi": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "Can I change my shipping address after ordering?",
+            "answer": "<p>Shipping addresses can only be updated within 12 hours of placing your order.</p><p>After processing begins, address changes are not guaranteed.</p>"
+          }
+        },
+        "faq_item_QP6zcA": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Shipping & Delivery",
+            "question": "Do you ship to PO Boxes?",
+            "answer": "<p>Some carriers do not deliver high-value packages to PO Boxes. If this affects your order, we will contact you for an alternative address.</p>"
+          }
         }
       },
       "block_order": [
@@ -211,7 +227,9 @@
         "faq_item_cr8cgm",
         "faq_item_rLaamQ",
         "faq_item_3xGtUj",
-        "faq_item_aij3D9"
+        "faq_item_aij3D9",
+        "faq_item_7xDJTi",
+        "faq_item_QP6zcA"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
