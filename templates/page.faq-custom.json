@@ -315,6 +315,14 @@
             "question": "What are the benefits of creating an account?",
             "answer": "<p>Having an account allows you to:</p><ul><li>View past orders</li><li>Save your shipping information for faster checkout</li><li>Track orders more easily</li><li>Access your order history anytime</li></ul><p></p>"
           }
+        },
+        "faq_item_zcXjAG": {
+          "type": "faq_item",
+          "settings": {
+            "category": "My Account",
+            "question": "How do I create an account?",
+            "answer": "<p>Click the Account icon at the top of the site and follow the sign-up steps.</p><p>You’ll receive an email confirmation once your account is created.</p>"
+          }
         }
       },
       "block_order": [
@@ -355,7 +363,8 @@
         "faq_item_bHETF3",
         "faq_item_xencVG",
         "faq_item_PxQjyB",
-        "faq_item_HJeVzq"
+        "faq_item_HJeVzq",
+        "faq_item_zcXjAG"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
