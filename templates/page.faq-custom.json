@@ -211,6 +211,14 @@
             "question": "Are items eligible for return or exchange?",
             "answer": "<p>All items at Origin Intl Boutique are final sale.</p><p>Due to the nature of luxury and limited-availability pieces, we do not accept returns, exchanges, or cancellations once an order has been placed.</p>"
           }
+        },
+        "faq_item_g7C6JB": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Returns & Exchanges",
+            "question": "What if my item arrives damaged or incorrect?",
+            "answer": "<p>If an item arrives damaged or you received the wrong product, email us within 48 hours of delivery at hello@originintlboutique.com with photos of the issue.</p><p>We will review your case and assist you as quickly as possible.</p>"
+          }
         }
       },
       "block_order": [
@@ -238,7 +246,8 @@
         "faq_item_aij3D9",
         "faq_item_7xDJTi",
         "faq_item_QP6zcA",
-        "faq_item_TT9d4y"
+        "faq_item_TT9d4y",
+        "faq_item_g7C6JB"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
