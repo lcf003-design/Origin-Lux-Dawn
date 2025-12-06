@@ -203,6 +203,14 @@
             "question": "Do you ship to PO Boxes?",
             "answer": "<p>Some carriers do not deliver high-value packages to PO Boxes. If this affects your order, we will contact you for an alternative address.</p>"
           }
+        },
+        "faq_item_TT9d4y": {
+          "type": "faq_item",
+          "settings": {
+            "category": "Returns & Exchanges",
+            "question": "Are items eligible for return or exchange?",
+            "answer": "<p>All items at Origin Intl Boutique are final sale.</p><p>Due to the nature of luxury and limited-availability pieces, we do not accept returns, exchanges, or cancellations once an order has been placed.</p>"
+          }
         }
       },
       "block_order": [
@@ -229,7 +237,8 @@
         "faq_item_3xGtUj",
         "faq_item_aij3D9",
         "faq_item_7xDJTi",
-        "faq_item_QP6zcA"
+        "faq_item_QP6zcA",
+        "faq_item_TT9d4y"
       ],
       "name": "Gucci FAQ (Grid)",
       "settings": {
