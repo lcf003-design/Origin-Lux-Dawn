@@ -127,6 +127,8 @@
     "show_vendor": true,
     "show_cart_note": false,
     "cart_drawer_collection": "",
+    "show_cart_upsell": true,
+    "cart_upsell_product": "saddle-lotus-wallet-blue-dior-oblique",
     "cart_color_scheme": "scheme-1",
     "cart_free_shipping_threshold": "80000",
     "sections": {
