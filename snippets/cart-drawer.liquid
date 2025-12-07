@@ -475,11 +475,6 @@
         </form>
       </cart-drawer-items>
       <div class="drawer__footer">
-        <!-- DEBUG BANNER START -->
-        <div style="background: #000; color: #fff; padding: 10px; text-align: center; font-size: 10px;">
-          DEBUG: Show={{ settings.show_cart_upsell }} | Prod={{ settings.cart_upsell_product }} | Type={{ settings.cart_type }}
-        </div>
-        <!-- DEBUG BANNER END -->
         {%- assign upsell_product = settings.cart_upsell_product -%}
         {%- if upsell_product == blank -%}
            <!-- Handle case where setting returns a handle string -->
