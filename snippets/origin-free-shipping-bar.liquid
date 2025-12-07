@@ -4,7 +4,7 @@
   Example: 30000 = $300.00
 {% endcomment %}
 
-{%- assign free_shipping_threshold = 30000 -%}
+{%- assign free_shipping_threshold = settings.cart_free_shipping_threshold | default: 30000 | plus: 0 -%}
 {%- assign cart_total = cart.total_price | default: 0 -%}
 
 {%- if cart_total <= 0 -%}

@@ -1460,6 +1460,17 @@
         "id": "cart_color_scheme",
         "label": "t:sections.all.colors.label",
         "default": "scheme-1"
+      },
+      {
+        "type": "header",
+        "content": "Free Shipping Progress Bar"
+      },
+      {
+        "type": "text",
+        "id": "cart_free_shipping_threshold",
+        "label": "Free shipping threshold (in cents)",
+        "info": "Example: 15000 = $150.00",
+        "default": "30000"
       }
     ]
   }
