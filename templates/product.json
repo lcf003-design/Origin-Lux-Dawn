@@ -34,10 +34,10 @@
             "show_dynamic_checkout": true,
             "btn_text_size": 13,
             "service_text_size": 12,
-            "delivery_text": "Estimated delivery: 2-4 Business Days",
+            "delivery_text": "Estimated delivery: 10-15 Business Days",
             "contact_text": "Contact Us",
-            "contact_url": "",
-            "store_text": "Find in store",
+            "contact_url": "shopify://pages/contact-information",
+            "store_text": "",
             "store_url": ""
           }
         }

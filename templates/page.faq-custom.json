@@ -405,10 +405,13 @@
       "name": "Gucci FAQ (Grid)",
       "settings": {
         "header_bg": "#000000",
-        "header_text": "#FFFFFF",
-        "section_bg": "#FFFFFF",
+        "header_text": "#ffffff",
+        "section_bg": "#ffffff",
         "text_color": "#000000",
-        "emblem_logo": "shopify://shop_images/Favicon.png"
+        "emblem_logo": "shopify://shop_images/Favicon.png",
+        "contact_title": "Still have questions?",
+        "contact_btn_label": "Get in Touch",
+        "contact_btn_link": "shopify://pages/contact-information"
       }
     },
     "main": {
