@@ -44,6 +44,11 @@
               {% render block %}
             {%- when 'subtotal' -%}
               <div class="js-contents" {{ block.shopify_attributes }}>
+                <!-- DEBUG BANNER (CART PAGE): Show={{ settings.show_cart_upsell }} -->
+                <div style="background: blue; color: white; padding: 10px; margin-bottom: 20px;">
+                  DEBUG (CART PAGE): If you see this Blue Box, you are on the CART PAGE, not the Drawer.
+                  <br>Upsell Product Title: {{ settings.cart_upsell_product.title }}
+                </div>
                 {% render 'origin-free-shipping-bar' %}
                 {% render 'origin-free-shipping-line' %}
                 <div>
