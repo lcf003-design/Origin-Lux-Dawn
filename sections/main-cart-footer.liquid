@@ -37,6 +37,49 @@
         </cart-note>
       {%- endif -%}
 
+      <!-- UPSELL COLUMN (LEFT) -->
+      {%- assign upsell_product = settings.cart_upsell_product -%}
+      {%- if upsell_product == blank -%}
+         {%- assign upsell_product = all_products[settings.cart_upsell_product] -%}
+      {%- endif -%}
+
+      {%- if settings.show_cart_upsell and upsell_product != blank -%}
+          <div class="cart__footer-upsell-wrapper" style="width: 35rem;">
+            <div class="origin-cart-upsell" style="border: 1px solid #e5e5e5; padding: 20px; border-radius: 8px; display: flex; align-items: center; gap: 20px;">
+              <div class="origin-cart-upsell__media" style="width: 80px; flex-shrink: 0;">
+                {%- if upsell_product.featured_image -%}
+                  <img
+                    src="{{ upsell_product.featured_image | image_url: width: 220 }}"
+                    alt="{{ upsell_product.featured_image.alt | default: upsell_product.title | escape }}"
+                    loading="lazy"
+                    width="110"
+                    height="{{ 110 | divided_by: upsell_product.featured_image.aspect_ratio | ceil }}"
+                    style="width: 100%; height: auto; border-radius: 4px; display: block;"
+                  >
+                {%- endif -%}
+              </div>
+              <div class="origin-cart-upsell__content" style="flex-grow: 1;">
+                <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #666; margin: 0 0 5px 0;">A Perfect Pairing</p>
+                <a href="{{ upsell_product.url }}" style="text-decoration: none; color: #000; font-family: var(--font-heading-family); font-size: 16px; display: block; margin-bottom: 5px;">{{ upsell_product.title }}</a>
+                <div style="font-size: 14px; margin-bottom: 10px;">
+                  {%- render 'price', product: upsell_product, use_variant: true, show_badges: false -%}
+                </div>
+                
+                {%- if upsell_product.selected_or_first_available_variant.available -%}
+                  <form method="post" action="/cart/add">
+                    <input type="hidden" name="id" value="{{ upsell_product.selected_or_first_available_variant.id }}">
+                    <button type="submit" class="button" style="width: 100%; min-height: 40px; padding: 0 20px; text-transform: uppercase; letter-spacing: 1px; font-size: 12px;">
+                      Add to Bag
+                    </button>
+                  </form>
+                {%- else -%}
+                  <span style="font-size: 12px; color: #999; text-transform: uppercase;">Sold out</span>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+      {%- endif -%}
+
       <div class="cart__blocks">
         {% for block in section.blocks %}
           {%- case block.type -%}
@@ -44,47 +87,6 @@
               {% render block %}
             {%- when 'subtotal' -%}
               <div class="js-contents" {{ block.shopify_attributes }}>
-                <!-- UPSELL BLOCK FOR CART PAGE -->
-                {%- assign upsell_product = settings.cart_upsell_product -%}
-                {%- if upsell_product == blank -%}
-                   {%- assign upsell_product = all_products[settings.cart_upsell_product] -%}
-                {%- endif -%}
-
-                {%- if settings.show_cart_upsell and upsell_product != blank -%}
-                    <div class="origin-cart-upsell" style="margin-bottom: 30px; border: 1px solid #e5e5e5; padding: 20px; border-radius: 8px; display: flex; align-items: center; gap: 20px;">
-                      <div class="origin-cart-upsell__media" style="width: 80px; flex-shrink: 0;">
-                        {%- if upsell_product.featured_image -%}
-                          <img
-                            src="{{ upsell_product.featured_image | image_url: width: 220 }}"
-                            alt="{{ upsell_product.featured_image.alt | default: upsell_product.title | escape }}"
-                            loading="lazy"
-                            width="110"
-                            height="{{ 110 | divided_by: upsell_product.featured_image.aspect_ratio | ceil }}"
-                            style="width: 100%; height: auto; border-radius: 4px; display: block;"
-                          >
-                        {%- endif -%}
-                      </div>
-                      <div class="origin-cart-upsell__content" style="flex-grow: 1;">
-                        <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #666; margin: 0 0 5px 0;">A Perfect Pairing</p>
-                        <a href="{{ upsell_product.url }}" style="text-decoration: none; color: #000; font-family: var(--font-heading-family); font-size: 16px; display: block; margin-bottom: 5px;">{{ upsell_product.title }}</a>
-                        <div style="font-size: 14px; margin-bottom: 10px;">
-                          {%- render 'price', product: upsell_product, use_variant: true, show_badges: false -%}
-                        </div>
-                        
-                        {%- if upsell_product.selected_or_first_available_variant.available -%}
-                          <form method="post" action="/cart/add">
-                            <input type="hidden" name="id" value="{{ upsell_product.selected_or_first_available_variant.id }}">
-                            <button type="submit" class="button" style="width: 100%; min-height: 40px; padding: 0 20px; text-transform: uppercase; letter-spacing: 1px; font-size: 12px;">
-                              Add to Bag
-                            </button>
-                          </form>
-                        {%- else -%}
-                          <span style="font-size: 12px; color: #999; text-transform: uppercase;">Sold out</span>
-                        {%- endif -%}
-                      </div>
-                    </div>
-                {%- endif -%}
-
                 {% render 'origin-free-shipping-bar' %}
                 {% render 'origin-free-shipping-line' %}
                 <div>
@@ -169,7 +171,6 @@
               {%- endif -%}
           {%- endcase -%}
         {% endfor %}
-
         <div id="cart-errors"></div>
       </div>
     </div>
