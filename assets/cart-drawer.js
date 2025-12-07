@@ -17,7 +17,14 @@ class CartDrawer extends HTMLElement {
     let cartLink = document.querySelector("#cart-icon-bubble");
     // Fallback: Find any link pointing to /cart inside the header if specific ID is missing
     if (!cartLink) {
-      cartLink = document.querySelector('a[href="/cart"]');
+      const allCartLinks = document.querySelectorAll('a[href="/cart"]');
+      for (const link of allCartLinks) {
+        // Pick the first link that is NOT inside the drawer itself
+        if (!this.contains(link)) {
+          cartLink = link;
+          break;
+        }
+      }
     }
     if (!cartLink) return;
 
