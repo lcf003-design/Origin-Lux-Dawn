@@ -370,8 +370,12 @@
 
   <!-- 6. FOOTER CTA -->
   <div class="faq-footer-cta">
-    <div class="faq-footer-title">Still have questions?</div>
-    <a href="/pages/contact" class="contact-btn">Contact Us</a>
+    {% if section.settings.contact_title != blank %}
+      <div class="faq-footer-title">{{ section.settings.contact_title }}</div>
+    {% endif %}
+    {% if section.settings.contact_btn_label != blank %}
+      <a href="{{ section.settings.contact_btn_link }}" class="contact-btn">{{ section.settings.contact_btn_label }}</a>
+    {% endif %}
   </div>
 
 </div>
@@ -494,6 +498,27 @@ document.addEventListener('DOMContentLoaded', function() {
       "id": "emblem_logo",
       "label": "Divider Emblem Logo",
       "info": "Small logo to appear in the diamond divider (e.g. GG logo). White/transparent PNG recommended."
+    },
+    {
+      "type": "header",
+      "content": "Footer CTA"
+    },
+    {
+      "type": "text",
+      "id": "contact_title",
+      "label": "Heading Text",
+      "default": "Still have questions?"
+    },
+    {
+      "type": "text",
+      "id": "contact_btn_label",
+      "label": "Button Label",
+      "default": "Contact Us"
+    },
+    {
+      "type": "url",
+      "id": "contact_btn_link",
+      "label": "Button Link"
     }
   ],
   "blocks": [
