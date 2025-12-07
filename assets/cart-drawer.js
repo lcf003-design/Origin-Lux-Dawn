@@ -14,7 +14,11 @@ class CartDrawer extends HTMLElement {
   }
 
   setHeaderCartIconAccessibility() {
-    const cartLink = document.querySelector("#cart-icon-bubble");
+    let cartLink = document.querySelector("#cart-icon-bubble");
+    // Fallback: Find any link pointing to /cart inside the header if specific ID is missing
+    if (!cartLink) {
+      cartLink = document.querySelector('a[href="/cart"]');
+    }
     if (!cartLink) return;
 
     cartLink.setAttribute("role", "button");
