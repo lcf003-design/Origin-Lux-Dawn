@@ -798,17 +798,45 @@
       <button class="origin-search-close" id="origin-search-close-{{ section.id }}" aria-label="Close search">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
-      <form action="{{ routes.search_url }}" method="get" role="search" class="origin-search-form">
-        <input type="search" 
-               name="q" 
-               id="origin-search-input-{{ section.id }}" 
-               value="{{ search.terms | escape }}" 
-               placeholder="Search..." 
-               class="origin-search-input"
-               autocomplete="off">
-        <input type="hidden" name="type" value="product">
-        <button type="submit" class="origin-search-submit">Search</button>
-      </form>
+      {%- if settings.predictive_search_enabled -%}
+        <predictive-search class="origin-search-form" data-loading-text="{{ 'accessibility.loading' | t }}">
+      {%- else -%}
+        <div class="origin-search-form">
+      {%- endif -%}
+          <form action="{{ routes.search_url }}" method="get" role="search" style="width: 100%;">
+            <input type="search" 
+                   name="q" 
+                   id="origin-search-input-{{ section.id }}" 
+                   value="{{ search.terms | escape }}" 
+                   placeholder="Search..." 
+                   class="origin-search-input"
+                   {% if settings.predictive_search_enabled %}
+                     role="combobox"
+                     aria-expanded="false"
+                     aria-owns="predictive-search-results"
+                     aria-controls="predictive-search-results"
+                     aria-haspopup="listbox"
+                     aria-autocomplete="list"
+                     autocorrect="off"
+                     autocomplete="off"
+                     autocapitalize="off"
+                     spellcheck="false"
+                   {% endif %}>
+            <input type="hidden" name="type" value="product">
+            <button type="submit" class="origin-search-submit">{{ 'general.search.search' | t }}</button>
+            
+            {%- if settings.predictive_search_enabled -%}
+              <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+                {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+              </div>
+              <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+            {%- endif -%}
+          </form>
+      {%- if settings.predictive_search_enabled -%}
+        </predictive-search>
+      {%- else -%}
+        </div>
+      {%- endif -%}
     </div>
   </div>
 

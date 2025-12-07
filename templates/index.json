@@ -46,6 +46,7 @@
       "settings": {
         "image_desktop": "shopify://shop_images/Untitled_3b57e759-f769-4600-b256-1247fb625c65.png",
         "image_mobile": "shopify://shop_images/Mobile_banner_vertical.jpg",
+        "lazy_load": true,
         "section_bg_color": "#ffffff",
         "section_height": "auto",
         "overlay_opacity": 10,
@@ -228,7 +229,7 @@
           "type": "banner",
           "settings": {
             "image": "shopify://shop_images/57664DF6-7C42-44C0-B7BC-BCF3D910139C.png",
-            "heading": "GIFTS FOR HER",
+            "heading": "GIFTS FOR HIM",
             "button_label": "SHOP NOW",
             "link": "shopify://collections/mens-small-leather-goods"
           }
