@@ -222,8 +222,8 @@
     background-color: var(--header-bg-shrunk);
     color: var(--header-text-shrunk);
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    padding-top: 12px;
-    padding-bottom: 12px;
+    /* padding-top: 12px; REMOVED TO PREVENT LAYOUT SHIFT DURING MORPH */
+    /* padding-bottom: 12px; REMOVED TO PREVENT LAYOUT SHIFT DURING MORPH */
   }
 
   /* --- STICKY BAR LOGO --- */
@@ -290,6 +290,8 @@
     max-width: 1200px;
     text-align: center;
     padding: 0 20px;
+    backface-visibility: hidden; /* Fix for Safari flicker */
+    will-change: transform, opacity; /* Hint for browser optimization */
   }
 
   .origin-huge-logo-inner.is-full-width {
