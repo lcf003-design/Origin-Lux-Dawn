@@ -172,13 +172,13 @@
     --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}%;
     --logo-width-mobile: {{ section.settings.hero_logo_width_mobile }}%;
     --logo-vertical-pos: {{ section.settings.logo_vertical_position }}vh;
-    
+
     --header-bg-shrunk: {{ section.settings.header_bg_color_shrunk }};
     --header-text-shrunk: {{ section.settings.header_text_color_shrunk }};
     --header-text-initial: {{ section.settings.header_text_color_initial }};
     --menu-text-color: {{ section.settings.menu_text_color }};
     --huge-logo-text-color: {{ section.settings.huge_logo_color }};
-    
+
     --huge-logo-size-desktop: {{ section.settings.huge_logo_size_desktop }}vw;
     --huge-logo-size-mobile: {{ section.settings.huge_logo_size_mobile }}vw;
 
@@ -193,9 +193,9 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 0; 
+    height: 0;
     z-index: 50;
-    pointer-events: none; 
+    pointer-events: none;
   }
 
   /* --- STICKY TOP BAR --- */
@@ -211,9 +211,9 @@
     padding: 16px 24px;
     box-sizing: border-box;
     transition: var(--header-transition);
-    background-color: transparent; 
+    background-color: transparent;
     color: var(--header-text-initial);
-    pointer-events: none; 
+    pointer-events: none;
     font-family: var(--font-menu);
   }
 
@@ -247,11 +247,11 @@
   }
 
   .origin-sticky-bar__logo img {
-    height: 32px; 
+    height: 32px;
     width: auto;
     display: block;
   }
-  
+
   .origin-sticky-bar__logo span {
     font-size: 20px;
     font-weight: 700;
@@ -269,13 +269,13 @@
 
   /* --- HUGE LOGO OVERLAY --- */
   .origin-huge-logo-wrapper {
-    position: fixed; 
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    z-index: 40; 
-    pointer-events: none; 
+    z-index: 40;
+    pointer-events: none;
     display: flex;
     justify-content: center;
     transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
@@ -283,14 +283,14 @@
   }
 
   .origin-huge-logo-inner {
-    margin-top: var(--logo-vertical-pos); 
+    margin-top: var(--logo-vertical-pos);
     transform: translateY(-50%);
     width: var(--logo-width-desktop);
     max-width: 1200px;
     text-align: center;
     padding: 0 20px;
   }
-  
+
   .origin-huge-logo-inner.is-full-width {
     width: 100vw;
     max-width: none;
@@ -305,34 +305,34 @@
   }
 
   .origin-huge-logo-text {
-    font-size: var(--huge-logo-size-desktop); 
+    font-size: var(--huge-logo-size-desktop);
     line-height: 1;
     font-family: var(--font-huge-logo);
     text-transform: uppercase;
     margin: 0;
-    white-space: nowrap; 
-    color: var(--huge-logo-text-color) !important; 
+    white-space: nowrap;
+    color: var(--huge-logo-text-color) !important;
   }
 
   .origin-gucci-header.is-shrunk .origin-huge-logo-wrapper {
     opacity: 0;
     visibility: hidden;
-    transform: scale(0.8) translateY(-100px); 
+    transform: scale(0.8) translateY(-100px);
   }
 
   /* --- SMART HEADER: STANDARD PAGE OVERRIDES --- */
   .origin-gucci-header.is-standard-page {
-    position: sticky; 
+    position: sticky;
     top: 0;
-    height: auto;     
+    height: auto;
     background-color: var(--header-bg-shrunk);
     border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
   .origin-gucci-header.is-standard-page .origin-sticky-bar {
-    position: relative; 
-    background-color: transparent; 
-    color: var(--header-text-shrunk); 
+    position: relative;
+    background-color: transparent;
+    color: var(--header-text-shrunk);
     padding-top: 12px;
     padding-bottom: 12px;
   }
@@ -349,13 +349,13 @@
   }
 
   /* --- ICONS & MENU ACTIONS --- */
-  .origin-sticky-bar__menu, 
+  .origin-sticky-bar__menu,
   .origin-sticky-bar__actions {
     display: flex;
     align-items: center;
     gap: 16px;
-    z-index: 2147483647; 
-    pointer-events: auto !important; 
+    z-index: 2147483647;
+    pointer-events: auto !important;
     position: relative;
   }
 
@@ -369,7 +369,7 @@
     border: none;
     padding: 8px;
     cursor: pointer !important;
-    color: inherit; 
+    color: inherit;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -430,15 +430,15 @@
   .origin-overlay-base {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.4); 
-    backdrop-filter: blur(8px); 
-    z-index: 2147483647; 
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+    z-index: 2147483647;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s;
     pointer-events: auto;
   }
-  
+
   .origin-overlay-base.is-open {
     opacity: 1;
     visibility: visible;
@@ -457,7 +457,7 @@
     transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     display: flex;
     flex-direction: column;
-    color: var(--menu-text-color); 
+    color: var(--menu-text-color);
     overflow-y: auto;
     font-family: var(--font-menu);
   }
@@ -467,9 +467,9 @@
   }
 
   .origin-menu-close {
-    display: none; 
+    display: none;
   }
-  
+
   .origin-menu-list {
     list-style: none;
     padding: 0;
@@ -481,7 +481,7 @@
 
   .origin-menu-item {
     border-bottom: 1px solid rgba(255,255,255,0.08);
-    opacity: 0; 
+    opacity: 0;
     transform: translateY(15px);
   }
 
@@ -511,12 +511,12 @@
   }
 
   .origin-menu-link-wrapper:hover {
-    transform: translateX(10px); 
+    transform: translateX(10px);
   }
 
   .origin-menu-list a {
     text-decoration: none;
-    color: var(--menu-text-color); 
+    color: var(--menu-text-color);
     font-size: 22px;
     font-weight: 400;
     text-transform: uppercase;
@@ -542,7 +542,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    background: rgba(255,255,255,0.03); 
+    background: rgba(255,255,255,0.03);
     border-radius: 4px;
   }
 
@@ -553,12 +553,12 @@
   @keyframes originFadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   .origin-submenu li {
-    padding-left: 20px; 
+    padding-left: 20px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
   }
 
   .origin-submenu li a {
-    font-size: 16px; 
+    font-size: 16px;
     opacity: 0.8;
     text-transform: none;
     font-weight: 300;
@@ -593,7 +593,7 @@
     position: absolute;
     left: 0;
     top: 50%;
-    width: 4px; 
+    width: 4px;
     height: 4px;
     background-color: currentColor;
     border-radius: 50%;
@@ -623,7 +623,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    color: var(--menu-text-color); 
+    color: var(--menu-text-color);
     font-family: var(--font-menu);
   }
 
@@ -634,7 +634,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--menu-text-color); 
+    color: var(--menu-text-color);
     z-index: 10;
   }
 
@@ -647,18 +647,18 @@
   .origin-search-input {
     width: 100%;
     border: none;
-    border-bottom: 2px solid var(--menu-text-color); 
+    border-bottom: 2px solid var(--menu-text-color);
     font-size: 32px;
     padding: 10px 0;
     background: transparent;
     border-radius: 0;
     outline: none;
     font-family: inherit;
-    color: var(--menu-text-color); 
+    color: var(--menu-text-color);
   }
 
   .origin-search-input::placeholder {
-    color: var(--menu-text-color); 
+    color: var(--menu-text-color);
     opacity: 0.6;
   }
 
@@ -674,17 +674,23 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 600;
-    color: var(--menu-text-color); 
+    color: var(--menu-text-color);
   }
-
 {% endstyle %}
-<div id="origin-gucci-header-{{ section.id }}" 
-     class="origin-gucci-header {% unless request.page_type == 'index' %}is-standard-page{% endunless %}" 
-     data-section-id="{{ section.id }}">
-  
+<div
+  id="origin-gucci-header-{{ section.id }}"
+  class="origin-gucci-header {% unless request.page_type == 'index' %}is-standard-page{% endunless %}"
+  data-section-id="{{ section.id }}"
+>
   <header class="origin-sticky-bar">
     <div class="origin-sticky-bar__menu">
-      <button class="origin-sticky-button" type="button" aria-label="Menu" id="origin-menu-trigger-{{ section.id }}" style="z-index: 2147483650;">
+      <button
+        class="origin-sticky-button"
+        type="button"
+        aria-label="Menu"
+        id="origin-menu-trigger-{{ section.id }}"
+        style="z-index: 2147483650;"
+      >
         <div class="origin-hamburger-box">
           <span class="origin-hamburger-line"></span>
           <span class="origin-hamburger-line"></span>
@@ -696,10 +702,12 @@
     <div class="origin-sticky-bar__logo">
       <a href="{{ routes.root_url }}">
         {% if section.settings.logo_image %}
-          <img src="{{ section.settings.logo_image | image_url: width: 300 }}" 
-               alt="{{ shop.name }}" 
-               width="{{ section.settings.logo_image.width }}" 
-               height="{{ section.settings.logo_image.height }}">
+          <img
+            src="{{ section.settings.logo_image | image_url: width: 300 }}"
+            alt="{{ shop.name }}"
+            width="{{ section.settings.logo_image.width }}"
+            height="{{ section.settings.logo_image.height }}"
+          >
         {% else %}
           <span>{{ section.settings.logo_text }}</span>
         {% endif %}
@@ -708,21 +716,29 @@
 
     <div class="origin-sticky-bar__actions">
       <button type="button" class="origin-icon-button" aria-label="Search" id="origin-search-trigger-{{ section.id }}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
       </button>
-      
+
       {% if shop.customer_accounts_enabled %}
-        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" 
-           class="origin-icon-button" 
-           aria-label="Account" 
-           onclick="window.location.href = this.href; return false;"
-           style="pointer-events: auto !important; z-index: 2147483647;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <a
+          href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+          class="origin-icon-button"
+          aria-label="Account"
+          onclick="window.location.href = this.href; return false;"
+          style="pointer-events: auto !important; z-index: 2147483647;"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
         </a>
       {% endif %}
 
       <a href="{{ routes.cart_url }}" class="origin-icon-button" aria-label="Cart" style="pointer-events: auto;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2zM6 5H4V3h2l.6 3h13.8l.6-3H23v2h-2"/><path d="M6 5l1.5 10h11L20 5"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+          <path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2zM6 5H4V3h2l.6 3h13.8l.6-3H23v2h-2"/><path d="M6 5l1.5 10h11L20 5"/>
+        </svg>
       </a>
     </div>
   </header>
@@ -730,12 +746,14 @@
   <div class="origin-huge-logo-wrapper">
     <div class="origin-huge-logo-inner {% if section.settings.full_width_logo %}is-full-width{% endif %}">
       {% if section.settings.logo_image %}
-        <img src="{{ section.settings.logo_image | image_url: width: 1600 }}" 
-             alt="{{ section.settings.logo_text | escape }}" 
-             class="origin-huge-logo-img"
-             loading="eager"
-             width="{{ section.settings.logo_image.width }}"
-             height="{{ section.settings.logo_image.height }}">
+        <img
+          src="{{ section.settings.logo_image | image_url: width: 1600 }}"
+          alt="{{ section.settings.logo_text | escape }}"
+          class="origin-huge-logo-img"
+          loading="eager"
+          width="{{ section.settings.logo_image.width }}"
+          height="{{ section.settings.logo_image.height }}"
+        >
       {% else %}
         <h1 class="origin-huge-logo-text">{{ section.settings.logo_text }}</h1>
       {% endif %}
@@ -751,7 +769,15 @@
               {% if link.links != blank %}
                 <div class="origin-menu-link-wrapper accordion-trigger">
                   <a href="{{ link.url }}">{{ link.title }}</a>
-                  <svg class="origin-menu-accordion-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 1v12M1 7h12"/></svg>
+                  <svg
+                    class="origin-menu-accordion-icon"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M7 1v12M1 7h12"/>
+                  </svg>
                 </div>
                 <ul class="origin-submenu">
                   {% for child_link in link.links %}
@@ -759,11 +785,21 @@
                       {% if child_link.links != blank %}
                         <div class="origin-menu-link-wrapper accordion-trigger">
                           <a href="{{ child_link.url }}">{{ child_link.title }}</a>
-                          <svg class="origin-menu-accordion-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 1v12M1 7h12"/></svg>
+                          <svg
+                            class="origin-menu-accordion-icon"
+                            viewBox="0 0 14 14"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path d="M7 1v12M1 7h12"/>
+                          </svg>
                         </div>
                         <ul class="origin-submenu">
                           {% for grandchild_link in child_link.links %}
-                            <li><a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
+                            <li>
+                              <a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+                            </li>
                           {% endfor %}
                         </ul>
                       {% else %}
@@ -796,42 +832,46 @@
   <div class="origin-search-overlay origin-overlay-base" id="origin-search-overlay-{{ section.id }}">
     <div class="origin-search-container">
       <button class="origin-search-close" id="origin-search-close-{{ section.id }}" aria-label="Close search">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
       </button>
       {%- if settings.predictive_search_enabled -%}
         <predictive-search class="origin-search-form" data-loading-text="{{ 'accessibility.loading' | t }}">
       {%- else -%}
         <div class="origin-search-form">
       {%- endif -%}
-          <form action="{{ routes.search_url }}" method="get" role="search" style="width: 100%;">
-            <input type="search" 
-                   name="q" 
-                   id="origin-search-input-{{ section.id }}" 
-                   value="{{ search.terms | escape }}" 
-                   placeholder="Search..." 
-                   class="origin-search-input"
-                   {% if settings.predictive_search_enabled %}
-                     role="combobox"
-                     aria-expanded="false"
-                     aria-owns="predictive-search-results"
-                     aria-controls="predictive-search-results"
-                     aria-haspopup="listbox"
-                     aria-autocomplete="list"
-                     autocorrect="off"
-                     autocomplete="off"
-                     autocapitalize="off"
-                     spellcheck="false"
-                   {% endif %}>
-            <input type="hidden" name="type" value="product">
-            <button type="submit" class="origin-search-submit">{{ 'general.search.search' | t }}</button>
-            
-            {%- if settings.predictive_search_enabled -%}
-              <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
-                {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
-              </div>
-              <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
-            {%- endif -%}
-          </form>
+      <form action="{{ routes.search_url }}" method="get" role="search" style="width: 100%;">
+        <input
+          type="search"
+          name="q"
+          id="origin-search-input-{{ section.id }}"
+          value="{{ search.terms | escape }}"
+          placeholder="Search..."
+          class="origin-search-input"
+          {% if settings.predictive_search_enabled %}
+            role="combobox"
+            aria-expanded="false"
+            aria-owns="predictive-search-results"
+            aria-controls="predictive-search-results"
+            aria-haspopup="listbox"
+            aria-autocomplete="list"
+            autocorrect="off"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+          {% endif %}
+        >
+        <input type="hidden" name="type" value="product">
+        <button type="submit" class="origin-search-submit">{{ 'general.search.search' | t }}</button>
+
+        {%- if settings.predictive_search_enabled -%}
+          <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+            {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+          </div>
+          <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+        {%- endif -%}
+      </form>
       {%- if settings.predictive_search_enabled -%}
         </predictive-search>
       {%- else -%}
@@ -839,22 +879,32 @@
       {%- endif -%}
     </div>
   </div>
-
 </div>
 <script>
-  (function() {
-    const sectionId = "{{ section.id }}";
+  (function () {
+    const sectionId = '{{ section.id }}';
     const headerContainer = document.getElementById(`origin-gucci-header-${sectionId}`);
-    
+
     if (!headerContainer) return;
 
     // --- 1. Scroll Logic ---
     const handleScroll = () => {
       const scrollY = window.scrollY || document.documentElement.scrollTop;
-      if (scrollY > 20) {
+      if (scrollY > 50) {
         headerContainer.classList.add('is-shrunk');
+        // Apply Fresh Start style blur and background
+        const bar = headerContainer.querySelector('.origin-sticky-bar');
+        if (bar) {
+          bar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+          bar.style.backdropFilter = 'blur(10px)';
+        }
       } else {
         headerContainer.classList.remove('is-shrunk');
+        const bar = headerContainer.querySelector('.origin-sticky-bar');
+        if (bar) {
+          bar.style.backgroundColor = 'transparent';
+          bar.style.backdropFilter = 'none';
+        }
       }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -867,10 +917,10 @@
 
       if (isOpen) {
         overlay.classList.add('is-open');
-        document.body.style.overflow = 'hidden'; 
+        document.body.style.overflow = 'hidden';
       } else {
         overlay.classList.remove('is-open');
-        document.body.style.overflow = ''; 
+        document.body.style.overflow = '';
       }
     };
 
@@ -883,15 +933,15 @@
       menuTrigger.addEventListener('click', (e) => {
         e.preventDefault();
         isMenuOpen = !isMenuOpen;
-        
+
         toggleOverlay(menuOverlayId, isMenuOpen);
-        
+
         if (isMenuOpen) {
-            menuTrigger.classList.add('is-active');
-            menuTrigger.style.color = 'var(--menu-text-color)';
+          menuTrigger.classList.add('is-active');
+          menuTrigger.style.color = 'var(--menu-text-color)';
         } else {
-            menuTrigger.classList.remove('is-active');
-            menuTrigger.style.color = '';
+          menuTrigger.classList.remove('is-active');
+          menuTrigger.style.color = '';
         }
       });
     }
@@ -900,12 +950,12 @@
     if (menuOverlay) {
       menuOverlay.addEventListener('click', (e) => {
         if (e.target === menuOverlay) {
-            toggleOverlay(menuOverlayId, false);
-            isMenuOpen = false;
-            if(menuTrigger) {
-                menuTrigger.classList.remove('is-active');
-                menuTrigger.style.color = '';
-            }
+          toggleOverlay(menuOverlayId, false);
+          isMenuOpen = false;
+          if (menuTrigger) {
+            menuTrigger.classList.remove('is-active');
+            menuTrigger.style.color = '';
+          }
         }
       });
     }
@@ -913,21 +963,21 @@
     // --- NESTED ACCORDION LOGIC ---
     if (menuOverlay) {
       const accordionTriggers = menuOverlay.querySelectorAll('.accordion-trigger');
-      accordionTriggers.forEach(trigger => {
+      accordionTriggers.forEach((trigger) => {
         trigger.addEventListener('click', (e) => {
-          e.preventDefault(); 
-          
+          e.preventDefault();
+
           const submenu = trigger.nextElementSibling;
           const icon = trigger.querySelector('.origin-menu-accordion-icon');
-          
+
           if (submenu) {
             const isOpen = submenu.classList.contains('is-open');
             if (isOpen) {
               submenu.classList.remove('is-open');
-              if(icon) icon.style.transform = 'rotate(0deg)';
+              if (icon) icon.style.transform = 'rotate(0deg)';
             } else {
               submenu.classList.add('is-open');
-              if(icon) icon.style.transform = 'rotate(45deg)'; 
+              if (icon) icon.style.transform = 'rotate(45deg)';
             }
           }
         });
@@ -962,13 +1012,12 @@
       if (e.key === 'Escape') {
         toggleOverlay(menuOverlayId, false);
         isMenuOpen = false;
-        if(menuTrigger) {
-            menuTrigger.classList.remove('is-active');
-            menuTrigger.style.color = '';
+        if (menuTrigger) {
+          menuTrigger.classList.remove('is-active');
+          menuTrigger.style.color = '';
         }
         toggleOverlay(searchOverlayId, false);
       }
     });
-
   })();
 </script>
