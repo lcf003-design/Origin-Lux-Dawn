@@ -657,7 +657,40 @@
       ]
     },
     { "type": "text", "name": "Text", "settings": [{ "type": "text", "id": "text", "label": "Text" }] },
-    { "type": "variant_picker", "name": "Variant Picker", "limit": 1 },
+    {
+      "type": "variant_picker",
+      "name": "Variant Picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "picker_type",
+          "options": [
+            {
+              "value": "dropdown",
+              "label": "Dropdown"
+            },
+            {
+              "value": "button",
+              "label": "Pills"
+            }
+          ],
+          "default": "button",
+          "label": "Variant Picker Style"
+        },
+        {
+          "type": "select",
+          "id": "swatch_shape",
+          "label": "Swatch Shape",
+          "options": [
+            { "value": "circle", "label": "Circle" },
+            { "value": "square", "label": "Square" },
+            { "value": "none", "label": "None" }
+          ],
+          "default": "circle"
+        }
+      ]
+    },
     {
       "type": "buy_buttons",
       "name": "Buy Buttons",
