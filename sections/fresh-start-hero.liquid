@@ -81,12 +81,25 @@
   ></div>
 
   <!-- Hero Section -->
-  <section class="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-white">
+  <section class="relative w-full overflow-hidden flex flex-col items-center justify-center bg-white {{ section.settings.hero_height_mobile }} md:{{ section.settings.hero_height_desktop }}">
+    <!-- Background Image -->
+    {%- if section.settings.bg_image != blank -%}
+      <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <img
+          src="{{ section.settings.bg_image | image_url: width: 2400 }}"
+          alt="{{ section.settings.bg_image.alt | escape }}"
+          width="{{ section.settings.bg_image.width }}"
+          height="{{ section.settings.bg_image.height }}"
+          class="w-full h-full object-cover transition-transform duration-700 ease-out"
+          style="transform: scale({{ section.settings.hero_bg_scale | divided_by: 100.0 }}); transform-origin: center;"
+        >
+      </div>
+    {%- endif -%}
     <div
       class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-100/60 rounded-full blur-[120px]"
     ></div>
 
-    <div id="fs-parallax-container" class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+    <div id="fs-parallax-container" class="absolute inset-0 z-10 overflow-hidden pointer-events-none">
       {%- if section.settings.parallax_img_1 != blank -%}
         <div
           class="parallax-layer absolute bottom-[5%] right-[2%] w-[28vw] md:w-[22vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-20"
@@ -235,7 +248,42 @@
     { "type": "image_picker", "id": "parallax_img_2", "label": "Top Left" },
     { "type": "image_picker", "id": "parallax_img_3", "label": "Top Right" },
     { "type": "image_picker", "id": "parallax_img_4", "label": "Bottom Left" },
-    { "type": "image_picker", "id": "parallax_img_5", "label": "Center Top" }
+    { "type": "image_picker", "id": "parallax_img_5", "label": "Center Top" },
+    { "type": "header", "content": "Background Settings" },
+    { "type": "image_picker", "id": "bg_image", "label": "Background Image" },
+    {
+      "type": "range",
+      "id": "hero_bg_scale",
+      "min": 100,
+      "max": 200,
+      "step": 5,
+      "default": 100,
+      "unit": "%",
+      "label": "Background Image Scale"
+    },
+    { "type": "header", "content": "Section Layout" },
+    {
+      "type": "select",
+      "id": "hero_height_desktop",
+      "label": "Desktop Section Height",
+      "options": [
+        { "value": "h-screen", "label": "Full Screen" },
+        { "value": "h-[80vh]", "label": "80% Height" },
+        { "value": "h-[60vh]", "label": "60% Height" }
+      ],
+      "default": "h-screen"
+    },
+    {
+      "type": "select",
+      "id": "hero_height_mobile",
+      "label": "Mobile Section Height",
+      "options": [
+        { "value": "h-screen", "label": "Full Screen" },
+        { "value": "h-[80vh]", "label": "80% Height" },
+        { "value": "h-[60vh]", "label": "60% Height" }
+      ],
+      "default": "h-screen"
+    }
   ],
   "presets": [{ "name": "Fresh Start Hero" }]
 }
