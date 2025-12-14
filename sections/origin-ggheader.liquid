@@ -743,22 +743,24 @@
     </div>
   </header>
 
-  <div class="origin-huge-logo-wrapper">
-    <div class="origin-huge-logo-inner {% if section.settings.full_width_logo %}is-full-width{% endif %}">
-      {% if section.settings.logo_image %}
-        <img
-          src="{{ section.settings.logo_image | image_url: width: 1600 }}"
-          alt="{{ section.settings.logo_text | escape }}"
-          class="origin-huge-logo-img"
-          loading="eager"
-          width="{{ section.settings.logo_image.width }}"
-          height="{{ section.settings.logo_image.height }}"
-        >
-      {% else %}
-        <h1 class="origin-huge-logo-text">{{ section.settings.logo_text }}</h1>
-      {% endif %}
+  {% comment %}
+    <div class="origin-huge-logo-wrapper">
+      <div class="origin-huge-logo-inner {% if section.settings.full_width_logo %}is-full-width{% endif %}">
+        {% if section.settings.logo_image %}
+          <img
+            src="{{ section.settings.logo_image | image_url: width: 1600 }}"
+            alt="{{ section.settings.logo_text | escape }}"
+            class="origin-huge-logo-img"
+            loading="eager"
+            width="{{ section.settings.logo_image.width }}"
+            height="{{ section.settings.logo_image.height }}"
+          >
+        {% else %}
+          <h1 class="origin-huge-logo-text">{{ section.settings.logo_text }}</h1>
+        {% endif %}
+      </div>
     </div>
-  </div>
+  {% endcomment %}
 
   <div class="origin-menu-overlay origin-overlay-base" id="origin-menu-overlay-{{ section.id }}">
     <div class="origin-menu-drawer">
@@ -890,20 +892,43 @@
     // --- 1. Scroll Logic ---
     const handleScroll = () => {
       const scrollY = window.scrollY || document.documentElement.scrollTop;
-      if (scrollY > 50) {
+      const bar = headerContainer.querySelector('.origin-sticky-bar');
+      const logo = headerContainer.querySelector('.origin-sticky-bar__logo');
+
+      // Hand-off Logic:
+      // Hero fades out 200px-350px.
+      // Header logo starts fading in at 250px.
+
+      // Calculate Logo Opacity
+      const logoOpacity = Math.max(0, Math.min(1, (scrollY - 250) / 100));
+
+      if (logo) {
+        logo.style.opacity = logoOpacity;
+        logo.style.visibility = logoOpacity > 0 ? 'visible' : 'hidden';
+        // Reset transform if needed or keep it static?
+        // Original CSS had transform: translateY(10px). We want smooth entry?
+        // Let's just control opacity as requested, maybe slide up slightly?
+        // User asked: "control the opacity dynamically so it 'hands off' perfectly"
+        // Logic implies just opacity. Let's ensure CSS doesn't override it.
+        logo.style.transform = `translateY(${(1 - logoOpacity) * 10}px)`;
+      }
+
+      // Background Logic - syncing with logo appearance (approx > 250)
+      if (scrollY > 250) {
         headerContainer.classList.add('is-shrunk');
-        // Apply Fresh Start style blur and background
-        const bar = headerContainer.querySelector('.origin-sticky-bar');
         if (bar) {
           bar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
           bar.style.backdropFilter = 'blur(10px)';
+          // Ensure text colors switch if needed
+          bar.style.color = 'var(--header-text-shrunk)';
         }
       } else {
         headerContainer.classList.remove('is-shrunk');
-        const bar = headerContainer.querySelector('.origin-sticky-bar');
         if (bar) {
           bar.style.backgroundColor = 'transparent';
           bar.style.backdropFilter = 'none';
+          // Revert color if needed
+          bar.style.color = 'var(--header-text-initial)';
         }
       }
     };
