@@ -1,0 +1,380 @@
+{% comment %}
+  Fresh Start Hero
+  Contains: Navbar, Custom Cursor, Preloader, and 3D Parallax Hero
+{% endcomment %}
+
+{% comment %}
+  theme-check-disable RemoteAsset
+{% endcomment %}
+<script src="https://cdn.tailwindcss.com" defer></script>
+<script src="https://unpkg.com/lucide@latest" defer></script>
+{% comment %}
+  theme-check-enable RemoteAsset
+{% endcomment %}
+
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom Cursor */
+  .custom-cursor {
+    pointer-events: none;
+    mix-blend-mode: difference;
+    transition: transform 0.15s ease-out;
+    z-index: 9999;
+  }
+
+  /* Floating Animations */
+  @keyframes float-slow {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite;
+  }
+
+  @keyframes float-medium {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+  .animate-float-medium {
+    animation: float-medium 5s ease-in-out infinite;
+  }
+
+  /* Utilities */
+  body.no-scroll {
+    overflow: hidden;
+  }
+</style>
+
+<div class="relative w-full bg-white font-sans text-black overflow-hidden">
+  <!-- Preloader -->
+  <div
+    id="fs-preloader"
+    class="fixed inset-0 z-[10000] flex items-center justify-center bg-black text-white transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)]"
+  >
+    <div class="overflow-hidden">
+      <h1
+        id="fs-preloader-text"
+        class="text-4xl md:text-6xl font-black tracking-widest uppercase transition-transform duration-1000"
+      >
+        {{ section.settings.hero_headline | default: 'Origin Intl' }}
+      </h1>
+    </div>
+  </div>
+
+  <!-- Noise Overlay -->
+  <div
+    class="fixed inset-0 pointer-events-none z-[9998] opacity-[0.03] mix-blend-overlay"
+    style="background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E')"
+  ></div>
+
+  <!-- Custom Cursor -->
+  <div
+    id="fs-custom-cursor"
+    class="fixed top-0 left-0 hidden md:block w-4 h-4 bg-white rounded-full custom-cursor"
+  ></div>
+
+  <!-- Navbar -->
+  <nav id="fs-navbar" class="fixed top-0 w-full z-50 transition-colors duration-500">
+    <div class="container mx-auto px-6 flex justify-between items-center h-20 relative z-50">
+      <button id="fs-menu-btn" class="text-black hover:text-purple-600 transition-colors relative z-50">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+
+      <div
+        id="fs-nav-logo"
+        class="text-xl font-bold tracking-[0.2em] text-black absolute left-1/2 transform -translate-x-1/2 z-50 transition-opacity duration-300 opacity-0"
+      >
+        {{ section.settings.hero_headline | default: 'ORIGIN INTL' }}
+      </div>
+
+      <div class="flex items-center space-x-6 text-black relative z-50">
+        <button class="hover:text-purple-600 transition-colors hidden md:block">
+          <i data-lucide="search" class="w-5 h-5"></i>
+        </button>
+        <button class="hover:text-purple-600 transition-colors flex items-center gap-2">
+          <span class="hidden md:inline text-xs uppercase tracking-widest font-bold">Cart (0)</span>
+          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Drawer Menu -->
+  <div
+    id="fs-drawer-overlay"
+    class="fixed inset-0 z-40 invisible pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.7,0,0.3,1)]"
+  >
+    <div
+      id="fs-drawer-backdrop"
+      class="absolute inset-0 bg-white/80 backdrop-blur-md opacity-0 transition-opacity duration-700"
+    ></div>
+    <div
+      id="fs-drawer-panel"
+      class="relative w-full md:w-1/2 h-full bg-white border-r border-gray-200 flex flex-col justify-center px-12 md:px-24 transition-transform duration-700 ease-[cubic-bezier(0.7,0,0.3,1)] -translate-x-full"
+    >
+      <button id="fs-drawer-close" class="absolute top-6 left-6 text-black hover:text-purple-600">
+        <i data-lucide="x" class="w-8 h-8"></i>
+      </button>
+      <div class="flex flex-col gap-6">
+        <a
+          href="#"
+          class="drawer-link text-3xl md:text-5xl font-light text-black uppercase tracking-widest hover:text-purple-600 hover:pl-4 transition-all duration-300 w-fit"
+          >Collections</a
+        >
+        <a
+          href="#"
+          class="drawer-link text-3xl md:text-5xl font-light text-black uppercase tracking-widest hover:text-purple-600 hover:pl-4 transition-all duration-300 w-fit"
+          >New Arrivals</a
+        >
+        <a
+          href="#"
+          class="drawer-link text-3xl md:text-5xl font-light text-black uppercase tracking-widest hover:text-purple-600 hover:pl-4 transition-all duration-300 w-fit"
+          >Designers</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-white">
+    <div
+      class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-100/60 rounded-full blur-[120px]"
+    ></div>
+
+    <div id="fs-parallax-container" class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      {%- if section.settings.parallax_img_1 != blank -%}
+        <div
+          class="parallax-layer absolute bottom-[5%] right-[2%] w-[28vw] md:w-[22vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-20"
+          data-speed="40"
+        >
+          <img
+            src="{{ section.settings.parallax_img_1 | image_url: width: 800 }}"
+            width="{{ section.settings.parallax_img_1.width }}"
+            height="{{ section.settings.parallax_img_1.height }}"
+            alt="{{ section.settings.parallax_img_1.alt | escape }}"
+            class="w-full h-full object-cover animate-float-slow mix-blend-multiply"
+          >
+        </div>
+      {%- endif -%}
+      {%- if section.settings.parallax_img_2 != blank -%}
+        <div
+          class="parallax-layer absolute top-[18%] left-[8%] w-[24vw] md:w-[18vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10"
+          data-speed="-25"
+        >
+          <img
+            src="{{ section.settings.parallax_img_2 | image_url: width: 800 }}"
+            width="{{ section.settings.parallax_img_2.width }}"
+            height="{{ section.settings.parallax_img_2.height }}"
+            alt="{{ section.settings.parallax_img_2.alt | escape }}"
+            class="w-full h-full object-cover animate-float-slow opacity-90 mix-blend-multiply"
+          >
+        </div>
+      {%- endif -%}
+      {%- if section.settings.parallax_img_3 != blank -%}
+        <div
+          class="parallax-layer absolute top-[15%] right-[10%] w-[22vw] md:w-[16vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10"
+          data-speed="15"
+        >
+          <img
+            src="{{ section.settings.parallax_img_3 | image_url: width: 800 }}"
+            width="{{ section.settings.parallax_img_3.width }}"
+            height="{{ section.settings.parallax_img_3.height }}"
+            alt="{{ section.settings.parallax_img_3.alt | escape }}"
+            class="w-full h-full object-cover animate-float-medium opacity-80 mix-blend-multiply"
+          >
+        </div>
+      {%- endif -%}
+      {%- if section.settings.parallax_img_4 != blank -%}
+        <div
+          class="parallax-layer absolute bottom-[15%] left-[5%] w-[20vw] md:w-[14vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10"
+          data-speed="-15"
+        >
+          <img
+            src="{{ section.settings.parallax_img_4 | image_url: width: 800 }}"
+            width="{{ section.settings.parallax_img_4.width }}"
+            height="{{ section.settings.parallax_img_4.height }}"
+            alt="{{ section.settings.parallax_img_4.alt | escape }}"
+            class="w-full h-full object-cover animate-float-slow opacity-85 mix-blend-multiply"
+          >
+        </div>
+      {%- endif -%}
+      {%- if section.settings.parallax_img_5 != blank -%}
+        <div
+          class="parallax-layer absolute top-[8%] left-[45%] w-[18vw] md:w-[12vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-5"
+          data-speed="30"
+        >
+          <img
+            src="{{ section.settings.parallax_img_5 | image_url: width: 800 }}"
+            width="{{ section.settings.parallax_img_5.width }}"
+            height="{{ section.settings.parallax_img_5.height }}"
+            alt="{{ section.settings.parallax_img_5.alt | escape }}"
+            class="w-full h-full object-cover animate-float-medium opacity-75 mix-blend-multiply"
+          >
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="w-full relative z-30 flex flex-col items-center justify-center h-full pointer-events-none">
+      <div
+        id="fs-hero-text-wrapper"
+        class="w-full flex justify-center items-center origin-center transition-transform duration-75"
+      >
+        <h1 class="text-[22vw] leading-[0.8] font-black text-black uppercase tracking-tighter whitespace-nowrap text-center select-none opacity-90">
+          {{ section.settings.hero_headline | default: 'ORIGIN INTL' }}
+        </h1>
+      </div>
+      <div
+        id="fs-hero-cta"
+        class="absolute bottom-24 flex flex-col items-center gap-6 pointer-events-auto transition-opacity duration-300"
+      >
+        <p class="text-gray-500 text-xs md:text-sm uppercase tracking-[0.3em]">
+          {{ section.settings.hero_subheadline | default: 'Vanguard of Luxury' }}
+        </p>
+        <a
+          href="{{ section.settings.hero_cta_link }}"
+          class="px-8 py-3 bg-transparent border border-black text-black text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all duration-300"
+        >
+          {{ section.settings.hero_cta_label | default: 'Collection' }}
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  (function () {
+    function initFreshStartHero() {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+
+      // Preloader
+      const preloader = document.getElementById('fs-preloader');
+      const preloaderText = document.getElementById('fs-preloader-text');
+      // Failsafe: Hide preloader after 3s max even if logic fails slightly
+      if (preloader) {
+        setTimeout(() => {
+          if (preloaderText) preloaderText.style.transform = 'translateY(-100%)';
+          preloader.style.transform = 'translateY(-100%)';
+        }, 1500);
+      }
+
+      // Cursor
+      const cursor = document.getElementById('fs-custom-cursor');
+      if (cursor) {
+        document.addEventListener('mousemove', (e) => {
+          cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+          const target = e.target;
+          const isHoverable =
+            target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button');
+          if (isHoverable) {
+            cursor.style.width = '40px';
+            cursor.style.height = '40px';
+          } else {
+            cursor.style.width = '16px';
+            cursor.style.height = '16px';
+          }
+        });
+      }
+
+      // Scroll Logic
+      const navbar = document.getElementById('fs-navbar');
+      const navLogo = document.getElementById('fs-nav-logo');
+      const heroText = document.getElementById('fs-hero-text-wrapper');
+      const heroCta = document.getElementById('fs-hero-cta');
+      const layers = document.querySelectorAll('.parallax-layer');
+
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        if (navbar && scrollY > 50) {
+          navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+          navbar.style.backdropFilter = 'blur(10px)';
+        } else if (navbar) {
+          navbar.style.backgroundColor = 'transparent';
+          navbar.style.backdropFilter = 'none';
+        }
+        if (navLogo) navLogo.style.opacity = Math.max(0, (scrollY - 250) / 100);
+        if (heroText) {
+          const progress = Math.min(1, scrollY / 400);
+          heroText.style.transform = `translateY(${-150 * progress}px) scale(${1 - 0.85 * progress})`;
+        }
+        if (heroCta) heroCta.style.opacity = Math.max(0, 1 - scrollY / 200);
+      });
+
+      // Mouse Parallax
+      document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth) * 2 - 1;
+        const y = (e.clientY / window.innerHeight) * 2 - 1;
+        layers.forEach((layer) => {
+          const speed = layer.getAttribute('data-speed');
+          layer.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+        });
+      });
+
+      // Drawer Logic
+      const menuBtn = document.getElementById('fs-menu-btn');
+      const drawerOverlay = document.getElementById('fs-drawer-overlay');
+      const drawerBackdrop = document.getElementById('fs-drawer-backdrop');
+      const drawerPanel = document.getElementById('fs-drawer-panel');
+      const drawerClose = document.getElementById('fs-drawer-close');
+
+      function toggleMenu(open) {
+        if (!drawerOverlay || !drawerPanel) return;
+        if (open) {
+          drawerOverlay.classList.remove('invisible', 'pointer-events-none');
+          drawerOverlay.classList.add('visible', 'pointer-events-auto');
+          setTimeout(() => {
+            if (drawerBackdrop) drawerBackdrop.classList.remove('opacity-0');
+            drawerPanel.classList.remove('-translate-x-full');
+          }, 10);
+        } else {
+          if (drawerBackdrop) drawerBackdrop.classList.add('opacity-0');
+          drawerPanel.classList.add('-translate-x-full');
+          setTimeout(() => {
+            drawerOverlay.classList.add('invisible', 'pointer-events-none');
+            drawerOverlay.classList.remove('visible', 'pointer-events-auto');
+          }, 700);
+        }
+      }
+      if (menuBtn) menuBtn.addEventListener('click', () => toggleMenu(true));
+      if (drawerClose) drawerClose.addEventListener('click', () => toggleMenu(false));
+      if (drawerBackdrop) drawerBackdrop.addEventListener('click', () => toggleMenu(false));
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFreshStartHero);
+    } else {
+      initFreshStartHero();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Fresh Start Hero",
+  "settings": [
+    { "type": "text", "id": "hero_headline", "label": "Headline", "default": "ORIGIN INTL" },
+    { "type": "text", "id": "hero_subheadline", "label": "Subheadline", "default": "Vanguard of Luxury" },
+    { "type": "text", "id": "hero_cta_label", "label": "CTA Label", "default": "Collection" },
+    { "type": "url", "id": "hero_cta_link", "label": "CTA Link" },
+    { "type": "header", "content": "Parallax Images" },
+    { "type": "image_picker", "id": "parallax_img_1", "label": "Bottom Right" },
+    { "type": "image_picker", "id": "parallax_img_2", "label": "Top Left" },
+    { "type": "image_picker", "id": "parallax_img_3", "label": "Top Right" },
+    { "type": "image_picker", "id": "parallax_img_4", "label": "Bottom Left" },
+    { "type": "image_picker", "id": "parallax_img_5", "label": "Center Top" }
+  ],
+  "presets": [{ "name": "Fresh Start Hero" }]
+}
+{% endschema %}

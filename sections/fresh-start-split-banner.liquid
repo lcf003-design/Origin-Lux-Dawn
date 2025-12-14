@@ -1,0 +1,91 @@
+{% comment %}
+  Fresh Start Split Banner
+  Contains: 50/50 Dual Banner
+{% endcomment %}
+
+{% comment %}
+  theme-check-disable RemoteAsset
+{% endcomment %}
+<script src="https://cdn.tailwindcss.com" defer></script>
+{% comment %}
+  theme-check-enable RemoteAsset
+{% endcomment %}
+
+<section class="w-full bg-white font-sans">
+  <div class="grid grid-cols-1 md:grid-cols-2 h-[600px] w-full">
+    <!-- LEFT SIDE -->
+    <div class="relative group overflow-hidden h-full">
+      {%- if section.settings.left_image != blank -%}
+        {{
+          section.settings.left_image
+          | image_url: width: 1200
+          | image_tag:
+            class: 'absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105'
+        }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-80 bg-gray-200' }}
+      {%- endif -%}
+
+      <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-500"></div>
+
+      <div class="absolute bottom-10 left-10 text-white z-10">
+        <h3 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4">
+          {{ section.settings.left_title }}
+        </h3>
+        <a
+          href="{{ section.settings.left_link }}"
+          class="inline-block px-8 py-3 bg-white text-black text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all duration-300"
+        >
+          {{ section.settings.left_btn_label }}
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="relative group overflow-hidden h-full">
+      {%- if section.settings.right_image != blank -%}
+        {{
+          section.settings.right_image
+          | image_url: width: 1200
+          | image_tag:
+            class: 'absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105'
+        }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-80 bg-gray-200' }}
+      {%- endif -%}
+
+      <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-500"></div>
+
+      <div class="absolute bottom-10 left-10 text-white z-10">
+        <h3 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4">
+          {{ section.settings.right_title }}
+        </h3>
+        <a
+          href="{{ section.settings.right_link }}"
+          class="inline-block px-8 py-3 bg-white text-black text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all duration-300"
+        >
+          {{ section.settings.right_btn_label }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Fresh Start Split Banner",
+  "settings": [
+    { "type": "header", "content": "Left Side" },
+    { "type": "image_picker", "id": "left_image", "label": "Image" },
+    { "type": "text", "id": "left_title", "label": "Title", "default": "Gifts For Him" },
+    { "type": "text", "id": "left_btn_label", "label": "Button Label", "default": "Shop Now" },
+    { "type": "url", "id": "left_link", "label": "Link" },
+    { "type": "header", "content": "Right Side" },
+    { "type": "image_picker", "id": "right_image", "label": "Image" },
+    { "type": "text", "id": "right_title", "label": "Title", "default": "Gifts For Her" },
+    { "type": "text", "id": "right_btn_label", "label": "Button Label", "default": "Shop Now" },
+    { "type": "url", "id": "right_link", "label": "Link" }
+  ],
+  "presets": [{ "name": "Fresh Start Split Banner" }]
+}
+{% endschema %}
