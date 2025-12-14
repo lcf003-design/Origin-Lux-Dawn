@@ -517,7 +517,9 @@
                 background-repeat: no-repeat;
               }
 
-              .shopify-payment-button__button--unbranded {
+              .shopify-payment-button__button--unbranded,
+              .shopify-payment-button__button--branded,
+              .shopify-payment-button__more-options {
                 background-color: #000 !important;
                 color: white !important;
                 border-radius: 40px !important;
@@ -526,14 +528,22 @@
                 width: 100% !important;
                 max-width: 340px !important;
                 font-size: {{ block.settings.btn_text_size }}px !important;
+                overflow: hidden !important;
+              }
+              /* Target the inner container of the branded button specifically */
+              .shopify-payment-button__button--branded .shopify-cleanslate div {
+                  border-radius: 40px !important;
+                  overflow: hidden !important;
               }
               .shopify-payment-button__button {
                 border-radius: 40px !important;
                 margin-top: 10px;
-                overflow: hidden;
+                overflow: hidden !important;
                 pointer-events: auto !important;
                 width: 100% !important;
                 max-width: 340px !important;
+                display: flex;
+                justify-content: center;
               }
             </style>
 
