@@ -100,9 +100,27 @@ if (!customElements.get("product-info")) {
       }
 
       getVariantData() {
-        this.variantData =
-          this.variantData ||
-          JSON.parse(this.querySelector("[data-variants]")?.innerHTML || "[]");
+        if (this.variantData) return this.variantData;
+        const scriptTag = this.querySelector("[data-variants]");
+        if (scriptTag && scriptTag.textContent) {
+          try {
+            this.variantData = JSON.parse(scriptTag.textContent);
+          } catch (e) {
+            console.error("Antigravity Debug: Failed to parse variant JSON", e);
+          }
+        }
+        // Fallback: Try to find standard variant JSON from Shopify defaults if ours is missing
+        if (!this.variantData) {
+          const fallbackScript = this.querySelector(
+            '[type="application/json"][data-selected-variant]',
+          );
+          // This usually only has one variant, so it's not enough for all, but prevents crash
+          // Real fix relies on the injected script in product-variant-picker.liquid
+          console.warn(
+            "Antigravity Debug: Variants script not found. Using empty array.",
+          );
+          this.variantData = [];
+        }
         return this.variantData;
       }
 
@@ -111,15 +129,44 @@ if (!customElements.get("product-info")) {
           this.querySelectorAll(
             "variant-selects fieldset input:checked, variant-selects select option:checked",
           ),
-        ).map((element) => element.value);
+        ).map((element) => element.value.toString().trim());
+
         const variants = this.getVariantData();
+        console.log("Antigravity Debug [Checking Options]:", selectedValues);
+
+        if (!variants || variants.length === 0) {
+          console.error("Antigravity Debug: No variants data found!");
+          return undefined;
+        }
+
         const match = variants.find((variant) => {
           return !variant.options
             .map((option, index) => {
-              return selectedValues[index] === option;
+              // Compare as strings to be safe (JSON might have numbers, inputs have strings)
+              const variantOption =
+                option === null || option === undefined
+                  ? ""
+                  : option.toString().trim();
+              const selectedValue =
+                selectedValues[index] === null ||
+                selectedValues[index] === undefined
+                  ? ""
+                  : selectedValues[index];
+              return variantOption === selectedValue;
             })
             .includes(false);
         });
+
+        if (match) {
+          console.log("Antigravity Debug: Found match:", match.id);
+        } else {
+          console.log(
+            "Antigravity Debug: No match found. User selected:",
+            selectedValues,
+          );
+          console.log("Antigravity Debug: Available variants:", variants);
+        }
+
         return match;
       }
 
