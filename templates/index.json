@@ -42,6 +42,13 @@
         "hero_height_mobile": "adapt"
       }
     },
+    "fresh_start_marquee_R6YrzA": {
+      "type": "fresh-start-marquee",
+      "name": "Fresh Start Marquee",
+      "settings": {
+        "marquee_text": "GUCCI PRADA BALENCIAGA CHANEL DIOR OFF-WHITE VERSACE"
+      }
+    },
     "editorial_spotlight_xjEVgn": {
       "type": "editorial-spotlight",
       "blocks": {
@@ -291,6 +298,7 @@
   "order": [
     "splash_page_B8RJPF",
     "fresh_start_hero_kHj8J7",
+    "fresh_start_marquee_R6YrzA",
     "editorial_spotlight_xjEVgn",
     "rich_text_XdggXL",
     "origin_shop_the_look_HQYUCp",
