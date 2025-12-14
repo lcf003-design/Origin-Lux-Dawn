@@ -38,7 +38,7 @@
     .splash-content {
       text-align: center;
       max-width: 90%;
-      width: 400px;
+      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -46,7 +46,8 @@
     }
 
     .splash-logo {
-      max-width: 100%;
+      max-width: {{ section.settings.logo_width }}px;
+      width: 100%;
       height: auto;
       display: block;
     }
@@ -139,6 +140,16 @@
       "type": "image_picker",
       "id": "logo",
       "label": "Logo Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 200,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Logo Width",
+      "default": 400
     },
     {
       "type": "color",
