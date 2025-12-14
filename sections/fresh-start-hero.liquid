@@ -116,7 +116,7 @@
     <div id="fs-parallax-container" class="absolute inset-0 z-10 overflow-hidden pointer-events-none">
       {%- if section.settings.parallax_img_1 != blank -%}
         <div
-          class="parallax-layer absolute bottom-[5%] right-[2%] w-[28vw] md:w-[22vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-20"
+          class="parallax-layer absolute bottom-[5%] right-[2%] w-[28vw] md:w-[22vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-20 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="40"
         >
           <img
@@ -124,13 +124,13 @@
             width="{{ section.settings.parallax_img_1.width }}"
             height="{{ section.settings.parallax_img_1.height }}"
             alt="{{ section.settings.parallax_img_1.alt | escape }}"
-            class="w-full h-full object-cover animate-float-slow mix-blend-multiply"
+            class="w-full h-full object-cover animate-float-slow scale-[1.15] rounded-full"
           >
         </div>
       {%- endif -%}
       {%- if section.settings.parallax_img_2 != blank -%}
         <div
-          class="parallax-layer absolute top-[18%] left-[8%] w-[24vw] md:w-[18vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10"
+          class="parallax-layer absolute top-[18%] left-[8%] w-[24vw] md:w-[18vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="-25"
         >
           <img
@@ -138,13 +138,13 @@
             width="{{ section.settings.parallax_img_2.width }}"
             height="{{ section.settings.parallax_img_2.height }}"
             alt="{{ section.settings.parallax_img_2.alt | escape }}"
-            class="w-full h-full object-cover animate-float-slow opacity-90 mix-blend-multiply"
+            class="w-full h-full object-cover animate-float-slow scale-[1.15] rounded-full"
           >
         </div>
       {%- endif -%}
       {%- if section.settings.parallax_img_3 != blank -%}
         <div
-          class="parallax-layer absolute top-[15%] right-[10%] w-[22vw] md:w-[16vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10"
+          class="parallax-layer absolute top-[15%] right-[10%] w-[22vw] md:w-[16vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="15"
         >
           <img
@@ -152,13 +152,13 @@
             width="{{ section.settings.parallax_img_3.width }}"
             height="{{ section.settings.parallax_img_3.height }}"
             alt="{{ section.settings.parallax_img_3.alt | escape }}"
-            class="w-full h-full object-cover animate-float-medium opacity-80 mix-blend-multiply"
+            class="w-full h-full object-cover animate-float-medium scale-[1.15] rounded-full"
           >
         </div>
       {%- endif -%}
       {%- if section.settings.parallax_img_4 != blank -%}
         <div
-          class="parallax-layer absolute bottom-[15%] left-[5%] w-[20vw] md:w-[14vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10"
+          class="parallax-layer absolute bottom-[15%] left-[5%] w-[20vw] md:w-[14vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="-15"
         >
           <img
@@ -166,13 +166,13 @@
             width="{{ section.settings.parallax_img_4.width }}"
             height="{{ section.settings.parallax_img_4.height }}"
             alt="{{ section.settings.parallax_img_4.alt | escape }}"
-            class="w-full h-full object-cover animate-float-slow opacity-85 mix-blend-multiply"
+            class="w-full h-full object-cover animate-float-slow scale-[1.15] rounded-full"
           >
         </div>
       {%- endif -%}
       {%- if section.settings.parallax_img_5 != blank -%}
         <div
-          class="parallax-layer absolute top-[8%] left-[45%] w-[18vw] md:w-[12vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-5"
+          class="parallax-layer absolute top-[8%] left-[45%] w-[18vw] md:w-[12vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-5 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="30"
         >
           <img
@@ -180,7 +180,7 @@
             width="{{ section.settings.parallax_img_5.width }}"
             height="{{ section.settings.parallax_img_5.height }}"
             alt="{{ section.settings.parallax_img_5.alt | escape }}"
-            class="w-full h-full object-cover animate-float-medium opacity-75 mix-blend-multiply"
+            class="w-full h-full object-cover animate-float-medium scale-[1.15] rounded-full"
           >
         </div>
       {%- endif -%}
