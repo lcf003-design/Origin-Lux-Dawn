@@ -57,17 +57,25 @@
     overflow: hidden;
   }
 
-  /* Liquid Glass Sphere Effect */
+  /* Dreamy Crystal Ball Effect */
   .liquid-glass-sphere {
     border-radius: 50%;
-    /* 1. Deep Inner Shadow (Volume), 2. Top-Left Highlight (Reflection), 3. Drop Shadow (Depth) */
+    /* 
+      1. Deep Inner Shadow (Volume)
+      2. Strong Top-Left Highlight (Crisp Glass)
+      3. Soft Inner White Fog (Dreamy Mist)
+      4. Outer White Glow (Aura)
+      5. Drop Shadow (Depth)
+    */
     box-shadow:
-      inset -20px -20px 50px rgba(0, 0, 0, 0.3),
-      inset 20px 20px 50px rgba(255, 255, 255, 0.5),
-      0px 25px 40px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    /* Subtle surface sheen */
-    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 60%);
+      inset -10px -10px 40px rgba(0, 0, 0, 0.4),
+      inset 10px 10px 30px rgba(255, 255, 255, 0.9),
+      inset 0px 0px 20px rgba(255, 255, 255, 0.3),
+      0px 0px 30px rgba(255, 255, 255, 0.4),
+      0px 20px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    /* Brighter surface sheen */
+    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
     /* Ensure content stays clipped within the glass */
     overflow: hidden;
   }
