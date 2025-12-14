@@ -1,0 +1,46 @@
+{% comment %}
+  Fresh Start Footer
+  Contains: Minimal Copyright Footer
+{% endcomment %}
+
+{% comment %}
+  theme-check-disable RemoteAsset
+{% endcomment %}
+<script src="https://cdn.tailwindcss.com" defer></script>
+{% comment %}
+  theme-check-enable RemoteAsset
+{% endcomment %}
+
+<footer class="bg-white text-black pt-20 pb-10 border-t border-gray-200 font-sans">
+  <div class="container mx-auto px-6 text-center md:text-left">
+    <h2 class="text-3xl font-black uppercase tracking-tighter mb-6">
+      {{ section.settings.footer_logo_text | default: 'Origin.Lux' }}
+    </h2>
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-xs text-gray-500 uppercase tracking-widest">
+        &copy; {{ 'now' | date: '%Y' }}
+        {{ section.settings.copyright_text | default: 'Origin Intl' }}
+      </p>
+
+      <div class="flex gap-6">
+        {%- for link in linklists[section.settings.footer_menu].links -%}
+          <a href="{{ link.url }}" class="text-xs uppercase tracking-widest hover:text-purple-600 transition-colors">
+            {{- link.title -}}
+          </a>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Fresh Start Footer",
+  "settings": [
+    { "type": "text", "id": "footer_logo_text", "label": "Logo Text", "default": "Origin.Lux" },
+    { "type": "text", "id": "copyright_text", "label": "Copyright Name", "default": "Origin International" },
+    { "type": "link_list", "id": "footer_menu", "label": "Footer Menu" }
+  ],
+  "presets": [{ "name": "Fresh Start Footer" }]
+}
+{% endschema %}

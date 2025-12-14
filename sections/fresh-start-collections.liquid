@@ -1,0 +1,126 @@
+{% comment %}
+  Fresh Start Collections
+  Contains: 4-column dynamic grid with reveal animations
+{% endcomment %}
+
+{% comment %}
+  theme-check-disable RemoteAsset
+{% endcomment %}
+<script src="https://cdn.tailwindcss.com" defer></script>
+{% comment %}
+  theme-check-enable RemoteAsset
+{% endcomment %}
+
+<style>
+  .reveal-element {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1s ease-out;
+  }
+  .reveal-element.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<section class="py-20 bg-white text-black font-sans">
+  <div class="container mx-auto px-6">
+    <div class="flex justify-between items-end mb-12 border-b border-gray-200 pb-6 reveal-element">
+      <div>
+        <h2 class="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-2">
+          {{ section.settings.section_title }}
+        </h2>
+        <p class="text-gray-500 text-sm tracking-wide">{{ section.settings.section_subtitle }}</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'collection_card' -%}
+          <a
+            href="{{ block.settings.card_link }}"
+            class="group reveal-element cursor-pointer"
+            style="transition-delay: {{ forloop.index | times: 100 }}ms;"
+          >
+            <div class="relative overflow-hidden bg-gray-50 border border-gray-100 aspect-square w-full mb-4">
+              <!-- Hover Overlay -->
+              <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500 z-10"></div>
+
+              {%- if block.settings.card_image != blank -%}
+                {{
+                  block.settings.card_image
+                  | image_url: width: 800
+                  | image_tag:
+                    class: 'w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110'
+                }}
+              {%- else -%}
+                {{
+                  'collection-1'
+                  | placeholder_svg_tag: 'w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110 opacity-30'
+                }}
+              {%- endif -%}
+            </div>
+            <h3 class="text-xl font-bold uppercase tracking-wider group-hover:text-purple-600 transition-colors">
+              {{ block.settings.card_title | default: 'Collection' }}
+            </h3>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const revealElements = document.querySelectorAll('.reveal-element');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      revealElements.forEach((el) => observer.observe(el));
+    } else {
+      revealElements.forEach((el) => el.classList.add('visible'));
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Fresh Start Collections",
+  "settings": [
+    { "type": "text", "id": "section_title", "label": "Title", "default": "The Collection" },
+    { "type": "text", "id": "section_subtitle", "label": "Subtitle", "default": "Curated specifically for the bold." }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Card",
+      "settings": [
+        { "type": "image_picker", "id": "card_image", "label": "Image" },
+        { "type": "text", "id": "card_title", "label": "Title", "default": "Name" },
+        { "type": "url", "id": "card_link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fresh Start Collections",
+      "blocks": [
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

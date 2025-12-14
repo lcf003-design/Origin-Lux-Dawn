@@ -1,0 +1,60 @@
+{% comment %}
+  Fresh Start Marquee
+  Contains: Infinite scrolling text loop
+{% endcomment %}
+
+{% comment %}
+  theme-check-disable RemoteAsset
+{% endcomment %}
+<script src="https://cdn.tailwindcss.com" defer></script>
+{% comment %}
+  theme-check-enable RemoteAsset
+{% endcomment %}
+
+<style>
+  @keyframes fs-marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  .animate-fs-marquee {
+    animation: fs-marquee 30s linear infinite;
+  }
+
+  .stroke-text-white {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    color: transparent;
+  }
+</style>
+
+<div class="w-full bg-black py-4 overflow-hidden flex whitespace-nowrap z-20 relative">
+  {%- assign marquee_content = section.settings.marquee_text
+    | default: 'GUCCI PRADA BALENCIAGA CHANEL DIOR OFF-WHITE VERSACE'
+  -%}
+  <div class="animate-fs-marquee flex gap-16 items-center">
+    <span class="stroke-text-white text-4xl md:text-6xl font-black uppercase tracking-tighter opacity-70">
+      {{ marquee_content }}
+      {{ marquee_content }}
+      {{ marquee_content }}
+      {{ marquee_content }}
+    </span>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Fresh Start Marquee",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "marquee_text",
+      "label": "Marquee Text",
+      "default": "GUCCI PRADA BALENCIAGA CHANEL DIOR OFF-WHITE VERSACE"
+    }
+  ],
+  "presets": [{ "name": "Fresh Start Marquee" }]
+}
+{% endschema %}
