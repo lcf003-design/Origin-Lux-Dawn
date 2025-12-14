@@ -255,99 +255,109 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+  (function () {
+    function initFreshStartHero() {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
 
-    // Preloader
-    const preloader = document.getElementById('fs-preloader');
-    const preloaderText = document.getElementById('fs-preloader-text');
-    if (preloader) {
-      setTimeout(() => {
-        preloaderText.style.transform = 'translateY(-100%)';
-        preloader.style.transform = 'translateY(-100%)';
-      }, 1500);
-    }
+      // Preloader
+      const preloader = document.getElementById('fs-preloader');
+      const preloaderText = document.getElementById('fs-preloader-text');
+      // Failsafe: Hide preloader after 3s max even if logic fails slightly
+      if (preloader) {
+        setTimeout(() => {
+          if (preloaderText) preloaderText.style.transform = 'translateY(-100%)';
+          preloader.style.transform = 'translateY(-100%)';
+        }, 1500);
+      }
 
-    // Cursor
-    const cursor = document.getElementById('fs-custom-cursor');
-    if (cursor) {
-      document.addEventListener('mousemove', (e) => {
-        cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-        const target = e.target;
-        const isHoverable =
-          target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button');
-        if (isHoverable) {
-          cursor.style.width = '40px';
-          cursor.style.height = '40px';
-        } else {
-          cursor.style.width = '16px';
-          cursor.style.height = '16px';
+      // Cursor
+      const cursor = document.getElementById('fs-custom-cursor');
+      if (cursor) {
+        document.addEventListener('mousemove', (e) => {
+          cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+          const target = e.target;
+          const isHoverable =
+            target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button');
+          if (isHoverable) {
+            cursor.style.width = '40px';
+            cursor.style.height = '40px';
+          } else {
+            cursor.style.width = '16px';
+            cursor.style.height = '16px';
+          }
+        });
+      }
+
+      // Scroll Logic
+      const navbar = document.getElementById('fs-navbar');
+      const navLogo = document.getElementById('fs-nav-logo');
+      const heroText = document.getElementById('fs-hero-text-wrapper');
+      const heroCta = document.getElementById('fs-hero-cta');
+      const layers = document.querySelectorAll('.parallax-layer');
+
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        if (navbar && scrollY > 50) {
+          navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+          navbar.style.backdropFilter = 'blur(10px)';
+        } else if (navbar) {
+          navbar.style.backgroundColor = 'transparent';
+          navbar.style.backdropFilter = 'none';
         }
+        if (navLogo) navLogo.style.opacity = Math.max(0, (scrollY - 250) / 100);
+        if (heroText) {
+          const progress = Math.min(1, scrollY / 400);
+          heroText.style.transform = `translateY(${-150 * progress}px) scale(${1 - 0.85 * progress})`;
+        }
+        if (heroCta) heroCta.style.opacity = Math.max(0, 1 - scrollY / 200);
       });
+
+      // Mouse Parallax
+      document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth) * 2 - 1;
+        const y = (e.clientY / window.innerHeight) * 2 - 1;
+        layers.forEach((layer) => {
+          const speed = layer.getAttribute('data-speed');
+          layer.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+        });
+      });
+
+      // Drawer Logic
+      const menuBtn = document.getElementById('fs-menu-btn');
+      const drawerOverlay = document.getElementById('fs-drawer-overlay');
+      const drawerBackdrop = document.getElementById('fs-drawer-backdrop');
+      const drawerPanel = document.getElementById('fs-drawer-panel');
+      const drawerClose = document.getElementById('fs-drawer-close');
+
+      function toggleMenu(open) {
+        if (!drawerOverlay || !drawerPanel) return;
+        if (open) {
+          drawerOverlay.classList.remove('invisible', 'pointer-events-none');
+          drawerOverlay.classList.add('visible', 'pointer-events-auto');
+          setTimeout(() => {
+            if (drawerBackdrop) drawerBackdrop.classList.remove('opacity-0');
+            drawerPanel.classList.remove('-translate-x-full');
+          }, 10);
+        } else {
+          if (drawerBackdrop) drawerBackdrop.classList.add('opacity-0');
+          drawerPanel.classList.add('-translate-x-full');
+          setTimeout(() => {
+            drawerOverlay.classList.add('invisible', 'pointer-events-none');
+            drawerOverlay.classList.remove('visible', 'pointer-events-auto');
+          }, 700);
+        }
+      }
+      if (menuBtn) menuBtn.addEventListener('click', () => toggleMenu(true));
+      if (drawerClose) drawerClose.addEventListener('click', () => toggleMenu(false));
+      if (drawerBackdrop) drawerBackdrop.addEventListener('click', () => toggleMenu(false));
     }
 
-    // Scroll Logic
-    const navbar = document.getElementById('fs-navbar');
-    const navLogo = document.getElementById('fs-nav-logo');
-    const heroText = document.getElementById('fs-hero-text-wrapper');
-    const heroCta = document.getElementById('fs-hero-cta');
-    const layers = document.querySelectorAll('.parallax-layer');
-
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      if (navbar && scrollY > 50) {
-        navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.backdropFilter = 'blur(10px)';
-      } else if (navbar) {
-        navbar.style.backgroundColor = 'transparent';
-        navbar.style.backdropFilter = 'none';
-      }
-      if (navLogo) navLogo.style.opacity = Math.max(0, (scrollY - 250) / 100);
-      if (heroText) {
-        const progress = Math.min(1, scrollY / 400);
-        heroText.style.transform = `translateY(${-150 * progress}px) scale(${1 - 0.85 * progress})`;
-      }
-      if (heroCta) heroCta.style.opacity = Math.max(0, 1 - scrollY / 200);
-    });
-
-    // Mouse Parallax
-    document.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth) * 2 - 1;
-      const y = (e.clientY / window.innerHeight) * 2 - 1;
-      layers.forEach((layer) => {
-        const speed = layer.getAttribute('data-speed');
-        layer.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
-      });
-    });
-
-    // Drawer Logic
-    const menuBtn = document.getElementById('fs-menu-btn');
-    const drawerOverlay = document.getElementById('fs-drawer-overlay');
-    const drawerBackdrop = document.getElementById('fs-drawer-backdrop');
-    const drawerPanel = document.getElementById('fs-drawer-panel');
-    const drawerClose = document.getElementById('fs-drawer-close');
-
-    function toggleMenu(open) {
-      if (open) {
-        drawerOverlay.classList.remove('invisible', 'pointer-events-none');
-        drawerOverlay.classList.add('visible', 'pointer-events-auto');
-        setTimeout(() => {
-          drawerBackdrop.classList.remove('opacity-0');
-          drawerPanel.classList.remove('-translate-x-full');
-        }, 10);
-      } else {
-        drawerBackdrop.classList.add('opacity-0');
-        drawerPanel.classList.add('-translate-x-full');
-        setTimeout(() => {
-          drawerOverlay.classList.add('invisible', 'pointer-events-none');
-          drawerOverlay.classList.remove('visible', 'pointer-events-auto');
-        }, 700);
-      }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFreshStartHero);
+    } else {
+      initFreshStartHero();
     }
-    if (menuBtn) menuBtn.addEventListener('click', () => toggleMenu(true));
-    if (drawerClose) drawerClose.addEventListener('click', () => toggleMenu(false));
-    if (drawerBackdrop) drawerBackdrop.addEventListener('click', () => toggleMenu(false));
-  });
+  })();
 </script>
 
 {% schema %}

@@ -71,26 +71,34 @@
 </section>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const revealElements = document.querySelectorAll('.reveal-element');
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1 },
-      );
+  (function () {
+    function initFreshStartCollections() {
+      const revealElements = document.querySelectorAll('.reveal-element');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1 },
+        );
 
-      revealElements.forEach((el) => observer.observe(el));
-    } else {
-      revealElements.forEach((el) => el.classList.add('visible'));
+        revealElements.forEach((el) => observer.observe(el));
+      } else {
+        revealElements.forEach((el) => el.classList.add('visible'));
+      }
     }
-  });
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFreshStartCollections);
+    } else {
+      initFreshStartCollections();
+    }
+  })();
 </script>
 
 {% schema %}
