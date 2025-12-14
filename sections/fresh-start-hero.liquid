@@ -56,6 +56,45 @@
   body.no-scroll {
     overflow: hidden;
   }
+
+  /* Dreamy Crystal Ball Effect */
+  .liquid-glass-sphere {
+    border-radius: 50%;
+    /* Container layout only - visuals moved to overlay */
+    /* position: relative; <-- REMOVED: Breaks absolute positioning! */
+    overflow: hidden;
+  }
+
+  /* The Glass Overlay (Sits ON TOP of the image) */
+  .liquid-glass-sphere::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 20; /* Above the image */
+    pointer-events: none; /* Let clicks pass through */
+    border-radius: 50%;
+
+    /* 
+      1. Deep Inner Shadow (Volume)
+      2. Strong Top-Left Highlight (Crisp Glass)
+      3. Soft Inner White Fog (Dreamy Mist)
+      4. Outer White Glow (Aura)
+      5. Drop Shadow (Depth)
+    */
+    box-shadow:
+      inset -10px -10px 40px rgba(0, 0, 0, 0.4),
+      inset 10px 10px 30px rgba(255, 255, 255, 0.9),
+      inset 0px 0px 20px rgba(255, 255, 255, 0.3),
+      0px 0px 30px rgba(255, 255, 255, 0.4),
+      0px 20px 40px rgba(0, 0, 0, 0.4);
+
+    border: 1px solid rgba(255, 255, 255, 0.7);
+
+    /* Dreamy Mist Overlay + Surface Sheen */
+    background:
+      radial-gradient(circle at center, rgba(255, 255, 255, 0.15), transparent 70%),
+      /* User requested soft overlay */ radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, transparent 70%); /* Surface sheen */
+  }
 </style>
 
 <div class="relative w-full bg-white font-sans text-black overflow-hidden">
@@ -93,7 +132,7 @@
           alt="{{ section.settings.bg_image.alt | escape }}"
           width="{{ section.settings.bg_image.width }}"
           height="{{ section.settings.bg_image.height }}"
-          class="w-full {% if section.settings.hero_height_mobile == 'adapt' %}h-auto{% else %}h-full object-cover{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto{% else %}h-full object-cover{% endif %} transition-transform duration-700 ease-out {% if section.settings.bg_image_mobile != blank %}hidden md:block{% endif %}"
+          class="w-full {% if section.settings.hero_height_mobile == 'adapt' %}h-auto{% else %}h-full object-cover{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto{% else %}h-full object-cover{% endif %} transition-transform duration-700 ease-out {% if section.settings.bg_image_mobile != blank %}max-md:hidden{% endif %}"
           style="transform: scale({{ section.settings.hero_bg_scale | divided_by: 100.0 }}); transform-origin: center;"
         >
         {%- comment -%} Mobile Image (Optional) {%- endcomment -%}
@@ -116,7 +155,7 @@
     <div id="fs-parallax-container" class="absolute inset-0 z-10 overflow-hidden pointer-events-none">
       {%- if section.settings.parallax_img_1 != blank -%}
         <div
-          class="parallax-layer absolute bottom-[5%] right-[2%] w-[28vw] md:w-[22vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-20"
+          class="parallax-layer liquid-glass-sphere absolute bottom-[5%] right-[2%] w-[12vw] md:w-[22vw] aspect-square z-20 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="40"
         >
           <img
@@ -124,13 +163,13 @@
             width="{{ section.settings.parallax_img_1.width }}"
             height="{{ section.settings.parallax_img_1.height }}"
             alt="{{ section.settings.parallax_img_1.alt | escape }}"
-            class="w-full h-full object-cover animate-float-slow mix-blend-multiply"
+            class="w-full h-full object-cover animate-float-slow scale-[1.5] rounded-full"
           >
         </div>
       {%- endif -%}
       {%- if section.settings.parallax_img_2 != blank -%}
         <div
-          class="parallax-layer absolute top-[18%] left-[8%] w-[24vw] md:w-[18vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10"
+          class="parallax-layer liquid-glass-sphere absolute top-[18%] left-[8%] w-[11vw] md:w-[18vw] aspect-square z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="-25"
         >
           <img
@@ -138,13 +177,13 @@
             width="{{ section.settings.parallax_img_2.width }}"
             height="{{ section.settings.parallax_img_2.height }}"
             alt="{{ section.settings.parallax_img_2.alt | escape }}"
-            class="w-full h-full object-cover animate-float-slow opacity-90 mix-blend-multiply"
+            class="w-full h-full object-cover animate-float-slow scale-[1.5] rounded-full"
           >
         </div>
       {%- endif -%}
       {%- if section.settings.parallax_img_3 != blank -%}
         <div
-          class="parallax-layer absolute top-[15%] right-[10%] w-[22vw] md:w-[16vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10"
+          class="parallax-layer liquid-glass-sphere absolute top-[15%] right-[10%] w-[10vw] md:w-[16vw] aspect-square z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="15"
         >
           <img
@@ -152,13 +191,13 @@
             width="{{ section.settings.parallax_img_3.width }}"
             height="{{ section.settings.parallax_img_3.height }}"
             alt="{{ section.settings.parallax_img_3.alt | escape }}"
-            class="w-full h-full object-cover animate-float-medium opacity-80 mix-blend-multiply"
+            class="w-full h-full object-cover animate-float-medium scale-[1.5] rounded-full"
           >
         </div>
       {%- endif -%}
       {%- if section.settings.parallax_img_4 != blank -%}
         <div
-          class="parallax-layer absolute bottom-[15%] left-[5%] w-[20vw] md:w-[14vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10"
+          class="parallax-layer liquid-glass-sphere absolute bottom-[15%] left-[5%] w-[9vw] md:w-[14vw] aspect-square z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="-15"
         >
           <img
@@ -166,13 +205,13 @@
             width="{{ section.settings.parallax_img_4.width }}"
             height="{{ section.settings.parallax_img_4.height }}"
             alt="{{ section.settings.parallax_img_4.alt | escape }}"
-            class="w-full h-full object-cover animate-float-slow opacity-85 mix-blend-multiply"
+            class="w-full h-full object-cover animate-float-slow scale-[1.5] rounded-full"
           >
         </div>
       {%- endif -%}
       {%- if section.settings.parallax_img_5 != blank -%}
         <div
-          class="parallax-layer absolute top-[8%] left-[45%] w-[18vw] md:w-[12vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-5"
+          class="parallax-layer liquid-glass-sphere absolute top-[8%] left-[45%] w-[8vw] md:w-[12vw] aspect-square z-5 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="30"
         >
           <img
@@ -180,41 +219,45 @@
             width="{{ section.settings.parallax_img_5.width }}"
             height="{{ section.settings.parallax_img_5.height }}"
             alt="{{ section.settings.parallax_img_5.alt | escape }}"
-            class="w-full h-full object-cover animate-float-medium opacity-75 mix-blend-multiply"
+            class="w-full h-full object-cover animate-float-medium scale-[1.5] rounded-full"
           >
         </div>
       {%- endif -%}
     </div>
 
-    <div class="w-full relative z-30 flex flex-col items-center justify-center h-full pointer-events-none">
+    <div class="w-full absolute inset-0 z-30 flex flex-col items-center justify-start h-full pointer-events-none gap-8">
+      <!-- CTA Parallax Layer -->
       <div
-        id="fs-hero-cta"
-        class="absolute bottom-24 flex flex-col items-center gap-6 pointer-events-auto transition-opacity duration-300"
+        class="parallax-layer z-50 pointer-events-auto"
+        data-speed="12"
+        style="margin-top: {{ section.settings.content_position_y }}%;"
       >
-        <p
-          class="text-gray-500 text-xs md:text-sm uppercase tracking-[0.3em]"
-          style="font-size: {{ section.settings.subheadline_scale }}%;"
-        >
-          {{ section.settings.hero_subheadline | default: 'Vanguard of Luxury' }}
-        </p>
+        <div class="flex flex-col items-center gap-6 animate-float-medium">
+          <p
+            class="text-gray-500 text-xs md:text-sm uppercase tracking-[0.3em]"
+            style="font-size: {{ section.settings.subheadline_scale }}%;"
+          >
+            {{ section.settings.hero_subheadline | default: 'Vanguard of Luxury' }}
+          </p>
 
-        <div class="flex gap-6 mt-4">
-          {%- if section.settings.cta_label_1 != blank -%}
-            <a
-              href="{{ section.settings.cta_link_1 }}"
-              class="w-48 py-4 flex items-center justify-center bg-white/90 backdrop-blur-sm border border-black/10 text-black text-xs font-bold uppercase tracking-widest shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 rounded-sm"
-            >
-              {{ section.settings.cta_label_1 }}
-            </a>
-          {%- endif -%}
-          {%- if section.settings.cta_label_2 != blank -%}
-            <a
-              href="{{ section.settings.cta_link_2 }}"
-              class="w-48 py-4 flex items-center justify-center bg-white/90 backdrop-blur-sm border border-black/10 text-black text-xs font-bold uppercase tracking-widest shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 rounded-sm"
-            >
-              {{ section.settings.cta_label_2 }}
-            </a>
-          {%- endif -%}
+          <div class="flex gap-6 mt-4">
+            {%- if section.settings.cta_label_1 != blank -%}
+              <a
+                href="{{ section.settings.cta_link_1 }}"
+                class="w-48 py-4 flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 text-black text-sm font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-white hover:text-black hover:scale-105 transition-all duration-500 rounded-sm"
+              >
+                {{ section.settings.cta_label_1 }}
+              </a>
+            {%- endif -%}
+            {%- if section.settings.cta_label_2 != blank -%}
+              <a
+                href="{{ section.settings.cta_link_2 }}"
+                class="w-48 py-4 flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 text-black text-sm font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-white hover:text-black hover:scale-105 transition-all duration-500 rounded-sm"
+              >
+                {{ section.settings.cta_label_2 }}
+              </a>
+            {%- endif -%}
+          </div>
         </div>
       </div>
     </div>
@@ -305,6 +348,16 @@
       "default": 100,
       "unit": "%",
       "label": "Background Image Scale"
+    },
+    {
+      "type": "range",
+      "id": "content_position_y",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 75,
+      "unit": "%",
+      "label": "Vertical Position (Top to Bottom)"
     },
     { "type": "header", "content": "Section Layout" },
     {

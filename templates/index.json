@@ -26,14 +26,28 @@
       "type": "fresh-start-hero",
       "name": "Fresh Start Hero",
       "settings": {
+        "enable_preloader": false,
         "hero_headline": "ORIGIN INTL",
         "hero_subheadline": "Vanguard of Luxury",
-        "hero_cta_label": "Collection",
-        "hero_cta_link": "",
+        "subheadline_scale": 100,
+        "cta_label_1": "Women",
+        "cta_link_1": "",
+        "cta_label_2": "Men",
+        "cta_link_2": "",
+        "parallax_img_1": "shopify://shop_images/Untitled_4.png",
         "bg_image": "shopify://shop_images/Untitled_3b57e759-f769-4600-b256-1247fb625c65.png",
+        "bg_image_mobile": "shopify://shop_images/Mobile_banner.png",
         "hero_bg_scale": 100,
+        "content_position_y": 75,
         "hero_height_desktop": "h-screen",
-        "hero_height_mobile": "h-screen"
+        "hero_height_mobile": "adapt"
+      }
+    },
+    "fresh_start_marquee_R6YrzA": {
+      "type": "fresh-start-marquee",
+      "name": "Fresh Start Marquee",
+      "settings": {
+        "marquee_text": "GUCCI PRADA BALENCIAGA CHANEL DIOR OFF-WHITE VERSACE"
       }
     },
     "editorial_spotlight_xjEVgn": {
@@ -285,6 +299,7 @@
   "order": [
     "splash_page_B8RJPF",
     "fresh_start_hero_kHj8J7",
+    "fresh_start_marquee_R6YrzA",
     "editorial_spotlight_xjEVgn",
     "rich_text_XdggXL",
     "origin_shop_the_look_HQYUCp",
