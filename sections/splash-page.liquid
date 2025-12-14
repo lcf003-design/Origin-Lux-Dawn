@@ -1,0 +1,193 @@
+{%- if section.settings.enable_splash -%}
+  <script>
+    // Immediate check to prevent flash of content if already seen
+    if (sessionStorage.getItem('splash_seen')) {
+      document.documentElement.classList.add('splash-seen');
+    }
+  </script>
+
+  <style>
+    /* Base state: Hidden if seen */
+    html.splash-seen #shopify-section-{{ section.id }} {
+      display: none !important;
+    }
+
+    #SplashPage-{{ section.id }} {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: {{ section.settings.bg_color }};
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+      visibility: visible;
+    }
+
+    #SplashPage-{{ section.id }}.fading-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .splash-content {
+      text-align: center;
+      max-width: 90%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .splash-logo {
+      max-width: {{ section.settings.logo_width }}px;
+      width: 100%;
+      height: auto;
+      display: block;
+      animation: splashPulse 2s infinite ease-in-out;
+      transform-origin: center;
+    }
+
+    @keyframes splashPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .splash-enter-btn {
+      background-color: {{ section.settings.btn_bg }};
+      color: {{ section.settings.btn_text_color }};
+      border: 3px solid #000000;
+      padding: 15px 50px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+      letter-spacing: 2px;
+    }
+
+    .splash-enter-btn:hover {
+      transform: scale(1.05);
+      background-color: {{ section.settings.btn_bg | color_darken: 5 }};
+    }
+  </style>
+
+  <div id="SplashPage-{{ section.id }}">
+    <div class="splash-content">
+      {%- if section.settings.logo != blank -%}
+        {{
+          section.settings.logo
+          | image_url: width: 600
+          | image_tag: class: 'splash-logo', widths: '200, 300, 400, 600', loading: 'eager', alt: shop.name
+        }}
+      {%- else -%}
+        <h1 style="color: #000; font-size: 3rem; text-transform: uppercase; font-weight: 900;">{{ shop.name }}</h1>
+      {%- endif -%}
+
+      <button id="SplashEnterBtn-{{ section.id }}" class="splash-enter-btn">
+        {{ section.settings.btn_text }}
+      </button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const splash = document.getElementById('SplashPage-{{ section.id }}');
+      const btn = document.getElementById('SplashEnterBtn-{{ section.id }}');
+      const storageKey = 'splash_seen';
+
+      // 1. Check if already seen
+      if (sessionStorage.getItem(storageKey)) {
+        splash.style.display = 'none';
+        return; // Exit, do nothing
+      }
+
+      // 2. If not seen, lock scroll immediately
+      document.body.style.overflow = 'hidden';
+
+      // 3. Handle Enter Click
+      btn.addEventListener('click', function () {
+        // Fade out
+        splash.classList.add('fading-out');
+
+        // Unlock Scroll
+        document.body.style.overflow = '';
+
+        // Remember visitor
+        sessionStorage.setItem(storageKey, 'true');
+
+        // Remove from DOM after transition matches CSS duration
+        setTimeout(() => {
+          splash.style.display = 'none';
+        }, 800);
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Splash Page",
+  "tag": "section",
+  "class": "section-splash-page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_splash",
+      "label": "Enable Splash Page",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 200,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Logo Width",
+      "default": 400
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#fcb900"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text",
+      "default": "ENTER"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg",
+      "label": "Button Background",
+      "default": "#d1d3d4"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button Text Color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Splash Page"
+    }
+  ]
+}
+{% endschema %}

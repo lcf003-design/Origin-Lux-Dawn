@@ -14,9 +14,9 @@
     width: 100%;
     overflow-x: hidden;
   }
-  
-  .gucci-section-wrapper p, 
-  .gucci-section-wrapper h1, 
+
+  .gucci-section-wrapper p,
+  .gucci-section-wrapper h1,
   .gucci-section-wrapper h2 {
     margin: 0;
   }
@@ -26,12 +26,12 @@
     position: relative;
     width: 100%;
     background-color: {{ section.settings.bg_color }};
-    aspect-ratio: 1 / 1; 
+    aspect-ratio: 1 / 1;
     overflow: hidden;
     /* Prevent default touch actions to allow our custom zoom logic */
-    touch-action: pan-y; 
+    touch-action: pan-y;
   }
-  
+
   @media screen and (min-width: 990px) {
     .gucci-visuals-stage {
       aspect-ratio: 16 / 9;
@@ -42,7 +42,7 @@
   .gucci-slider-track {
     display: flex;
     height: 100%;
-    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); 
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     will-change: transform;
   }
 
@@ -71,7 +71,7 @@
     object-fit: contain;
     mix-blend-mode: multiply;
     /* Smooth transition for entering zoom, but we remove it during panning via JS */
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform-origin 0.1s linear; 
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform-origin 0.1s linear;
     will-change: transform, transform-origin;
   }
 
@@ -91,7 +91,7 @@
   }
 
   .gs-thumb-list { display: flex; gap: 8px; }
-  
+
   .gs-thumb {
     width: 44px;
     height: 44px;
@@ -136,8 +136,8 @@
   @media screen and (min-width: 990px) {
     .gucci-product-info-grid {
       display: grid;
-      grid-template-columns: 1fr 380px; 
-      gap: 80px; 
+      grid-template-columns: 1fr 380px;
+      gap: 80px;
       padding: 60px 40px;
       align-items: start;
     }
@@ -149,7 +149,7 @@
       display: flex !important;
       flex-direction: column !important;
     }
-    .gucci-narrative-col, 
+    .gucci-narrative-col,
     .gucci-action-col {
       display: contents !important;
     }
@@ -157,14 +157,14 @@
     .gucci-block-price          { order: 2 !important; }
     .gucci-block-text           { order: 3 !important; }
     .gucci-block-variant_picker { order: 4 !important; }
-    
+
     /* Buttons before Description */
-    .gucci-block-buy_buttons { 
-      order: 5 !important; 
-      margin-bottom: 30px; 
+    .gucci-block-buy_buttons {
+      order: 5 !important;
+      margin-bottom: 30px;
       z-index: 20;
     }
-    
+
     .gucci-block-description    { order: 6 !important; }
     .gucci-block-collapsible_tab { order: 7 !important; }
   }
@@ -173,7 +173,7 @@
   .gucci-narrative-col {
     display: flex;
     flex-direction: column;
-    min-width: 0; 
+    min-width: 0;
   }
 
   /* SECTION SETTINGS (Global Typography) */
@@ -209,7 +209,7 @@
     flex-wrap: wrap;
     gap: 10px;
   }
-  
+
   .custom-swatch-label {
     min-width: 40px;
     height: 40px;
@@ -237,7 +237,7 @@
     color: #333;
     max-width: 600px;
   }
-  
+
   .product__text {
      font-size: {{ section.settings.body_size | minus: 2 }}px;
   }
@@ -245,7 +245,7 @@
   /* Accordions */
   .gucci-accordion { border-top: 1px solid #e5e5e5; }
   .gucci-accordion:last-child { border-bottom: 1px solid #e5e5e5; }
-  
+
   .gucci-accordion summary {
     padding: 18px 0;
     list-style: none;
@@ -255,7 +255,7 @@
     align-items: center;
   }
   .gucci-accordion summary::-webkit-details-marker { display: none; }
-  
+
   .accordion-title {
     font-size: {{ section.settings.body_size }}px;
     font-weight: 600;
@@ -263,7 +263,7 @@
     letter-spacing: 1px;
     color: #111; /* Ensure visible color */
   }
-  
+
   .gucci-accordion .accordion__content {
     padding-bottom: 20px;
     font-size: {{ section.settings.body_size }}px;
@@ -310,7 +310,7 @@
     color: #333;
     margin-bottom: 15px;
   }
-  
+
   /* THE HOVER BAR ANIMATION */
   .service-link a {
     color: #333;
@@ -344,18 +344,17 @@
 {% endstyle %}
 
 <div class="gucci-section-wrapper" id="GucciSection-{{ section.id }}">
-  
   <!-- VISUALS -->
   <div class="gucci-visuals-stage">
     <div class="gucci-slider-track" id="gsTrack">
       {% if product.media.size > 0 %}
         {% for media in product.media %}
           <div class="gucci-slide" data-index="{{ forloop.index0 }}">
-            <img 
-              src="{{ media | image_url: width: 2000 }}" 
-              alt="{{ media.alt | escape }}" 
-              width="2000" 
-              height="{{ 2000 | divided_by: media.aspect_ratio | ceil }}" 
+            <img
+              src="{{ media | image_url: width: 2000 }}"
+              alt="{{ media.alt | escape }}"
+              width="2000"
+              height="{{ 2000 | divided_by: media.aspect_ratio | ceil }}"
               loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
               draggable="false"
             >
@@ -367,177 +366,249 @@
     </div>
 
     {% if product.media.size > 1 %}
-    <div class="gs-controls-container">
-      <div class="gs-thumb-list hidden-mobile">
-        {% for media in product.media %}
-          <div class="gs-thumb {% if forloop.first %}active{% endif %}" onclick="goToSlide({{ forloop.index0 }})">
-             <img src="{{ media | image_url: width: 100 }}" alt="{{ media.alt | escape }}" width="100" height="{{ 100 | divided_by: media.aspect_ratio | ceil }}">
-          </div>
-        {% endfor %}
+      <div class="gs-controls-container">
+        <div class="gs-thumb-list hidden-mobile">
+          {% for media in product.media %}
+            <div class="gs-thumb {% if forloop.first %}active{% endif %}" onclick="goToSlide({{ forloop.index0 }})">
+              <img
+                src="{{ media | image_url: width: 100 }}"
+                alt="{{ media.alt | escape }}"
+                width="100"
+                height="{{ 100 | divided_by: media.aspect_ratio | ceil }}"
+              >
+            </div>
+          {% endfor %}
+        </div>
+        <div class="gs-arrow-group" style="display:flex; gap:10px;">
+          <button class="gs-nav-btn" onclick="prevSlide()" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
+          <button class="gs-nav-btn" onclick="nextSlide()" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
       </div>
-      <div class="gs-arrow-group" style="display:flex; gap:10px;">
-        <button class="gs-nav-btn" onclick="prevSlide()" aria-label="Previous">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="gs-nav-btn" onclick="nextSlide()" aria-label="Next">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
-      </div>
-    </div>
     {% endif %}
   </div>
 
   <!-- CONTENT -->
-  <product-info id="ProductInfo-{{ section.id }}" class="gucci-product-info-grid" data-section="{{ section.id }}" data-url="{{ product.url }}">
-      
-      <!-- LEFT COL: STORY -->
-      <div class="gucci-narrative-col">
-        {%- assign product_form_id = 'product-form-' | append: section.id -%}
-        
-        {%- for block in section.blocks -%}
-           {%- if block.type != 'buy_buttons' -%}
-              {%- case block.type -%}
-                {%- when 'title' -%}
-                  <div class="gucci-block-title" {{ block.shopify_attributes }}>
-                    <div class="product__title">
-                      <h1 style="font-size: {{ block.settings.font_size }}px; color: {{ block.settings.color }}; letter-spacing: {{ block.settings.letter_spacing }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
-                        {{ product.title | escape }}
-                      </h1>
-                    </div>
-                  </div>
-                {%- when 'price' -%}
-                  <div class="gucci-block-price" {{ block.shopify_attributes }}>
-                    <div class="price-area" style="font-size: {{ block.settings.font_size }}px; color: {{ block.settings.color }}; margin-bottom: {{ block.settings.margin_bottom }}px;">
-                      {% render 'price', product: product, use_variant: true, show_badges: false %}
-                    </div>
-                    {%- comment -%} Force color on inner price items {%- endcomment -%}
-                    <style>
-                      .gucci-block-price .price, .gucci-block-price .price-item { color: {{ block.settings.color }} !important; }
-                    </style>
-                  </div>
-                {%- when 'variant_picker' -%}
-                  <div class="gucci-block-variant_picker" {{ block.shopify_attributes }}>
-                    {%- unless product.has_only_default_variant -%}
-                      {%- for option in product.options_with_values -%}
-                        <div class="variation-label">Variation: <span>{{ option.selected_value }}</span></div>
-                        <fieldset class="product-form__input">
-                          {%- for value in option.values -%}
-                            <input type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" name="{{ option.name }}" value="{{ value | escape }}" form="{{ product_form_id }}" {% if option.selected_value == value %}checked{% endif %} class="custom-swatch-input visually-hidden">
-                            <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="custom-swatch-label">{{ value }}</label>
-                          {%- endfor -%}
-                        </fieldset>
-                      {%- endfor -%}
-                    {%- endunless -%}
-                  </div>
-                {%- when 'description' -%}
-                  <div class="gucci-block-description" {{ block.shopify_attributes }}>
-                    <div class="product__description rte">{{ product.description }}</div>
-                  </div>
-                {%- when 'collapsible_tab' -%}
-                  <div class="gucci-block-collapsible_tab" {{ block.shopify_attributes }}>
-                    <details class="gucci-accordion">
-                      <summary><span class="accordion-title">{{ block.settings.heading }}</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary>
-                      <div class="accordion__content rte">{{ block.settings.content }}</div>
-                    </details>
-                  </div>
-                {%- when 'text' -%}
-                  <div class="gucci-block-text" {{ block.shopify_attributes }}>
-                    <p class="product__text" style="margin-bottom:15px;">{{ block.settings.text }}</p>
-                  </div>
-              {%- endcase -%}
-           {%- endif -%}
-        {%- endfor -%}
-      </div>
+  <product-info
+    id="ProductInfo-{{ section.id }}"
+    class="gucci-product-info-grid"
+    data-section="{{ section.id }}"
+    data-url="{{ product.url }}"
+  >
+    <!-- LEFT COL: STORY -->
+    <div class="gucci-narrative-col">
+      {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
-      <!-- RIGHT COL: ACTION -->
-      <div class="gucci-action-col">
-        {%- for block in section.blocks -%}
-           {%- if block.type == 'buy_buttons' -%}
-             <div class="gucci-block-buy_buttons" {{ block.shopify_attributes }}>
-               
-               {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
-               
-               <style>
-                  #ProductSubmitButton-{{ section.id }} {
-                    background: #000 !important;
-                    color: #fff !important;
-                    border: 1px solid #000 !important;
-                    border-radius: 0 !important;
-                    text-transform: uppercase !important;
-                    letter-spacing: 1px !important;
-                    font-weight: 600 !important;
-                    padding: 15px !important;
-                    width: 100% !important;
-                    cursor: pointer !important;
-                    pointer-events: auto !important;
-                    font-size: {{ block.settings.btn_text_size }}px !important; 
-                  }
-                  #ProductSubmitButton-{{ section.id }}:hover { opacity: 0.8; }
-                  
-                  #ProductSubmitButton-{{ section.id }}:disabled {
-                    background: #f5f5f5 !important;
-                    color: #999 !important;
-                    border-color: #e5e5e5 !important;
-                    cursor: not-allowed !important;
-                  }
+      {%- for block in section.blocks -%}
+        {%- if block.type != 'buy_buttons' -%}
+          {%- case block.type -%}
+            {%- when 'title' -%}
+              <div class="gucci-block-title" {{ block.shopify_attributes }}>
+                <div class="product__title">
+                  <h1 style="font-size: {{ block.settings.font_size }}px; color: {{ block.settings.color }}; letter-spacing: {{ block.settings.letter_spacing }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                    {{ product.title | escape }}
+                  </h1>
+                </div>
+              </div>
+            {%- when 'price' -%}
+              <div class="gucci-block-price" {{ block.shopify_attributes }}>
+                <div
+                  class="price-area"
+                  style="font-size: {{ block.settings.font_size }}px; color: {{ block.settings.color }}; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                >
+                  {% render 'price', product: product, use_variant: true, show_badges: false %}
+                </div>
+                {%- comment -%} Force color on inner price items {%- endcomment -%}
+                <style>
+                  .gucci-block-price .price, .gucci-block-price .price-item { color: {{ block.settings.color }} !important; }
+                </style>
+              </div>
+            {%- when 'variant_picker' -%}
+              <div class="gucci-block-variant_picker" {{ block.shopify_attributes }}>
+                {%- unless product.has_only_default_variant -%}
+                  {%- assign product_form_id = 'product-form-' | append: section.id -%}
+                  {% render 'product-variant-picker',
+                    product: product,
+                    block: block,
+                    product_form_id: product_form_id
+                  %}
+                {%- endunless -%}
+              </div>
+            {%- when 'description' -%}
+              <div class="gucci-block-description" {{ block.shopify_attributes }}>
+                <div class="product__description rte">{{ product.description }}</div>
+              </div>
+            {%- when 'collapsible_tab' -%}
+              <div class="gucci-block-collapsible_tab" {{ block.shopify_attributes }}>
+                <details class="gucci-accordion">
+                  <summary>
+                    <span class="accordion-title">{{ block.settings.heading }}</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                  </summary>
+                  <div class="accordion__content rte">{{ block.settings.content }}</div>
+                </details>
+              </div>
+            {%- when 'text' -%}
+              <div class="gucci-block-text" {{ block.shopify_attributes }}>
+                <p class="product__text" style="margin-bottom:15px;">{{ block.settings.text }}</p>
+              </div>
+          {%- endcase -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
 
-                  /* --- BAG ICON IN BUTTON --- */
-                  #ProductSubmitButton-{{ section.id }}::before {
-                    content: '';
-                    display: inline-block;
-                    width: 14px;
-                    height: 14px;
-                    margin-right: 10px;
-                    vertical-align: -2px;
-                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='square' stroke-linejoin='round'%3E%3Cpath d='M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z'%3E%3C/path%3E%3Cline x1='3' y1='6' x2='21' y2='6'%3E%3C/line%3E%3Cpath d='M16 10a4 4 0 0 1-8 0'%3E%3C/path%3E%3C/svg%3E");
-                    background-size: contain;
-                    background-repeat: no-repeat;
-                  }
+    <!-- RIGHT COL: ACTION -->
+    <div class="gucci-action-col">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'buy_buttons' -%}
+          <div class="gucci-block-buy_buttons" {{ block.shopify_attributes }}>
+            {%- render 'buy-buttons',
+              block: block,
+              product: product,
+              product_form_id: product_form_id,
+              section_id: section.id,
+              show_pickup_availability: true
+            -%}
 
-                  .shopify-payment-button__button--unbranded {
-                    background-color: #000 !important;
-                    color: white !important;
-                    border-radius: 0 !important;
-                    text-transform: uppercase !important;
-                    pointer-events: auto !important;
-                    font-size: {{ block.settings.btn_text_size }}px !important; 
-                  }
-                  .shopify-payment-button__button {
-                    border-radius: 0px !important;
-                    margin-top: 10px;
-                    overflow: hidden;
-                    pointer-events: auto !important;
-                  }
-               </style>
+            <style>
+               /* Native Variable Override - Penetrates Shadow DOM */
+               .gucci-block-buy_buttons {
+                 --buttons-radius: 40px;
+                 --buttons-radius-outset: 41px;
+                 --buttons-border-width: 1px;
+               }
 
-               <!-- Service Links with Icons & Hover Bars -->
-               <div class="shipping-text" style="font-size: {{ block.settings.service_text_size }}px;">
-                  <!-- Box/Truck Icon -->
-                  <svg class="gucci-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                  <span>{{ block.settings.delivery_text }}</span>
-               </div>
-               
-               {% if block.settings.contact_text != blank %}
-               <div class="service-link" style="font-size: {{ block.settings.service_text_size }}px;">
-                 <!-- Chat Bubble Icon -->
-                 <svg class="gucci-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                 <a href="{{ block.settings.contact_url }}">{{ block.settings.contact_text }}</a>
-               </div>
-               {% endif %}
-               
-               {% if block.settings.store_text != blank %}
-               <div class="service-link" style="font-size: {{ block.settings.service_text_size }}px;">
-                 <!-- Location Pin Icon -->
-                 <svg class="gucci-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                 <a href="{{ block.settings.store_url }}">{{ block.settings.store_text }}</a>
-               </div>
-               {% endif %}
+              #ProductSubmitButton-{{ section.id }} {
+                background: #000 !important;
+                color: #fff !important;
+                border: 1px solid #000 !important;
+                border-radius: 40px !important;
+                text-transform: uppercase !important;
+                letter-spacing: 1px !important;
+                font-weight: 600 !important;
+                padding: 15px !important;
+                width: 100% !important;
+                max-width: 340px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                display: block !important; /* Ensure it respects margins */
+                cursor: pointer !important;
+                pointer-events: auto !important;
+                font-size: {{ block.settings.btn_text_size }}px !important;
+              }
+              #ProductSubmitButton-{{ section.id }}:hover { opacity: 0.8; }
 
-             </div>
-           {%- endif -%}
-        {%- endfor -%}
-      </div>
+              /* Center the Payment Button Container */
+              .shopify-payment-button {
+                 width: 100% !important;
+                 max-width: 340px !important;
+                 margin-left: auto !important;
+                 margin-right: auto !important;
+              }
 
+              #ProductSubmitButton-{{ section.id }}:disabled {
+                background: #f5f5f5 !important;
+                color: #999 !important;
+                border-color: #e5e5e5 !important;
+                cursor: not-allowed !important;
+              }
+
+              /* --- BAG ICON IN BUTTON --- */
+              #ProductSubmitButton-{{ section.id }}::before {
+                content: '';
+                display: inline-block;
+                width: 14px;
+                height: 14px;
+                margin-right: 10px;
+                vertical-align: -2px;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='square' stroke-linejoin='round'%3E%3Cpath d='M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z'%3E%3C/path%3E%3Cline x1='3' y1='6' x2='21' y2='6'%3E%3C/line%3E%3Cpath d='M16 10a4 4 0 0 1-8 0'%3E%3C/path%3E%3C/svg%3E");
+                background-size: contain;
+                background-repeat: no-repeat;
+              }
+
+              .shopify-payment-button__button--unbranded,
+              .shopify-payment-button__button--branded {
+                background-color: #000 !important;
+                color: white !important;
+                border-radius: 40px !important;
+                text-transform: uppercase !important;
+                pointer-events: auto !important;
+                width: 100% !important;
+                /* max-width is handled by container now, but keeping safety */
+                max-width: 340px !important;
+                font-size: {{ block.settings.btn_text_size }}px !important;
+                overflow: hidden !important;
+              }
+              .shopify-payment-button__more-options {
+                  color: #555 !important;
+                  text-decoration: underline !important;
+                  margin-top: 10px !important;
+                  font-size: 12px !important;
+              }
+              /* FORCE ROUNDED CORNERS ON EVERYTHING INSIDE THE PAYMENT BUTTON CONTAINER */
+              .shopify-payment-button__button--branded,
+              .shopify-payment-button__button--branded .shopify-cleanslate,
+              .shopify-payment-button__button--branded .shopify-cleanslate div,
+              .shopify-payment-button__button--branded .shopify-cleanslate iframe,
+              .shopify-payment-button__button--branded ul,
+              .shopify-payment-button__button--branded li {
+                  border-radius: 40px !important;
+                  overflow: hidden !important;
+              }
+
+              .shopify-payment-button__button {
+                border-radius: 40px !important;
+                margin-top: 10px;
+                overflow: hidden !important;
+                pointer-events: auto !important;
+                width: 100% !important;
+                max-width: 340px !important;
+                display: flex;
+                justify-content: center;
+              }
+            </style>
+
+            <!-- Service Links with Icons & Hover Bars -->
+            <div class="shipping-text" style="font-size: {{ block.settings.service_text_size }}px;">
+              <!-- Box/Truck Icon -->
+              <svg class="gucci-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+              <span>{{ block.settings.delivery_text }}</span>
+            </div>
+
+            {% if block.settings.contact_text != blank %}
+              <div class="service-link" style="font-size: {{ block.settings.service_text_size }}px;">
+                <!-- Chat Bubble Icon -->
+                <svg class="gucci-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+                <a href="{{ block.settings.contact_url }}">{{ block.settings.contact_text }}</a>
+              </div>
+            {% endif %}
+
+            {% if block.settings.store_text != blank %}
+              <div class="service-link" style="font-size: {{ block.settings.service_text_size }}px;">
+                <!-- Location Pin Icon -->
+                <svg class="gucci-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <a href="{{ block.settings.store_url }}">{{ block.settings.store_text }}</a>
+              </div>
+            {% endif %}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
   </product-info>
 </div>
 
@@ -551,44 +622,159 @@
   "settings": [
     { "type": "color", "id": "bg_color", "label": "Image Background", "default": "#F5F5F5" },
     { "type": "header", "content": "Section Typography (Body Only)" },
-    { "type": "range", "id": "body_size", "min": 10, "max": 24, "step": 1, "unit": "px", "label": "Body/Description Size", "default": 14 }
+    {
+      "type": "range",
+      "id": "body_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Body/Description Size",
+      "default": 14
+    }
   ],
   "blocks": [
     { "type": "@app" },
-    { 
-      "type": "title", 
-      "name": "Title", 
+    {
+      "type": "title",
+      "name": "Title",
       "limit": 1,
       "settings": [
-        { "type": "range", "id": "font_size", "min": 16, "max": 60, "step": 1, "unit": "px", "label": "Font Size", "default": 32 },
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 16,
+          "max": 60,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size",
+          "default": 32
+        },
         { "type": "color", "id": "color", "label": "Color", "default": "#111111" },
-        { "type": "range", "id": "letter_spacing", "min": 0, "max": 10, "step": 0.5, "unit": "px", "label": "Letter Spacing", "default": 0.5 },
-        { "type": "range", "id": "margin_bottom", "min": 0, "max": 60, "step": 1, "unit": "px", "label": "Margin Bottom", "default": 5 }
+        {
+          "type": "range",
+          "id": "letter_spacing",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "unit": "px",
+          "label": "Letter Spacing",
+          "default": 0.5
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "min": 0,
+          "max": 60,
+          "step": 1,
+          "unit": "px",
+          "label": "Margin Bottom",
+          "default": 5
+        }
       ]
     },
-    { 
-      "type": "price", 
-      "name": "Price", 
+    {
+      "type": "price",
+      "name": "Price",
       "limit": 1,
       "settings": [
-        { "type": "range", "id": "font_size", "min": 14, "max": 40, "step": 1, "unit": "px", "label": "Font Size", "default": 18 },
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 14,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size",
+          "default": 18
+        },
         { "type": "color", "id": "color", "label": "Color", "default": "#111111" },
-        { "type": "range", "id": "margin_bottom", "min": 0, "max": 60, "step": 1, "unit": "px", "label": "Margin Bottom", "default": 25 }
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "min": 0,
+          "max": 60,
+          "step": 1,
+          "unit": "px",
+          "label": "Margin Bottom",
+          "default": 25
+        }
       ]
     },
-    { "type": "text", "name": "Text", "settings": [ { "type": "text", "id": "text", "label": "Text" } ] },
-    { "type": "variant_picker", "name": "Variant Picker", "limit": 1 },
-    { 
-      "type": "buy_buttons", 
-      "name": "Buy Buttons", 
+    { "type": "text", "name": "Text", "settings": [{ "type": "text", "id": "text", "label": "Text" }] },
+    {
+      "type": "variant_picker",
+      "name": "Variant Picker",
       "limit": 1,
       "settings": [
-        { "type": "checkbox", "id": "show_dynamic_checkout", "default": true, "label": "Show dynamic checkout buttons" },
+        {
+          "type": "select",
+          "id": "picker_type",
+          "options": [
+            {
+              "value": "dropdown",
+              "label": "Dropdown"
+            },
+            {
+              "value": "button",
+              "label": "Pills"
+            }
+          ],
+          "default": "button",
+          "label": "Variant Picker Style"
+        },
+        {
+          "type": "select",
+          "id": "swatch_shape",
+          "label": "Swatch Shape",
+          "options": [
+            { "value": "circle", "label": "Circle" },
+            { "value": "square", "label": "Square" },
+            { "value": "none", "label": "None" }
+          ],
+          "default": "circle"
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "default": true,
+          "label": "Show dynamic checkout buttons"
+        },
         { "type": "header", "content": "Typography" },
-        { "type": "range", "id": "btn_text_size", "min": 10, "max": 20, "step": 1, "unit": "px", "label": "Button Text Size", "default": 13 },
-        { "type": "range", "id": "service_text_size", "min": 10, "max": 18, "step": 1, "unit": "px", "label": "Service Links Size", "default": 12 },
+        {
+          "type": "range",
+          "id": "btn_text_size",
+          "min": 10,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "label": "Button Text Size",
+          "default": 13
+        },
+        {
+          "type": "range",
+          "id": "service_text_size",
+          "min": 10,
+          "max": 18,
+          "step": 1,
+          "unit": "px",
+          "label": "Service Links Size",
+          "default": 12
+        },
         { "type": "header", "content": "Service Links" },
-        { "type": "text", "id": "delivery_text", "label": "Delivery Text", "default": "Estimated delivery: 2-4 Business Days" },
+        {
+          "type": "text",
+          "id": "delivery_text",
+          "label": "Delivery Text",
+          "default": "Estimated delivery: 2-4 Business Days"
+        },
         { "type": "text", "id": "contact_text", "label": "Contact Label", "default": "Contact Us" },
         { "type": "url", "id": "contact_url", "label": "Contact Link" },
         { "type": "text", "id": "store_text", "label": "Store Label", "default": "Find in store" },
@@ -596,11 +782,27 @@
       ]
     },
     { "type": "description", "name": "Description", "limit": 1 },
-    { "type": "collapsible_tab", "name": "Collapsible Row", "settings": [ { "type": "text", "id": "heading", "label": "Heading", "default": "Product Details" }, { "type": "richtext", "id": "content", "label": "Row Content" } ] }
+    {
+      "type": "collapsible_tab",
+      "name": "Collapsible Row",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Product Details" },
+        { "type": "richtext", "id": "content", "label": "Row Content" }
+      ]
+    }
   ],
   "presets": [
-    { "name": "Gucci Product Page", "blocks": [ { "type": "title" }, { "type": "price" }, { "type": "variant_picker" }, { "type": "description" }, { "type": "collapsible_tab" }, { "type": "buy_buttons" } ] }
+    {
+      "name": "Gucci Product Page",
+      "blocks": [
+        { "type": "title" },
+        { "type": "price" },
+        { "type": "variant_picker" },
+        { "type": "description" },
+        { "type": "collapsible_tab" },
+        { "type": "buy_buttons" }
+      ]
+    }
   ]
 }
 {% endschema %}
-
