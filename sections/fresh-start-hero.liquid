@@ -60,6 +60,20 @@
   /* Dreamy Crystal Ball Effect */
   .liquid-glass-sphere {
     border-radius: 50%;
+    /* Container layout only - visuals moved to overlay */
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* The Glass Overlay (Sits ON TOP of the image) */
+  .liquid-glass-sphere::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 20; /* Above the image */
+    pointer-events: none; /* Let clicks pass through */
+    border-radius: 50%;
+
     /* 
       1. Deep Inner Shadow (Volume)
       2. Strong Top-Left Highlight (Crisp Glass)
@@ -73,11 +87,13 @@
       inset 0px 0px 20px rgba(255, 255, 255, 0.3),
       0px 0px 30px rgba(255, 255, 255, 0.4),
       0px 20px 40px rgba(0, 0, 0, 0.4);
+
     border: 1px solid rgba(255, 255, 255, 0.7);
-    /* Brighter surface sheen */
-    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
-    /* Ensure content stays clipped within the glass */
-    overflow: hidden;
+
+    /* Dreamy Mist Overlay + Surface Sheen */
+    background:
+      radial-gradient(circle at center, rgba(255, 255, 255, 0.15), transparent 70%),
+      /* User requested soft overlay */ radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, transparent 70%); /* Surface sheen */
   }
 </style>
 
