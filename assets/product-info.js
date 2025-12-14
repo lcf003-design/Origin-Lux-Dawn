@@ -113,13 +113,17 @@ if (!customElements.get("product-info")) {
           ),
         ).map((element) => element.value);
         const variants = this.getVariantData();
-        return variants.find((variant) => {
+        console.log("Antigravity Debug: Selected Values:", selectedValues);
+        console.log("Antigravity Debug: All Variants:", variants);
+        const match = variants.find((variant) => {
           return !variant.options
             .map((option, index) => {
               return selectedValues[index] === option;
             })
             .includes(false);
         });
+        console.log("Antigravity Debug: Matched Variant:", match);
+        return match;
       }
 
       resetProductFormState() {
@@ -209,7 +213,8 @@ if (!customElements.get("product-info")) {
           params.push(`option_values=${optionValues.join(",")}`);
         }
 
-        return `${url}?${params.join("&")}`;
+        const separator = url.includes("?") ? "&" : "?";
+        return `${url}${separator}${params.join("&")}`;
       }
 
       updateOptionValues(html) {
