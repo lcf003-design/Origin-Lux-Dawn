@@ -480,6 +480,13 @@
             -%}
 
             <style>
+               /* Native Variable Override - Penetrates Shadow DOM */
+               .gucci-block-buy_buttons {
+                 --buttons-radius: 40px;
+                 --buttons-radius-outset: 41px;
+                 --buttons-border-width: 1px;
+               }
+
               #ProductSubmitButton-{{ section.id }} {
                 background: #000 !important;
                 color: #fff !important;
