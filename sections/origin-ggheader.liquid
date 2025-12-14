@@ -889,73 +889,175 @@
     if (!headerContainer) return;
 
     // --- 1. Scroll Logic ---
-    // --- 1. Scroll Logic ---
+    // --- 1. Scroll & Morph Logic ---
     const handleScroll = () => {
+      // We will define this function but won't run it immediately until we have metrics.
+    };
+
+    let metrics = null;
+
+    function calculateMetrics() {
+      const hugeWrapper = headerContainer.querySelector('.origin-huge-logo-wrapper');
+      // We want the inner content to morph
+      const hugeInner = headerContainer.querySelector('.origin-huge-logo-inner');
+      // The target
+      const stickyLogo = headerContainer.querySelector('.origin-sticky-bar__logo');
+
+      if (!hugeInner || !stickyLogo) return null;
+
+      // Ensure both are visible for measurement (temporarily remove hidden/opacity styles if needed)
+      // Since stickyLogo is visibility:hidden, getBoundingClientRect still works for layout dimensions in most browsers,
+      // but if display is none it won't. It is display:flex in CSS.
+
+      const hugeRect = hugeInner.getBoundingClientRect();
+      const stickyRect = stickyLogo.getBoundingClientRect();
+
+      // Calculate Scaling Factor (Height relative)
+      // Use height mostly as text/logos are usually height-constrained in headers
+      const scale = stickyRect.height / hugeRect.height;
+
+      // Calculate Translation Deltas
+      // We need the center of the huge logo to move to the center of the sticky logo
+      const hugeCenterY = hugeRect.top + hugeRect.height / 2;
+      const stickyCenterY = stickyRect.top + stickyRect.height / 2;
+      const deltaY = stickyCenterY - hugeCenterY;
+
+      // Note: X alignment might be needed perfectly centered?
+      // Both are likely centered horizontally in CSS.
+
+      return {
+        scale: scale,
+        deltaY: deltaY,
+        refHeight: hugeRect.height,
+      };
+    }
+
+    function updateMorph() {
+      const hugeWrapper = headerContainer.querySelector('.origin-huge-logo-wrapper');
+      const hugeInner = headerContainer.querySelector('.origin-huge-logo-inner');
+      const stickyLogo = headerContainer.querySelector('.origin-sticky-bar__logo');
+      const stickyBar = headerContainer.querySelector('.origin-sticky-bar');
+
+      if (!metrics || !hugeWrapper) return;
+
       const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const bar = headerContainer.querySelector('.origin-sticky-bar');
-      const logo = headerContainer.querySelector('.origin-sticky-bar__logo');
-      const hugeLogoWrapper = headerContainer.querySelector('.origin-huge-logo-wrapper');
 
-      // 1A. Massive Logo Animation (Replaces the "is-shrunk" toggle)
-      if (hugeLogoWrapper) {
-        // Scroll 0 -> 400px
-        const progress = Math.min(1, scrollY / 400);
+      // Define the scroll distance over which the morph happens
+      // Short range for "fast" reaction? user said "disappears so quickly",
+      // but also "slow and glitchy" might refer to the previous implementation?
+      // User says: "look like the big text on scroll turns into the little text"
+      // Let's use 200px as a reasonable morph distance.
+      const range = 300;
+      const progress = Math.min(1, Math.max(0, scrollY / range));
 
-        // Scale: 1 -> 0.4 (shrinks)
-        const scale = 1 - 0.6 * progress;
+      // Ease the progress?
+      // const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress); // Exponential ease out?
+      // Linear is often more predictable for scroll-linked connection.
+      const p = progress;
 
-        // TranslateY: 0px -> -100px (moves up slightly)
-        const translateY = -100 * progress;
+      // 1. Apply Morph to Big Logo
+      // We transform the Wrapper or Inner? Inner is better if Wrapper is full screen.
+      // But Wrapper was the one fixed. Inner has margin-top for vertical pos.
+      // Let's anim the INNER.
 
-        // Opacity: Fades out completely by 250px (hand-off point)
-        // Formula: 1 at 0px -> 0 at 250px
-        const opacity = 1 - Math.min(1, scrollY / 250);
+      const currentScale = 1 + (metrics.scale - 1) * p;
+      const currentY = metrics.deltaY * p;
 
-        hugeLogoWrapper.style.transform = `scale(${scale}) translateY(${translateY}px)`;
-        hugeLogoWrapper.style.opacity = opacity;
+      // We use the Inner for the transform.
+      // Note: hugeInner has `transform: translateY(-50%)` in CSS for centering.
+      // We must preserve that or account for it.
+      // BoundingBox calculation accounts for current transforms usually.
+      // Actually `transform` replaces previous transform.
+      // So we need to include `translateY(-50%)` if it was there?
+      // Let's just set properties explicitly.
+      // Wait, if we use the computed rects from Scroll 0, we are good.
+      // But we need to know the base transform.
 
-        // Control visibility to avoid clicking empty space after fade out
-        hugeLogoWrapper.style.visibility = opacity <= 0.01 ? 'hidden' : 'visible';
-        hugeLogoWrapper.style.pointerEvents = opacity <= 0.01 ? 'none' : 'auto';
+      // Simplified approach: Wrapper is the "Subject".
+      // But wrapper is 100vh.
+
+      // Let's stick to modifying `hugeWrapper` but we calculated deltas based on `hugeInner`.
+      // If `hugeWrapper` is 100% width/height fixed, and `hugeInner` is the child.
+      // If we scale `hugeWrapper`, we scale the whole screen. Bad.
+      // We MUST animate `hugeInner`.
+
+      // CSS base: transform: translateY(-50%);
+      // We append our morph: translate(0, currentY) scale(currentScale)
+      // Order matters.
+      // Correct composition: `translateY(calc(-50% + ${currentY}px)) scale(${currentScale})`
+
+      if (hugeInner) {
+        hugeInner.style.transform = `translateY(calc(-50% + ${currentY}px)) scale(${currentScale})`;
+
+        // Fix for "glitchy": if we are fully morphed (p=1), we hide it?
+        // User said "turns into the little text at the top of the header... and vice versa".
+        // So at p=1, Big is hidden, Little is shown.
+        // At p<1, Big is shown, Little is hidden.
+
+        if (p >= 0.99) {
+          hugeInner.style.opacity = 0;
+          hugeInner.style.pointerEvents = 'none';
+          if (stickyLogo) stickyLogo.style.opacity = 1;
+          if (stickyLogo) stickyLogo.style.visibility = 'visible';
+        } else {
+          hugeInner.style.opacity = 1;
+          hugeInner.style.pointerEvents = 'auto';
+          if (stickyLogo) stickyLogo.style.opacity = 0;
+          if (stickyLogo) stickyLogo.style.visibility = 'hidden';
+        }
       }
 
-      // 1B. Sticky Logo & Background (Hand-off)
-      // Header logo starts fading in at 250px.
-
-      // Calculate Logo Opacity
-      const logoOpacity = Math.max(0, Math.min(1, (scrollY - 250) / 100));
-
-      if (logo) {
-        logo.style.opacity = logoOpacity;
-        logo.style.visibility = logoOpacity > 0 ? 'visible' : 'hidden';
-        logo.style.transform = `translateY(${(1 - logoOpacity) * 10}px)`;
-      }
-
-      // Background Logic - syncing with logo appearance (approx > 250)
-      if (scrollY > 250) {
+      // 2. Background Logic (Sticky Bar)
+      // Turns solid when morph completes or starts?
+      // User: "turns into the little text at the top of the header"
+      // Usually background comes in as it hits the top.
+      if (p > 0.8) {
         headerContainer.classList.add('is-shrunk');
-        if (bar) {
-          bar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-          bar.style.backdropFilter = 'blur(10px)';
-          bar.style.color = 'var(--header-text-shrunk)';
+        if (stickyBar) {
+          stickyBar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+          stickyBar.style.backdropFilter = 'blur(10px)';
+          stickyBar.style.color = 'var(--header-text-shrunk)';
         }
       } else {
         headerContainer.classList.remove('is-shrunk');
-        if (bar) {
-          bar.style.backgroundColor = 'transparent';
-          bar.style.backdropFilter = 'none';
-          bar.style.color = 'var(--header-text-initial)';
+        if (stickyBar) {
+          stickyBar.style.backgroundColor = 'transparent';
+          stickyBar.style.backdropFilter = 'none';
+          stickyBar.style.color = 'var(--header-text-initial)';
         }
       }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    }
+
+    // Init
+    window.addEventListener('scroll', () => requestAnimationFrame(updateMorph), { passive: true });
+
+    // Recalc on resize
+    window.addEventListener('resize', () => {
+      // Reset transforms to get clean read?
+      // This is complex. For now, just Recalc might act on currently transformed elements...
+      // Ideally we reset, read, then re-apply.
+      const hugeInner = headerContainer.querySelector('.origin-huge-logo-inner');
+      if (hugeInner) hugeInner.style.transform = ''; // revert to CSS default
+      metrics = calculateMetrics();
+      updateMorph();
+    });
+
+    // Initial Calc (Wait for layout)
+    setTimeout(() => {
+      metrics = calculateMetrics();
+      updateMorph();
+    }, 100);
+
+    // Also run on load just in case
+    window.addEventListener('load', () => {
+      metrics = calculateMetrics();
+      updateMorph();
+    });
 
     // --- 2. Overlay Manager ---
     const toggleOverlay = (overlayId, isOpen) => {
       const overlay = document.getElementById(overlayId);
       if (!overlay) return;
-
       if (isOpen) {
         overlay.classList.add('is-open');
         document.body.style.overflow = 'hidden';
