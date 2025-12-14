@@ -9,6 +9,18 @@
  */
 {
   "sections": {
+    "splash_page_B8RJPF": {
+      "type": "splash-page",
+      "name": "Splash Page",
+      "settings": {
+        "enable_splash": true,
+        "logo": "shopify://shop_images/Untitled.svg",
+        "bg_color": "#ffb100",
+        "btn_text": "ENTER",
+        "btn_bg": "#121212",
+        "btn_text_color": "#ffffff"
+      }
+    },
     "editorial_spotlight_xjEVgn": {
       "type": "editorial-spotlight",
       "blocks": {
@@ -255,6 +267,7 @@
     }
   },
   "order": [
+    "splash_page_B8RJPF",
     "editorial_spotlight_xjEVgn",
     "rich_text_XdggXL",
     "origin_shop_the_look_HQYUCp",
