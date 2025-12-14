@@ -231,7 +231,7 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
-    transition: var(--header-transition);
+    /* transition: var(--header-transition); Conflict with JS scroll logic */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -278,8 +278,9 @@
     pointer-events: none;
     display: flex;
     justify-content: center;
-    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+    /* transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s; REPLACED BY JS SCROLL */
     transform-origin: center top;
+    will-change: transform, opacity;
   }
 
   .origin-huge-logo-inner {
