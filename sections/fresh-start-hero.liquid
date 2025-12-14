@@ -60,19 +60,21 @@
 
 <div class="relative w-full bg-white font-sans text-black overflow-hidden">
   <!-- Preloader -->
-  <div
-    id="fs-preloader"
-    class="fixed inset-0 z-[10000] flex items-center justify-center bg-black text-white transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)]"
-  >
-    <div class="overflow-hidden">
-      <h1
-        id="fs-preloader-text"
-        class="text-4xl md:text-6xl font-black tracking-widest uppercase transition-transform duration-1000"
-      >
-        {{ section.settings.hero_headline | default: 'Origin Intl' }}
-      </h1>
+  {%- if section.settings.enable_preloader -%}
+    <div
+      id="fs-preloader"
+      class="fixed inset-0 z-[10000] flex items-center justify-center bg-black text-white transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)]"
+    >
+      <div class="overflow-hidden">
+        <h1
+          id="fs-preloader-text"
+          class="text-4xl md:text-6xl font-black tracking-widest uppercase transition-transform duration-1000"
+        >
+          {{ section.settings.hero_headline | default: 'Origin Intl' }}
+        </h1>
+      </div>
     </div>
-  </div>
+  {%- endif -%}
 
   <!-- Noise Overlay -->
   <div
@@ -251,6 +253,7 @@
 {
   "name": "Fresh Start Hero",
   "settings": [
+    { "type": "checkbox", "id": "enable_preloader", "label": "Enable Opening Wipe Screen", "default": false },
     { "type": "text", "id": "hero_headline", "label": "Headline", "default": "ORIGIN INTL" },
     { "type": "text", "id": "hero_subheadline", "label": "Subheadline", "default": "Vanguard of Luxury" },
     { "type": "text", "id": "hero_cta_label", "label": "CTA Label", "default": "Collection" },
