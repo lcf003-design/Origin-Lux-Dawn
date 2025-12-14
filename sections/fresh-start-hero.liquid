@@ -93,7 +93,7 @@
           alt="{{ section.settings.bg_image.alt | escape }}"
           width="{{ section.settings.bg_image.width }}"
           height="{{ section.settings.bg_image.height }}"
-          class="w-full {% if section.settings.hero_height_mobile == 'adapt' %}h-auto{% else %}h-full object-cover{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto{% else %}h-full object-cover{% endif %} transition-transform duration-700 ease-out {% if section.settings.bg_image_mobile != blank %}hidden md:block{% endif %}"
+          class="w-full {% if section.settings.hero_height_mobile == 'adapt' %}h-auto{% else %}h-full object-cover{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto{% else %}h-full object-cover{% endif %} transition-transform duration-700 ease-out {% if section.settings.bg_image_mobile != blank %}max-md:hidden{% endif %}"
           style="transform: scale({{ section.settings.hero_bg_scale | divided_by: 100.0 }}); transform-origin: center;"
         >
         {%- comment -%} Mobile Image (Optional) {%- endcomment -%}
