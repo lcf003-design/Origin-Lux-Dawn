@@ -1,0 +1,187 @@
+{% comment %}
+  Global Custom Cursor
+  Implements the "Permanent Custom Cursor" feature using Vanilla JS for 60fps performance
+  and global state management via event delegation.
+
+  Based on the React Reference Architecture:
+  1. Performance: Uses direct DOM manipulation (transform) on mousemove.
+  2. Global Context: Uses event delegation to detect hoverable elements.
+  3. CSS Safety: pointer-events: none is applied.
+{% endcomment %}
+
+<style>
+  /* 
+   * The Styling: CustomCursor.css (Adapted)
+   */
+
+  /* Hide default cursor on devices that support hover */
+  @media (hover: hover) and (pointer: fine) {
+    body,
+    a,
+    button,
+    [role='button'],
+    input,
+    select,
+    textarea {
+      cursor: none !important;
+    }
+  }
+
+  #global-custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: #000; /* Primary Brand Color - Change to custom property if needed */
+    border-radius: 50%;
+    pointer-events: none; /* CRITICAL */
+    z-index: 2147483647; /* Max Z-Index to stay on top of everything */
+    mix-blend-mode: difference; /* Cool effect over images */
+
+    /* Center alignment calculation handled in CSS or JS, but here strictly CSS for initial state */
+    /* We will center via JS transform to be precise */
+
+    /* Animate State Changes Only (Not movement) */
+    transition:
+      width 0.2s cubic-bezier(0.19, 1, 0.22, 1),
+      height 0.2s cubic-bezier(0.19, 1, 0.22, 1),
+      background-color 0.2s ease,
+      border 0.2s ease,
+      opacity 0.2s ease;
+    will-change: transform;
+    opacity: 0; /* Hidden initially until moved */
+  }
+
+  /* Hover State */
+  #global-custom-cursor.hover {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.1); /* Inverted color for difference mode visibility or specific design */
+    border: 1px solid #fff; /* Border improves visibility in difference mode */
+  }
+
+  /* Text State (Optional, can add later if "text" cursor needed specific look) */
+  #global-custom-cursor.text {
+    width: 2px;
+    height: 24px;
+    border-radius: 0;
+    background-color: #fff;
+  }
+
+  /* Hide on touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    #global-custom-cursor {
+      display: none !important;
+    }
+    body,
+    a,
+    button,
+    input {
+      cursor: auto !important;
+    }
+  }
+</style>
+
+<div id="global-custom-cursor"></div>
+
+<script>
+  (function () {
+    // 2. The Component Logic (Adapted to Vanilla JS)
+
+    // Check if device supports fine pointer (mouse) before running
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const cursor = document.getElementById('global-custom-cursor');
+    if (!cursor) return;
+
+    // State
+    let isVisible = false;
+
+    // Movement Logic - mirror of "useEffect with direct DOM updates"
+    const onMouseMove = (event) => {
+      const { clientX, clientY } = event;
+
+      // Use requestAnimationFrame for smoother performance if needed,
+      // but direct transform is usually 60fps on modern browsers.
+      // We subtract half width/height to center.
+      // Note: State changes (hover) change width/height, so we should dynamically calculate or just use top/left 0 and translate center.
+      // Better to use translate3d(x, y, 0) and use CSS to center itself via transform: translate(-50%, -50%)?
+      // CSS transform order matters. If providing x,y here, we can't easily append translate(-50%) in CS without composite layers.
+      // React code used: `translate3d(${clientX}px, ${clientY}px, 0)` and CSS `margin-left: -10px`.
+
+      // Let's stick to the React ref implementation:
+      // "margin-left: -10px" in CSS handles the centering for default state.
+      // But we change size on hover.
+
+      // Better approach:
+      // Set properties on the element to avoid layout thrashing,
+      // but for pure speed, just setting transform is best.
+
+      cursor.style.transform = `translate3d(${clientX}px, ${clientY}px, 0)`;
+
+      if (!isVisible) {
+        cursor.style.opacity = '1';
+        isVisible = true;
+      }
+    };
+
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+
+    // 1. Context Logic (Cursor States) - Implemented via Global Event Delegation
+    // This allows us to handle all current AND future elements without "InteractiveElement" wrappers.
+
+    const interactables = ['A', 'BUTTON', 'INPUT', 'TEXTAREA', 'SELECT', 'LABEL', 'SUMMARY'];
+
+    function getHoverType(target) {
+      // Traverse up to find if we are inside an interactive element
+      let el = target;
+      while (el && el !== document.body) {
+        if (
+          interactables.includes(el.tagName) ||
+          el.getAttribute('role') === 'button' ||
+          el.classList.contains('cursor-hover')
+        ) {
+          return 'hover';
+        }
+        // Specific text inputs
+        if (
+          el.tagName === 'INPUT' &&
+          (el.type === 'text' || el.type === 'email' || el.type === 'search' || el.type === 'number')
+        ) {
+          return 'text'; // Optional text cursor
+        }
+        if (el.tagName === 'TEXTAREA') return 'text';
+
+        el = el.parentElement;
+      }
+      return 'default';
+    }
+
+    const onMouseOver = (event) => {
+      const type = getHoverType(event.target);
+
+      if (type === 'hover') {
+        cursor.classList.add('hover');
+        cursor.classList.remove('text');
+      } else if (type === 'text') {
+        cursor.classList.add('text');
+        cursor.classList.remove('hover');
+      } else {
+        cursor.classList.remove('hover', 'text');
+      }
+    };
+
+    // We can use mouseover/out or mousemove (expensive).
+    // "mouseover" bubbles, so it works for delegation.
+    document.addEventListener('mouseover', onMouseOver, { passive: true });
+
+    // Also handle mouseleave from window to hide cursor
+    document.addEventListener('mouseout', (e) => {
+      if (e.relatedTarget === null) {
+        cursor.style.opacity = '0';
+        isVisible = false;
+      }
+    });
+  })();
+</script>
