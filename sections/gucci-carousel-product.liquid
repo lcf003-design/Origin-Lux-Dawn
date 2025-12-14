@@ -535,11 +535,17 @@
                   margin-top: 10px !important;
                   font-size: 12px !important;
               }
-              /* Target the inner container of the branded button specifically */
-              .shopify-payment-button__button--branded .shopify-cleanslate div {
+              /* FORCE ROUNDED CORNERS ON EVERYTHING INSIDE THE PAYMENT BUTTON CONTAINER */
+              .shopify-payment-button__button--branded,
+              .shopify-payment-button__button--branded .shopify-cleanslate,
+              .shopify-payment-button__button--branded .shopify-cleanslate div,
+              .shopify-payment-button__button--branded .shopify-cleanslate iframe,
+              .shopify-payment-button__button--branded ul,
+              .shopify-payment-button__button--branded li {
                   border-radius: 40px !important;
                   overflow: hidden !important;
               }
+
               .shopify-payment-button__button {
                 border-radius: 40px !important;
                 margin-top: 10px;
