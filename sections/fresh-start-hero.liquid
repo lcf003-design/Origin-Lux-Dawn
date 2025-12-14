@@ -191,15 +191,31 @@
         id="fs-hero-cta"
         class="absolute bottom-24 flex flex-col items-center gap-6 pointer-events-auto transition-opacity duration-300"
       >
-        <p class="text-gray-500 text-xs md:text-sm uppercase tracking-[0.3em]">
+        <p
+          class="text-gray-500 text-xs md:text-sm uppercase tracking-[0.3em]"
+          style="font-size: {{ section.settings.subheadline_scale }}%;"
+        >
           {{ section.settings.hero_subheadline | default: 'Vanguard of Luxury' }}
         </p>
-        <a
-          href="{{ section.settings.hero_cta_link }}"
-          class="px-8 py-3 bg-transparent border border-black text-black text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all duration-300"
-        >
-          {{ section.settings.hero_cta_label | default: 'Collection' }}
-        </a>
+
+        <div class="flex gap-6 mt-4">
+          {%- if section.settings.cta_label_1 != blank -%}
+            <a
+              href="{{ section.settings.cta_link_1 }}"
+              class="px-10 py-4 bg-white/90 backdrop-blur-sm border border-black/10 text-black text-xs font-bold uppercase tracking-widest shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 rounded-sm"
+            >
+              {{ section.settings.cta_label_1 }}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.cta_label_2 != blank -%}
+            <a
+              href="{{ section.settings.cta_link_2 }}"
+              class="px-10 py-4 bg-white/90 backdrop-blur-sm border border-black/10 text-black text-xs font-bold uppercase tracking-widest shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 rounded-sm"
+            >
+              {{ section.settings.cta_label_2 }}
+            </a>
+          {%- endif -%}
+        </div>
       </div>
     </div>
   </section>
@@ -256,8 +272,21 @@
     { "type": "checkbox", "id": "enable_preloader", "label": "Enable Opening Wipe Screen", "default": false },
     { "type": "text", "id": "hero_headline", "label": "Headline", "default": "ORIGIN INTL" },
     { "type": "text", "id": "hero_subheadline", "label": "Subheadline", "default": "Vanguard of Luxury" },
-    { "type": "text", "id": "hero_cta_label", "label": "CTA Label", "default": "Collection" },
-    { "type": "url", "id": "hero_cta_link", "label": "CTA Link" },
+    {
+      "type": "range",
+      "id": "subheadline_scale",
+      "min": 100,
+      "max": 300,
+      "step": 10,
+      "default": 100,
+      "unit": "%",
+      "label": "Subheadline Scale"
+    },
+    { "type": "header", "content": "CTA Buttons" },
+    { "type": "text", "id": "cta_label_1", "label": "Button 1 Label", "default": "Women" },
+    { "type": "url", "id": "cta_link_1", "label": "Button 1 Link" },
+    { "type": "text", "id": "cta_label_2", "label": "Button 2 Label", "default": "Men" },
+    { "type": "url", "id": "cta_link_2", "label": "Button 2 Link" },
     { "type": "header", "content": "Parallax Images" },
     { "type": "image_picker", "id": "parallax_img_1", "label": "Bottom Right" },
     { "type": "image_picker", "id": "parallax_img_2", "label": "Top Left" },
