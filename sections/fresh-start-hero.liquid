@@ -186,35 +186,44 @@
       {%- endif -%}
     </div>
 
-    <div class="w-full relative z-30 flex flex-col items-center justify-center h-full pointer-events-none">
-      <div
-        id="fs-hero-cta"
-        class="absolute bottom-24 flex flex-col items-center gap-6 pointer-events-auto transition-opacity duration-300"
-      >
-        <p
-          class="text-gray-500 text-xs md:text-sm uppercase tracking-[0.3em]"
-          style="font-size: {{ section.settings.subheadline_scale }}%;"
-        >
-          {{ section.settings.hero_subheadline | default: 'Vanguard of Luxury' }}
-        </p>
+    <div class="w-full relative z-30 flex flex-col items-center justify-center h-full pointer-events-none gap-8">
+      <!-- Headline Parallax Layer -->
+      <div class="parallax-layer z-40 pointer-events-auto" data-speed="5">
+        <div class="animate-float-slow">
+          <h1 class="text-6xl md:text-9xl font-black uppercase tracking-widest text-center opacity-90 drop-shadow-2xl">
+            {{ section.settings.hero_headline | default: 'ORIGIN INTL' }}
+          </h1>
+        </div>
+      </div>
 
-        <div class="flex gap-6 mt-4">
-          {%- if section.settings.cta_label_1 != blank -%}
-            <a
-              href="{{ section.settings.cta_link_1 }}"
-              class="w-48 py-4 flex items-center justify-center bg-white/90 backdrop-blur-sm border border-black/10 text-black text-xs font-bold uppercase tracking-widest shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 rounded-sm"
-            >
-              {{ section.settings.cta_label_1 }}
-            </a>
-          {%- endif -%}
-          {%- if section.settings.cta_label_2 != blank -%}
-            <a
-              href="{{ section.settings.cta_link_2 }}"
-              class="w-48 py-4 flex items-center justify-center bg-white/90 backdrop-blur-sm border border-black/10 text-black text-xs font-bold uppercase tracking-widest shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 rounded-sm"
-            >
-              {{ section.settings.cta_label_2 }}
-            </a>
-          {%- endif -%}
+      <!-- CTA Parallax Layer -->
+      <div class="parallax-layer z-50 pointer-events-auto" data-speed="12">
+        <div class="flex flex-col items-center gap-6 animate-float-medium">
+          <p
+            class="text-gray-500 text-xs md:text-sm uppercase tracking-[0.3em]"
+            style="font-size: {{ section.settings.subheadline_scale }}%;"
+          >
+            {{ section.settings.hero_subheadline | default: 'Vanguard of Luxury' }}
+          </p>
+
+          <div class="flex gap-6 mt-4">
+            {%- if section.settings.cta_label_1 != blank -%}
+              <a
+                href="{{ section.settings.cta_link_1 }}"
+                class="w-48 py-4 flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 text-black text-sm font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-white hover:text-black hover:scale-105 transition-all duration-500 rounded-sm"
+              >
+                {{ section.settings.cta_label_1 }}
+              </a>
+            {%- endif -%}
+            {%- if section.settings.cta_label_2 != blank -%}
+              <a
+                href="{{ section.settings.cta_link_2 }}"
+                class="w-48 py-4 flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 text-black text-sm font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-white hover:text-black hover:scale-105 transition-all duration-500 rounded-sm"
+              >
+                {{ section.settings.cta_label_2 }}
+              </a>
+            {%- endif -%}
+          </div>
         </div>
       </div>
     </div>
