@@ -113,8 +113,6 @@ if (!customElements.get("product-info")) {
           ),
         ).map((element) => element.value);
         const variants = this.getVariantData();
-        console.log("Antigravity Debug: Selected Values:", selectedValues);
-        console.log("Antigravity Debug: All Variants:", variants);
         const match = variants.find((variant) => {
           return !variant.options
             .map((option, index) => {
@@ -122,7 +120,6 @@ if (!customElements.get("product-info")) {
             })
             .includes(false);
         });
-        console.log("Antigravity Debug: Matched Variant:", match);
         return match;
       }
 
