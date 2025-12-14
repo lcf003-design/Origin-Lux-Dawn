@@ -56,6 +56,21 @@
   body.no-scroll {
     overflow: hidden;
   }
+
+  /* Liquid Glass Sphere Effect */
+  .liquid-glass-sphere {
+    border-radius: 50%;
+    /* 1. Deep Inner Shadow (Volume), 2. Top-Left Highlight (Reflection), 3. Drop Shadow (Depth) */
+    box-shadow:
+      inset -20px -20px 50px rgba(0, 0, 0, 0.3),
+      inset 20px 20px 50px rgba(255, 255, 255, 0.5),
+      0px 25px 40px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    /* Subtle surface sheen */
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 60%);
+    /* Ensure content stays clipped within the glass */
+    overflow: hidden;
+  }
 </style>
 
 <div class="relative w-full bg-white font-sans text-black overflow-hidden">
@@ -116,7 +131,7 @@
     <div id="fs-parallax-container" class="absolute inset-0 z-10 overflow-hidden pointer-events-none">
       {%- if section.settings.parallax_img_1 != blank -%}
         <div
-          class="parallax-layer absolute bottom-[5%] right-[2%] w-[28vw] md:w-[22vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-20 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
+          class="parallax-layer liquid-glass-sphere absolute bottom-[5%] right-[2%] w-[28vw] md:w-[22vw] aspect-square z-20 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="40"
         >
           <img
@@ -130,7 +145,7 @@
       {%- endif -%}
       {%- if section.settings.parallax_img_2 != blank -%}
         <div
-          class="parallax-layer absolute top-[18%] left-[8%] w-[24vw] md:w-[18vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
+          class="parallax-layer liquid-glass-sphere absolute top-[18%] left-[8%] w-[24vw] md:w-[18vw] aspect-square z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="-25"
         >
           <img
@@ -144,7 +159,7 @@
       {%- endif -%}
       {%- if section.settings.parallax_img_3 != blank -%}
         <div
-          class="parallax-layer absolute top-[15%] right-[10%] w-[22vw] md:w-[16vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
+          class="parallax-layer liquid-glass-sphere absolute top-[15%] right-[10%] w-[22vw] md:w-[16vw] aspect-square z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="15"
         >
           <img
@@ -158,7 +173,7 @@
       {%- endif -%}
       {%- if section.settings.parallax_img_4 != blank -%}
         <div
-          class="parallax-layer absolute bottom-[15%] left-[5%] w-[20vw] md:w-[14vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
+          class="parallax-layer liquid-glass-sphere absolute bottom-[15%] left-[5%] w-[20vw] md:w-[14vw] aspect-square z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="-15"
         >
           <img
@@ -172,7 +187,7 @@
       {%- endif -%}
       {%- if section.settings.parallax_img_5 != blank -%}
         <div
-          class="parallax-layer absolute top-[8%] left-[45%] w-[18vw] md:w-[12vw] aspect-square rounded-full overflow-hidden shadow-2xl bg-gray-50 z-5 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
+          class="parallax-layer liquid-glass-sphere absolute top-[8%] left-[45%] w-[18vw] md:w-[12vw] aspect-square z-5 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
           data-speed="30"
         >
           <img
