@@ -315,9 +315,10 @@
   }
 
   .origin-gucci-header.is-shrunk .origin-huge-logo-wrapper {
-    opacity: 0;
+    /* Handled by JS now */
+    /* opacity: 0;
     visibility: hidden;
-    transform: scale(0.8) translateY(-100px);
+    transform: scale(0.8) translateY(-100px); */
   }
 
   /* --- SMART HEADER: STANDARD PAGE OVERRIDES --- */
@@ -888,13 +889,37 @@
     if (!headerContainer) return;
 
     // --- 1. Scroll Logic ---
+    // --- 1. Scroll Logic ---
     const handleScroll = () => {
       const scrollY = window.scrollY || document.documentElement.scrollTop;
       const bar = headerContainer.querySelector('.origin-sticky-bar');
       const logo = headerContainer.querySelector('.origin-sticky-bar__logo');
+      const hugeLogoWrapper = headerContainer.querySelector('.origin-huge-logo-wrapper');
 
-      // Hand-off Logic:
-      // Hero fades out 200px-350px.
+      // 1A. Massive Logo Animation (Replaces the "is-shrunk" toggle)
+      if (hugeLogoWrapper) {
+        // Scroll 0 -> 400px
+        const progress = Math.min(1, scrollY / 400);
+
+        // Scale: 1 -> 0.4 (shrinks)
+        const scale = 1 - 0.6 * progress;
+
+        // TranslateY: 0px -> -100px (moves up slightly)
+        const translateY = -100 * progress;
+
+        // Opacity: Fades out completely by 250px (hand-off point)
+        // Formula: 1 at 0px -> 0 at 250px
+        const opacity = 1 - Math.min(1, scrollY / 250);
+
+        hugeLogoWrapper.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+        hugeLogoWrapper.style.opacity = opacity;
+
+        // Control visibility to avoid clicking empty space after fade out
+        hugeLogoWrapper.style.visibility = opacity <= 0.01 ? 'hidden' : 'visible';
+        hugeLogoWrapper.style.pointerEvents = opacity <= 0.01 ? 'none' : 'auto';
+      }
+
+      // 1B. Sticky Logo & Background (Hand-off)
       // Header logo starts fading in at 250px.
 
       // Calculate Logo Opacity
@@ -903,11 +928,6 @@
       if (logo) {
         logo.style.opacity = logoOpacity;
         logo.style.visibility = logoOpacity > 0 ? 'visible' : 'hidden';
-        // Reset transform if needed or keep it static?
-        // Original CSS had transform: translateY(10px). We want smooth entry?
-        // Let's just control opacity as requested, maybe slide up slightly?
-        // User asked: "control the opacity dynamically so it 'hands off' perfectly"
-        // Logic implies just opacity. Let's ensure CSS doesn't override it.
         logo.style.transform = `translateY(${(1 - logoOpacity) * 10}px)`;
       }
 
@@ -917,7 +937,6 @@
         if (bar) {
           bar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
           bar.style.backdropFilter = 'blur(10px)';
-          // Ensure text colors switch if needed
           bar.style.color = 'var(--header-text-shrunk)';
         }
       } else {
@@ -925,7 +944,6 @@
         if (bar) {
           bar.style.backgroundColor = 'transparent';
           bar.style.backdropFilter = 'none';
-          // Revert color if needed
           bar.style.color = 'var(--header-text-initial)';
         }
       }
