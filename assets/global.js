@@ -1,3 +1,4 @@
+console.log("Antigravity Debug: global.js loaded");
 function getFocusableElements(container) {
   return Array.from(
     container.querySelectorAll(

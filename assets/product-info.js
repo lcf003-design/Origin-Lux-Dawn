@@ -1,3 +1,4 @@
+console.log("Antigravity Debug: product-info.js loaded");
 if (!customElements.get("product-info")) {
   customElements.define(
     "product-info",
