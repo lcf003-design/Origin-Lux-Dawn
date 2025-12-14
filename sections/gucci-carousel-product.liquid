@@ -498,11 +498,22 @@
                 padding: 15px !important;
                 width: 100% !important;
                 max-width: 340px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                display: block !important; /* Ensure it respects margins */
                 cursor: pointer !important;
                 pointer-events: auto !important;
                 font-size: {{ block.settings.btn_text_size }}px !important;
               }
               #ProductSubmitButton-{{ section.id }}:hover { opacity: 0.8; }
+
+              /* Center the Payment Button Container */
+              .shopify-payment-button {
+                 width: 100% !important;
+                 max-width: 340px !important;
+                 margin-left: auto !important;
+                 margin-right: auto !important;
+              }
 
               #ProductSubmitButton-{{ section.id }}:disabled {
                 background: #f5f5f5 !important;
@@ -532,6 +543,7 @@
                 text-transform: uppercase !important;
                 pointer-events: auto !important;
                 width: 100% !important;
+                /* max-width is handled by container now, but keeping safety */
                 max-width: 340px !important;
                 font-size: {{ block.settings.btn_text_size }}px !important;
                 overflow: hidden !important;
