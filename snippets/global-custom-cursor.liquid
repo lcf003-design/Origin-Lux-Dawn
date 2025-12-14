@@ -89,9 +89,6 @@
   (function () {
     // 2. The Component Logic (Adapted to Vanilla JS)
 
-    // Check if device supports fine pointer (mouse) before running
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
     const cursor = document.getElementById('global-custom-cursor');
     if (!cursor) return;
 
