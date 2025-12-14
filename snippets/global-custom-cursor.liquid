@@ -1,0 +1,135 @@
+{% comment %}
+  Global Custom Cursor
+  Implements the "Permanent Custom Cursor" feature using Vanilla JS for 60fps performance
+  and global state management via event delegation.
+
+  Based on the React Reference Architecture:
+  1. Performance: Uses direct DOM manipulation (transform) on mousemove.
+  2. Global Context: Uses event delegation to detect hoverable elements.
+  3. CSS Safety: pointer-events: none is applied.
+{% endcomment %}
+
+<style>
+  /*
+   * Global Custom Cursor Styles
+   */
+
+  /* Hide default cursor on desktop */
+  @media (min-width: 768px) {
+    body,
+    a,
+    button,
+    [role='button'],
+    input,
+    select,
+    textarea {
+      cursor: none !important;
+    }
+  }
+
+  #global-custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2147483647;
+    mix-blend-mode: difference;
+
+    /* Ensure it's visible immediately */
+    opacity: 1;
+    display: block;
+
+    /* Animate State Changes */
+    transition:
+      width 0.2s cubic-bezier(0.19, 1, 0.22, 1),
+      height 0.2s cubic-bezier(0.19, 1, 0.22, 1),
+      background-color 0.2s ease,
+      border 0.2s ease;
+    will-change: transform;
+  }
+
+  /* Hover State */
+  #global-custom-cursor.hover {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #fff;
+  }
+
+  /* Text State */
+  #global-custom-cursor.text {
+    width: 2px;
+    height: 24px;
+    border-radius: 0;
+    background-color: #fff;
+  }
+
+  /* Hide on small screens (likely touch) */
+  @media (max-width: 767px) {
+    #global-custom-cursor {
+      display: none !important;
+    }
+  }
+</style>
+
+<div id="global-custom-cursor"></div>
+
+<script>
+  (function () {
+    const cursor = document.getElementById('global-custom-cursor');
+    if (!cursor) return;
+
+    // Movement Logic
+    const onMouseMove = (event) => {
+      // Direct transform for 60fps performance
+      cursor.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0) translate(-50%, -50%)`;
+    };
+
+    // Attach to window immediately
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+
+    // Hover State Logic (Event Delegation)
+    const interactables = ['A', 'BUTTON', 'INPUT', 'TEXTAREA', 'SELECT', 'LABEL', 'SUMMARY'];
+
+    function getHoverType(target) {
+      let el = target;
+      while (el && el !== document.body) {
+        if (
+          interactables.includes(el.tagName) ||
+          el.getAttribute('role') === 'button' ||
+          el.classList.contains('cursor-hover')
+        ) {
+          return 'hover';
+        }
+        if (
+          el.tagName === 'INPUT' &&
+          (el.type === 'text' || el.type === 'email' || el.type === 'search' || el.type === 'number')
+        ) {
+          return 'text';
+        }
+        if (el.tagName === 'TEXTAREA') return 'text';
+        el = el.parentElement;
+      }
+      return 'default';
+    }
+
+    const onMouseOver = (event) => {
+      const type = getHoverType(event.target);
+      if (type === 'hover') {
+        cursor.classList.add('hover');
+        cursor.classList.remove('text');
+      } else if (type === 'text') {
+        cursor.classList.add('text');
+        cursor.classList.remove('hover');
+      } else {
+        cursor.classList.remove('hover', 'text');
+      }
+    };
+
+    document.addEventListener('mouseover', onMouseOver, { passive: true });
+  })();
+</script>

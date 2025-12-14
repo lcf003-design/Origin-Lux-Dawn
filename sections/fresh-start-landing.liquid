@@ -107,8 +107,6 @@
     style="background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E')"
   ></div>
 
-  <div id="custom-cursor" class="fixed top-0 left-0 hidden md:block w-4 h-4 bg-white rounded-full custom-cursor"></div>
-
   <nav id="navbar" class="fixed top-0 w-full z-50 transition-colors duration-500">
     <div class="container mx-auto px-6 flex justify-between items-center h-20 relative z-50">
       <button id="menu-btn" class="text-black hover:text-purple-600 transition-colors relative z-50">
@@ -378,26 +376,15 @@
         }, 1500);
       }
 
-      // --- Custom Cursor ---
-      const cursor = document.getElementById('custom-cursor');
-      if (cursor) {
-        document.addEventListener('mousemove', (e) => {
-          cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-
-          // Scale up on hoverable elements
-          const target = e.target;
-          const isHoverable =
-            target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button');
-
-          if (isHoverable) {
-            cursor.style.width = '40px';
-            cursor.style.height = '40px';
-          } else {
-            cursor.style.width = '16px';
-            cursor.style.height = '16px';
-          }
-        });
+      // Failsafe: Hide preloader after 3s max even if logic fails slightly
+      if (preloader) {
+        setTimeout(() => {
+          if (preloaderText) preloaderText.style.transform = 'translateY(-100%)';
+          preloader.style.transform = 'translateY(-100%)';
+        }, 1500);
       }
+
+      // --- Custom Cursor Logic Removed (Handled Globally) ---
 
       // --- Menu Drawer Logic ---
       const menuBtn = document.getElementById('menu-btn');

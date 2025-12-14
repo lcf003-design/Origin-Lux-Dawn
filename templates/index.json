@@ -22,6 +22,20 @@
         "btn_text_color": "#ffffff"
       }
     },
+    "fresh_start_hero_kHj8J7": {
+      "type": "fresh-start-hero",
+      "name": "Fresh Start Hero",
+      "settings": {
+        "hero_headline": "ORIGIN INTL",
+        "hero_subheadline": "Vanguard of Luxury",
+        "hero_cta_label": "Collection",
+        "hero_cta_link": "",
+        "bg_image": "shopify://shop_images/Untitled_3b57e759-f769-4600-b256-1247fb625c65.png",
+        "hero_bg_scale": 100,
+        "hero_height_desktop": "h-screen",
+        "hero_height_mobile": "h-screen"
+      }
+    },
     "editorial_spotlight_xjEVgn": {
       "type": "editorial-spotlight",
       "blocks": {
@@ -55,6 +69,7 @@
         "heading_block_V8rfCm",
         "button_block_QUCGkh"
       ],
+      "disabled": true,
       "name": "Editorial Spotlight",
       "settings": {
         "image_desktop": "shopify://shop_images/Untitled_3b57e759-f769-4600-b256-1247fb625c65.png",
@@ -269,6 +284,7 @@
   },
   "order": [
     "splash_page_B8RJPF",
+    "fresh_start_hero_kHj8J7",
     "editorial_spotlight_xjEVgn",
     "rich_text_XdggXL",
     "origin_shop_the_look_HQYUCp",
