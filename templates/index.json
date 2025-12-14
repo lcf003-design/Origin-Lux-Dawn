@@ -35,7 +35,9 @@
         "cta_label_2": "Men",
         "cta_link_2": "",
         "bg_image": "shopify://shop_images/Untitled_3b57e759-f769-4600-b256-1247fb625c65.png",
+        "bg_image_mobile": "shopify://shop_images/Mobile_banner.png",
         "hero_bg_scale": 100,
+        "content_position_y": 75,
         "hero_height_desktop": "h-screen",
         "hero_height_mobile": "adapt"
       }
