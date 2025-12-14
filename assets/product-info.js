@@ -143,15 +143,7 @@ if (!customElements.get("product-info")) {
           return !variant.options
             .map((option, index) => {
               // Compare as strings to be safe (JSON might have numbers, inputs have strings)
-              const variantOption =
-                option === null || option === undefined
-                  ? ""
-                  : option.toString().trim();
-              const selectedValue =
-                selectedValues[index] === null ||
-                selectedValues[index] === undefined
-                  ? ""
-                  : selectedValues[index];
+              selectedValues[index] === undefined ? "" : selectedValues[index];
               return variantOption === selectedValue;
             })
             .includes(false);
