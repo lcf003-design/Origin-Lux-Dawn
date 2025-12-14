@@ -518,8 +518,7 @@
               }
 
               .shopify-payment-button__button--unbranded,
-              .shopify-payment-button__button--branded,
-              .shopify-payment-button__more-options {
+              .shopify-payment-button__button--branded {
                 background-color: #000 !important;
                 color: white !important;
                 border-radius: 40px !important;
@@ -529,6 +528,12 @@
                 max-width: 340px !important;
                 font-size: {{ block.settings.btn_text_size }}px !important;
                 overflow: hidden !important;
+              }
+              .shopify-payment-button__more-options {
+                  color: #555 !important;
+                  text-decoration: underline !important;
+                  margin-top: 10px !important;
+                  font-size: 12px !important;
               }
               /* Target the inner container of the branded button specifically */
               .shopify-payment-button__button--branded .shopify-cleanslate div {
