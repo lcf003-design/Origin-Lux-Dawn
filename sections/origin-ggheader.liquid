@@ -743,24 +743,22 @@
     </div>
   </header>
 
-  {% comment %}
-    <div class="origin-huge-logo-wrapper">
-      <div class="origin-huge-logo-inner {% if section.settings.full_width_logo %}is-full-width{% endif %}">
-        {% if section.settings.logo_image %}
-          <img
-            src="{{ section.settings.logo_image | image_url: width: 1600 }}"
-            alt="{{ section.settings.logo_text | escape }}"
-            class="origin-huge-logo-img"
-            loading="eager"
-            width="{{ section.settings.logo_image.width }}"
-            height="{{ section.settings.logo_image.height }}"
-          >
-        {% else %}
-          <h1 class="origin-huge-logo-text">{{ section.settings.logo_text }}</h1>
-        {% endif %}
-      </div>
+  <div class="origin-huge-logo-wrapper">
+    <div class="origin-huge-logo-inner {% if section.settings.full_width_logo %}is-full-width{% endif %}">
+      {% if section.settings.logo_image %}
+        <img
+          src="{{ section.settings.logo_image | image_url: width: 1600 }}"
+          alt="{{ section.settings.logo_text | escape }}"
+          class="origin-huge-logo-img"
+          loading="eager"
+          width="{{ section.settings.logo_image.width }}"
+          height="{{ section.settings.logo_image.height }}"
+        >
+      {% else %}
+        <h1 class="origin-huge-logo-text">{{ section.settings.logo_text }}</h1>
+      {% endif %}
     </div>
-  {% endcomment %}
+  </div>
 
   <div class="origin-menu-overlay origin-overlay-base" id="origin-menu-overlay-{{ section.id }}">
     <div class="origin-menu-drawer">
