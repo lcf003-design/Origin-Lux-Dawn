@@ -14,15 +14,27 @@
       "blocks": {
         "title_tiPjwr": {
           "type": "title",
-          "settings": {}
+          "settings": {
+            "font_size": 32,
+            "color": "#111111",
+            "letter_spacing": 0.5,
+            "margin_bottom": 5
+          }
         },
         "price_MmemPq": {
           "type": "price",
-          "settings": {}
+          "settings": {
+            "font_size": 18,
+            "color": "#111111",
+            "margin_bottom": 25
+          }
         },
         "variant_picker_GHDcHG": {
           "type": "variant_picker",
-          "settings": {}
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
         },
         "description_39wtK4": {
           "type": "description",
@@ -52,8 +64,6 @@
       "name": "Gucci Full Spread",
       "settings": {
         "bg_color": "#ffffff",
-        "title_size": 32,
-        "price_size": 18,
         "body_size": 14
       }
     },
