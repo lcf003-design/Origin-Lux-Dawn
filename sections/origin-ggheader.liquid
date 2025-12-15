@@ -170,6 +170,7 @@
   .origin-gucci-header-section {
     position: relative; /* Ensure stacking context */
     z-index: 20000; /* Lift entire section above Hero */
+    pointer-events: none; /* Prevent wrapper from blocking clicks */
     --header-transition: all 0.4s ease-out;
     --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}%;
     --logo-width-mobile: {{ section.settings.hero_logo_width_mobile }}%;
@@ -444,8 +445,9 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s ease;
-    z-index: 2147483647 !important; /* Force MAX z-index to overlay everything */
+    z-index: 2147483646 !important; /* One less than Max to allow button on top */
     backdrop-filter: blur(5px);
+    pointer-events: auto; /* Enable clicks when visible */
   }
 
   .origin-overlay-base.is-open {
@@ -698,7 +700,7 @@
         type="button"
         aria-label="Menu"
         id="origin-menu-trigger-{{ section.id }}"
-        style="z-index: 2147483650;"
+        style="z-index: 2147483647;"
       >
         <div class="origin-hamburger-box">
           <span class="origin-hamburger-line"></span>
