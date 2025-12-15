@@ -755,7 +755,7 @@
       {{ product | structured_data }}
     </script>
 
-    <script type="application/json" id="ProductVariants-{{ section.id }}">
+    <script type="application/json" id="ProductVariants-{{ section.id }}" data-variants>
       {{ product.variants | json }}
     </script>
   </div>

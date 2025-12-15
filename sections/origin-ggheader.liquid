@@ -168,6 +168,8 @@
 
   /* --- VARS --- */
   .origin-gucci-header-section {
+    position: relative; /* Ensure stacking context */
+    z-index: 20000; /* Lift entire section above Hero */
     --header-transition: all 0.4s ease-out;
     --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}%;
     --logo-width-mobile: {{ section.settings.hero_logo_width_mobile }}%;
