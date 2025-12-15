@@ -143,9 +143,11 @@ if (!customElements.get("product-info")) {
         const match = variants.find((variant) => {
           return !variant.options
             .map((option, index) => {
-              // Compare as strings to be safe (JSON might have numbers, inputs have strings)
-              selectedValues[index] === undefined ? "" : selectedValues[index];
-              return variantOption === selectedValue;
+              const selectedValue = selectedValues[index];
+              // undefined check
+              if (selectedValue === undefined) return false;
+              // Compare as normalized strings
+              return String(option).trim() === String(selectedValue).trim();
             })
             .includes(false);
         });
