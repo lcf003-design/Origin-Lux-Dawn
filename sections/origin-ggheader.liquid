@@ -194,7 +194,7 @@
     left: 0;
     width: 100%;
     height: 0;
-    z-index: 900; /* Increased to sit above Hero content (z-50) */
+    z-index: 20000; /* Increased to 20000 to beat Hero Noise(9998) & Preloader(10000) */
     pointer-events: none;
   }
 
@@ -900,6 +900,9 @@
     let metrics = null;
 
     function calculateMetrics() {
+      // GUARD: Do not run on standard pages or if header is static
+      if (headerContainer.classList.contains('is-standard-page')) return null;
+
       const hugeWrapper = headerContainer.querySelector('.origin-huge-logo-wrapper');
       // We want the inner content to morph
       const hugeInner = headerContainer.querySelector('.origin-huge-logo-inner');
@@ -936,6 +939,9 @@
     }
 
     function updateMorph() {
+      // GUARD: Do not run on standard pages
+      if (headerContainer.classList.contains('is-standard-page')) return;
+
       const hugeWrapper = headerContainer.querySelector('.origin-huge-logo-wrapper');
       const hugeInner = headerContainer.querySelector('.origin-huge-logo-inner');
       const stickyLogo = headerContainer.querySelector('.origin-sticky-bar__logo');
