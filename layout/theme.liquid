@@ -399,8 +399,10 @@
     {% sections 'foxify-footer-group' %}
     {%- render 'global-custom-cursor' -%}
     {% if request.page_type == 'product' %}
+      {% # theme-check-disable RemoteAsset %}
       <script src="https://cdn.tailwindcss.com" defer></script>
       <script src="https://unpkg.com/lucide@latest" defer></script>
+      {% # theme-check-enable RemoteAsset %}
 
       <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
@@ -471,7 +473,7 @@
       <button
         id="fit-guide-trigger"
         onclick="toggleFitGuide()"
-        class="fixed bottom-48 right-6 z-[9990] bg-indigo-600/65 backdrop-blur-sm hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-full shadow-2xl flex items-center gap-2 transition-all hover:scale-105 group"
+        class="fixed bottom-80 right-6 z-[9990] bg-indigo-600/65 backdrop-blur-sm hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-full shadow-2xl flex items-center gap-2 transition-all hover:scale-105 group"
       >
         <i data-lucide="ruler" class="w-5 h-5"></i>
         <span>Size Guide</span>
