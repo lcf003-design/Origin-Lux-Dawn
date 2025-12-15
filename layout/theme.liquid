@@ -405,10 +405,23 @@
       <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
 
-        #fit-guide-wrapper {
+        #fit-guide-container {
           font-family: 'Inter', sans-serif;
-          background-color: #0f172a;
-          color: #e2e8f0;
+        }
+        #fit-guide-modal {
+          transition:
+            opacity 0.3s ease,
+            visibility 0.3s ease;
+        }
+        #fit-guide-modal.hidden-modal {
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+        }
+        #fit-guide-modal.visible-modal {
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
         }
 
         .fade-in {
@@ -438,161 +451,212 @@
         }
 
         /* Custom Scrollbar */
-        #fit-guide-wrapper ::-webkit-scrollbar {
+        #fit-guide-container ::-webkit-scrollbar {
           width: 8px;
           height: 8px;
         }
-        #fit-guide-wrapper ::-webkit-scrollbar-track {
+        #fit-guide-container ::-webkit-scrollbar-track {
           background: #1e293b;
         }
-        #fit-guide-wrapper ::-webkit-scrollbar-thumb {
+        #fit-guide-container ::-webkit-scrollbar-thumb {
           background: #475569;
           border-radius: 4px;
         }
-        #fit-guide-wrapper ::-webkit-scrollbar-thumb:hover {
+        #fit-guide-container ::-webkit-scrollbar-thumb:hover {
           background: #64748b;
-        }
-
-        .visual-part {
-          transition: opacity 0.5s ease;
         }
       </style>
 
-      <div id="fit-guide-wrapper" class="p-4 md:p-8 min-h-screen">
-        <header class="max-w-6xl mx-auto mb-8 md:mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-2 bg-gradient-to-r from-indigo-300 via-white to-indigo-300 text-transparent bg-clip-text">
-              Fit Guide.
-            </h1>
-            <p class="text-slate-400 text-lg">Universal standard sizing reference.</p>
-          </div>
+      <!-- TRIGGER BUTTON -->
+      <button
+        id="fit-guide-trigger"
+        onclick="toggleFitGuide()"
+        class="fixed bottom-6 right-6 z-[9990] bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-full shadow-2xl flex items-center gap-2 transition-all hover:scale-105 group"
+      >
+        <i data-lucide="ruler" class="w-5 h-5"></i>
+        <span>Fit Guide</span>
+        <span class="absolute -top-1 -right-1 flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+        </span>
+      </button>
 
-          <div class="relative w-full md:w-64 z-50">
-            <button
-              id="category-trigger"
-              class="flex items-center justify-between w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 p-4 rounded-xl transition-all shadow-lg text-left group"
-            >
-              <div class="flex items-center gap-3">
-                <div class="p-2 bg-indigo-500/20 rounded-lg" id="active-icon-container"></div>
-                <div>
-                  <span class="text-xs text-slate-500 uppercase font-bold tracking-wider">Category</span>
-                  <div class="text-white font-bold" id="category-title">Jackets</div>
-                </div>
+      <!-- MODAL WRAPPER -->
+      <div id="fit-guide-modal" class="hidden-modal fixed inset-0 z-[10000] flex items-center justify-center">
+        <!-- BACKDROP -->
+        <div class="absolute inset-0 bg-slate-900/90 backdrop-blur-sm" onclick="toggleFitGuide()"></div>
+
+        <!-- CONTENT -->
+        <div
+          id="fit-guide-container"
+          class="relative z-10 w-full max-w-6xl h-[90vh] bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden flex flex-col mx-4 md:mx-0 transform transition-all duration-300 scale-100"
+        >
+          <!-- CLOSE BUTTON -->
+          <button
+            onclick="toggleFitGuide()"
+            class="absolute top-4 right-4 z-50 p-2 bg-slate-800 hover:bg-slate-700 rounded-full text-slate-400 hover:text-white transition-colors"
+          >
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+
+          <!-- SCROLLABLE CONTENT AREA -->
+          <div class="overflow-y-auto p-4 md:p-8 h-full">
+            <header class="mb-8 md:mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 pr-12">
+              <div>
+                <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-2 bg-gradient-to-r from-indigo-300 via-white to-indigo-300 text-transparent bg-clip-text">
+                  Fit Guide.
+                </h1>
+                <p class="text-slate-400 text-lg">Universal standard sizing reference.</p>
               </div>
-              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform" id="chevron-icon"></i>
-            </button>
 
-            <div
-              id="category-menu"
-              class="hidden absolute top-full left-0 w-full mt-2 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl overflow-hidden z-50"
-            ></div>
-          </div>
-        </header>
-
-        <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 fade-in">
-          <div class="lg:col-span-8 space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
-              <div class="flex bg-slate-800 p-1 rounded-xl" id="gender-toggles">
+              <div class="relative w-full md:w-64 z-40">
                 <button
-                  data-cat="men"
-                  class="px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 capitalize bg-indigo-500 text-white shadow-lg"
+                  id="category-trigger"
+                  class="flex items-center justify-between w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 p-4 rounded-xl transition-all shadow-lg text-left group"
                 >
-                  Men
-                </button>
-                <button
-                  data-cat="women"
-                  class="px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 capitalize text-slate-400 hover:text-white"
-                >
-                  Women
-                </button>
-              </div>
-
-              <button
-                id="unit-toggle"
-                class="flex items-center gap-3 bg-slate-800 hover:bg-slate-700 px-5 py-2.5 rounded-xl border border-slate-700 transition-colors group"
-              >
-                <span id="label-cm" class="font-bold text-white">CM</span>
-                <i
-                  data-lucide="arrow-right-left"
-                  class="w-4 h-4 text-indigo-400 group-hover:rotate-180 transition-transform"
-                ></i>
-                <span id="label-in" class="font-bold text-slate-500">IN</span>
-              </button>
-            </div>
-
-            <div class="overflow-hidden rounded-2xl border border-slate-700 bg-slate-800/50 shadow-2xl backdrop-blur-sm">
-              <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                  <thead
-                    class="bg-slate-900/80 text-xs uppercase tracking-wider text-slate-400 border-b border-slate-700"
-                    id="table-head"
-                  ></thead>
-                  <tbody class="text-sm font-medium" id="table-body"></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <div class="lg:col-span-4 space-y-6">
-            <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-3xl border border-slate-700 shadow-xl overflow-hidden relative">
-              <h3 class="text-lg font-bold text-white mb-6 relative z-10">Measurement Guide</h3>
-
-              <div
-                id="visual-svg-container"
-                class="w-full max-w-[220px] mx-auto aspect-square relative z-10 mb-4 flex items-center justify-center"
-              ></div>
-
-              <div id="visual-instructions" class="space-y-3 relative z-10"></div>
-            </div>
-
-            <div class="bg-slate-900 rounded-2xl p-6 border border-slate-700 shadow-xl">
-              <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <i data-lucide="sparkles" class="w-5 h-5 text-yellow-400"></i>
-                Smart Finder
-              </h3>
-              <div class="flex flex-col gap-4">
-                <div>
-                  <label id="calc-label" class="text-slate-400 text-sm mb-1 block">Your Measurement</label>
-                  <div class="flex gap-2">
-                    <input
-                      id="calc-input"
-                      type="text"
-                      class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
-                      placeholder="Enter value..."
-                    >
-                    <button
-                      id="calc-btn"
-                      class="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-2 rounded-lg font-bold transition-colors shadow-lg"
-                    >
-                      Check
-                    </button>
+                  <div class="flex items-center gap-3">
+                    <div class="p-2 bg-indigo-500/20 rounded-lg" id="active-icon-container"></div>
+                    <div>
+                      <span class="text-xs text-slate-500 uppercase font-bold tracking-wider">Category</span>
+                      <div class="text-white font-bold" id="category-title">Jackets</div>
+                    </div>
                   </div>
-                </div>
+                  <i
+                    data-lucide="chevron-down"
+                    class="w-5 h-5 text-slate-400 transition-transform"
+                    id="chevron-icon"
+                  ></i>
+                </button>
 
                 <div
-                  id="calc-result"
-                  class="hidden mt-2 bg-indigo-900/50 border border-indigo-500/30 p-4 rounded-xl flex items-start gap-3 slide-up"
-                >
-                  <i data-lucide="check-circle" class="w-6 h-6 text-green-400 shrink-0 mt-0.5"></i>
-                  <div>
-                    <p id="res-msg" class="text-slate-200 text-sm">Perfect match found.</p>
-                    <p id="res-size" class="text-2xl font-black text-white mt-1">L</p>
+                  id="category-menu"
+                  class="hidden absolute top-full left-0 w-full mt-2 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl overflow-hidden z-50"
+                ></div>
+              </div>
+            </header>
+
+            <main class="grid grid-cols-1 lg:grid-cols-12 gap-8 fade-in">
+              <div class="lg:col-span-8 space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
+                  <div class="flex bg-slate-800 p-1 rounded-xl" id="gender-toggles">
+                    <button
+                      data-cat="men"
+                      class="px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 capitalize bg-indigo-500 text-white shadow-lg"
+                    >
+                      Men
+                    </button>
+                    <button
+                      data-cat="women"
+                      class="px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 capitalize text-slate-400 hover:text-white"
+                    >
+                      Women
+                    </button>
+                  </div>
+
+                  <button
+                    id="unit-toggle"
+                    class="flex items-center gap-3 bg-slate-800 hover:bg-slate-700 px-5 py-2.5 rounded-xl border border-slate-700 transition-colors group"
+                  >
+                    <span id="label-cm" class="font-bold text-white">CM</span>
+                    <i
+                      data-lucide="arrow-right-left"
+                      class="w-4 h-4 text-indigo-400 group-hover:rotate-180 transition-transform"
+                    ></i>
+                    <span id="label-in" class="font-bold text-slate-500">IN</span>
+                  </button>
+                </div>
+
+                <div class="overflow-hidden rounded-2xl border border-slate-700 bg-slate-800/50 shadow-2xl backdrop-blur-sm">
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                      <thead
+                        class="bg-slate-900/80 text-xs uppercase tracking-wider text-slate-400 border-b border-slate-700"
+                        id="table-head"
+                      ></thead>
+                      <tbody class="text-sm font-medium" id="table-body"></tbody>
+                    </table>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </main>
 
-        <footer class="max-w-4xl mx-auto mt-16 text-center space-y-2 pb-8">
-          <div class="flex items-center justify-center gap-2 text-slate-500 text-sm">
-            <i data-lucide="help-circle" class="w-4 h-4"></i>
-            <span id="footer-tip">If between sizes, always size up for comfort.</span>
+              <div class="lg:col-span-4 space-y-6">
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-3xl border border-slate-700 shadow-xl overflow-hidden relative">
+                  <h3 class="text-lg font-bold text-white mb-6 relative z-10">Measurement Guide</h3>
+
+                  <div
+                    id="visual-svg-container"
+                    class="w-full max-w-[220px] mx-auto aspect-square relative z-10 mb-4 flex items-center justify-center"
+                  ></div>
+
+                  <div id="visual-instructions" class="space-y-3 relative z-10"></div>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl p-6 border border-slate-700 shadow-xl">
+                  <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-yellow-400"></i>
+                    Smart Finder
+                  </h3>
+                  <div class="flex flex-col gap-4">
+                    <div>
+                      <label id="calc-label" class="text-slate-400 text-sm mb-1 block">Your Measurement</label>
+                      <div class="flex gap-2">
+                        <input
+                          id="calc-input"
+                          type="text"
+                          class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                          placeholder="Enter value..."
+                        >
+                        <button
+                          id="calc-btn"
+                          class="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-2 rounded-lg font-bold transition-colors shadow-lg"
+                        >
+                          Check
+                        </button>
+                      </div>
+                    </div>
+
+                    <div
+                      id="calc-result"
+                      class="hidden mt-2 bg-indigo-900/50 border border-indigo-500/30 p-4 rounded-xl flex items-start gap-3 slide-up"
+                    >
+                      <i data-lucide="check-circle" class="w-6 h-6 text-green-400 shrink-0 mt-0.5"></i>
+                      <div>
+                        <p id="res-msg" class="text-slate-200 text-sm">Perfect match found.</p>
+                        <p id="res-size" class="text-2xl font-black text-white mt-1">L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+
+            <footer class="max-w-4xl mx-auto mt-16 text-center space-y-2 pb-8">
+              <div class="flex items-center justify-center gap-2 text-slate-500 text-sm">
+                <i data-lucide="help-circle" class="w-4 h-4"></i>
+                <span id="footer-tip">If between sizes, always size up for comfort.</span>
+              </div>
+            </footer>
           </div>
-        </footer>
+        </div>
       </div>
 
       <script>
+        // --- TOGGLE LOGIC ---
+        function toggleFitGuide() {
+          const modal = document.getElementById('fit-guide-modal');
+          const isHidden = modal.classList.contains('hidden-modal');
+
+          if (isHidden) {
+            modal.classList.remove('hidden-modal');
+            modal.classList.add('visible-modal');
+            document.body.style.overflow = 'hidden'; // Lock scroll
+          } else {
+            modal.classList.remove('visible-modal');
+            modal.classList.add('hidden-modal');
+            document.body.style.overflow = ''; // Unlock scroll
+          }
+        }
+
         // --- DATA ---
         const DATA = {
           jackets: {
