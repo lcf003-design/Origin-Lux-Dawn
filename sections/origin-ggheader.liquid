@@ -431,16 +431,19 @@
   }
 
   /* --- DRAWER COMMONS --- */
+  /* --- DRAWER COMMONS --- */
   .origin-overlay-base {
     position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    backdrop-filter: blur(8px);
-    z-index: 2147483647;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s;
-    pointer-events: auto;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    z-index: 2147483647 !important; /* Force MAX z-index to overlay everything */
+    backdrop-filter: blur(5px);
   }
 
   .origin-overlay-base.is-open {
