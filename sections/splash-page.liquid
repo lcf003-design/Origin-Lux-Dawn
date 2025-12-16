@@ -113,15 +113,15 @@
 
     /* --- SAWING ANIMATION (SHAKE) --- */
     #SplashPage-{{ section.id }}.sawing .splash-half {
-      animation: violentShake 0.05s infinite;
+      animation: violentShake 0.08s infinite;
     }
 
     @keyframes violentShake {
       0% { transform: translate(0, 0); }
-      25% { transform: translate(-3px, 3px); }
-      50% { transform: translate(3px, -3px); }
-      75% { transform: translate(-3px, -3px); }
-      100% { transform: translate(3px, 3px); }
+      25% { transform: translate(-4px, 4px); }
+      50% { transform: translate(4px, -4px); }
+      75% { transform: translate(-4px, -4px); }
+      100% { transform: translate(4px, 4px); }
     }
 
     /* --- SPLITTING STATE --- */
@@ -129,9 +129,10 @@
       pointer-events: none; 
     }
 
-    /* Slower split transition for dramatic effect */
+    /* Transition speed */
     #SplashPage-{{ section.id }}.splitting .splash-half {
-      transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.5s ease-out;
+      /* 1.2s is a good middle ground between 'too fast' and 'too long' */
+      transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.2s ease-out;
     }
 
     #SplashPage-{{ section.id }}.splitting .splash-left {
@@ -143,33 +144,36 @@
       transform: translateX(150%) rotate(15deg);
       opacity: 0;
     }
+  </style>
 
-    /* --- SPARKS --- */
-    .spark {
-      position: absolute;
+  <!-- Global Spark Style (since we append to body) -->
+  <style>
+    .global-spark {
+      position: fixed; /* Fixed to viewport */
       width: var(--size, 10px);
       height: var(--size, 10px);
       background: var(--color, #fff);
       border-radius: 50%;
-      top: var(--top, 50%);
+      top: 50%;
       left: 50%; 
       pointer-events: none;
-      z-index: 2147483647; /* Max Z-Index to ensure visibility */
+      z-index: 2147483647; /* Highest possible */
       opacity: 1;
-      animation: flySparks 1s ease-out forwards;
-      box-shadow: 0 0 10px var(--color, #fff), 0 0 20px var(--color, #fff);
+      animation: flySparks 1.2s ease-out forwards;
+      box-shadow: 0 0 10px var(--color, #fff);
     }
 
     @keyframes flySparks {
       0% {
-        transform: translate(-50%, -50%) scale(1); /* Start centered */
+        transform: translate(-50%, -50%) scale(1); 
         opacity: 1;
       }
       100% {
-        transform: translate(var(--tx), var(--ty)) scale(0);
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0);
         opacity: 0;
       }
     }
+
 
 
   </style>
@@ -231,57 +235,55 @@
       const btns = splashSection.querySelectorAll('.splash-enter-btn');
       
       const spawnSparks = () => {
-        const count = 60; // MORE sparks
-        // Bright, hot colors
-        const colors = ['#ffffff', '#ffaa00', '#ffd700', '#ff4500', '#00ffff']; 
+        const count = 50; 
+        const colors = ['#ffffff', '#ffaa00', '#ffd700', '#ff4500', '#000000']; // Include black for contrast on light BG
 
         for (let i = 0; i < count; i++) {
           const spark = document.createElement('div');
-          spark.classList.add('spark');
+          spark.classList.add('global-spark');
           
-          // Bigger particles
-          const size = Math.random() * 8 + 4 + 'px'; // 4px to 12px
+          const size = Math.random() * 10 + 4 + 'px'; 
           const color = colors[Math.floor(Math.random() * colors.length)];
-          const top = Math.random() * 100 + '%'; // Along the seam height
           
-          // Wider explosion
-          const tx = (Math.random() - 0.5) * 600 + 'px'; 
-          const ty = (Math.random() - 0.5) * 300 + 'px';
+          // We don't use --top anymore, they explode from center of screen
+          const tx = (Math.random() - 0.5) * 800 + 'px'; 
+          const ty = (Math.random() - 0.5) * 600 + 'px';
 
           spark.style.setProperty('--size', size);
           spark.style.setProperty('--color', color);
-          spark.style.setProperty('--top', top);
           spark.style.setProperty('--tx', tx);
           spark.style.setProperty('--ty', ty);
 
-          splashSection.appendChild(spark);
+          document.body.appendChild(spark);
+          
+          // Self cleanup
+          setTimeout(() => { spark.remove(); }, 1200);
         }
       };
 
       const triggerEnter = function(e) {
-        // Prevent double clicks
         if (splashSection.classList.contains('sawing') || splashSection.classList.contains('splitting')) return;
 
-        // 1. Start Sawing (Shake) - 2.5 seconds
+        // 1. Start Sawing (Shake) - 1.2s (Punchy but deliberate)
         splashSection.classList.add('sawing');
 
-        // 2. Wait for the "cut" to finish
+        // 2. Wait for the saw to cut
         setTimeout(() => {
           splashSection.classList.remove('sawing');
           
           // 3. Trigger Split and Sparks
           splashSection.classList.add('splitting');
-          spawnSparks(); // FIRE!
+          spawnSparks(); 
 
           document.body.style.overflow = '';
           sessionStorage.setItem(storageKey, 'true');
 
-          // 4. Cleanup after split (1.5s transition + buffer)
+          // 4. Cleanup after split (1.2s transition)
           setTimeout(() => {
             splashSection.classList.add('hidden');
             splashSection.remove();
-          }, 2000); 
-        }, 2000); // Sawing duration
+          }, 1200); 
+        }, 1200); // Sawing duration
       };
 
       btns.forEach(btn => {
