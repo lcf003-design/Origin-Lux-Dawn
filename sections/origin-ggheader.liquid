@@ -44,35 +44,13 @@
     },
     {
       "type": "header",
-      "content": "Huge Logo Sizing"
+      "content": "Logo Layout & Sizing"
     },
     {
       "type": "checkbox",
       "id": "full_width_logo",
-      "label": "Stretch Logo to Screen Edges",
-      "default": true,
-      "info": "Allows the text/image to go full width."
-    },
-    {
-      "type": "range",
-      "id": "huge_logo_size_desktop",
-      "min": 5,
-      "max": 30,
-      "step": 0.5,
-      "unit": "vw",
-      "label": "Font Size (Desktop)",
-      "default": 13.5,
-      "info": "Adjust to fit text on one line."
-    },
-    {
-      "type": "range",
-      "id": "huge_logo_size_mobile",
-      "min": 5,
-      "max": 30,
-      "step": 0.5,
-      "unit": "vw",
-      "label": "Font Size (Mobile)",
-      "default": 18
+      "label": "Stretch to Screen Edges?",
+      "default": true
     },
     {
       "type": "range",
@@ -81,9 +59,8 @@
       "max": 100,
       "step": 5,
       "unit": "%",
-      "label": "Image Width (Desktop)",
-      "default": 60,
-      "info": "Only applies if using an Image Logo."
+      "label": "Container Width (Desktop)",
+      "default": 60
     },
     {
       "type": "range",
@@ -92,30 +69,8 @@
       "max": 100,
       "step": 5,
       "unit": "%",
-      "label": "Image Width (Mobile)",
+      "label": "Container Width (Mobile)",
       "default": 80
-    },
-    {
-      "type": "range",
-      "id": "logo_vertical_position",
-      "min": 10,
-      "max": 90,
-      "step": 5,
-      "unit": "%",
-      "label": "Huge Logo Vertical Position",
-      "default": 40,
-      "info": "Distance from top of screen."
-    },
-    {
-      "type": "range",
-      "id": "logo_horizontal_position",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "%",
-      "label": "Huge Logo Horizontal Position",
-      "default": 50,
-      "info": "50% is Centered. 0% is Left, 100% is Right."
     },
     {
       "type": "range",
@@ -124,9 +79,8 @@
       "max": 2000,
       "step": 50,
       "unit": "px",
-      "label": "Max Logo Width (Desktop)",
-      "default": 1200,
-      "info": "Caps the width so SVGs don't get too huge."
+      "label": "Max Image Width (Desktop)",
+      "default": 1200
     },
     {
       "type": "range",
@@ -135,12 +89,32 @@
       "max": 1000,
       "step": 20,
       "unit": "px",
-      "label": "Max Logo Width (Mobile)",
+      "label": "Max Image Width (Mobile)",
       "default": 400
     },
     {
+      "type": "range",
+      "id": "logo_vertical_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical Position (Y)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "logo_horizontal_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Horizontal Position (X)",
+      "default": 50
+    },
+    {
       "type": "header",
-      "content": "Sticky Header Layout"
+      "content": "Sticky Header Logo"
     },
     {
       "type": "range",
@@ -152,6 +126,30 @@
       "label": "Sticky Logo Height",
       "default": 32,
       "info": "Adjust to make the logo fill the bar height."
+    },
+    {
+      "type": "header",
+      "content": "Fallback Text Sizing"
+    },
+    {
+      "type": "range",
+      "id": "huge_logo_size_desktop",
+      "min": 5,
+      "max": 30,
+      "step": 0.5,
+      "unit": "vw",
+      "label": "Font Size (Desktop)",
+      "default": 13.5
+    },
+    {
+      "type": "range",
+      "id": "huge_logo_size_mobile",
+      "min": 5,
+      "max": 30,
+      "step": 0.5,
+      "unit": "vw",
+      "label": "Font Size (Mobile)",
+      "default": 18
     },
     {
       "type": "header",
