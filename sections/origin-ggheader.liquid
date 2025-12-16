@@ -107,6 +107,38 @@
       "info": "Distance from top of screen."
     },
     {
+      "type": "range",
+      "id": "logo_horizontal_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Huge Logo Horizontal Position",
+      "default": 50,
+      "info": "50% is Centered. 0% is Left, 100% is Right."
+    },
+    {
+      "type": "range",
+      "id": "hero_logo_max_width",
+      "min": 50,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Max Logo Width (Desktop)",
+      "default": 1200,
+      "info": "Caps the width so SVGs don't get too huge."
+    },
+    {
+      "type": "range",
+      "id": "hero_logo_max_width_mobile",
+      "min": 50,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Max Logo Width (Mobile)",
+      "default": 400
+    },
+    {
       "type": "header",
       "content": "Sticky Bar Colors (Scrolled / Standard)"
     },
@@ -175,6 +207,9 @@
     --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}%;
     --logo-width-mobile: {{ section.settings.hero_logo_width_mobile }}%;
     --logo-vertical-pos: {{ section.settings.logo_vertical_position }}vh;
+    --logo-horizontal-pos: {{ section.settings.logo_horizontal_position }}%;
+    --logo-max-width: {{ section.settings.hero_logo_max_width }}px;
+    --logo-max-width-mobile: {{ section.settings.hero_logo_max_width_mobile }}px;
 
     --header-bg-shrunk: {{ section.settings.header_bg_color_shrunk }};
     --header-text-shrunk: {{ section.settings.header_text_color_shrunk }};
@@ -287,10 +322,12 @@
   }
 
   .origin-huge-logo-inner {
-    margin-top: var(--logo-vertical-pos);
-    transform: translateY(-50%);
+    position: absolute; /* Changed from default flow to absolute for precise X/Y */
+    top: var(--logo-vertical-pos);
+    left: var(--logo-horizontal-pos);
+    transform: translate(-50%, -50%); /* Centers it on the point defined by top/left */
     width: var(--logo-width-desktop);
-    max-width: 1200px;
+    max-width: var(--logo-max-width);
     text-align: center;
     padding: 0 20px;
     backface-visibility: hidden; /* Fix for Safari flicker */
@@ -425,7 +462,10 @@
 
   /* --- MOBILE STYLES --- */
   @media (max-width: 749px) {
-    .origin-huge-logo-inner { width: var(--logo-width-mobile); }
+    .origin-huge-logo-inner { 
+      width: var(--logo-width-mobile); 
+      max-width: var(--logo-max-width-mobile);
+    }
     .origin-huge-logo-inner.is-full-width { width: 100vw; }
     .origin-huge-logo-text { font-size: var(--huge-logo-size-mobile); }
     .origin-sticky-bar { padding: 12px 16px; }
