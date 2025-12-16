@@ -118,10 +118,10 @@
 
     @keyframes violentShake {
       0% { transform: translate(0, 0); }
-      25% { transform: translate(-2px, 2px); }
-      50% { transform: translate(2px, -2px); }
-      75% { transform: translate(-2px, -2px); }
-      100% { transform: translate(2px, 2px); }
+      25% { transform: translate(-3px, 3px); }
+      50% { transform: translate(3px, -3px); }
+      75% { transform: translate(-3px, -3px); }
+      100% { transform: translate(3px, 3px); }
     }
 
     /* --- SPLITTING STATE --- */
@@ -129,35 +129,40 @@
       pointer-events: none; 
     }
 
+    /* Slower split transition for dramatic effect */
+    #SplashPage-{{ section.id }}.splitting .splash-half {
+      transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.5s ease-out;
+    }
+
     #SplashPage-{{ section.id }}.splitting .splash-left {
-      transform: translateX(-120%) rotate(-15deg);
+      transform: translateX(-150%) rotate(-15deg);
       opacity: 0;
     }
 
     #SplashPage-{{ section.id }}.splitting .splash-right {
-      transform: translateX(120%) rotate(15deg);
+      transform: translateX(150%) rotate(15deg);
       opacity: 0;
     }
 
     /* --- SPARKS --- */
     .spark {
       position: absolute;
-      width: var(--size, 6px);
-      height: var(--size, 6px);
+      width: var(--size, 10px);
+      height: var(--size, 10px);
       background: var(--color, #fff);
       border-radius: 50%;
       top: var(--top, 50%);
-      left: 50%; /* Center seam */
+      left: 50%; 
       pointer-events: none;
-      z-index: 10;
+      z-index: 2147483647; /* Max Z-Index to ensure visibility */
       opacity: 1;
-      animation: flySparks 0.6s ease-out forwards;
-      box-shadow: 0 0 4px var(--color, #fff);
+      animation: flySparks 1s ease-out forwards;
+      box-shadow: 0 0 10px var(--color, #fff), 0 0 20px var(--color, #fff);
     }
 
     @keyframes flySparks {
       0% {
-        transform: translate(0, 0) scale(1);
+        transform: translate(-50%, -50%) scale(1); /* Start centered */
         opacity: 1;
       }
       100% {
@@ -165,6 +170,7 @@
         opacity: 0;
       }
     }
+
 
   </style>
 
@@ -225,23 +231,22 @@
       const btns = splashSection.querySelectorAll('.splash-enter-btn');
       
       const spawnSparks = () => {
-        const count = 40; // Number of sparks
-        const colors = ['#ffffff', '#ffaa00', '#ffd700', '#ffec8b']; // White, Orange, Gold
+        const count = 60; // MORE sparks
+        // Bright, hot colors
+        const colors = ['#ffffff', '#ffaa00', '#ffd700', '#ff4500', '#00ffff']; 
 
         for (let i = 0; i < count; i++) {
           const spark = document.createElement('div');
           spark.classList.add('spark');
           
-          // Random properties
-          const size = Math.random() * 6 + 2 + 'px'; // 2px to 8px
+          // Bigger particles
+          const size = Math.random() * 8 + 4 + 'px'; // 4px to 12px
           const color = colors[Math.floor(Math.random() * colors.length)];
           const top = Math.random() * 100 + '%'; // Along the seam height
           
-          // Explode outwards away from center
-          // x movement: -200px to 200px
-          // y movement: -100px to 100px
-          const tx = (Math.random() - 0.5) * 400 + 'px'; 
-          const ty = (Math.random() - 0.5) * 200 + 'px';
+          // Wider explosion
+          const tx = (Math.random() - 0.5) * 600 + 'px'; 
+          const ty = (Math.random() - 0.5) * 300 + 'px';
 
           spark.style.setProperty('--size', size);
           spark.style.setProperty('--color', color);
@@ -253,27 +258,30 @@
         }
       };
 
-      const triggerEnter = function() {
-        // 1. Start Sawing (Shake)
+      const triggerEnter = function(e) {
+        // Prevent double clicks
+        if (splashSection.classList.contains('sawing') || splashSection.classList.contains('splitting')) return;
+
+        // 1. Start Sawing (Shake) - 2.5 seconds
         splashSection.classList.add('sawing');
 
-        // 2. Wait for the "cut" to finish (e.g., 600ms)
+        // 2. Wait for the "cut" to finish
         setTimeout(() => {
           splashSection.classList.remove('sawing');
           
           // 3. Trigger Split and Sparks
           splashSection.classList.add('splitting');
-          spawnSparks();
+          spawnSparks(); // FIRE!
 
           document.body.style.overflow = '';
           sessionStorage.setItem(storageKey, 'true');
 
-          // 4. Cleanup
+          // 4. Cleanup after split (1.5s transition + buffer)
           setTimeout(() => {
             splashSection.classList.add('hidden');
             splashSection.remove();
-          }, 800); // Wait for transition
-        }, 600);
+          }, 2000); 
+        }, 2000); // Sawing duration
       };
 
       btns.forEach(btn => {
