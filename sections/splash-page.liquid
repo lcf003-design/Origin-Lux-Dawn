@@ -18,23 +18,73 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: {{ section.settings.bg_color }};
+      /* Background logic: The halves will carry the bg color, 
+         but we keep a base color here just in case */
+      background-color: transparent; 
       z-index: 2147483647;
+      display: block; /* Changed from flex to block to hold absolute children */
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* When hidden/done */
+    #SplashPage-{{ section.id }}.hidden {
+      display: none;
+    }
+
+    /* The two halves */
+    .splash-half {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: {{ section.settings.bg_color }};
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      opacity: 1;
-      transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
-      visibility: visible;
+      overflow: hidden;
+      transition: transform 1s cubic-bezier(0.6, -0.28, 0.735, 0.045), opacity 1s ease-out;
+      will-change: transform, opacity;
     }
 
-    #SplashPage-{{ section.id }}.fading-out {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+    /* Left Half Clip Path & Animation */
+    .splash-left {
+      left: 0;
+      /* Zigzag seam down the middle */
+      /* Points: TopLeft, TopMid, Zig1, Zig2, Zig3, Zig4, BotMid, BotLeft */
+      clip-path: polygon(
+        0% 0%, 
+        50% 0%, 
+        54% 20%, 
+        46% 40%, 
+        54% 60%, 
+        46% 80%, 
+        50% 100%, 
+        0% 100%
+      );
+      z-index: 2;
     }
 
+    /* Right Half Clip Path & Animation */
+    .splash-right {
+      right: 0;
+      /* Complementary Zigzag seam */
+      /* Points: TopMid, TopRight, BotRight, BotMid, Zig4, Zig3, Zig2, Zig1 */
+      clip-path: polygon(
+        50% 0%, 
+        100% 0%, 
+        100% 100%, 
+        50% 100%, 
+        46% 80%, 
+        54% 60%, 
+        46% 40%, 
+        54% 20%
+      );
+      z-index: 2;
+    }
+
+    /* Content styling - same as before */
     .splash-content {
       text-align: center;
       max-width: 90%;
@@ -71,51 +121,94 @@
       cursor: pointer;
       transition: transform 0.2s, background-color 0.2s;
       letter-spacing: 2px;
+      pointer-events: auto; /* Ensure clickable */
     }
 
     .splash-enter-btn:hover {
       transform: scale(1.05);
       background-color: {{ section.settings.btn_bg | color_darken: 5 }};
     }
+
+    /* SPLITTING STATE */
+    #SplashPage-{{ section.id }}.splitting {
+      pointer-events: none; /* Disable clicks during anim */
+    }
+
+    #SplashPage-{{ section.id }}.splitting .splash-left {
+      transform: translateX(-100%) rotate(-10deg);
+      opacity: 0;
+    }
+
+    #SplashPage-{{ section.id }}.splitting .splash-right {
+      transform: translateX(100%) rotate(10deg);
+      opacity: 0;
+    }
   </style>
 
   <div id="SplashPage-{{ section.id }}">
-    <div class="splash-content">
-      {%- if section.settings.logo != blank -%}
-        {{
-          section.settings.logo
-          | image_url: width: 600
-          | image_tag: class: 'splash-logo', widths: '200, 300, 400, 600', loading: 'eager', alt: shop.name
-        }}
-      {%- else -%}
-        <h1 style="color: #000; font-size: 3rem; text-transform: uppercase; font-weight: 900;">{{ shop.name }}</h1>
-      {%- endif -%}
+    
+    <!-- Left Half -->
+    <div class="splash-half splash-left">
+      <div class="splash-content">
+        {%- if section.settings.logo != blank -%}
+          {{
+            section.settings.logo
+            | image_url: width: 600
+            | image_tag: class: 'splash-logo', widths: '200, 300, 400, 600', loading: 'eager', alt: shop.name
+          }}
+        {%- else -%}
+          <h1 style="color: #000; font-size: 3rem; text-transform: uppercase; font-weight: 900;">{{ shop.name }}</h1>
+        {%- endif -%}
 
-      <button id="SplashEnterBtn-{{ section.id }}" class="splash-enter-btn">
-        {{ section.settings.btn_text }}
-      </button>
+        <!-- Button class only, removing duplicate ID -->
+        <button class="splash-enter-btn">
+          {{ section.settings.btn_text }}
+        </button>
+      </div>
     </div>
+
+    <!-- Right Half -->
+    <div class="splash-half splash-right">
+      <div class="splash-content">
+        {%- if section.settings.logo != blank -%}
+          {{
+            section.settings.logo
+            | image_url: width: 600
+            | image_tag: class: 'splash-logo', widths: '200, 300, 400, 600', loading: 'eager', alt: shop.name
+          }}
+        {%- else -%}
+          <h1 style="color: #000; font-size: 3rem; text-transform: uppercase; font-weight: 900;">{{ shop.name }}</h1>
+        {%- endif -%}
+
+        <button class="splash-enter-btn">
+          {{ section.settings.btn_text }}
+        </button>
+      </div>
+    </div>
+
   </div>
 
   <script>
     (function () {
-      const splash = document.getElementById('SplashPage-{{ section.id }}');
-      const btn = document.getElementById('SplashEnterBtn-{{ section.id }}');
+      const splashSection = document.getElementById('SplashPage-{{ section.id }}');
       const storageKey = 'splash_seen';
 
       // 1. Check if already seen
       if (sessionStorage.getItem(storageKey)) {
-        splash.style.display = 'none';
-        return; // Exit, do nothing
+        if(splashSection) splashSection.style.display = 'none';
+        return; 
       }
 
       // 2. If not seen, lock scroll immediately
       document.body.style.overflow = 'hidden';
 
-      // 3. Handle Enter Click
-      btn.addEventListener('click', function () {
-        // Fade out
-        splash.classList.add('fading-out');
+      // 3. Handle Enter Click on ALL buttons (since we have duplicates)
+      // We use querySelectorAll because there are two buttons now (one in each half)
+      const btns = splashSection.querySelectorAll('.splash-enter-btn');
+      
+      const triggerEnter = function() {
+        // Trigger split animation
+        splashSection.classList.add('splitting');
 
         // Unlock Scroll
         document.body.style.overflow = '';
@@ -123,11 +216,17 @@
         // Remember visitor
         sessionStorage.setItem(storageKey, 'true');
 
-        // Remove from DOM after transition matches CSS duration
+        // Remove from DOM after animation completes
         setTimeout(() => {
-          splash.style.display = 'none';
-        }, 800);
+          splashSection.classList.add('hidden');
+          splashSection.remove(); // Optional cleaner DOM
+        }, 1000); // Matches CSS transition duration
+      };
+
+      btns.forEach(btn => {
+        btn.addEventListener('click', triggerEnter);
       });
+
     })();
   </script>
 {%- endif -%}
