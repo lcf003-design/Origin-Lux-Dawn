@@ -14,7 +14,7 @@
       "name": "Splash Page",
       "settings": {
         "enable_splash": true,
-        "logo": "shopify://shop_images/Untitled.svg",
+        "logo": "shopify://shop_images/updated_logo.svg",
         "logo_width": 800,
         "bg_color": "#ffb100",
         "btn_text": "ENTER",
