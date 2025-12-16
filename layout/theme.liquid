@@ -398,5 +398,1020 @@
     {%- render 'foxify-footer' -%}
     {% sections 'foxify-footer-group' %}
     {%- render 'global-custom-cursor' -%}
+    {% if request.page_type == 'product' %}
+      {% # theme-check-disable RemoteAsset %}
+      <script src="https://cdn.tailwindcss.com" defer></script>
+      <script src="https://unpkg.com/lucide@latest" defer></script>
+      {% # theme-check-enable RemoteAsset %}
+
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+
+        #fit-guide-container {
+          font-family: 'Inter', sans-serif;
+        }
+        #fit-guide-modal {
+          transition:
+            opacity 0.3s ease,
+            visibility 0.3s ease;
+        }
+        #fit-guide-modal.hidden-modal {
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+        }
+        #fit-guide-modal.visible-modal {
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+        }
+
+        .fade-in {
+          animation: fadeIn 0.4s ease-out forwards;
+        }
+        .slide-up {
+          animation: slideUp 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* Custom Scrollbar */
+        #fit-guide-container ::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+        #fit-guide-container ::-webkit-scrollbar-track {
+          background: #1e293b;
+        }
+        #fit-guide-container ::-webkit-scrollbar-thumb {
+          background: #475569;
+          border-radius: 4px;
+        }
+        #fit-guide-container ::-webkit-scrollbar-thumb:hover {
+          background: #64748b;
+        }
+      </style>
+
+      <!-- TRIGGER BUTTON -->
+      <button
+        id="fit-guide-trigger"
+        onclick="toggleFitGuide()"
+        class="fixed bottom-80 right-6 z-[9990] bg-indigo-600/65 backdrop-blur-sm hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-full shadow-2xl flex items-center gap-2 transition-all hover:scale-105 group"
+      >
+        <i data-lucide="ruler" class="w-5 h-5"></i>
+        <span>Size Guide</span>
+        <span class="absolute -top-1 -right-1 flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+        </span>
+      </button>
+
+      <!-- MODAL WRAPPER -->
+      <div id="fit-guide-modal" class="hidden-modal fixed inset-0 z-[10000] flex items-center justify-center">
+        <!-- BACKDROP -->
+        <div class="absolute inset-0 bg-slate-900/90 backdrop-blur-sm" onclick="toggleFitGuide()"></div>
+
+        <!-- CONTENT -->
+        <div
+          id="fit-guide-container"
+          class="relative z-10 w-full max-w-6xl h-[90vh] bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden flex flex-col mx-4 md:mx-0 transform transition-all duration-300 scale-100"
+        >
+          <!-- CLOSE BUTTON -->
+          <button
+            onclick="toggleFitGuide()"
+            class="absolute top-4 right-4 z-50 p-2 bg-slate-800 hover:bg-slate-700 rounded-full text-slate-400 hover:text-white transition-colors"
+          >
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+
+          <!-- SCROLLABLE CONTENT AREA -->
+          <div class="overflow-y-auto p-4 md:p-8 h-full">
+            <header class="mb-8 md:mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 pr-12">
+              <div>
+                <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-2 bg-gradient-to-r from-indigo-300 via-white to-indigo-300 text-transparent bg-clip-text">
+                  Size Guide.
+                </h1>
+                <p class="text-slate-400 text-lg">Universal standard sizing reference.</p>
+              </div>
+
+              <div class="relative w-full md:w-64 z-40">
+                <button
+                  id="category-trigger"
+                  class="flex items-center justify-between w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 p-4 rounded-xl transition-all shadow-lg text-left group"
+                >
+                  <div class="flex items-center gap-3">
+                    <div class="p-2 bg-indigo-500/20 rounded-lg" id="active-icon-container"></div>
+                    <div>
+                      <span class="text-xs text-slate-500 uppercase font-bold tracking-wider">Category</span>
+                      <div class="text-white font-bold" id="category-title">Jackets</div>
+                    </div>
+                  </div>
+                  <i
+                    data-lucide="chevron-down"
+                    class="w-5 h-5 text-slate-400 transition-transform"
+                    id="chevron-icon"
+                  ></i>
+                </button>
+
+                <div
+                  id="category-menu"
+                  class="hidden absolute top-full left-0 w-full mt-2 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl overflow-hidden z-50"
+                ></div>
+              </div>
+            </header>
+
+            <main class="grid grid-cols-1 lg:grid-cols-12 gap-8 fade-in">
+              <div class="lg:col-span-8 space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
+                  <div class="flex bg-slate-800 p-1 rounded-xl" id="gender-toggles">
+                    <button
+                      data-cat="men"
+                      class="px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 capitalize bg-indigo-500 text-white shadow-lg"
+                    >
+                      Men
+                    </button>
+                    <button
+                      data-cat="women"
+                      class="px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 capitalize text-slate-400 hover:text-white"
+                    >
+                      Women
+                    </button>
+                  </div>
+
+                  <button
+                    id="unit-toggle"
+                    class="flex items-center gap-3 bg-slate-800 hover:bg-slate-700 px-5 py-2.5 rounded-xl border border-slate-700 transition-colors group"
+                  >
+                    <span id="label-cm" class="font-bold text-white">CM</span>
+                    <i
+                      data-lucide="arrow-right-left"
+                      class="w-4 h-4 text-indigo-400 group-hover:rotate-180 transition-transform"
+                    ></i>
+                    <span id="label-in" class="font-bold text-slate-500">IN</span>
+                  </button>
+                </div>
+
+                <div class="overflow-hidden rounded-2xl border border-slate-700 bg-slate-800/50 shadow-2xl backdrop-blur-sm">
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                      <thead
+                        class="bg-slate-900/80 text-xs uppercase tracking-wider text-slate-400 border-b border-slate-700"
+                        id="table-head"
+                      ></thead>
+                      <tbody class="text-sm font-medium" id="table-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="lg:col-span-4 space-y-6">
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-3xl border border-slate-700 shadow-xl overflow-hidden relative">
+                  <h3 class="text-lg font-bold text-white mb-6 relative z-10">Measurement Guide</h3>
+
+                  <div
+                    id="visual-svg-container"
+                    class="w-full max-w-[220px] mx-auto aspect-square relative z-10 mb-4 flex items-center justify-center"
+                  ></div>
+
+                  <div id="visual-instructions" class="space-y-3 relative z-10"></div>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl p-6 border border-slate-700 shadow-xl">
+                  <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-yellow-400"></i>
+                    Smart Finder
+                  </h3>
+                  <div class="flex flex-col gap-4">
+                    <div>
+                      <label id="calc-label" class="text-slate-400 text-sm mb-1 block">Your Measurement</label>
+                      <div class="flex gap-2">
+                        <input
+                          id="calc-input"
+                          type="text"
+                          class="w-full bg-slate-800 text-white border border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                          placeholder="Enter value..."
+                        >
+                        <button
+                          id="calc-btn"
+                          class="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-2 rounded-lg font-bold transition-colors shadow-lg"
+                        >
+                          Check
+                        </button>
+                      </div>
+                    </div>
+
+                    <div
+                      id="calc-result"
+                      class="hidden mt-2 bg-indigo-900/50 border border-indigo-500/30 p-4 rounded-xl flex items-start gap-3 slide-up"
+                    >
+                      <i data-lucide="check-circle" class="w-6 h-6 text-green-400 shrink-0 mt-0.5"></i>
+                      <div>
+                        <p id="res-msg" class="text-slate-200 text-sm">Perfect match found.</p>
+                        <p id="res-size" class="text-2xl font-black text-white mt-1">L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+
+            <footer class="max-w-4xl mx-auto mt-16 text-center space-y-2 pb-8">
+              <div class="flex items-center justify-center gap-2 text-slate-500 text-sm">
+                <i data-lucide="help-circle" class="w-4 h-4"></i>
+                <span id="footer-tip">If between sizes, always size up for comfort.</span>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        // --- TOGGLE LOGIC ---
+        function toggleFitGuide() {
+          const modal = document.getElementById('fit-guide-modal');
+          const isHidden = modal.classList.contains('hidden-modal');
+
+          if (isHidden) {
+            modal.classList.remove('hidden-modal');
+            modal.classList.add('visible-modal');
+            document.body.style.overflow = 'hidden'; // Lock scroll
+          } else {
+            modal.classList.remove('visible-modal');
+            modal.classList.add('hidden-modal');
+            document.body.style.overflow = ''; // Unlock scroll
+          }
+        }
+
+        // --- DATA ---
+        const DATA = {
+          jackets: {
+            title: 'Jackets & Outerwear',
+            icon: 'layers',
+            columns: [
+              { key: 'label', label: 'Size' },
+              { key: 'chest', label: 'Chest' },
+              { key: 'sleeve', label: 'Sleeve' },
+              { key: 'length', label: 'Length' },
+            ],
+            guides: [
+              {
+                key: 'chest',
+                label: 'Chest',
+                text: 'Measure around the fullest part of your chest, keeping tape horizontal.',
+              },
+              {
+                key: 'sleeve',
+                label: 'Sleeve',
+                text: 'From center back of neck, over the shoulder, down to the wrist.',
+              },
+              {
+                key: 'length',
+                label: 'Length',
+                text: 'From the highest point of the shoulder down to the bottom hem.',
+              },
+            ],
+            ranges: {
+              men: [
+                {
+                  label: 'XS',
+                  chest_cm: '86-91',
+                  chest_in: '34-36',
+                  sleeve_cm: '81',
+                  sleeve_in: '32',
+                  length_cm: '66',
+                  length_in: '26',
+                },
+                {
+                  label: 'S',
+                  chest_cm: '91-96',
+                  chest_in: '36-38',
+                  sleeve_cm: '82',
+                  sleeve_in: '32.5',
+                  length_cm: '68',
+                  length_in: '27',
+                },
+                {
+                  label: 'M',
+                  chest_cm: '96-101',
+                  chest_in: '38-40',
+                  sleeve_cm: '84',
+                  sleeve_in: '33',
+                  length_cm: '70',
+                  length_in: '27.5',
+                },
+                {
+                  label: 'L',
+                  chest_cm: '101-106',
+                  chest_in: '40-42',
+                  sleeve_cm: '86',
+                  sleeve_in: '34',
+                  length_cm: '72',
+                  length_in: '28.5',
+                },
+                {
+                  label: 'XL',
+                  chest_cm: '106-111',
+                  chest_in: '42-44',
+                  sleeve_cm: '89',
+                  sleeve_in: '35',
+                  length_cm: '74',
+                  length_in: '29',
+                },
+                {
+                  label: 'XXL',
+                  chest_cm: '111-116',
+                  chest_in: '44-46',
+                  sleeve_cm: '91',
+                  sleeve_in: '36',
+                  length_cm: '76',
+                  length_in: '30',
+                },
+              ],
+              women: [
+                {
+                  label: 'XS',
+                  chest_cm: '78-82',
+                  chest_in: '30-32',
+                  sleeve_cm: '74',
+                  sleeve_in: '29',
+                  length_cm: '58',
+                  length_in: '23',
+                },
+                {
+                  label: 'S',
+                  chest_cm: '82-86',
+                  chest_in: '32-34',
+                  sleeve_cm: '76',
+                  sleeve_in: '30',
+                  length_cm: '60',
+                  length_in: '23.5',
+                },
+                {
+                  label: 'M',
+                  chest_cm: '86-91',
+                  chest_in: '34-36',
+                  sleeve_cm: '78',
+                  sleeve_in: '30.5',
+                  length_cm: '62',
+                  length_in: '24.5',
+                },
+                {
+                  label: 'L',
+                  chest_cm: '91-96',
+                  chest_in: '36-38',
+                  sleeve_cm: '80',
+                  sleeve_in: '31.5',
+                  length_cm: '64',
+                  length_in: '25',
+                },
+                {
+                  label: 'XL',
+                  chest_cm: '96-101',
+                  chest_in: '38-40',
+                  sleeve_cm: '82',
+                  sleeve_in: '32',
+                  length_cm: '66',
+                  length_in: '26',
+                },
+              ],
+            },
+          },
+          shirts: {
+            title: 'T-Shirts & Tops',
+            icon: 'shirt',
+            columns: [
+              { key: 'label', label: 'Size' },
+              { key: 'chest', label: 'Chest' },
+              { key: 'neck', label: 'Neck' },
+            ],
+            guides: [
+              { key: 'chest', label: 'Chest', text: 'Measure under your arms around the fullest part of your chest.' },
+              { key: 'neck', label: 'Neck', text: 'Measure around the base of your neck, leaving room for comfort.' },
+            ],
+            ranges: {
+              men: [
+                { label: 'XS', chest_cm: '81-86', chest_in: '32-34', neck_cm: '33-34', neck_in: '13-13.5' },
+                { label: 'S', chest_cm: '86-91', chest_in: '34-36', neck_cm: '35-36', neck_in: '14-14.5' },
+                { label: 'M', chest_cm: '96-101', chest_in: '38-40', neck_cm: '38-39', neck_in: '15-15.5' },
+                { label: 'L', chest_cm: '106-111', chest_in: '42-44', neck_cm: '41-42', neck_in: '16-16.5' },
+                { label: 'XL', chest_cm: '116-121', chest_in: '46-48', neck_cm: '43-44', neck_in: '17-17.5' },
+              ],
+              women: [
+                { label: 'XS', chest_cm: '76-81', chest_in: '30-32', neck_cm: '30-31', neck_in: '12' },
+                { label: 'S', chest_cm: '81-86', chest_in: '32-34', neck_cm: '32-33', neck_in: '13' },
+                { label: 'M', chest_cm: '88-94', chest_in: '35-37', neck_cm: '34-35', neck_in: '13.5' },
+                { label: 'L', chest_cm: '96-101', chest_in: '38-40', neck_cm: '36-37', neck_in: '14.5' },
+              ],
+            },
+          },
+          pants: {
+            title: 'Pants & Trousers',
+            icon: 'scissors',
+            columns: [
+              { key: 'label', label: 'Size' },
+              { key: 'waist', label: 'Waist' },
+              { key: 'hips', label: 'Hips' },
+              { key: 'inseam', label: 'Std Inseam' },
+            ],
+            guides: [
+              {
+                key: 'waist',
+                label: 'Waist',
+                text: 'Measure around your natural waistline, usually near your bellybutton.',
+              },
+              { key: 'hips', label: 'Hips', text: 'Measure around the fullest part of your hips while standing.' },
+              {
+                key: 'inseam',
+                label: 'Inseam',
+                text: 'Measure from the crotch seam down the inside leg to the bottom hem.',
+              },
+            ],
+            ranges: {
+              men: [
+                {
+                  label: 'XS (28)',
+                  waist_cm: '71',
+                  waist_in: '28',
+                  hips_cm: '86',
+                  hips_in: '34',
+                  inseam_cm: '76',
+                  inseam_in: '30',
+                },
+                {
+                  label: 'S (30)',
+                  waist_cm: '76',
+                  waist_in: '30',
+                  hips_cm: '91',
+                  hips_in: '36',
+                  inseam_cm: '81',
+                  inseam_in: '32',
+                },
+                {
+                  label: 'M (32)',
+                  waist_cm: '81',
+                  waist_in: '32',
+                  hips_cm: '97',
+                  hips_in: '38',
+                  inseam_cm: '81',
+                  inseam_in: '32',
+                },
+                {
+                  label: 'L (34)',
+                  waist_cm: '86',
+                  waist_in: '34',
+                  hips_cm: '102',
+                  hips_in: '40',
+                  inseam_cm: '86',
+                  inseam_in: '34',
+                },
+                {
+                  label: 'XL (36)',
+                  waist_cm: '91',
+                  waist_in: '36',
+                  hips_cm: '107',
+                  hips_in: '42',
+                  inseam_cm: '86',
+                  inseam_in: '34',
+                },
+                {
+                  label: 'XXL (38)',
+                  waist_cm: '96',
+                  waist_in: '38',
+                  hips_cm: '112',
+                  hips_in: '44',
+                  inseam_cm: '86',
+                  inseam_in: '34',
+                },
+              ],
+              women: [
+                {
+                  label: 'XS',
+                  waist_cm: '60-64',
+                  waist_in: '24-25',
+                  hips_cm: '86-89',
+                  hips_in: '34-35',
+                  inseam_cm: '76',
+                  inseam_in: '30',
+                },
+                {
+                  label: 'S',
+                  waist_cm: '65-69',
+                  waist_in: '26-27',
+                  hips_cm: '90-94',
+                  hips_in: '36-37',
+                  inseam_cm: '76',
+                  inseam_in: '30',
+                },
+                {
+                  label: 'M',
+                  waist_cm: '70-74',
+                  waist_in: '28-29',
+                  hips_cm: '95-99',
+                  hips_in: '38-39',
+                  inseam_cm: '79',
+                  inseam_in: '31',
+                },
+                {
+                  label: 'L',
+                  waist_cm: '75-80',
+                  waist_in: '30-31',
+                  hips_cm: '100-104',
+                  hips_in: '40-41',
+                  inseam_cm: '79',
+                  inseam_in: '31',
+                },
+              ],
+            },
+          },
+          belts: {
+            title: 'Belts',
+            icon: 'circle',
+            columns: [
+              { key: 'label', label: 'Size' },
+              { key: 'waist', label: 'Pant Waist' },
+              { key: 'length', label: 'Belt Length' },
+            ],
+            guides: [
+              { key: 'waist', label: 'Pant Waist', text: 'Based on the size of the pants you normally wear.' },
+              { key: 'length', label: 'Belt Length', text: 'Measured from the buckle fold to the center hole.' },
+            ],
+            ranges: {
+              men: [
+                { label: 'S (30-32)', waist_in: '28-30', waist_cm: '71-76', length_in: '32-34', length_cm: '81-86' },
+                { label: 'M (34-36)', waist_in: '32-34', waist_cm: '81-86', length_in: '36-38', length_cm: '91-96' },
+                { label: 'L (38-40)', waist_in: '36-38', waist_cm: '91-96', length_in: '40-42', length_cm: '101-106' },
+                {
+                  label: 'XL (42-44)',
+                  waist_in: '40-42',
+                  waist_cm: '101-106',
+                  length_in: '44-46',
+                  length_cm: '111-116',
+                },
+              ],
+              women: [
+                { label: 'XS', waist_in: '24-26', waist_cm: '61-66', length_in: '30-32', length_cm: '76-81' },
+                { label: 'S', waist_in: '28-30', waist_cm: '71-76', length_in: '34-36', length_cm: '86-91' },
+                { label: 'M', waist_in: '32-34', waist_cm: '81-86', length_in: '38-40', length_cm: '96-101' },
+                { label: 'L', waist_in: '36-38', waist_cm: '91-96', length_in: '42-44', length_cm: '106-112' },
+              ],
+            },
+          },
+          shoes: {
+            title: 'Footwear',
+            icon: 'footprints',
+            columns: [
+              { key: 'us', label: 'US' },
+              { key: 'eu', label: 'EU' },
+              { key: 'uk', label: 'UK' },
+              { key: 'cm', label: 'CM' },
+            ],
+            guides: [
+              {
+                key: 'cm',
+                label: 'Foot Length',
+                text: 'Place foot on paper, mark heel and longest toe, then measure distance.',
+              },
+            ],
+            ranges: {
+              men: [
+                { us: '7', eu: '40', uk: '6', cm: '25' },
+                { us: '8', eu: '41', uk: '7', cm: '26' },
+                { us: '9', eu: '42.5', uk: '8', cm: '27' },
+                { us: '10', eu: '44', uk: '9', cm: '28' },
+                { us: '11', eu: '45', uk: '10', cm: '29' },
+                { us: '12', eu: '46', uk: '11', cm: '30' },
+              ],
+              women: [
+                { us: '5', eu: '35', uk: '3', cm: '22' },
+                { us: '6', eu: '36.5', uk: '4', cm: '23' },
+                { us: '7', eu: '38', uk: '5', cm: '24' },
+                { us: '8', eu: '39', uk: '6', cm: '25' },
+                { us: '9', eu: '40.5', uk: '7', cm: '26' },
+                { us: '10', eu: '42', uk: '8', cm: '27' },
+              ],
+            },
+          },
+        };
+
+        // --- STATE ---
+        let state = {
+          activeTab: 'jackets',
+          category: 'men', // men, women
+          unit: 'cm',
+          recommendedID: null,
+          activeVisual: null,
+          dropdownOpen: false,
+        };
+
+        // --- ELEMENTS ---
+        const els = {
+          categoryTrigger: document.getElementById('category-trigger'),
+          categoryMenu: document.getElementById('category-menu'),
+          categoryTitle: document.getElementById('category-title'),
+          activeIconContainer: document.getElementById('active-icon-container'),
+          chevron: document.getElementById('chevron-icon'),
+          genderToggles: document.getElementById('gender-toggles'),
+          unitToggle: document.getElementById('unit-toggle'),
+          labelCm: document.getElementById('label-cm'),
+          labelIn: document.getElementById('label-in'),
+          tableHead: document.getElementById('table-head'),
+          tableBody: document.getElementById('table-body'),
+          svgContainer: document.getElementById('visual-svg-container'),
+          instructionsContainer: document.getElementById('visual-instructions'),
+          calcInput: document.getElementById('calc-input'),
+          calcLabel: document.getElementById('calc-label'),
+          calcBtn: document.getElementById('calc-btn'),
+          calcResult: document.getElementById('calc-result'),
+          resMsg: document.getElementById('res-msg'),
+          resSize: document.getElementById('res-size'),
+          footerTip: document.getElementById('footer-tip'),
+        };
+
+        // --- INITIALIZATION ---
+        function init() {
+          renderHeader();
+          renderGender();
+          renderUnit();
+          renderTable();
+          renderVisual();
+          renderFooter();
+          lucide.createIcons();
+        }
+
+        // --- RENDERERS ---
+
+        function renderHeader() {
+          // Setup active tab in Header
+          const info = DATA[state.activeTab];
+          els.categoryTitle.innerText = info.title;
+          els.activeIconContainer.innerHTML = `<i data-lucide="${info.icon}" class="w-5 h-5 text-indigo-400"></i>`;
+
+          // Build Dropdown
+          els.categoryMenu.innerHTML = Object.entries(DATA)
+            .map(([key, data]) => {
+              const isActive = key === state.activeTab;
+              return `
+                      <button onclick="changeTab('${key}')" class="w-full flex items-center gap-3 p-4 hover:bg-slate-700 transition-colors border-b border-slate-700/50 last:border-0 ${isActive ? 'bg-slate-700/50' : ''}">
+                          <i data-lucide="${data.icon}" class="w-5 h-5 ${isActive ? 'text-indigo-400' : 'text-slate-400'}"></i>
+                          <span class="font-medium ${isActive ? 'text-white' : 'text-slate-300'}">${data.title}</span>
+                      </button>
+                  `;
+            })
+            .join('');
+        }
+
+        function renderGender() {
+          Array.from(els.genderToggles.children).forEach((btn) => {
+            const isSelected = btn.dataset.cat === state.category;
+            btn.className = isSelected
+              ? 'px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 capitalize bg-indigo-500 text-white shadow-lg'
+              : 'px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 capitalize text-slate-400 hover:text-white';
+          });
+        }
+
+        function renderUnit() {
+          if (state.unit === 'cm') {
+            els.labelCm.className = 'font-bold text-white';
+            els.labelIn.className = 'font-bold text-slate-500';
+          } else {
+            els.labelIn.className = 'font-bold text-white';
+            els.labelCm.className = 'font-bold text-slate-500';
+          }
+
+          // Update Calc Label
+          let placeholder = 'Enter value...';
+          if (state.activeTab === 'shoes') placeholder = 'US Size (e.g. 9)';
+          else if (state.activeTab === 'pants' || state.activeTab === 'belts') placeholder = `Waist (${state.unit})`;
+          else placeholder = `Chest (${state.unit})`;
+
+          els.calcInput.placeholder = placeholder;
+          els.calcLabel.innerText = placeholder.split('(')[0].trim();
+        }
+
+        function getCellValue(row, colKey) {
+          if (['label', 'us', 'eu', 'uk'].includes(colKey)) return row[colKey];
+          const suffix = state.unit === 'cm' ? '_cm' : '_in';
+          // Try specific suffix first, then fallback to generic
+          if (row[colKey + suffix]) return row[colKey + suffix];
+          if (row[colKey]) return row[colKey]; // fallback
+          if (state.unit === 'cm' && row.cm) return row.cm; // shoes fallback
+          return '-';
+        }
+
+        function renderTable() {
+          const info = DATA[state.activeTab];
+          const rows = info.ranges[state.category] || info.ranges.men;
+
+          // Header
+          els.tableHead.innerHTML = `<tr>${info.columns
+            .map(
+              (col) => `
+                  <th class="p-4 cursor-help hover:text-indigo-400 transition-colors" onmouseenter="setVisual('${col.key}')">
+                      <div class="flex items-center gap-2">${col.label} <i data-lucide="info" class="w-3 h-3"></i></div>
+                  </th>
+              `,
+            )
+            .join('')}</tr>`;
+
+          // Body
+          els.tableBody.innerHTML = rows
+            .map((row) => {
+              // Check highlight
+              let isRec = false;
+              if (state.recommendedID) {
+                if (state.activeTab === 'shoes') isRec = row.us === state.recommendedID;
+                else isRec = row.label === state.recommendedID;
+              }
+
+              const rowClass = isRec
+                ? 'bg-indigo-500/20 shadow-[inset_3px_0_0_0_#6366f1] transition-all duration-200 border-b border-slate-700/50'
+                : 'transition-all duration-200 border-b border-slate-700/50 hover:bg-slate-700/30';
+
+              const badgeClass = isRec
+                ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/40'
+                : 'bg-slate-800 text-slate-300';
+
+              return `<tr class="${rowClass}">
+                      ${info.columns
+                        .map((col, idx) => {
+                          const val = getCellValue(row, col.key);
+                          if (idx === 0) {
+                            return `<td class="p-4 text-slate-200 font-mono text-base">
+                                  <span class="inline-flex items-center justify-center min-w-[2.5rem] h-10 px-2 rounded-lg font-bold text-lg ${badgeClass} transition-all">${val}</span>
+                              </td>`;
+                          } else {
+                            const unitLabel =
+                              state.activeTab !== 'shoes' && col.key !== 'label'
+                                ? `<span class="text-slate-500 text-xs ml-1">${state.unit}</span>`
+                                : '';
+                            return `<td class="p-4 text-slate-200 font-mono text-base">${val}${unitLabel}</td>`;
+                          }
+                        })
+                        .join('')}
+                  </tr>`;
+            })
+            .join('');
+
+          lucide.createIcons();
+        }
+
+        function renderVisual() {
+          // Instructions
+          const info = DATA[state.activeTab];
+          els.instructionsContainer.innerHTML = info.guides
+            .map((guide) => {
+              const isActive = state.activeVisual === guide.key;
+              const borderClass = isActive
+                ? 'bg-slate-700 border-indigo-500 shadow-lg'
+                : 'bg-slate-800/50 border-transparent hover:bg-slate-800';
+              const textClass = isActive ? 'text-indigo-400' : 'text-slate-400';
+
+              return `
+                      <div onclick="setVisual('${guide.key}')" class="p-3 rounded-xl transition-all cursor-pointer border ${borderClass}">
+                          <div class="text-xs font-bold uppercase tracking-wider mb-1 ${textClass}">${guide.label}</div>
+                          <p class="text-sm text-slate-300 leading-snug">${guide.text}</p>
+                      </div>
+                  `;
+            })
+            .join('');
+
+          // SVGS
+          let svgContent = '';
+          const opacity = (key) => (state.activeVisual === key ? 'opacity-100' : 'opacity-20');
+
+          if (state.activeTab === 'jackets' || state.activeTab === 'shirts') {
+            const isJacket = state.activeTab === 'jackets';
+            svgContent = `
+                  <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-2xl">
+                      <path d="M 60 40 L 40 70 L 40 160 L 160 160 L 160 70 L 140 40 L 120 50 L 80 50 Z" fill="#334155" stroke="#475569" stroke-width="2"/>
+                      ${
+                        isJacket
+                          ? `<path d="M 40 70 L 10 130 L 25 140 L 40 110" fill="#334155" stroke="#475569" stroke-width="2"/><path d="M 160 70 L 190 130 L 175 140 L 160 110" fill="#334155" stroke="#475569" stroke-width="2"/>`
+                          : `<path d="M 40 70 L 10 90 L 20 120 L 40 110" fill="#334155" stroke="#475569" stroke-width="2"/><path d="M 160 70 L 190 90 L 180 120 L 160 110" fill="#334155" stroke="#475569" stroke-width="2"/>`
+                      }
+                      <path d="M 100 50 L 100 160" stroke="#1e293b" stroke-width="2" stroke-dasharray="${isJacket ? '4 2' : '0'}"/>
+                      
+                      <g class="transition-opacity duration-500 ${opacity('chest')}">
+                          <line x1="42" y1="100" x2="158" y2="100" stroke="#ef4444" stroke-width="3" />
+                          <rect x="90" y="90" width="20" height="15" rx="2" fill="#ef4444" />
+                          <text x="100" y="100" text-anchor="middle" fill="white" font-size="8" font-weight="bold" dy="3">Ch</text>
+                      </g>
+                      ${
+                        !isJacket
+                          ? `
+                      <g class="transition-opacity duration-500 ${opacity('neck')}">
+                          <ellipse cx="100" cy="50" rx="25" ry="8" fill="none" stroke="#22c55e" stroke-width="2" />
+                          <text x="100" y="45" text-anchor="middle" fill="#22c55e" font-size="8" font-weight="bold">Neck</text>
+                      </g>`
+                          : ''
+                      }
+                      ${
+                        isJacket
+                          ? `
+                      <g class="transition-opacity duration-500 ${opacity('length')}">
+                          <line x1="120" y1="50" x2="120" y2="160" stroke="#3b82f6" stroke-width="3" />
+                          <rect x="110" y="100" width="20" height="15" rx="2" fill="#3b82f6" />
+                          <text x="120" y="110" text-anchor="middle" fill="white" font-size="8" font-weight="bold" dy="3">Len</text>
+                      </g>`
+                          : ''
+                      }
+                      <g class="transition-opacity duration-500 ${opacity('sleeve')}">
+                           <path d="${isJacket ? 'M 140 40 L 190 130' : 'M 140 40 L 190 90'}" stroke="#3b82f6" stroke-width="3" stroke-dasharray="4 2" />
+                           <text x="170" y="${isJacket ? '85' : '60'}" text-anchor="middle" fill="#3b82f6" font-size="8" font-weight="bold">Slv</text>
+                      </g>
+                  </svg>`;
+          } else if (state.activeTab === 'pants') {
+            svgContent = `
+                  <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-2xl">
+                      <path d="M 60 30 L 140 30 L 150 60 L 145 180 L 105 180 L 100 80 L 95 180 L 55 180 L 50 60 Z" fill="#334155" stroke="#475569" stroke-width="2"/>
+                      <path d="M 60 30 L 140 30 L 142 45 L 58 45 Z" fill="#1e293b" />
+                      <circle cx="100" cy="37" r="3" fill="#94a3b8" />
+                      <g class="transition-opacity duration-500 ${opacity('waist')}">
+                          <line x1="55" y1="38" x2="145" y2="38" stroke="#ef4444" stroke-width="3" />
+                          <rect x="90" y="28" width="20" height="15" rx="2" fill="#ef4444" />
+                          <text x="100" y="38" text-anchor="middle" fill="white" font-size="8" font-weight="bold" dy="3">W</text>
+                      </g>
+                      <g class="transition-opacity duration-500 ${opacity('hips')}">
+                          <line x1="52" y1="65" x2="148" y2="65" stroke="#3b82f6" stroke-width="3" stroke-dasharray="4 2"/>
+                          <rect x="90" y="58" width="20" height="15" rx="2" fill="#3b82f6" />
+                          <text x="100" y="68" text-anchor="middle" fill="white" font-size="8" font-weight="bold" dy="3">H</text>
+                      </g>
+                      <g class="transition-opacity duration-500 ${opacity('inseam')}">
+                          <line x1="102" y1="80" x2="107" y2="180" stroke="#22c55e" stroke-width="3" stroke-dasharray="3 1" />
+                          <rect x="105" y="120" width="24" height="15" rx="2" fill="#22c55e" />
+                          <text x="117" y="130" text-anchor="middle" fill="white" font-size="8" font-weight="bold" dy="3">Ins</text>
+                      </g>
+                  </svg>`;
+          } else if (state.activeTab === 'belts') {
+            svgContent = `
+                  <svg viewBox="0 0 200 80" class="w-full h-full drop-shadow-2xl">
+                      <rect x="20" y="25" width="25" height="30" rx="3" fill="#94a3b8" stroke="#475569" stroke-width="2" />
+                      <line x1="35" y1="25" x2="35" y2="55" stroke="#475569" stroke-width="2" />
+                      <line x1="38" y1="40" x2="50" y2="40" stroke="#cbd5e1" stroke-width="3" />
+                      <path d="M 45 30 L 170 30 Q 180 30 180 40 Q 180 50 170 50 L 45 50" fill="#334155" stroke="#475569" stroke-width="2"/>
+                      <circle cx="140" cy="40" r="2" fill="#1e293b" /><circle cx="150" cy="40" r="2" fill="#1e293b" /><circle cx="160" cy="40" r="2" fill="#1e293b" />
+                      <g class="transition-opacity duration-500 ${opacity('length')}">
+                          <line x1="35" y1="65" x2="150" y2="65" stroke="#ef4444" stroke-width="3" />
+                          <line x1="35" y1="58" x2="35" y2="72" stroke="#ef4444" stroke-width="2" />
+                          <rect x="80" y="55" width="30" height="20" rx="4" fill="#ef4444" />
+                          <text x="95" y="68" text-anchor="middle" fill="white" font-size="10" font-weight="bold" dy="0">Len</text>
+                      </g>
+                      <g class="transition-opacity duration-500 ${opacity('waist')}">
+                          <circle cx="150" cy="40" r="4" fill="none" stroke="#3b82f6" stroke-width="2" />
+                          <text x="150" y="25" text-anchor="middle" fill="#3b82f6" font-size="8" font-weight="bold">Center</text>
+                      </g>
+                  </svg>`;
+          } else if (state.activeTab === 'shoes') {
+            svgContent = `
+                  <svg viewBox="0 0 200 150" class="w-full h-full drop-shadow-2xl">
+                      <defs><linearGradient id="shoeGradient" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#334155" /><stop offset="100%" stop-color="#1e293b" /></linearGradient></defs>
+                      <ellipse cx="100" cy="125" rx="85" ry="8" fill="#000" opacity="0.3" />
+                      <path d="M 25 95 Q 25 115 45 115 L 160 115 Q 180 115 180 95 L 180 90 L 25 90 Z" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                      <path d="M 180 95 L 25 95" stroke="#cbd5e1" stroke-width="2" />
+                      <path d="M 30 90 Q 30 65 50 55 L 90 40 Q 110 30 130 45 L 135 55 L 165 55 Q 180 60 180 90 L 30 90 Z" fill="url(#shoeGradient)" stroke="#475569" stroke-width="2"/>
+                      <g class="transition-opacity duration-500 ${opacity('cm') ? 'opacity-100' : 'opacity-80'}">
+                          <line x1="20" y1="135" x2="185" y2="135" stroke="#ef4444" stroke-width="3" />
+                          <rect x="85" y="125" width="35" height="20" rx="4" fill="#ef4444" />
+                          <text x="102" y="138" text-anchor="middle" fill="white" font-size="10" font-weight="bold" dy="3">Length</text>
+                      </g>
+                  </svg>`;
+          }
+
+          els.svgContainer.innerHTML = svgContent;
+        }
+
+        function renderFooter() {
+          els.footerTip.innerText =
+            state.activeTab === 'shoes'
+              ? 'Measure feet in the afternoon as they swell slightly during the day.'
+              : 'If between sizes, always size up for comfort.';
+        }
+
+        // --- ACTIONS ---
+
+        window.changeTab = (tab) => {
+          state.activeTab = tab;
+          state.recommendedID = null;
+          state.activeVisual = null;
+          state.dropdownOpen = false;
+          els.categoryMenu.classList.add('hidden');
+          els.chevron.classList.remove('rotate-180');
+          els.calcResult.classList.add('hidden');
+          els.calcInput.value = '';
+
+          init(); // Re-render everything
+        };
+
+        window.setVisual = (key) => {
+          state.activeVisual = key;
+          renderVisual();
+        };
+
+        // --- EVENT LISTENERS ---
+
+        els.categoryTrigger.addEventListener('click', () => {
+          state.dropdownOpen = !state.dropdownOpen;
+          if (state.dropdownOpen) {
+            els.categoryMenu.classList.remove('hidden');
+            els.chevron.classList.add('rotate-180');
+          } else {
+            els.categoryMenu.classList.add('hidden');
+            els.chevron.classList.remove('rotate-180');
+          }
+        });
+
+        els.genderToggles.addEventListener('click', (e) => {
+          if (e.target.tagName === 'BUTTON') {
+            state.category = e.target.dataset.cat;
+            state.recommendedID = null; // reset rec
+            renderGender();
+            renderTable();
+          }
+        });
+
+        els.unitToggle.addEventListener('click', () => {
+          state.unit = state.unit === 'cm' ? 'in' : 'cm';
+          renderUnit();
+          renderTable();
+        });
+
+        els.calcBtn.addEventListener('click', () => {
+          const val = parseFloat(els.calcInput.value);
+          if (isNaN(val)) return;
+
+          const info = DATA[state.activeTab];
+          const rangeData = info.ranges[state.category] || info.ranges.men;
+
+          // Logic
+          let found = null;
+
+          if (state.activeTab === 'shoes') {
+            found = rangeData.find((r) => r.us == val); // loose equality for strings
+            if (found) {
+              state.recommendedID = found.us;
+              els.resSize.innerText = `EU ${found.eu}`;
+              els.resMsg.innerText = `US ${found.us} equals EU ${found.eu}`;
+            } else {
+              state.recommendedID = null;
+              els.resSize.innerText = '?';
+              els.resMsg.innerText = 'Size not in chart.';
+            }
+          } else {
+            // Determine keys
+            let key = '';
+            if (state.activeTab === 'jackets' || state.activeTab === 'shirts')
+              key = state.unit === 'cm' ? 'chest_cm' : 'chest_in';
+            else key = state.unit === 'cm' ? 'waist_cm' : 'waist_in';
+
+            found = rangeData.find((size) => {
+              const range = size[key].split('-').map(Number);
+              if (range.length === 2) return val >= range[0] && val <= range[1];
+              return val <= range[0];
+            });
+
+            if (found) {
+              state.recommendedID = found.label;
+              els.resSize.innerText = found.label.split(' ')[0];
+              els.resMsg.innerText = 'Perfect match found.';
+            } else {
+              // Check bounds
+              const first = parseFloat(rangeData[0][key].split('-')[0]);
+              if (val < first) {
+                state.recommendedID = rangeData[0].label;
+                els.resSize.innerText = 'XS-';
+                els.resMsg.innerText = 'Smaller than standard sizing.';
+              } else {
+                state.recommendedID = rangeData[rangeData.length - 1].label;
+                els.resSize.innerText = 'XXL+';
+                els.resMsg.innerText = 'Larger than standard sizing.';
+              }
+            }
+          }
+
+          els.calcResult.classList.remove('hidden');
+          renderTable(); // To update highlights
+        });
+
+        // Run Init
+        init();
+      </script>
+    {% endif %}
   </body>
 </html>

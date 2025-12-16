@@ -221,11 +221,7 @@
   "presets": [
     {
       "name": "Origin GG Hero",
-      "blocks": [
-        { "type": "subheading" },
-        { "type": "heading" },
-        { "type": "buttons_group" }
-      ]
+      "blocks": [{ "type": "subheading" }, { "type": "heading" }, { "type": "buttons_group" }]
     }
   ]
 }
@@ -309,7 +305,7 @@
     margin: 0;
     line-height: 0.9;
     text-transform: uppercase;
-    font-family: serif; 
+    font-family: serif;
     font-weight: 400;
   }
 
@@ -336,7 +332,7 @@
     margin-top: 10px;
     width: 100%;
   }
-  
+
   /* Alignment inside the group based on text-align */
   .pos-center .origin-hero__btn-group { justify-content: center; }
   .pos-right .origin-hero__btn-group { justify-content: flex-end; }
@@ -348,7 +344,7 @@
     justify-content: center;
     padding: 16px 32px;
     /* This min-width ensures evenness */
-    min-width: 180px; 
+    min-width: 180px;
     flex: 1; /* Grow evenly on mobile */
     max-width: 300px; /* Don't get too wide */
     font-size: 13px;
@@ -374,7 +370,7 @@
     opacity: 1;
     transform: translateY(0);
   }
-  
+
   /* Stagger based on order */
   .origin-hero__inner > *:nth-child(1) { transition-delay: 0.1s; }
   .origin-hero__inner > *:nth-child(2) { transition-delay: 0.2s; }
@@ -386,7 +382,7 @@
     .origin-hero__content-wrapper { padding: 40px 20px; }
     .origin-hero-btn { width: 100%; max-width: 100%; }
     .origin-hero__btn-group { flex-direction: column; gap: 10px; }
-    
+
     .hidden-mobile { display: none !important; }
     .hidden-desktop { display: block !important; }
   }
@@ -398,7 +394,7 @@
   # Determine Vertical and Horizontal classes based on setting
   assign pos_vertical = 'origin-hero-v-center'
   assign pos_horizontal = 'pos-center'
-  
+
   if section.settings.content_position contains 'top'
     assign pos_vertical = 'origin-hero-v-top'
   elsif section.settings.content_position contains 'bottom'
@@ -413,24 +409,54 @@
 -%}
 
 <div class="origin-hero" id="OriginHero-{{ section.id }}">
-  
   <div class="origin-hero__media-container" id="HeroParallax-{{ section.id }}">
-    
     {%- if section.settings.video_desktop or section.settings.video_mobile -%}
       <!-- VIDEO MODE: Keep separate for device specific sources if needed, or use video_tag support -->
       <div class="hidden-mobile" style="width: 100%; height: 100%;">
-         {% if section.settings.video_desktop %}
-            {{ section.settings.video_desktop | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'origin-hero__media', image_size: '2000x' }}
-         {% elsif section.settings.image_desktop %}
-            <img src="{{ section.settings.image_desktop | image_url: width: 2400 }}" class="origin-hero__media" alt="" loading="eager">
-         {% endif %}
+        {% if section.settings.video_desktop %}
+          {{
+            section.settings.video_desktop
+            | video_tag:
+              autoplay: true,
+              loop: true,
+              muted: true,
+              controls: false,
+              class: 'origin-hero__media',
+              image_size: '2000x'
+          }}
+        {% elsif section.settings.image_desktop %}
+          <img
+            src="{{ section.settings.image_desktop | image_url: width: 2400 }}"
+            width="{{ section.settings.image_desktop.width }}"
+            height="{{ section.settings.image_desktop.height }}"
+            class="origin-hero__media"
+            alt=""
+            loading="eager"
+          >
+        {% endif %}
       </div>
       <div class="hidden-desktop" style="width: 100%; height: 100%;">
-         {% if section.settings.video_mobile %}
-            {{ section.settings.video_mobile | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'origin-hero__media', image_size: '1000x' }}
-         {% elsif section.settings.image_mobile %}
-             <img src="{{ section.settings.image_mobile | image_url: width: 1200 }}" class="origin-hero__media" alt="" loading="eager">
-         {% endif %}
+        {% if section.settings.video_mobile %}
+          {{
+            section.settings.video_mobile
+            | video_tag:
+              autoplay: true,
+              loop: true,
+              muted: true,
+              controls: false,
+              class: 'origin-hero__media',
+              image_size: '1000x'
+          }}
+        {% elsif section.settings.image_mobile %}
+          <img
+            src="{{ section.settings.image_mobile | image_url: width: 1200 }}"
+            width="{{ section.settings.image_mobile.width }}"
+            height="{{ section.settings.image_mobile.height }}"
+            class="origin-hero__media"
+            alt=""
+            loading="eager"
+          >
+        {% endif %}
       </div>
     {%- else -%}
       <!-- IMAGE MODE: OPTIMIZED -->
@@ -440,13 +466,15 @@
         {% endif %}
         {% if section.settings.image_desktop %}
           <source media="(min-width: 769px)" srcset="{{ section.settings.image_desktop | image_url: width: 2400 }}">
-          <img src="{{ section.settings.image_desktop | image_url: width: 2400 }}" 
-               width="{{ section.settings.image_desktop.width }}" 
-               height="{{ section.settings.image_desktop.height }}" 
-               class="origin-hero__media" 
-               alt="" 
-               loading="eager"
-               style="width: 100%; height: 100%; object-fit: cover;">
+          <img
+            src="{{ section.settings.image_desktop | image_url: width: 2400 }}"
+            width="{{ section.settings.image_desktop.width }}"
+            height="{{ section.settings.image_desktop.height }}"
+            class="origin-hero__media"
+            alt=""
+            loading="eager"
+            style="width: 100%; height: 100%; object-fit: cover;"
+          >
         {% else %}
           {{ 'lifestyle-2' | placeholder_svg_tag: 'origin-hero__media' }}
         {% endif %}
@@ -458,24 +486,28 @@
 
   <div class="origin-hero__content-wrapper {{ pos_vertical }}">
     <div class="origin-hero__inner {{ pos_horizontal }}">
-      
       {% for block in section.blocks %}
         {% case block.type %}
-          
           {% when 'heading' %}
-            <h2 class="origin-hero__heading hero-block-animate" {{ block.shopify_attributes }}
-                style="margin-bottom: {{ block.settings.margin_bottom }}px; font-size: {{ block.settings.font_size_desktop }}px;">
+            <h2
+              class="origin-hero__heading hero-block-animate"
+              {{ block.shopify_attributes }}
+              style="margin-bottom: {{ block.settings.margin_bottom }}px; font-size: {{ block.settings.font_size_desktop }}px;"
+            >
               {{ block.settings.heading_text }}
               <style>
-                @media(max-width:768px) { 
-                  #OriginHero-{{ section.id }} h2 { font-size: {{ block.settings.font_size_mobile }}px !important; } 
+                @media(max-width:768px) {
+                  #OriginHero-{{ section.id }} h2 { font-size: {{ block.settings.font_size_mobile }}px !important; }
                 }
               </style>
             </h2>
 
           {% when 'subheading' %}
-            <p class="origin-hero__subheading hero-block-animate" {{ block.shopify_attributes }}
-               style="margin-bottom: {{ block.settings.margin_bottom }}px;">
+            <p
+              class="origin-hero__subheading hero-block-animate"
+              {{ block.shopify_attributes }}
+              style="margin-bottom: {{ block.settings.margin_bottom }}px;"
+            >
               {{ block.settings.text }}
             </p>
 
@@ -486,7 +518,6 @@
 
           {% when 'buttons_group' %}
             <div class="origin-hero__btn-group hero-block-animate" {{ block.shopify_attributes }}>
-              
               {% style %}
                 /* Dynamic button colors for this specific block */
                 #btn-group-{{ block.id }} .origin-hero-btn {
@@ -507,7 +538,7 @@
                     {{ block.settings.btn_label_1 }}
                   </a>
                 {% endif %}
-                
+
                 {% if block.settings.btn_label_2 != blank %}
                   <a href="{{ block.settings.btn_link_2 }}" class="origin-hero-btn">
                     {{ block.settings.btn_label_2 }}
@@ -515,44 +546,73 @@
                 {% endif %}
               </div>
             </div>
-
         {% endcase %}
       {% endfor %}
-
     </div>
   </div>
 </div>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const section = document.getElementById('OriginHero-{{ section.id }}');
     const parallaxBg = document.getElementById('HeroParallax-{{ section.id }}');
 
     // 1. Trigger Entrance Animation
     setTimeout(() => {
-      if(section) section.classList.add('is-loaded');
+      if (section) section.classList.add('is-loaded');
     }, 100);
 
     // 2. Parallax Effect Logic
     function handleParallax() {
-      if(!section || !parallaxBg) return;
+      if (!section || !parallaxBg) return;
       const scrollY = window.scrollY;
       const sectionHeight = section.offsetHeight;
-      
+
       if (scrollY <= sectionHeight) {
-        const yPos = scrollY * 0.4; 
+        const yPos = scrollY * 0.4;
         parallaxBg.style.transform = `translateY(${yPos}px)`;
       }
     }
 
+    // 3. Hero Text Animation Hand-off
+    const heading = section.querySelector('.origin-hero__heading');
+
+    function handleHeroAnimations() {
+      if (!heading) return;
+      const scrollY = window.scrollY;
+
+      // Caps at 400px scroll for the shrinking effect
+      const progress = Math.min(1, scrollY / 400);
+
+      // Math for Smooth Hand-off
+      const scale = 1 - 0.85 * progress; // Shrinks to 15%
+      const translateY = -150 * progress; // Moves up
+
+      // Fades out completely after 200px (between 200px and 350px ideally,
+      // but logic says "Fades out after 200px" based on user req:
+      // "textOpacity = 1 - Math.max(0, (scrollY - 200) / 150)"
+      const textOpacity = 1 - Math.max(0, (scrollY - 200) / 150);
+
+      // Apply
+      heading.style.transform = `translateY(${translateY}px) scale(${scale})`;
+      heading.style.opacity = textOpacity;
+      // Ensure it doesn't block clicks when invisible
+      heading.style.pointerEvents = textOpacity <= 0.05 ? 'none' : 'auto';
+    }
+
     let ticking = false;
-    window.addEventListener('scroll', function() {
-      if (!ticking) {
-        window.requestAnimationFrame(function() {
-          handleParallax();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
+    window.addEventListener(
+      'scroll',
+      function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            handleParallax();
+            handleHeroAnimations();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { passive: true },
+    );
   });
 </script>

@@ -44,14 +44,92 @@
     },
     {
       "type": "header",
-      "content": "Huge Logo Sizing"
+      "content": "Logo Layout & Sizing"
     },
     {
       "type": "checkbox",
       "id": "full_width_logo",
-      "label": "Stretch Logo to Screen Edges",
-      "default": true,
-      "info": "Allows the text/image to go full width."
+      "label": "Stretch to Screen Edges?",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "hero_logo_width_desktop",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Container Width (Desktop)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "hero_logo_width_mobile",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Container Width (Mobile)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "hero_logo_max_width",
+      "min": 50,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Max Image Width (Desktop)",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "hero_logo_max_width_mobile",
+      "min": 50,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Max Image Width (Mobile)",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "logo_vertical_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical Position (Y)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "logo_horizontal_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Horizontal Position (X)",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Sticky Header Logo"
+    },
+    {
+      "type": "range",
+      "id": "sticky_logo_height",
+      "min": 20,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Sticky Logo Height",
+      "default": 32,
+      "info": "Adjust to make the logo fill the bar height."
+    },
+    {
+      "type": "header",
+      "content": "Fallback Text Sizing"
     },
     {
       "type": "range",
@@ -61,8 +139,7 @@
       "step": 0.5,
       "unit": "vw",
       "label": "Font Size (Desktop)",
-      "default": 13.5,
-      "info": "Adjust to fit text on one line."
+      "default": 13.5
     },
     {
       "type": "range",
@@ -73,38 +150,6 @@
       "unit": "vw",
       "label": "Font Size (Mobile)",
       "default": 18
-    },
-    {
-      "type": "range",
-      "id": "hero_logo_width_desktop",
-      "min": 20,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "label": "Image Width (Desktop)",
-      "default": 60,
-      "info": "Only applies if using an Image Logo."
-    },
-    {
-      "type": "range",
-      "id": "hero_logo_width_mobile",
-      "min": 20,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "label": "Image Width (Mobile)",
-      "default": 80
-    },
-    {
-      "type": "range",
-      "id": "logo_vertical_position",
-      "min": 10,
-      "max": 90,
-      "step": 5,
-      "unit": "%",
-      "label": "Huge Logo Vertical Position",
-      "default": 40,
-      "info": "Distance from top of screen."
     },
     {
       "type": "header",
@@ -133,6 +178,7 @@
       "default": "#FFFFFF",
       "info": "Color for the sticky bar icons before scrolling on Homepage."
     },
+
     {
       "type": "header",
       "content": "Menu & Search Overlay"
@@ -168,10 +214,17 @@
 
   /* --- VARS --- */
   .origin-gucci-header-section {
+    position: relative; /* Ensure stacking context */
+    z-index: 20000; /* Lift entire section above Hero */
+    pointer-events: none; /* Prevent wrapper from blocking clicks */
     --header-transition: all 0.4s ease-out;
     --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}%;
     --logo-width-mobile: {{ section.settings.hero_logo_width_mobile }}%;
     --logo-vertical-pos: {{ section.settings.logo_vertical_position }}vh;
+    --logo-horizontal-pos: {{ section.settings.logo_horizontal_position }}%;
+    --logo-max-width: {{ section.settings.hero_logo_max_width }}px;
+    --logo-max-width-mobile: {{ section.settings.hero_logo_max_width_mobile }}px;
+    --sticky-logo-height: {{ section.settings.sticky_logo_height }}px;
 
     --header-bg-shrunk: {{ section.settings.header_bg_color_shrunk }};
     --header-text-shrunk: {{ section.settings.header_text_color_shrunk }};
@@ -194,7 +247,7 @@
     left: 0;
     width: 100%;
     height: 0;
-    z-index: 50;
+    z-index: 20000; /* Increased to 20000 to beat Hero Noise(9998) & Preloader(10000) */
     pointer-events: none;
   }
 
@@ -222,8 +275,8 @@
     background-color: var(--header-bg-shrunk);
     color: var(--header-text-shrunk);
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    padding-top: 12px;
-    padding-bottom: 12px;
+    /* padding-top: 12px; REMOVED TO PREVENT LAYOUT SHIFT DURING MORPH */
+    /* padding-bottom: 12px; REMOVED TO PREVENT LAYOUT SHIFT DURING MORPH */
   }
 
   /* --- STICKY BAR LOGO --- */
@@ -231,7 +284,7 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
-    transition: var(--header-transition);
+    /* transition: var(--header-transition); Conflict with JS scroll logic */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -247,7 +300,7 @@
   }
 
   .origin-sticky-bar__logo img {
-    height: 32px;
+    height: var(--sticky-logo-height);
     width: auto;
     display: block;
   }
@@ -278,17 +331,22 @@
     pointer-events: none;
     display: flex;
     justify-content: center;
-    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+    /* transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s; REPLACED BY JS SCROLL */
     transform-origin: center top;
+    will-change: transform, opacity;
   }
 
   .origin-huge-logo-inner {
-    margin-top: var(--logo-vertical-pos);
-    transform: translateY(-50%);
+    position: absolute; /* Changed from default flow to absolute for precise X/Y */
+    top: var(--logo-vertical-pos);
+    left: var(--logo-horizontal-pos);
+    transform: translate(-50%, -50%); /* Centers it on the point defined by top/left */
     width: var(--logo-width-desktop);
-    max-width: 1200px;
+    max-width: var(--logo-max-width);
     text-align: center;
     padding: 0 20px;
+    backface-visibility: hidden; /* Fix for Safari flicker */
+    will-change: transform, opacity; /* Hint for browser optimization */
   }
 
   .origin-huge-logo-inner.is-full-width {
@@ -315,9 +373,10 @@
   }
 
   .origin-gucci-header.is-shrunk .origin-huge-logo-wrapper {
-    opacity: 0;
+    /* Handled by JS now */
+    /* opacity: 0;
     visibility: hidden;
-    transform: scale(0.8) translateY(-100px);
+    transform: scale(0.8) translateY(-100px); */
   }
 
   /* --- SMART HEADER: STANDARD PAGE OVERRIDES --- */
@@ -418,7 +477,10 @@
 
   /* --- MOBILE STYLES --- */
   @media (max-width: 749px) {
-    .origin-huge-logo-inner { width: var(--logo-width-mobile); }
+    .origin-huge-logo-inner { 
+      width: var(--logo-width-mobile); 
+      max-width: var(--logo-max-width-mobile);
+    }
     .origin-huge-logo-inner.is-full-width { width: 100vw; }
     .origin-huge-logo-text { font-size: var(--huge-logo-size-mobile); }
     .origin-sticky-bar { padding: 12px 16px; }
@@ -427,16 +489,20 @@
   }
 
   /* --- DRAWER COMMONS --- */
+  /* --- DRAWER COMMONS --- */
   .origin-overlay-base {
     position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    backdrop-filter: blur(8px);
-    z-index: 2147483647;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s;
-    pointer-events: auto;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    z-index: 2147483646 !important; /* One less than Max to allow button on top */
+    backdrop-filter: blur(5px);
+    pointer-events: auto; /* Enable clicks when visible */
   }
 
   .origin-overlay-base.is-open {
@@ -689,7 +755,7 @@
         type="button"
         aria-label="Menu"
         id="origin-menu-trigger-{{ section.id }}"
-        style="z-index: 2147483650;"
+        style="z-index: 2147483647;"
       >
         <div class="origin-hamburger-box">
           <span class="origin-hamburger-line"></span>
@@ -888,33 +954,181 @@
     if (!headerContainer) return;
 
     // --- 1. Scroll Logic ---
+    // --- 1. Scroll & Morph Logic ---
     const handleScroll = () => {
+      // We will define this function but won't run it immediately until we have metrics.
+    };
+
+    let metrics = null;
+
+    function calculateMetrics() {
+      // GUARD: Do not run on standard pages or if header is static
+      if (headerContainer.classList.contains('is-standard-page')) return null;
+
+      const hugeWrapper = headerContainer.querySelector('.origin-huge-logo-wrapper');
+      // We want the inner content to morph
+      const hugeInner = headerContainer.querySelector('.origin-huge-logo-inner');
+      // The target
+      const stickyLogo = headerContainer.querySelector('.origin-sticky-bar__logo');
+
+      if (!hugeInner || !stickyLogo) return null;
+
+      // Ensure both are visible for measurement (temporarily remove hidden/opacity styles if needed)
+      // Since stickyLogo is visibility:hidden, getBoundingClientRect still works for layout dimensions in most browsers,
+      // but if display is none it won't. It is display:flex in CSS.
+
+      const hugeRect = hugeInner.getBoundingClientRect();
+      const stickyRect = stickyLogo.getBoundingClientRect();
+
+      // Calculate Scaling Factor (Height relative)
+      // Use height mostly as text/logos are usually height-constrained in headers
+      const scale = stickyRect.height / hugeRect.height;
+
+      // Calculate Translation Deltas
+      // We need the center of the huge logo to move to the center of the sticky logo
+      const hugeCenterY = hugeRect.top + hugeRect.height / 2;
+      const stickyCenterY = stickyRect.top + stickyRect.height / 2;
+      const deltaY = stickyCenterY - hugeCenterY;
+
+      // Note: X alignment might be needed perfectly centered?
+      // Both are likely centered horizontally in CSS.
+
+      return {
+        scale: scale,
+        deltaY: deltaY,
+        refHeight: hugeRect.height,
+      };
+    }
+
+    function updateMorph() {
+      // GUARD: Do not run on standard pages
+      if (headerContainer.classList.contains('is-standard-page')) return;
+
+      const hugeWrapper = headerContainer.querySelector('.origin-huge-logo-wrapper');
+      const hugeInner = headerContainer.querySelector('.origin-huge-logo-inner');
+      const stickyLogo = headerContainer.querySelector('.origin-sticky-bar__logo');
+      const stickyBar = headerContainer.querySelector('.origin-sticky-bar');
+
+      if (!metrics || !hugeWrapper) return;
+
       const scrollY = window.scrollY || document.documentElement.scrollTop;
-      if (scrollY > 50) {
+
+      // Define the scroll distance over which the morph happens
+      // Short range for "fast" reaction? user said "disappears so quickly",
+      // but also "slow and glitchy" might refer to the previous implementation?
+      // User says: "look like the big text on scroll turns into the little text"
+      // Let's use 200px as a reasonable morph distance.
+      const range = 300;
+      const progress = Math.min(1, Math.max(0, scrollY / range));
+
+      // Ease the progress?
+      // const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress); // Exponential ease out?
+      // Linear is often more predictable for scroll-linked connection.
+      const p = progress;
+
+      // 1. Apply Morph to Big Logo
+      // We transform the Wrapper or Inner? Inner is better if Wrapper is full screen.
+      // But Wrapper was the one fixed. Inner has margin-top for vertical pos.
+      // Let's anim the INNER.
+
+      const currentScale = 1 + (metrics.scale - 1) * p;
+      const currentY = metrics.deltaY * p;
+
+      // We use the Inner for the transform.
+      // Note: hugeInner has `transform: translateY(-50%)` in CSS for centering.
+      // We must preserve that or account for it.
+      // BoundingBox calculation accounts for current transforms usually.
+      // Actually `transform` replaces previous transform.
+      // So we need to include `translateY(-50%)` if it was there?
+      // Let's just set properties explicitly.
+      // Wait, if we use the computed rects from Scroll 0, we are good.
+      // But we need to know the base transform.
+
+      // Simplified approach: Wrapper is the "Subject".
+      // But wrapper is 100vh.
+
+      // Let's stick to modifying `hugeWrapper` but we calculated deltas based on `hugeInner`.
+      // If `hugeWrapper` is 100% width/height fixed, and `hugeInner` is the child.
+      // If we scale `hugeWrapper`, we scale the whole screen. Bad.
+      // We MUST animate `hugeInner`.
+
+      // CSS base: transform: translateY(-50%);
+      // We append our morph: translate(0, currentY) scale(currentScale)
+      // Order matters.
+      // Correct composition: `translateY(calc(-50% + ${currentY}px)) scale(${currentScale})`
+
+      if (hugeInner) {
+        hugeInner.style.transform = `translateY(calc(-50% + ${currentY}px)) scale(${currentScale})`;
+
+        // Fix for "glitchy": if we are fully morphed (p=1), we hide it?
+        // User said "turns into the little text at the top of the header... and vice versa".
+        // So at p=1, Big is hidden, Little is shown.
+        // At p<1, Big is shown, Little is hidden.
+
+        if (p >= 0.99) {
+          hugeInner.style.opacity = 0;
+          hugeInner.style.pointerEvents = 'none';
+          if (stickyLogo) stickyLogo.style.opacity = 1;
+          if (stickyLogo) stickyLogo.style.visibility = 'visible';
+        } else {
+          hugeInner.style.opacity = 1;
+          hugeInner.style.pointerEvents = 'auto';
+          if (stickyLogo) stickyLogo.style.opacity = 0;
+          if (stickyLogo) stickyLogo.style.visibility = 'hidden';
+        }
+      }
+
+      // 2. Background Logic (Sticky Bar)
+      // Turns solid when morph completes or starts?
+      // User: "turns into the little text at the top of the header"
+      // Usually background comes in as it hits the top.
+      if (p > 0.8) {
         headerContainer.classList.add('is-shrunk');
-        // Apply Fresh Start style blur and background
-        const bar = headerContainer.querySelector('.origin-sticky-bar');
-        if (bar) {
-          bar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-          bar.style.backdropFilter = 'blur(10px)';
+        if (stickyBar) {
+          stickyBar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+          stickyBar.style.backdropFilter = 'blur(10px)';
+          stickyBar.style.color = 'var(--header-text-shrunk)';
         }
       } else {
         headerContainer.classList.remove('is-shrunk');
-        const bar = headerContainer.querySelector('.origin-sticky-bar');
-        if (bar) {
-          bar.style.backgroundColor = 'transparent';
-          bar.style.backdropFilter = 'none';
+        if (stickyBar) {
+          stickyBar.style.backgroundColor = 'transparent';
+          stickyBar.style.backdropFilter = 'none';
+          stickyBar.style.color = 'var(--header-text-initial)';
         }
       }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    }
+
+    // Init
+    window.addEventListener('scroll', () => requestAnimationFrame(updateMorph), { passive: true });
+
+    // Recalc on resize
+    window.addEventListener('resize', () => {
+      // Reset transforms to get clean read?
+      // This is complex. For now, just Recalc might act on currently transformed elements...
+      // Ideally we reset, read, then re-apply.
+      const hugeInner = headerContainer.querySelector('.origin-huge-logo-inner');
+      if (hugeInner) hugeInner.style.transform = ''; // revert to CSS default
+      metrics = calculateMetrics();
+      updateMorph();
+    });
+
+    // Initial Calc (Wait for layout)
+    setTimeout(() => {
+      metrics = calculateMetrics();
+      updateMorph();
+    }, 100);
+
+    // Also run on load just in case
+    window.addEventListener('load', () => {
+      metrics = calculateMetrics();
+      updateMorph();
+    });
 
     // --- 2. Overlay Manager ---
     const toggleOverlay = (overlayId, isOpen) => {
       const overlay = document.getElementById(overlayId);
       if (!overlay) return;
-
       if (isOpen) {
         overlay.classList.add('is-open');
         document.body.style.overflow = 'hidden';

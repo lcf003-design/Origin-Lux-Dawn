@@ -18,23 +18,53 @@
       left: 0;
       width: 100vw;
       height: 100vh;
+      background-color: transparent; 
+      z-index: 2147483647;
+      display: block; 
+      visibility: visible;
+      pointer-events: auto;
+      overflow: hidden; /* contain sparks */
+    }
+
+    #SplashPage-{{ section.id }}.hidden {
+      display: none;
+    }
+
+    /* The two halves */
+    .splash-half {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
       background-color: {{ section.settings.bg_color }};
-      z-index: 9999;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      opacity: 1;
-      transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
-      visibility: visible;
+      overflow: hidden;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease-out;
+      will-change: transform, opacity;
     }
 
-    #SplashPage-{{ section.id }}.fading-out {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+    /* Left Half Clip Path & Animation */
+    .splash-left {
+      left: 0;
+      clip-path: polygon(
+        0% 0%, 50% 0%, 54% 20%, 46% 40%, 54% 60%, 46% 80%, 50% 100%, 0% 100%
+      );
+      z-index: 2;
     }
 
+    /* Right Half Clip Path & Animation */
+    .splash-right {
+      right: 0;
+      clip-path: polygon(
+        50% 0%, 100% 0%, 100% 100%, 50% 100%, 46% 80%, 54% 60%, 46% 40%, 54% 20%
+      );
+      z-index: 2;
+    }
+
+    /* Content styling */
     .splash-content {
       text-align: center;
       max-width: 90%;
@@ -71,63 +101,195 @@
       cursor: pointer;
       transition: transform 0.2s, background-color 0.2s;
       letter-spacing: 2px;
+      pointer-events: auto; 
+      position: relative;
+      z-index: 10; /* Above visual noise if needed */
     }
 
     .splash-enter-btn:hover {
       transform: scale(1.05);
       background-color: {{ section.settings.btn_bg | color_darken: 5 }};
     }
+
+    /* --- SAWING ANIMATION (SHAKE) --- */
+    #SplashPage-{{ section.id }}.sawing .splash-half {
+      animation: violentShake 0.08s infinite;
+    }
+
+    @keyframes violentShake {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(-4px, 4px); }
+      50% { transform: translate(4px, -4px); }
+      75% { transform: translate(-4px, -4px); }
+      100% { transform: translate(4px, 4px); }
+    }
+
+    /* --- SPLITTING STATE --- */
+    #SplashPage-{{ section.id }}.splitting {
+      pointer-events: none; 
+    }
+
+    /* Transition speed */
+    #SplashPage-{{ section.id }}.splitting .splash-half {
+      /* 1.2s is a good middle ground between 'too fast' and 'too long' */
+      transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.2s ease-out;
+    }
+
+    #SplashPage-{{ section.id }}.splitting .splash-left {
+      transform: translateX(-150%) rotate(-15deg);
+      opacity: 0;
+    }
+
+    #SplashPage-{{ section.id }}.splitting .splash-right {
+      transform: translateX(150%) rotate(15deg);
+      opacity: 0;
+    }
+  </style>
+
+  <!-- Global Spark Style (since we append to body) -->
+  <style>
+    .global-spark {
+      position: fixed; /* Fixed to viewport */
+      width: var(--size, 10px);
+      height: var(--size, 10px);
+      background: var(--color, #fff);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%; 
+      pointer-events: none;
+      z-index: 2147483647; /* Highest possible */
+      opacity: 1;
+      animation: flySparks 1.2s ease-out forwards;
+      box-shadow: 0 0 10px var(--color, #fff);
+    }
+
+    @keyframes flySparks {
+      0% {
+        transform: translate(-50%, -50%) scale(1); 
+        opacity: 1;
+      }
+      100% {
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0);
+        opacity: 0;
+      }
+    }
+
+
+
   </style>
 
   <div id="SplashPage-{{ section.id }}">
-    <div class="splash-content">
-      {%- if section.settings.logo != blank -%}
-        {{
-          section.settings.logo
-          | image_url: width: 600
-          | image_tag: class: 'splash-logo', widths: '200, 300, 400, 600', loading: 'eager', alt: shop.name
-        }}
-      {%- else -%}
-        <h1 style="color: #000; font-size: 3rem; text-transform: uppercase; font-weight: 900;">{{ shop.name }}</h1>
-      {%- endif -%}
+    
+    <!-- Left Half -->
+    <div class="splash-half splash-left">
+      <div class="splash-content">
+        {%- if section.settings.logo != blank -%}
+          {{
+            section.settings.logo
+            | image_url: width: 600
+            | image_tag: class: 'splash-logo', widths: '200, 300, 400, 600', loading: 'eager', alt: shop.name
+          }}
+        {%- else -%}
+          <h1 style="color: #000; font-size: 3rem; text-transform: uppercase; font-weight: 900;">{{ shop.name }}</h1>
+        {%- endif -%}
 
-      <button id="SplashEnterBtn-{{ section.id }}" class="splash-enter-btn">
-        {{ section.settings.btn_text }}
-      </button>
+        <button class="splash-enter-btn">
+          {{ section.settings.btn_text }}
+        </button>
+      </div>
     </div>
+
+    <!-- Right Half -->
+    <div class="splash-half splash-right">
+      <div class="splash-content">
+        {%- if section.settings.logo != blank -%}
+          {{
+            section.settings.logo
+            | image_url: width: 600
+            | image_tag: class: 'splash-logo', widths: '200, 300, 400, 600', loading: 'eager', alt: shop.name
+          }}
+        {%- else -%}
+          <h1 style="color: #000; font-size: 3rem; text-transform: uppercase; font-weight: 900;">{{ shop.name }}</h1>
+        {%- endif -%}
+
+        <button class="splash-enter-btn">
+          {{ section.settings.btn_text }}
+        </button>
+      </div>
+    </div>
+
   </div>
 
   <script>
     (function () {
-      const splash = document.getElementById('SplashPage-{{ section.id }}');
-      const btn = document.getElementById('SplashEnterBtn-{{ section.id }}');
+      const splashSection = document.getElementById('SplashPage-{{ section.id }}');
       const storageKey = 'splash_seen';
 
-      // 1. Check if already seen
       if (sessionStorage.getItem(storageKey)) {
-        splash.style.display = 'none';
-        return; // Exit, do nothing
+        if(splashSection) splashSection.style.display = 'none';
+        return; 
       }
 
-      // 2. If not seen, lock scroll immediately
       document.body.style.overflow = 'hidden';
 
-      // 3. Handle Enter Click
-      btn.addEventListener('click', function () {
-        // Fade out
-        splash.classList.add('fading-out');
+      const btns = splashSection.querySelectorAll('.splash-enter-btn');
+      
+      const spawnSparks = () => {
+        const count = 50; 
+        const colors = ['#ffffff', '#ffaa00', '#ffd700', '#ff4500', '#000000']; // Include black for contrast on light BG
 
-        // Unlock Scroll
-        document.body.style.overflow = '';
+        for (let i = 0; i < count; i++) {
+          const spark = document.createElement('div');
+          spark.classList.add('global-spark');
+          
+          const size = Math.random() * 10 + 4 + 'px'; 
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          
+          // We don't use --top anymore, they explode from center of screen
+          const tx = (Math.random() - 0.5) * 800 + 'px'; 
+          const ty = (Math.random() - 0.5) * 600 + 'px';
 
-        // Remember visitor
-        sessionStorage.setItem(storageKey, 'true');
+          spark.style.setProperty('--size', size);
+          spark.style.setProperty('--color', color);
+          spark.style.setProperty('--tx', tx);
+          spark.style.setProperty('--ty', ty);
 
-        // Remove from DOM after transition matches CSS duration
+          document.body.appendChild(spark);
+          
+          // Self cleanup
+          setTimeout(() => { spark.remove(); }, 1200);
+        }
+      };
+
+      const triggerEnter = function(e) {
+        if (splashSection.classList.contains('sawing') || splashSection.classList.contains('splitting')) return;
+
+        // 1. Start Sawing (Shake) - 1.2s (Punchy but deliberate)
+        splashSection.classList.add('sawing');
+
+        // 2. Wait for the saw to cut
         setTimeout(() => {
-          splash.style.display = 'none';
-        }, 800);
+          splashSection.classList.remove('sawing');
+          
+          // 3. Trigger Split and Sparks
+          splashSection.classList.add('splitting');
+          spawnSparks(); 
+
+          document.body.style.overflow = '';
+          sessionStorage.setItem(storageKey, 'true');
+
+          // 4. Cleanup after split (1.2s transition)
+          setTimeout(() => {
+            splashSection.classList.add('hidden');
+            splashSection.remove();
+          }, 1200); 
+        }, 1200); // Sawing duration
+      };
+
+      btns.forEach(btn => {
+        btn.addEventListener('click', triggerEnter);
       });
+
     })();
   </script>
 {%- endif -%}
