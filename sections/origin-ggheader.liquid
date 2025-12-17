@@ -347,6 +347,7 @@
     padding: 0 20px;
     backface-visibility: hidden; /* Fix for Safari flicker */
     will-change: transform, opacity; /* Hint for browser optimization */
+    pointer-events: none;
   }
 
   .origin-huge-logo-inner.is-full-width {
@@ -1067,12 +1068,10 @@
 
         if (p >= 0.99) {
           hugeInner.style.opacity = 0;
-          hugeInner.style.pointerEvents = 'none';
           if (stickyLogo) stickyLogo.style.opacity = 1;
           if (stickyLogo) stickyLogo.style.visibility = 'visible';
         } else {
           hugeInner.style.opacity = 1;
-          hugeInner.style.pointerEvents = 'none';
           if (stickyLogo) stickyLogo.style.opacity = 0;
           if (stickyLogo) stickyLogo.style.visibility = 'hidden';
         }
