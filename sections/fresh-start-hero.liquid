@@ -149,7 +149,8 @@
       </div>
     {%- endif -%}
     <div
-      class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-100/60 rounded-full blur-[120px] pointer-events-none"
+      class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-100/60 rounded-full blur-[120px]"
+      style="pointer-events: none;"
     ></div>
 
     <div id="fs-parallax-container" class="absolute inset-0 z-10 overflow-hidden pointer-events-none">
@@ -228,9 +229,9 @@
     <div class="w-full absolute inset-0 z-30 flex flex-col items-center justify-start h-full pointer-events-none gap-8">
       <!-- CTA Parallax Layer -->
       <div
-        class="parallax-layer z-50 pointer-events-auto"
+        class="parallax-layer pointer-events-auto"
         data-speed="12"
-        style="margin-top: {{ section.settings.content_position_y }}%;"
+        style="margin-top: {{ section.settings.content_position_y }}%; z-index: 21000;"
       >
         <div class="flex flex-col items-center gap-6 animate-float-medium">
           <p
@@ -245,6 +246,7 @@
               <a
                 href="{{ section.settings.cta_link_1 }}"
                 class="w-48 py-4 flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 text-black text-sm font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-white hover:text-black hover:scale-105 transition-all duration-500 rounded-sm"
+                style="pointer-events: auto !important;"
               >
                 {{ section.settings.cta_label_1 }}
               </a>
@@ -253,6 +255,7 @@
               <a
                 href="{{ section.settings.cta_link_2 }}"
                 class="w-48 py-4 flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 text-black text-sm font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-white hover:text-black hover:scale-105 transition-all duration-500 rounded-sm"
+                style="pointer-events: auto !important;"
               >
                 {{ section.settings.cta_label_2 }}
               </a>
