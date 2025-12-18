@@ -72,7 +72,15 @@
   #hero-content-{{ section.id }} a {
     pointer-events: auto !important;
     position: relative;
-    z-index: 51 !important;
+    z-index: 9999 !important; /* Above everything */
+    cursor: pointer !important;
+  }
+
+  /* Ensure button container is also interactive */
+  #hero-content-{{ section.id }} > div {
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 9999 !important;
   }
   @media (min-width: 768px) {
     #hero-content-{{ section.id }} {
@@ -86,6 +94,11 @@
     position: relative !important;
     z-index: 2 !important; /* Above header logo (z-index: 1) but below sticky bar (z-index: 100) */
     pointer-events: none; /* Allow pass-through to header menu */
+  }
+
+  /* Force hero section content to be above header logo on homepage */
+  body.template-index #shopify-section-{{ section.id }} {
+    z-index: 50 !important;
   }
 </style>
 
