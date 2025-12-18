@@ -124,7 +124,7 @@
   }
 </style>
 
-<div class="relative w-full bg-white font-sans text-black">
+<div class="relative w-full bg-transparent font-sans text-black">
   <!-- Preloader -->
   {%- if section.settings.enable_preloader -%}
     <div
@@ -149,7 +149,7 @@
   ></div>
 
   <!-- Main Hero Section -->
-  <section class="relative w-full flex flex-col items-center justify-start bg-white overflow-visible {% if section.settings.hero_height_mobile == 'adapt' %}h-auto min-h-[400px]{% else %}{{ section.settings.hero_height_mobile }}{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto min-h-[500px]{% else %}{{ section.settings.hero_height_desktop }}{% endif %}">
+  <section class="relative w-full flex flex-col items-center justify-start bg-transparent overflow-visible {% if section.settings.hero_height_mobile == 'adapt' %}h-auto min-h-[400px]{% else %}{{ section.settings.hero_height_mobile }}{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto min-h-[500px]{% else %}{{ section.settings.hero_height_desktop }}{% endif %}">
     <!-- Background Layer (Z-0) -->
     <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
       {%- if section.settings.bg_image != blank -%}
