@@ -304,11 +304,13 @@
   }
 
   .fresh-start-header-section.is-scrolled .fresh-start-logo-wrapper {
-    /* Move up approx 35-40vh to match header position and shrink to icon size */
-    /* Adjust translate to account for horizontal positioning centering */
-    transform: translate(-50%, calc(-50% - 36vh)) scale(0.25);
+    /* Dynamic translation to bring logo exactly to header center (~30px from top) */
+    /* Formula: Start Y (var(--logo-vertical-pos)) -> Target Y (30px) */
+    /* Delta = 30px - var(--logo-vertical-pos) */
+    /* Preserve original -50% centering, add Delta */
+    transform: translate(-50%, calc(-50% + 30px - var(--logo-vertical-pos))) scale(0.24);
     opacity: 0;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease 0.2s; /* Fade out AFTER moving */
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.1s ease 0.35s; /* Fade out at the very end of move */
   }
 
   /* 3. STICKY LOGO (Appears on scroll) */
