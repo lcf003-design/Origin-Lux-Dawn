@@ -40,12 +40,22 @@
     },
     {
       "type": "range",
-      "id": "shield_position_y",
+      "id": "shield_position_y_desktop",
       "min": 0,
       "max": 100,
       "step": 1,
       "unit": "%",
-      "label": "Vertical Position (Y)",
+      "label": "Desktop Vertical Position (Y)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "shield_position_y_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Mobile Vertical Position (Y)",
       "default": 40
     },
     {
@@ -124,7 +134,8 @@
 {% style %}
   /* --- VARIABLES --- */
   #shopify-section-{{ section.id }} {
-    --shield-y: {{ section.settings.shield_position_y }}%;
+    --shield-y: {{ section.settings.shield_position_y_desktop }}%;
+    --shield-y-mobile: {{ section.settings.shield_position_y_mobile }}%;
     --shield-w-desktop: {{ section.settings.shield_width_desktop }}%;
     --shield-w-mobile: {{ section.settings.shield_width_mobile }}%;
     --sticky-logo-h: {{ section.settings.sticky_logo_height }}px;
@@ -255,6 +266,7 @@
   @media (max-width: 768px) {
     #shopify-section-{{ section.id }} {
       --shield-w: var(--shield-w-mobile);
+      --shield-y: var(--shield-y-mobile);
     }
     .gg-shield-inner { width: var(--shield-w-mobile); }
     .gg-sticky-bar { padding: 12px 20px; }
