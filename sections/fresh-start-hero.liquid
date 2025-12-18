@@ -106,15 +106,17 @@
     }
   }
 
-  /* FIX: Force container to start AFTER the fixed header (Offset) */
+  /* Force container to start AFTER the fixed header (Offset) */
   #shopify-section-{{ section.id }} {
-    padding-top: 140px; /* Match standard Origin header offset */
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
-  /* Adjust offset for mobile if header is smaller */
+  /* Adjust offset for mobile */
   @media screen and (max-width: 749px) {
     #shopify-section-{{ section.id }} {
-      padding-top: 100px; /* Approximate mobile header height */
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
     }
   }
 
@@ -403,6 +405,47 @@
       "default": 85,
       "unit": "vh",
       "label": "Vertical Position (Mobile)"
+    },
+    { "type": "header", "content": "Section Spacing" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Padding Top",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Padding Bottom",
+      "default": 0
     },
     { "type": "header", "content": "Section Layout" },
     {
