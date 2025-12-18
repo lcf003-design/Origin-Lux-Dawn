@@ -477,26 +477,72 @@
     max-height: 70vh;
     overflow-y: auto;
   }
-  .predictive-search-results-list {
+
+  /* MATCHING LIQUID BEM CLASSES */
+  .predictive-search__results-list {
     list-style: none;
     padding: 0;
+    margin: 0;
   }
-  .predictive-search-item {
+
+  .predictive-search__list-item {
+    margin: 0;
+    padding: 0;
+  }
+
+  .predictive-search__item {
     display: flex;
     align-items: center;
-    gap: 25px; /* More breathing room */
+    gap: 25px;
     padding: 15px 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    color: #fff !important; /* Force override generic link styles */
     text-decoration: none;
     transition: background 0.2s;
   }
-  .predictive-search-item:hover { background: rgba(255,255,255,0.1); }
-  .predictive-search-item img { width: 80px; height: 80px; object-fit: cover; } /* Larger thumbs */
-  .predictive-search-item__content { display: flex; flex-direction: column; gap: 5px; }
-  .predictive-search-item__title { font-size: 18px; font-weight: 500; letter-spacing: 0.05em; margin: 0; }
-  .predictive-search-item__vendor { font-size: 12px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.1em; }
-  .predictive-search-item__price { font-size: 14px; opacity: 0.8; }
+
+  .predictive-search__item:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .predictive-search__image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px; /* Soften edges */
+  }
+
+  .predictive-search__item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .predictive-search__item-heading {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+    color: #fff;
+    text-transform: none; /* Keep natural case */
+  }
+
+  .predictive-search__item-vendor {
+    font-size: 12px;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .predictive-search__heading {
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 5px;
+  }
 {% endstyle %}
 
 <!-- THE SHIELD -->
@@ -681,7 +727,7 @@
           aria-autocomplete="list"
         >
         <input type="hidden" name="type" value="product">
-        <div id="predictive-search" tabindex="-1" data-predictive-search></div>
+        <div id="predictive-search" class="predictive-search" tabindex="-1" data-predictive-search></div>
         <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
       </form>
     </predictive-search>
