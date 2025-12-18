@@ -1,0 +1,1005 @@
+{% schema %}
+{
+  "name": "Origin GG Header V2",
+  "class": "section-gg-header-v2",
+  "settings": [
+    {
+      "type": "header",
+      "content": "🛡️ The Shield (Huge Logo)"
+    },
+    {
+      "type": "image_picker",
+      "id": "shield_logo_desktop",
+      "label": "Desktop Shield Logo",
+      "info": "The massive logo shown initially."
+    },
+    {
+      "type": "image_picker",
+      "id": "shield_logo_mobile",
+      "label": "Mobile Shield Logo"
+    },
+    {
+      "type": "range",
+      "id": "shield_width_desktop",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Desktop Width",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "shield_width_mobile",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Mobile Width",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "shield_position_y_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Desktop Vertical Position (Y)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "shield_position_y_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Mobile Vertical Position (Y)",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "✨ Sticky Header"
+    },
+    {
+      "type": "image_picker",
+      "id": "sticky_logo",
+      "label": "Sticky Bar Logo",
+      "info": "Appears when scrolled."
+    },
+    {
+      "type": "range",
+      "id": "sticky_logo_height",
+      "min": 20,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Logo Height",
+      "default": 32
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_glass",
+      "label": "Enable Glassmorphism",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "glass_blur",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Blur Intensity",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "sticky_bg_color",
+      "label": "Scrolled Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "sticky_text_color",
+      "label": "Scrolled Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "initial_text_color",
+      "label": "Initial Icon Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main Menu",
+      "default": "main-menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origin GG Header V2"
+    }
+  ]
+}
+{% endschema %}
+
+<script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+
+{% style %}
+  /* --- VARIABLES --- */
+  #shopify-section-{{ section.id }} {
+    --shield-y: {{ section.settings.shield_position_y_desktop }}%;
+    --shield-y-mobile: {{ section.settings.shield_position_y_mobile }}%;
+    --shield-w-desktop: {{ section.settings.shield_width_desktop }}%;
+    --shield-w-mobile: {{ section.settings.shield_width_mobile }}%;
+    --sticky-logo-h: {{ section.settings.sticky_logo_height }}px;
+    --glass-blur: {{ section.settings.glass_blur }}px;
+    --sticky-bg: {{ section.settings.sticky_bg_color }};
+    --sticky-text: {{ section.settings.sticky_text_color }};
+    --initial-text: {{ section.settings.initial_text_color }};
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 200; /* FIX: Must be higher than Hero (150) */
+    pointer-events: none; /* CRITICAL: NUKE PROOF INTERACTION */
+  }
+
+  /* --- THE SHIELD (HUGE LOGO) --- */
+  .gg-shield-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+    clip-path: inset(0 0 0 0); /* Performance hack */
+  }
+
+  .gg-shield-inner {
+    position: absolute;
+    top: var(--shield-y);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--shield-w-desktop);
+    max-width: 1200px;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    will-change: opacity, transform;
+  }
+
+  .gg-shield-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Hide shield on scroll */
+  #shopify-section-{{ section.id }}.scrolled .gg-shield-inner {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+    pointer-events: none;
+  }
+
+  /* --- STICKY BAR --- */
+  .gg-sticky-bar {
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 15px 40px;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 50;
+    /* Initial State: Transparent */
+    background: transparent;
+    color: var(--initial-text);
+  }
+
+  /* Scrolled State */
+  .gg-sticky-bar.is-scrolled {
+    padding: 10px 30px;
+    color: var(--sticky-text);
+    background: {% if section.settings.enable_glass %}rgba(255, 255, 255, 0.85){% else %}var(--sticky-bg){% endif %};
+    {% if section.settings.enable_glass %}
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+    {% endif %}
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    pointer-events: auto; /* Bar becomes clickable only when scrolled/solid */
+  }
+
+  /* FIX: Ensure sticky logo is visible when scrolled */
+  .gg-sticky-bar.is-scrolled .gg-sticky-logo {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    pointer-events: auto;
+  }
+
+  /* --- INTERACTIVE ELEMENTS (Always Clickable) --- */
+  .gg-icon-btn,
+  .gg-logo-link,
+  .gg-hamburger {
+    pointer-events: auto; /* EXEMPT FROM NUKE */
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s;
+  }
+  .gg-icon-btn:hover, .gg-hamburger:hover { opacity: 0.7; }
+
+  /* Logo in Sticky Bar */
+  .gg-sticky-logo {
+    height: var(--sticky-logo-h);
+    width: auto;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+    pointer-events: none; /* Hidden strictly */
+  }
+
+  .gg-sticky-bar.is-scrolled .gg-sticky-logo {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .gg-header-right {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+  }
+
+  /* --- MOBILE --- */
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} {
+      --shield-w: var(--shield-w-mobile);
+      --shield-y: var(--shield-y-mobile);
+    }
+    .gg-shield-inner { width: var(--shield-w-mobile); }
+    .gg-sticky-bar { padding: 12px 20px; }
+    .gg-sticky-bar.is-scrolled { padding: 10px 20px; }
+    .gg-header-right { gap: 15px; }
+  }
+
+  /* --- DESKTOP VS MOBILE SHOW/HIDE (Vanilla CSS Fix) --- */
+  .gg-shield-img-desktop { display: none; }
+  .gg-shield-img-mobile { display: block; }
+
+  @media (min-width: 769px) {
+    .gg-shield-img-desktop { display: block; }
+    .gg-shield-img-mobile { display: none; }
+  }
+
+  /* --- MENU DRAWER (Premium) --- */
+  .gg-menu-drawer {
+    background: linear-gradient(145deg, rgba(15,15,15,0.98) 0%, rgba(30,30,30,0.99) 100%);
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+    width: 380px;
+    max-width: 90vw;
+    height: 100%;
+    padding: 40px 0;
+    transform: translateX(-102%);
+    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    display: flex;
+    flex-direction: column;
+    color: #ffffff;
+    overflow-y: auto;
+    font-family: var(--font-menu, sans-serif);
+    z-index: 201;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  .gg-drawer-overlay.active .gg-menu-drawer {
+    transform: translateX(0);
+  }
+
+  .gg-menu-list {
+    list-style: none;
+    padding: 0 30px;
+    margin: 40px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .gg-menu-link-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .gg-menu-link-wrapper:hover { transform: translateX(10px); }
+
+  .gg-menu-link {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-grow: 1;
+  }
+
+  .gg-accordion-icon {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
+    opacity: 0.7;
+  }
+
+  /* Level 2 Submenu */
+  .gg-submenu {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(255,255,255,0.03);
+    border-radius: 4px;
+  }
+  .gg-submenu.is-open {
+    display: block;
+    animation: ggFadeIn 0.3s ease;
+  }
+  @keyframes ggFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .gg-submenu li { padding-left: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .gg-submenu li a {
+    font-size: 16px;
+    opacity: 0.8;
+    text-transform: none;
+    font-weight: 300;
+    display: block;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #fff;
+  }
+
+  /* Level 3 Submenu (The Pop) */
+  .gg-submenu .gg-submenu {
+    background: transparent;
+    margin: 5px 0 10px 10px;
+    border-left: 1px solid rgba(255,255,255,0.15);
+    padding-left: 0;
+  }
+  .gg-submenu .gg-submenu li { border: none; padding: 0; }
+  .gg-submenu .gg-submenu li a {
+    font-size: 15px;
+    opacity: 0.6;
+    padding: 8px 0 8px 15px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  /* The Dot */
+  .gg-submenu .gg-submenu li a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    background-color: currentColor;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+  .gg-submenu .gg-submenu li a:hover {
+    opacity: 1;
+    transform: translateX(5px);
+  }
+  .gg-submenu .gg-submenu li a:hover::before { opacity: 1; }
+
+  /* --- SEARCH OVERLAY --- */
+  /* --- SEARCH OVERLAY (Origin Clone) --- */
+  .gg-search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10, 10, 10, 0.85); /* Origin opacity */
+    backdrop-filter: blur(25px);
+    z-index: 2147483647; /* Origin Z-Index logic */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+    color: #fff; /* Default text color from vars */
+  }
+
+  .gg-search-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* --- NUCLEAR OVERRIDES FOR PREDICTIVE SEARCH (Fixing the White Box) --- */
+  /* Using ID selector + !important to win specificty wars against component-predictive-search.css */
+  #shopify-section-{{ section.id }} .predictive-search {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: block !important; /* Kill the hidden state if any */
+    position: relative !important; /* Kill absolute positioning */
+    top: auto !important;
+    left: auto !important;
+    overflow: visible !important;
+  }
+
+  #shopify-section-{{ section.id }} #predictive-search-results {
+    background: transparent !important;
+    color: #fff !important;
+    text-align: left;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .predictive-search__results-groups-wrapper {
+    display: flex !important;
+    flex-direction: row !important; /* Back to 2 columns */
+    flex-wrap: wrap !important;
+    gap: 40px !important;
+  }
+
+  /* Equal width columns */
+  #shopify-section-{{ section.id }} .predictive-search__result-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    flex: 1 1 300px !important;
+  }
+
+  /* Stack on mobile */
+  @media (max-width: 750px) {
+    #shopify-section-{{ section.id }} .predictive-search__results-groups-wrapper {
+       flex-direction: column !important;
+    }
+  }
+
+  /* Hide Native Search UI (X button) */
+  .gg-search-input::-webkit-search-decoration,
+  .gg-search-input::-webkit-search-cancel-button,
+  .gg-search-input::-webkit-search-results-button,
+  .gg-search-input::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+  }
+
+  /* Align Search Button properly */
+  .gg-search-submit {
+    position: absolute; /* Re-affirm absolute */
+    right: 0 !important;
+    padding-left: 15px; /* Spacing */
+    border-left: 1px solid rgba(255,255,255,0.3); /* Divider */
+    height: 60%;
+    top: 50% !important; /* Center in wrapper */
+    transform: translateY(-50%) !important;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: currentColor;
+    z-index: 5;
+  }
+
+  /* Additional cleanup */
+  #shopify-section-{{ section.id }} .predictive-search__item-content--centered {
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+
+  .predictive-search__list-item {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+  }
+
+  /* Items */
+  a.predictive-search__item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    padding: 10px 0 !important;
+    background: transparent !important;
+    color: #fff !important;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    text-decoration: none !important;
+    transition: opacity 0.2s;
+  }
+
+  a.predictive-search__item:hover {
+    opacity: 0.7;
+    background: rgba(255,255,255,0.05) !important;
+  }
+
+  /* Images */
+  .predictive-search__image {
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: cover !important;
+    border-radius: 0 !important;
+    display: block !important;
+  }
+
+  /* Text Content */
+  .predictive-search__item-content {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    text-align: left !important;
+  }
+
+  .predictive-search__item-heading {
+    margin: 0 !important;
+    font-size: 1.3rem !important; /* Increased from 1.1rem */
+    font-weight: 500 !important;
+    letter-spacing: 0.05rem !important;
+    color: #fff !important;
+  }
+
+  .predictive-search__item-vendor {
+    font-size: 0.9rem !important; /* Increased from 0.8rem */
+    opacity: 0.8 !important;       /* Increased opacity for better visibility */
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  .predictive-search__price {
+    color: #fff !important;
+    font-size: 1.0rem !important; /* Increased from 0.9rem */
+    margin-top: 4px;
+  }
+
+  /* "Search for..." Button at bottom */
+  .predictive-search__search-for-button {
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  /* --- END OVERRIDES --- */
+
+
+  .gg-search-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .gg-search-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    z-index: 10;
+  }
+
+  .gg-search-form {
+    width: 90%;
+    max-width: 600px; /* Origin Width */
+    position: relative;
+  }
+
+  .gg-search-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid currentColor;
+    font-size: 32px; /* Origin Font Size */
+    padding: 10px 0;
+    background: transparent;
+    border-radius: 0;
+    outline: none;
+    font-family: inherit;
+    color: currentColor;
+    text-align: left; /* Origin Alignment */
+    text-transform: none; /* Origin Case */
+  }
+
+  .gg-search-input::placeholder {
+    color: currentColor;
+    opacity: 0.6;
+  }
+
+  .gg-search-submit {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: currentColor;
+  }
+
+  /* Custom Predictive Search Styles */
+  .predictive-search {
+    margin-top: 30px;
+    text-align: left;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  /* MATCHING LIQUID BEM CLASSES */
+  .predictive-search__results-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .predictive-search__list-item {
+    margin: 0;
+    padding: 0;
+  }
+
+  .predictive-search__item {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 15px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    color: #fff !important; /* Force override generic link styles */
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .predictive-search__item:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .predictive-search__image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px; /* Soften edges */
+  }
+
+  .predictive-search__item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .predictive-search__item-heading {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+    color: #fff;
+    text-transform: none; /* Keep natural case */
+  }
+
+  .predictive-search__item-vendor {
+    font-size: 12px;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .predictive-search__heading {
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 5px;
+  }
+{% endstyle %}
+
+<!-- THE SHIELD -->
+<div class="gg-shield-wrapper" aria-hidden="true">
+  <div class="gg-shield-inner">
+    {% if section.settings.shield_logo_desktop %}
+      <img
+        src="{{ section.settings.shield_logo_desktop | image_url: width: 1400 }}"
+        class="gg-shield-img gg-shield-img-desktop"
+        alt="Shield Logo"
+        width="{{ section.settings.shield_logo_desktop.width }}"
+        height="{{ section.settings.shield_logo_desktop.height }}"
+      >
+    {% endif %}
+    {% if section.settings.shield_logo_mobile %}
+      <img
+        src="{{ section.settings.shield_logo_mobile | image_url: width: 800 }}"
+        class="gg-shield-img gg-shield-img-mobile"
+        alt="Shield Logo"
+        width="{{ section.settings.shield_logo_mobile.width }}"
+        height="{{ section.settings.shield_logo_mobile.height }}"
+      >
+    {% endif %}
+  </div>
+</div>
+
+<!-- STICKY BAR -->
+<header class="gg-sticky-bar" id="gg-sticky-bar">
+  <!-- Left: Menu -->
+  <div class="gg-header-left">
+    <button class="gg-hamburger" onclick="toggleGGDrawer()" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Center: Sticky Logo -->
+  <div class="gg-header-center" style="justify-self: center;">
+    <a href="{{ routes.root_url }}" class="gg-logo-link">
+      {% if section.settings.sticky_logo %}
+        <img
+          src="{{ section.settings.sticky_logo | image_url: width: 400 }}"
+          class="gg-sticky-logo"
+          alt="{{ shop.name }}"
+          width="{{ section.settings.sticky_logo.width }}"
+          height="{{ section.settings.sticky_logo.height }}"
+        >
+      {% else %}
+        <span class="gg-sticky-logo" style="font-weight:bold; text-transform:uppercase;">{{ shop.name }}</span>
+      {% endif %}
+    </a>
+  </div>
+
+  <!-- Right: Actions -->
+  <div class="gg-header-right">
+    <button class="gg-icon-btn" aria-label="Search" onclick="toggleGGSearch()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+
+    {% if shop.customer_accounts_enabled %}
+      <a href="{{ routes.account_url }}" class="gg-icon-btn" aria-label="Account">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+      </a>
+    {% endif %}
+
+    <a href="{{ routes.cart_url }}" class="gg-icon-btn" aria-label="Cart">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+      </svg>
+    </a>
+  </div>
+</header>
+
+<!-- MENU DRAWER -->
+<div class="gg-drawer-overlay" id="gg-drawer-overlay" onclick="toggleGGDrawer()">
+  <div class="gg-menu-drawer" onclick="event.stopPropagation()">
+    <button
+      class="gg-icon-btn"
+      onclick="toggleGGDrawer()"
+      style="align-self: flex-end; margin-right: 20px; margin-bottom: 20px;"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <nav>
+      <ul class="gg-menu-list">
+        {% for link in linklists[section.settings.menu].links %}
+          <li class="gg-menu-item">
+            {% if link.links != blank %}
+              <div class="gg-menu-link-wrapper accordion-trigger">
+                <a href="{{ link.url }}" class="gg-menu-link">{{ link.title }}</a>
+                <svg class="gg-accordion-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 1v12M1 7h12"/>
+                </svg>
+              </div>
+              <!-- LEVEL 2 -->
+              <ul class="gg-submenu">
+                {% for child_link in link.links %}
+                  <li>
+                    {% if child_link.links != blank %}
+                      <div class="gg-menu-link-wrapper accordion-trigger" style="border:none; padding:5px 0;">
+                        <a href="{{ child_link.url }}" class="gg-menu-link" style="font-size:18px;">
+                          {{- child_link.title -}}
+                        </a>
+                        <svg
+                          class="gg-accordion-icon"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path d="M7 1v12M1 7h12"/>
+                        </svg>
+                      </div>
+                      <!-- LEVEL 3 -->
+                      <ul class="gg-submenu">
+                        {% for grandchild_link in child_link.links %}
+                          <li>
+                            <a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% else %}
+                      <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <!-- LEVEL 1 SIMPLE -->
+              <div class="gg-menu-link-wrapper">
+                <a href="{{ link.url }}" class="gg-menu-link">{{ link.title }}</a>
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+
+        {% if shop.customer_accounts_enabled %}
+          <li style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;">
+            <a href="{{ routes.account_url }}" class="gg-menu-link" style="font-size: 18px;">My Account</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<!-- SEARCH OVERLAY (Origin Clone) -->
+<div class="gg-search-overlay" id="gg-search-overlay">
+  <div class="gg-search-container">
+    <button class="gg-search-close" onclick="toggleGGSearch()" aria-label="Close search">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <predictive-search class="gg-search-form" data-loading-text="{{ 'accessibility.loading' | t }}">
+      <form action="{{ routes.search_url }}" method="get" role="search" style="width: 100%;">
+        <!-- Input Wrapper to anchor the Search Button -->
+        <div class="gg-search-field-wrapper" style="position: relative; width: 100%;">
+          <input
+            type="search"
+            name="q"
+            id="gg-search-input"
+            value="{{ search.terms | escape }}"
+            placeholder="SEARCH..."
+            class="gg-search-input"
+            role="combobox"
+            aria-expanded="false"
+            aria-owns="predictive-search-results"
+            aria-controls="predictive-search-results"
+            aria-haspopup="listbox"
+            aria-autocomplete="list"
+            autocorrect="off"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+          >
+          <input type="hidden" name="type" value="product">
+          <button type="submit" class="gg-search-submit">{{ 'general.search.search' | t }}</button>
+        </div>
+
+        <div id="predictive-search" class="predictive-search" tabindex="-1" data-predictive-search>
+          {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+        </div>
+        <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+      </form>
+    </predictive-search>
+  </div>
+</div>
+
+<script>
+  // Scroll Logic
+  const ggHeaderObserver = () => {
+    const header = document.getElementById('shopify-section-{{ section.id }}');
+    const stickyBar = document.getElementById('gg-sticky-bar');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        stickyBar.classList.add('is-scrolled');
+        header.classList.add('scrolled');
+      } else {
+        stickyBar.classList.remove('is-scrolled');
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Submenu Accordion Logic (Level 2 & 3)
+    document.querySelectorAll('.accordion-trigger').forEach((trigger) => {
+      trigger.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation(); // Stop bubble
+
+        const submenu = this.nextElementSibling;
+        const icon = this.querySelector('.gg-accordion-icon');
+
+        if (submenu) {
+          submenu.classList.toggle('is-open');
+          // Rotate Icon
+          if (icon) {
+            if (submenu.classList.contains('is-open')) {
+              icon.style.transform = 'rotate(45deg)';
+            } else {
+              icon.style.transform = 'rotate(0deg)';
+            }
+          }
+        }
+      });
+    });
+  };
+
+  // Drawer Toggle
+  window.toggleGGDrawer = () => {
+    const overlay = document.getElementById('gg-drawer-overlay');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = overlay.classList.contains('active') ? 'hidden' : '';
+  };
+
+  // Search Toggle
+  window.toggleGGSearch = () => {
+    const overlay = document.getElementById('gg-search-overlay');
+    const input = document.getElementById('gg-search-input');
+    overlay.classList.toggle('active');
+
+    if (overlay.classList.contains('active')) {
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => input.focus(), 100);
+    } else {
+      document.body.style.overflow = '';
+    }
+  };
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.getElementById('gg-drawer-overlay').classList.remove('active');
+      document.getElementById('gg-search-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', ggHeaderObserver);
+  if (Shopify.designMode) {
+    document.addEventListener('shopify:section:load', ggHeaderObserver);
+  }
+</script>

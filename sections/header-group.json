@@ -11,8 +11,27 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "gg_header_v2_nemG6C": {
+      "type": "gg-header-v2",
+      "name": "Origin GG Header V2",
+      "settings": {
+        "shield_width_desktop": 60,
+        "shield_width_mobile": 80,
+        "shield_position_y_desktop": 45,
+        "shield_position_y_mobile": 27,
+        "sticky_logo": "shopify://shop_images/updated_logo.svg",
+        "sticky_logo_height": 32,
+        "enable_glass": true,
+        "glass_blur": 20,
+        "sticky_bg_color": "#ffffff",
+        "sticky_text_color": "#000000",
+        "initial_text_color": "#121212",
+        "menu": "orgin-lux"
+      }
+    },
     "origin_ggheader_zynrDj": {
       "type": "origin-ggheader",
+      "disabled": true,
       "name": "Origin GG Header",
       "settings": {
         "logo_image": "shopify://shop_images/updated_logo.svg",
@@ -81,6 +100,7 @@
     }
   },
   "order": [
+    "gg_header_v2_nemG6C",
     "origin_ggheader_zynrDj",
     "header",
     "announcement_bar_Pmqzea"

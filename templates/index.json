@@ -22,23 +22,88 @@
         "btn_text_color": "#ffffff"
       }
     },
+    "gg_hero_bounce_XYz": {
+      "type": "gg-hero-bounce",
+      "blocks": {
+        "button_9JGhxY": {
+          "type": "button",
+          "settings": {
+            "label": "men",
+            "link": ""
+          }
+        },
+        "button_FPzbzw": {
+          "type": "button",
+          "settings": {
+            "label": "women",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "button_9JGhxY",
+        "button_FPzbzw"
+      ],
+      "name": "GG Bouncing Hero (Ping-Pong)",
+      "settings": {
+        "logo": "shopify://shop_images/updated_logo.svg",
+        "logo_width_desktop": 50,
+        "logo_width_mobile": 60,
+        "speed": 4,
+        "enable_glass": true,
+        "headline": "",
+        "text_color": "#000000",
+        "bg_color": "rgba(0,0,0,0)",
+        "hero_height": "adapt",
+        "min_height_desktop": 80,
+        "min_height_mobile": 35,
+        "padding_top": 140,
+        "padding_bottom": 80,
+        "padding_top_mobile": 100,
+        "padding_bottom_mobile": 60
+      }
+    },
     "fresh_start_hero_kHj8J7": {
       "type": "fresh-start-hero",
+      "blocks": {
+        "button_women": {
+          "type": "button",
+          "settings": {
+            "label": "Women",
+            "link": "shopify://collections/womens-products",
+            "style": "primary"
+          }
+        },
+        "button_men": {
+          "type": "button",
+          "settings": {
+            "label": "Men",
+            "link": "shopify://collections/mens-products",
+            "style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "button_women",
+        "button_men"
+      ],
+      "disabled": true,
       "name": "Fresh Start Hero",
       "settings": {
         "enable_preloader": false,
         "hero_headline": "ORIGIN INTL",
         "hero_subheadline": "Vanguard of Luxury",
-        "subheadline_scale": 100,
-        "cta_label_1": "Women",
-        "cta_link_1": "shopify://collections/womens-products",
-        "cta_label_2": "Men",
-        "cta_link_2": "shopify://collections/mens-products",
-        "bg_image_mobile": "shopify://shop_images/Mobile_banner.png",
+        "subheadline_scale": 140,
+        "mobile_min_height": 70,
+        "mobile_content_padding": 20,
         "hero_bg_scale": 100,
         "content_position_y": 75,
-        "hero_height_desktop": "h-screen",
-        "hero_height_mobile": "adapt"
+        "content_position_y_mobile": 39,
+        "padding_top": 140,
+        "padding_bottom": 0,
+        "padding_top_mobile": 100,
+        "padding_bottom_mobile": 0,
+        "hero_height_desktop": "h-screen"
       }
     },
     "fresh_start_marquee_R6YrzA": {
@@ -296,6 +361,7 @@
   },
   "order": [
     "splash_page_B8RJPF",
+    "gg_hero_bounce_XYz",
     "fresh_start_hero_kHj8J7",
     "fresh_start_marquee_R6YrzA",
     "editorial_spotlight_xjEVgn",

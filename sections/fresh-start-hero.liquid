@@ -17,41 +17,6 @@
     scroll-behavior: smooth;
   }
 
-  /* Custom Cursor */
-  .custom-cursor {
-    pointer-events: none;
-    mix-blend-mode: difference;
-    transition: transform 0.15s ease-out;
-    z-index: 9999;
-  }
-
-  /* Floating Animations */
-  @keyframes float-slow {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
-  }
-  .animate-float-slow {
-    animation: float-slow 6s ease-in-out infinite;
-  }
-
-  @keyframes float-medium {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-15px);
-    }
-  }
-  .animate-float-medium {
-    animation: float-medium 5s ease-in-out infinite;
-  }
-
   /* Utilities */
   body.no-scroll {
     overflow: hidden;
@@ -60,49 +25,113 @@
   /* Dreamy Crystal Ball Effect */
   .liquid-glass-sphere {
     border-radius: 50%;
-    /* Container layout only - visuals moved to overlay */
-    /* position: relative; <-- REMOVED: Breaks absolute positioning! */
     overflow: hidden;
   }
 
-  /* The Glass Overlay (Sits ON TOP of the image) */
   .liquid-glass-sphere::after {
     content: '';
     position: absolute;
     inset: 0;
-    z-index: 20; /* Above the image */
-    pointer-events: none; /* Let clicks pass through */
+    z-index: 20;
+    pointer-events: none;
     border-radius: 50%;
-
-    /* 
-      1. Deep Inner Shadow (Volume)
-      2. Strong Top-Left Highlight (Crisp Glass)
-      3. Soft Inner White Fog (Dreamy Mist)
-      4. Outer White Glow (Aura)
-      5. Drop Shadow (Depth)
-    */
     box-shadow:
       inset -10px -10px 40px rgba(0, 0, 0, 0.4),
       inset 10px 10px 30px rgba(255, 255, 255, 0.9),
       inset 0px 0px 20px rgba(255, 255, 255, 0.3),
       0px 0px 30px rgba(255, 255, 255, 0.4),
       0px 20px 40px rgba(0, 0, 0, 0.4);
-
     border: 1px solid rgba(255, 255, 255, 0.7);
-
-    /* Dreamy Mist Overlay + Surface Sheen */
     background:
       radial-gradient(circle at center, rgba(255, 255, 255, 0.15), transparent 70%),
-      /* User requested soft overlay */ radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, transparent 70%); /* Surface sheen */
+      radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+  }
+
+  /* Floating Animations */
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  .animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
+
+  @keyframes float-medium {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+  .animate-float-medium { animation: float-medium 5s ease-in-out infinite; }
+
+  /* Responsive Position */
+  #hero-content-{{ section.id }} {
+    margin-top: {{ section.settings.content_position_y_mobile }}vh;
+    pointer-events: auto !important;
+    z-index: 50 !important;
+    position: relative;
+  }
+
+  /* Ensure buttons are clickable */
+  #hero-content-{{ section.id }} a {
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 9999 !important; /* Above everything */
+    cursor: pointer !important;
+  }
+
+  /* Ensure button container is also interactive */
+  #hero-content-{{ section.id }} > div {
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 9999 !important;
+  }
+  @media (min-width: 768px) {
+    #hero-content-{{ section.id }} {
+      margin-top: {{ section.settings.content_position_y }}vh;
+    }
+  }
+
+  /* --- SECTION WRAPPER ELEVATION (Global Stack Fix) --- */
+  /* This ensures the entire Hero component sits above the next section while remaining interactive.
+     Removing 'pointer-events: none' fix for mobile touch-interception issues. */
+  #shopify-section-{{ section.id }} {
+    position: relative !important;
+    z-index: 150 !important; /* Above next section (origin-shop-look) but below sticky bar (z-index: 160) */
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .origin-hero-wrapper {
+      min-height: {{ section.settings.mobile_min_height }}vh !important;
+    }
+    #hero-content-{{ section.id }} {
+      padding-top: {{ section.settings.mobile_content_padding }}px;
+      padding-bottom: {{ section.settings.mobile_content_padding }}px;
+    }
+  }
+
+  /* Force container to start AFTER the fixed header (Offset) */
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  /* Adjust offset for mobile */
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+
+  /* Force hero section content to be above header logo on homepage */
+  body.template-index #shopify-section-{{ section.id }} {
+    z-index: 150 !important;
   }
 </style>
 
-<div class="relative w-full bg-white font-sans text-black overflow-hidden">
+<div class="relative w-full bg-transparent font-sans text-black">
   <!-- Preloader -->
   {%- if section.settings.enable_preloader -%}
     <div
       id="fs-preloader"
-      class="fixed inset-0 z-[10000] flex items-center justify-center bg-black text-white transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)]"
+      class="fixed inset-0 z-[10000] flex items-center justify-center bg-black text-white transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] pointer-events-auto"
     >
       <div class="overflow-hidden">
         <h1
@@ -117,45 +146,46 @@
 
   <!-- Noise Overlay -->
   <div
-    class="fixed inset-0 pointer-events-none z-[9998] opacity-[0.03] mix-blend-overlay"
+    class="fixed inset-0 pointer-events-none z-[40] opacity-[0.03] mix-blend-overlay"
     style="background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E')"
   ></div>
 
-  <!-- Hero Section -->
-  <section class="relative w-full overflow-hidden flex flex-col items-center justify-center bg-white {% if section.settings.hero_height_mobile == 'adapt' %}h-auto min-h-[400px]{% else %}{{ section.settings.hero_height_mobile }}{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto min-h-[500px]{% else %}{{ section.settings.hero_height_desktop }}{% endif %}">
-    <!-- Background Image -->
-    {%- if section.settings.bg_image != blank -%}
-      <div class="z-0 overflow-hidden pointer-events-none {% if section.settings.hero_height_mobile == 'adapt' %}relative w-full h-auto{% else %}absolute inset-0{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}relative w-full h-auto{% else %}absolute inset-0{% endif %}">
-        {%- comment -%} Desktop Image {%- endcomment -%}
+  <!-- Main Hero Section -->
+  <section class="relative w-full flex flex-col items-center justify-start bg-transparent overflow-visible {% if section.settings.hero_height_mobile == 'adapt' %}h-auto min-h-[400px]{% else %}{{ section.settings.hero_height_mobile }}{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto min-h-[500px]{% else %}{{ section.settings.hero_height_desktop }}{% endif %}">
+    <!-- Background Layer (Z-0) -->
+    <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      {%- if section.settings.bg_image != blank -%}
         <img
           src="{{ section.settings.bg_image | image_url: width: 2400 }}"
           alt="{{ section.settings.bg_image.alt | escape }}"
           width="{{ section.settings.bg_image.width }}"
           height="{{ section.settings.bg_image.height }}"
-          class="w-full {% if section.settings.hero_height_mobile == 'adapt' %}h-auto{% else %}h-full object-cover{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto{% else %}h-full object-cover{% endif %} transition-transform duration-700 ease-out {% if section.settings.bg_image_mobile != blank %}max-md:hidden{% endif %}"
+          class="w-full h-full object-cover transition-transform duration-700 ease-out {% if section.settings.bg_image_mobile != blank %}max-md:hidden{% endif %}"
           style="transform: scale({{ section.settings.hero_bg_scale | divided_by: 100.0 }}); transform-origin: center;"
         >
-        {%- comment -%} Mobile Image (Optional) {%- endcomment -%}
         {%- if section.settings.bg_image_mobile != blank -%}
           <img
             src="{{ section.settings.bg_image_mobile | image_url: width: 1200 }}"
-            alt="{{ section.settings.bg_image_mobile.alt | default: section.settings.bg_image.alt | escape }}"
+            alt="{{ section.settings.bg_image_mobile.alt }}"
             width="{{ section.settings.bg_image_mobile.width }}"
             height="{{ section.settings.bg_image_mobile.height }}"
-            class="w-full {% if section.settings.hero_height_mobile == 'adapt' %}h-auto{% else %}h-full object-cover{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto{% else %}h-full object-cover{% endif %} transition-transform duration-700 ease-out block md:hidden"
+            class="w-full h-full object-cover transition-transform duration-700 ease-out block md:hidden"
             style="transform: scale({{ section.settings.hero_bg_scale | divided_by: 100.0 }}); transform-origin: center;"
           >
         {%- endif -%}
-      </div>
-    {%- endif -%}
-    <div
-      class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-100/60 rounded-full blur-[120px]"
-    ></div>
+      {%- endif -%}
+      <!-- Glow -->
+      <div
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-100/60 rounded-full blur-[120px]"
+      ></div>
+    </div>
 
+    <!-- Parallax Layer (Z-10) -->
     <div id="fs-parallax-container" class="absolute inset-0 z-10 overflow-hidden pointer-events-none">
+      <!-- Img 1 -->
       {%- if section.settings.parallax_img_1 != blank -%}
         <div
-          class="parallax-layer liquid-glass-sphere absolute bottom-[5%] right-[2%] w-[12vw] md:w-[22vw] aspect-square z-20 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
+          class="parallax-layer liquid-glass-sphere absolute bottom-[5%] right-[2%] w-[12vw] md:w-[22vw] aspect-square z-20 isolate"
           data-speed="40"
         >
           <img
@@ -167,9 +197,10 @@
           >
         </div>
       {%- endif -%}
+      <!-- Img 2 -->
       {%- if section.settings.parallax_img_2 != blank -%}
         <div
-          class="parallax-layer liquid-glass-sphere absolute top-[18%] left-[8%] w-[11vw] md:w-[18vw] aspect-square z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
+          class="parallax-layer liquid-glass-sphere absolute top-[18%] left-[8%] w-[11vw] md:w-[18vw] aspect-square z-10 isolate"
           data-speed="-25"
         >
           <img
@@ -181,9 +212,10 @@
           >
         </div>
       {%- endif -%}
+      <!-- Img 3 -->
       {%- if section.settings.parallax_img_3 != blank -%}
         <div
-          class="parallax-layer liquid-glass-sphere absolute top-[15%] right-[10%] w-[10vw] md:w-[16vw] aspect-square z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
+          class="parallax-layer liquid-glass-sphere absolute top-[15%] right-[10%] w-[10vw] md:w-[16vw] aspect-square z-10 isolate"
           data-speed="15"
         >
           <img
@@ -195,9 +227,10 @@
           >
         </div>
       {%- endif -%}
+      <!-- Img 4 -->
       {%- if section.settings.parallax_img_4 != blank -%}
         <div
-          class="parallax-layer liquid-glass-sphere absolute bottom-[15%] left-[5%] w-[9vw] md:w-[14vw] aspect-square z-10 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
+          class="parallax-layer liquid-glass-sphere absolute bottom-[15%] left-[5%] w-[9vw] md:w-[14vw] aspect-square z-10 isolate"
           data-speed="-15"
         >
           <img
@@ -209,9 +242,10 @@
           >
         </div>
       {%- endif -%}
+      <!-- Img 5 -->
       {%- if section.settings.parallax_img_5 != blank -%}
         <div
-          class="parallax-layer liquid-glass-sphere absolute top-[8%] left-[45%] w-[8vw] md:w-[12vw] aspect-square z-5 isolate [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]"
+          class="parallax-layer liquid-glass-sphere absolute top-[8%] left-[45%] w-[8vw] md:w-[12vw] aspect-square z-5 isolate"
           data-speed="30"
         >
           <img
@@ -225,40 +259,33 @@
       {%- endif -%}
     </div>
 
-    <div class="w-full absolute inset-0 z-30 flex flex-col items-center justify-start h-full pointer-events-none gap-8">
-      <!-- CTA Parallax Layer -->
-      <div
-        class="parallax-layer z-50 pointer-events-auto"
-        data-speed="12"
-        style="margin-top: {{ section.settings.content_position_y }}%;"
+    <!-- Content Container (Z-50: Above Header Logo Z-1) -->
+    <div
+      id="hero-content-{{ section.id }}"
+      class="relative flex flex-col items-center gap-6 pointer-events-auto w-full max-w-4xl px-4 text-center"
+    >
+      <!-- Subheadline -->
+      <p
+        class="text-gray-500 text-xs md:text-sm uppercase tracking-[0.3em]"
+        style="font-size: {{ section.settings.subheadline_scale }}%;"
       >
-        <div class="flex flex-col items-center gap-6 animate-float-medium">
-          <p
-            class="text-gray-500 text-xs md:text-sm uppercase tracking-[0.3em]"
-            style="font-size: {{ section.settings.subheadline_scale }}%;"
-          >
-            {{ section.settings.hero_subheadline | default: 'Vanguard of Luxury' }}
-          </p>
+        {{ section.settings.hero_subheadline | default: 'Vanguard of Luxury' }}
+      </p>
 
-          <div class="flex gap-6 mt-4">
-            {%- if section.settings.cta_label_1 != blank -%}
-              <a
-                href="{{ section.settings.cta_link_1 }}"
-                class="w-48 py-4 flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 text-black text-sm font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-white hover:text-black hover:scale-105 transition-all duration-500 rounded-sm"
-              >
-                {{ section.settings.cta_label_1 }}
-              </a>
-            {%- endif -%}
-            {%- if section.settings.cta_label_2 != blank -%}
-              <a
-                href="{{ section.settings.cta_link_2 }}"
-                class="w-48 py-4 flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 text-black text-sm font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-white hover:text-black hover:scale-105 transition-all duration-500 rounded-sm"
-              >
-                {{ section.settings.cta_label_2 }}
-              </a>
-            {%- endif -%}
-          </div>
-        </div>
+      <!-- Buttons -->
+      <!-- Buttons (Blocks) -->
+      <div class="flex gap-6 mt-4 justify-center flex-wrap">
+        {% for block in section.blocks %}
+          {% if block.settings.label != blank %}
+            <a
+              href="{{ block.settings.link }}"
+              class="w-48 py-4 flex items-center justify-center {% if block.settings.style == 'primary' %}bg-white/10 backdrop-blur-md border border-white/20 text-black shadow-xl hover:bg-white hover:text-black{% else %}bg-black text-white hover:bg-gray-900 border-none{% endif %} text-sm font-bold uppercase tracking-[0.2em] rounded-sm transition-all duration-300"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.label }}
+            </a>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </section>
@@ -272,24 +299,18 @@
       // Preloader
       const preloader = document.getElementById('fs-preloader');
       const preloaderText = document.getElementById('fs-preloader-text');
-      // Failsafe: Hide preloader after 3s max even if logic fails slightly
       if (preloader) {
         setTimeout(() => {
           if (preloaderText) preloaderText.style.transform = 'translateY(-100%)';
           preloader.style.transform = 'translateY(-100%)';
+          setTimeout(() => {
+            preloader.style.display = 'none';
+          }, 1000);
         }, 1500);
       }
 
-      // Scroll Logic
-      const heroCta = document.getElementById('fs-hero-cta');
+      // Parallax Logic
       const layers = document.querySelectorAll('.parallax-layer');
-
-      window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-        if (heroCta) heroCta.style.opacity = Math.max(0, 1 - scrollY / 200);
-      });
-
-      // Mouse Parallax - Cursor logic removed (handled globally)
       document.addEventListener('mousemove', (e) => {
         const x = (e.clientX / window.innerWidth) * 2 - 1;
         const y = (e.clientY / window.innerHeight) * 2 - 1;
@@ -325,11 +346,27 @@
       "unit": "%",
       "label": "Subheadline Scale"
     },
-    { "type": "header", "content": "CTA Buttons" },
-    { "type": "text", "id": "cta_label_1", "label": "Button 1 Label", "default": "Women" },
-    { "type": "url", "id": "cta_link_1", "label": "Button 1 Link" },
-    { "type": "text", "id": "cta_label_2", "label": "Button 2 Label", "default": "Men" },
-    { "type": "url", "id": "cta_link_2", "label": "Button 2 Link" },
+    { "type": "header", "content": "Mobile Layout" },
+    {
+      "type": "range",
+      "id": "mobile_min_height",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "default": 70,
+      "unit": "vh",
+      "label": "Mobile Min Height"
+    },
+    {
+      "type": "range",
+      "id": "mobile_content_padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20,
+      "unit": "px",
+      "label": "Mobile Content Padding Top/Bottom"
+    },
     { "type": "header", "content": "Parallax Images" },
     { "type": "image_picker", "id": "parallax_img_1", "label": "Bottom Right" },
     { "type": "image_picker", "id": "parallax_img_2", "label": "Top Left" },
@@ -356,8 +393,59 @@
       "max": 100,
       "step": 1,
       "default": 75,
-      "unit": "%",
+      "unit": "vh",
       "label": "Vertical Position (Top to Bottom)"
+    },
+    {
+      "type": "range",
+      "id": "content_position_y_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 85,
+      "unit": "vh",
+      "label": "Vertical Position (Mobile)"
+    },
+    { "type": "header", "content": "Section Spacing" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Padding Top",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Padding Bottom",
+      "default": 0
     },
     { "type": "header", "content": "Section Layout" },
     {
@@ -371,20 +459,37 @@
         { "value": "adapt", "label": "Adapt to Image" }
       ],
       "default": "h-screen"
-    },
-    {
-      "type": "select",
-      "id": "hero_height_mobile",
-      "label": "Mobile Section Height",
-      "options": [
-        { "value": "h-screen", "label": "Full Screen" },
-        { "value": "h-[80vh]", "label": "80% Height" },
-        { "value": "h-[60vh]", "label": "60% Height" },
-        { "value": "adapt", "label": "Adapt to Image" }
-      ],
-      "default": "h-screen"
     }
   ],
-  "presets": [{ "name": "Fresh Start Hero" }]
+  "blocks": [
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Shop Now" },
+        { "type": "url", "id": "link", "label": "Link" },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            { "value": "primary", "label": "Glass/White" },
+            { "value": "secondary", "label": "Solid Black" }
+          ],
+          "default": "primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fresh Start Hero",
+      "blocks": [
+        { "type": "button", "settings": { "label": "Women" } },
+        { "type": "button", "settings": { "label": "Men" } }
+      ]
+    }
+  ]
 }
 {% endschema %}

@@ -5,6 +5,7 @@
   {% render 'cart-drawer' %}
 {% endcomment %}
 
+{{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
 {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 
@@ -258,7 +259,10 @@
                             {%- endif -%}
 
                             {%- if item.variant.available and item.unit_price_measurement -%}
-                              {% render 'unit-price', price: item.unit_price, measurement: item.unit_price_measurement %}
+                              {% render 'unit-price',
+                                price: item.unit_price,
+                                measurement: item.unit_price_measurement
+                              %}
                             {%- endif -%}
                           </div>
                         </td>
@@ -477,8 +481,8 @@
       <div class="drawer__footer">
         {%- assign upsell_product = settings.cart_upsell_product -%}
         {%- if upsell_product == blank -%}
-           <!-- Handle case where setting returns a handle string -->
-           {%- assign upsell_product = all_products[settings.cart_upsell_product] -%}
+          <!-- Handle case where setting returns a handle string -->
+          {%- assign upsell_product = all_products[settings.cart_upsell_product] -%}
         {%- endif -%}
         <!-- DEBUG: Upsell Product: {{ upsell_product.title }} | Show: {{ settings.show_cart_upsell }} -->
         {%- if settings.show_cart_upsell -%}
@@ -541,9 +545,9 @@
         <!-- Subtotals -->
 
         <div class="cart-drawer__footer" {{ block.shopify_attributes }}>
-  {% render 'origin-free-shipping-bar' %}
-  {% render 'origin-free-shipping-line' %}
-  <div>
+          {% render 'origin-free-shipping-bar' %}
+          {% render 'origin-free-shipping-line' %}
+          <div>
             {%- if cart.cart_level_discount_applications.size > 0 -%}
               <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
                 {%- for discount in cart.cart_level_discount_applications -%}
@@ -618,7 +622,11 @@
           >
             {{ 'sections.cart.checkout' | t }}
           </button>
-          <a href="{{ routes.cart_url }}" class="link link--text" style="display: block; text-align: center; margin-top: 1.5rem; font-size: 1.3rem; text-decoration: underline; text-underline-offset: 4px; color: rgba(var(--color-foreground), 0.75);">
+          <a
+            href="{{ routes.cart_url }}"
+            class="link link--text"
+            style="display: block; text-align: center; margin-top: 1.5rem; font-size: 1.3rem; text-decoration: underline; text-underline-offset: 4px; color: rgba(var(--color-foreground), 0.75);"
+          >
             View detailed cart
           </a>
         </div>

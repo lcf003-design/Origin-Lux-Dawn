@@ -10,6 +10,8 @@
     /* Base state: Hidden if seen */
     html.splash-seen #shopify-section-{{ section.id }} {
       display: none !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
     }
 
     #SplashPage-{{ section.id }} {
@@ -27,7 +29,9 @@
     }
 
     #SplashPage-{{ section.id }}.hidden {
-      display: none;
+      display: none !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
     }
 
     /* The two halves */
