@@ -70,6 +70,31 @@
     {% endif %}
   }
 
+  /* Button Styles */
+  .gg-hero-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: {{ section.settings.button_min_width }}px; /* Enforces equal width */
+    padding: {{ section.settings.button_padding_y }}px {{ section.settings.button_padding_x }}px;
+    font-size: {{ section.settings.button_font_size }}px;
+    background: #fff;
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+  .gg-hero-button:hover {
+    background: #000;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
   /* Overlay content */
   .hero-v2-content {
     position: relative;
@@ -108,7 +133,7 @@
       {% for block in section.blocks %}
         <a
           href="{{ block.settings.link }}"
-          class="px-8 py-4 bg-white text-black font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors"
+          class="gg-hero-button"
         >
           {{ block.settings.label }}
         </a>
