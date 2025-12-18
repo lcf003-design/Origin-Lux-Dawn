@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "splash_page_B8RJPF": {
@@ -42,10 +33,7 @@
           }
         }
       },
-      "block_order": [
-        "button_women",
-        "button_men"
-      ],
+      "block_order": ["button_women", "button_men"],
       "name": "Fresh Start Hero",
       "settings": {
         "enable_preloader": false,
@@ -62,6 +50,27 @@
         "padding_top_mobile": 100,
         "padding_bottom_mobile": 0,
         "hero_height_desktop": "h-screen"
+      }
+    },
+    "fresh_start_hero_2_L2jK9": {
+      "type": "fresh-start-hero-2",
+      "name": "Fresh Start Hero 2 (Ping-Pong)",
+      "settings": {
+        "logo": "shopify://shop_images/updated_logo.svg",
+        "logo_width_desktop": 30,
+        "logo_width_mobile": 50,
+        "speed": 3,
+        "enable_glass": true,
+        "headline": "Experimental Bounce Hero",
+        "text_color": "#000000",
+        "bg_color": "transparent",
+        "hero_height": "adapt",
+        "min_height_desktop": 80,
+        "min_height_mobile": 60,
+        "padding_top": 140,
+        "padding_bottom": 80,
+        "padding_top_mobile": 100,
+        "padding_bottom_mobile": 60
       }
     },
     "fresh_start_marquee_R6YrzA": {
@@ -100,10 +109,7 @@
           }
         }
       },
-      "block_order": [
-        "heading_block_V8rfCm",
-        "button_block_QUCGkh"
-      ],
+      "block_order": ["heading_block_V8rfCm", "button_block_QUCGkh"],
       "disabled": true,
       "name": "Editorial Spotlight",
       "settings": {
@@ -132,9 +138,7 @@
           }
         }
       },
-      "block_order": [
-        "heading_dRzPjq"
-      ],
+      "block_order": ["heading_dRzPjq"],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
         "desktop_content_position": "center",
@@ -165,10 +169,7 @@
           }
         }
       },
-      "block_order": [
-        "hotspot_qjzxC4",
-        "hotspot_JrfTwe"
-      ],
+      "block_order": ["hotspot_qjzxC4", "hotspot_JrfTwe"],
       "name": "Origin Shop The Look",
       "settings": {
         "image_desktop": "shopify://shop_images/editorial_origin_shop_the_look.webp",
@@ -260,9 +261,7 @@
           "blocks": {}
         }
       },
-      "block_order": [
-        "ai_gen_block_3b0cca2_86RNGn"
-      ],
+      "block_order": ["ai_gen_block_3b0cca2_86RNGn"],
       "settings": {}
     },
     "origin_marquee_MhwXkK": {
@@ -298,10 +297,7 @@
           }
         }
       },
-      "block_order": [
-        "banner_eVL3hP",
-        "banner_EGNtWW"
-      ],
+      "block_order": ["banner_eVL3hP", "banner_EGNtWW"],
       "name": "Origin Split (50/50)",
       "settings": {
         "gap": 10,
@@ -320,6 +316,7 @@
   "order": [
     "splash_page_B8RJPF",
     "fresh_start_hero_kHj8J7",
+    "fresh_start_hero_2_L2jK9",
     "fresh_start_marquee_R6YrzA",
     "editorial_spotlight_xjEVgn",
     "rich_text_XdggXL",
