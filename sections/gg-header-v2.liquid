@@ -438,20 +438,24 @@
   }
 
   /* --- NUCLEAR OVERRIDES FOR PREDICTIVE SEARCH (Fixing the White Box) --- */
-  #predictive-search-results {
+  /* Using ID selector + !important to win specificty wars against component-predictive-search.css */
+  #shopify-section-{{ section.id }} .predictive-search {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: block !important; /* Kill the hidden state if any */
+    position: relative !important; /* Kill absolute positioning */
+    top: auto !important;
+    left: auto !important;
+    overflow: visible !important;
+  }
+
+  #shopify-section-{{ section.id }} #predictive-search-results {
     background: transparent !important;
     color: #fff !important;
     text-align: left;
     margin-top: 20px;
     width: 100%;
-    /* Fix weird Shopify grid */
-    display: block !important;
-  }
-
-  .predictive-search__results-groups-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
   }
 
   .predictive-search__result-group {
