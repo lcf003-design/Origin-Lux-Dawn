@@ -215,7 +215,7 @@
   /* --- VARS --- */
   .origin-gucci-header-section {
     position: relative; /* Ensure stacking context */
-    z-index: 20000; /* Lift entire section above Hero */
+    z-index: auto; /* Allow children to interleave with page content */
     pointer-events: none; /* Prevent wrapper from blocking clicks */
     --header-transition: all 0.4s ease-out;
     --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}%;
@@ -247,7 +247,7 @@
     left: 0;
     width: 100%;
     height: 0;
-    z-index: 20000; /* Increased to 20000 to beat Hero Noise(9998) & Preloader(10000) */
+    z-index: 50; /* Base header layer (below Hero Buttons 60) */
     pointer-events: none;
   }
 
