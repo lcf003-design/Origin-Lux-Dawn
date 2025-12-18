@@ -95,6 +95,16 @@
       radial-gradient(circle at center, rgba(255, 255, 255, 0.15), transparent 70%),
       /* User requested soft overlay */ radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, transparent 70%); /* Surface sheen */
   }
+
+  /* Responsive Position for Hero Content */
+  #hero-content-{{ section.id }} {
+    margin-top: {{ section.settings.content_position_y_mobile }}%;
+  }
+  @media (min-width: 768px) {
+    #hero-content-{{ section.id }} {
+      margin-top: {{ section.settings.content_position_y }}%;
+    }
+  }
 </style>
 
 <div class="relative w-full bg-white font-sans text-black overflow-hidden">
@@ -229,9 +239,10 @@
     <div class="w-full absolute inset-0 z-30 flex flex-col items-center justify-start h-full pointer-events-none gap-8">
       <!-- CTA Parallax Layer -->
       <div
+        id="hero-content-{{ section.id }}"
         class="parallax-layer pointer-events-auto"
         data-speed="12"
-        style="margin-top: {{ section.settings.content_position_y }}%; z-index: 21000;"
+        style="z-index: 21000;"
       >
         <div class="flex flex-col items-center gap-6 animate-float-medium">
           <p
@@ -361,6 +372,16 @@
       "default": 75,
       "unit": "%",
       "label": "Vertical Position (Top to Bottom)"
+    },
+    {
+      "type": "range",
+      "id": "content_position_y_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 85,
+      "unit": "%",
+      "label": "Vertical Position (Mobile)"
     },
     { "type": "header", "content": "Section Layout" },
     {
