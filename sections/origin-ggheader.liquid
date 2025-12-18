@@ -329,6 +329,8 @@
     height: 0; /* Collapsed to remove interaction shield */
     overflow: visible; /* Allow absolute child to show */
     z-index: 40;
+    /* VISIBILITY HACK: Hide the wrapper (removes hit-test) but show the child */
+    visibility: hidden; 
     pointer-events: none !important;
     display: flex;
     justify-content: center;
@@ -338,6 +340,7 @@
   }
 
   .origin-huge-logo-inner {
+    visibility: visible; /* Restore visibility for the content */
     position: absolute; /* Changed from default flow to absolute for precise X/Y */
     top: var(--logo-vertical-pos);
     left: var(--logo-horizontal-pos);
