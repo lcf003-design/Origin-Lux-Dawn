@@ -13,11 +13,8 @@
   "sections": {
     "gg_header_v2_nemG6C": {
       "type": "gg-header-v2",
-      "disabled": true,
       "name": "Origin GG Header V2",
       "settings": {
-        "shield_logo_desktop": "shopify://shop_images/updated_logo.svg",
-        "shield_logo_mobile": "shopify://shop_images/updated_logo.svg",
         "shield_width_desktop": 60,
         "shield_width_mobile": 80,
         "shield_position_y_desktop": 45,

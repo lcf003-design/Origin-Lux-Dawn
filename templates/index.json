@@ -29,7 +29,7 @@
         "logo": "shopify://shop_images/updated_logo.svg",
         "logo_width_desktop": 30,
         "logo_width_mobile": 60,
-        "speed": 3,
+        "speed": 1.5,
         "enable_glass": true,
         "headline": "",
         "text_color": "#000000",
