@@ -27,7 +27,7 @@
         "glass_blur": 20,
         "sticky_bg_color": "#ffffff",
         "sticky_text_color": "#000000",
-        "initial_text_color": "#ffffff",
+        "initial_text_color": "#121212",
         "menu": "main-menu"
       }
     },
