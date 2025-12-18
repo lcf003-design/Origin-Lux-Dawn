@@ -213,6 +213,12 @@
   {{ section.settings.font_menu | font_face: font_display: 'swap' }}
 
   /* --- VARS --- */
+  /* Force the Shopify Section Wrapper to be below the Hero (Z-60) */
+  #shopify-section-{{ section.id }} {
+    position: relative !important;
+    z-index: 50 !important;
+  }
+
   .origin-gucci-header-section {
     position: relative; /* Ensure stacking context */
     z-index: auto; /* Allow children to interleave with page content */
