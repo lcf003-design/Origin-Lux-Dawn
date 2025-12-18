@@ -325,7 +325,7 @@
     width: 100%;
     height: 0; /* COLLAPSE THE SHIELD */
     overflow: visible; /* Let content spill out */
-    z-index: 40; /* LAYER 40: Below Hero Buttons (50) */
+    z-index: 1 !important; /* LAYER 1: Lowest Stack Priority */
     pointer-events: none !important; /* Pass-through layer */
     display: flex;
     justify-content: center;
@@ -1183,5 +1183,6 @@
   .origin-huge-logo-img,
   .origin-huge-logo-text {
     pointer-events: none !important;
+    z-index: 1 !important; /* LOWEST PRIORITY REQUESTED */
   }
 {% endstyle %}
