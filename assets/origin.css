@@ -1250,10 +1250,10 @@ body.template-index main section:first-of-type {
   position: relative;
   z-index: 1;
   display: flex;
-  align-items: flex-end;
+  align-items: center; /* Senior Specialist Fix */
   justify-content: center;
   height: 100%;
-  padding: 4rem 2rem 5rem;
+  padding: 120px 2rem 5rem; /* Safe zone for fixed header */
 }
 
 .origin-hero__inner--left {
@@ -1263,6 +1263,8 @@ body.template-index main section:first-of-type {
 .origin-hero__content {
   max-width: 640px;
   color: #ffffff;
+  position: relative; /* Senior Specialist Fix */
+  z-index: 20;
 }
 
 /* Typography */
@@ -1292,6 +1294,8 @@ body.template-index main section:first-of-type {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 1rem;
+  position: relative; /* Senior Specialist Fix */
+  z-index: 20;
 }
 
 .origin-hero__button {
