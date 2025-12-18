@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "splash_page_B8RJPF": {
@@ -42,10 +33,7 @@
           }
         }
       },
-      "block_order": [
-        "button_women",
-        "button_men"
-      ],
+      "block_order": ["button_women", "button_men"],
       "name": "Fresh Start Hero",
       "settings": {
         "enable_preloader": false,
@@ -96,10 +84,7 @@
           }
         }
       },
-      "block_order": [
-        "heading_block_V8rfCm",
-        "button_block_QUCGkh"
-      ],
+      "block_order": ["heading_block_V8rfCm", "button_block_QUCGkh"],
       "disabled": true,
       "name": "Editorial Spotlight",
       "settings": {
@@ -128,9 +113,7 @@
           }
         }
       },
-      "block_order": [
-        "heading_dRzPjq"
-      ],
+      "block_order": ["heading_dRzPjq"],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
         "desktop_content_position": "center",
@@ -161,10 +144,7 @@
           }
         }
       },
-      "block_order": [
-        "hotspot_qjzxC4",
-        "hotspot_JrfTwe"
-      ],
+      "block_order": ["hotspot_qjzxC4", "hotspot_JrfTwe"],
       "name": "Origin Shop The Look",
       "settings": {
         "image_desktop": "shopify://shop_images/editorial_origin_shop_the_look.webp",
@@ -256,9 +236,7 @@
           "blocks": {}
         }
       },
-      "block_order": [
-        "ai_gen_block_3b0cca2_86RNGn"
-      ],
+      "block_order": ["ai_gen_block_3b0cca2_86RNGn"],
       "settings": {}
     },
     "origin_marquee_MhwXkK": {
@@ -294,10 +272,7 @@
           }
         }
       },
-      "block_order": [
-        "banner_eVL3hP",
-        "banner_EGNtWW"
-      ],
+      "block_order": ["banner_eVL3hP", "banner_EGNtWW"],
       "name": "Origin Split (50/50)",
       "settings": {
         "gap": 10,
