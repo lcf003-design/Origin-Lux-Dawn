@@ -241,6 +241,16 @@
     color: #ffffff;
     box-shadow: none !important;
     transition: padding 0.35s ease, transform 0.35s ease;
+    pointer-events: none; /* Fix: Allow clicks to pass through transparent areas */
+  }
+
+  /* Re-enable clicks on interactive elements */
+  .origin-header a,
+  .origin-header button,
+  .origin-header .icon-btn,
+  .origin-header input,
+  .header-container {
+    pointer-events: auto;
   }
 
   /* SCROLLED STATE (keep padding tighter but no background/shadow/color change) */
