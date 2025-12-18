@@ -132,7 +132,7 @@
   ></div>
 
   <!-- Hero Section -->
-  <section class="relative w-full overflow-hidden flex flex-col items-center justify-center bg-white {% if section.settings.hero_height_mobile == 'adapt' %}h-auto min-h-[400px]{% else %}{{ section.settings.hero_height_mobile }}{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto min-h-[500px]{% else %}{{ section.settings.hero_height_desktop }}{% endif %}">
+  <section class="relative w-full overflow-hidden flex flex-col items-center justify-center bg-white {% if section.settings.hero_height_mobile == 'adapt' %}h-auto min-h-[400px]{% else %}{{ section.settings.hero_height_mobile }}{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto min-h-[500px]{% else %}{{ section.settings.hero_height_desktop }}{% endif %}" style="z-index: 1;">
     <!-- Background Image -->
     {%- if section.settings.bg_image != blank -%}
       <div class="z-0 overflow-hidden pointer-events-none {% if section.settings.hero_height_mobile == 'adapt' %}relative w-full h-auto{% else %}absolute inset-0{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}relative w-full h-auto{% else %}absolute inset-0{% endif %}">
@@ -241,7 +241,7 @@
       <div
         id="hero-content-{{ section.id }}"
         class="pointer-events-auto"
-        style="z-index: 21000;"
+        style="z-index: 2147483647; position: relative;"
       >
         <div class="flex flex-col items-center gap-6">
           <p
@@ -290,6 +290,7 @@
         setTimeout(() => {
           if (preloaderText) preloaderText.style.transform = 'translateY(-100%)';
           preloader.style.transform = 'translateY(-100%)';
+          setTimeout(() => { preloader.style.display = 'none'; }, 1000);
         }, 1500);
       }
 
