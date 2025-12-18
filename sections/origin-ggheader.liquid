@@ -494,12 +494,13 @@
     transition: opacity 0.4s ease, visibility 0.4s ease;
     z-index: 2147483646 !important; /* One less than Max to allow button on top */
     backdrop-filter: blur(5px);
-    pointer-events: auto; /* Enable clicks when visible */
+    pointer-events: none; /* Default to none to prevent glass wall */
   }
 
   .origin-overlay-base.is-open {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto; /* Enable clicks only when open */
   }
 
   /* --- MENU DRAWER --- */

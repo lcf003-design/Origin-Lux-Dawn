@@ -63,6 +63,8 @@
   /* Responsive Position */
   #hero-content-{{ section.id }} {
     margin-top: {{ section.settings.content_position_y_mobile }}%;
+    pointer-events: auto !important;
+    z-index: 60 !important;
   }
   @media (min-width: 768px) {
     #hero-content-{{ section.id }} {
