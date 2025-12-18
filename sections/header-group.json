@@ -13,7 +13,6 @@
   "sections": {
     "origin_ggheader_zynrDj": {
       "type": "origin-ggheader",
-      "disabled": true,
       "name": "Origin GG Header",
       "settings": {
         "logo_image": "shopify://shop_images/updated_logo.svg",
@@ -79,31 +78,11 @@
         "enable_country_selector": false,
         "enable_language_selector": false
       }
-    },
-    "fresh_start_ggheader_htWTzP": {
-      "type": "fresh-start-ggheader",
-      "name": "Fresh Start GG Header",
-      "settings": {
-        "logo_image": "shopify://shop_images/updated_logo.svg",
-        "logo_text": "GUCCI",
-        "huge_logo_color": "#121212",
-        "font_huge_logo": "serif",
-        "font_menu": "system_ui_n4",
-        "hero_logo_width_desktop": 60,
-        "logo_vertical_position": 40,
-        "sticky_logo_height": 32,
-        "header_bg_color_shrunk": "#ffffff",
-        "header_text_color_shrunk": "#111111",
-        "header_text_color_initial": "#121212",
-        "menu_text_color": "#FFFFFF",
-        "menu": ""
-      }
     }
   },
   "order": [
     "origin_ggheader_zynrDj",
     "header",
-    "announcement_bar_Pmqzea",
-    "fresh_start_ggheader_htWTzP"
+    "announcement_bar_Pmqzea"
   ]
 }
