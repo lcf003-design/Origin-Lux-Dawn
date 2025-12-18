@@ -37,6 +37,26 @@
       "default": "serif"
     },
     {
+      "type": "range",
+      "id": "huge_logo_size_desktop",
+      "min": 5,
+      "max": 30,
+      "step": 0.5,
+      "unit": "vw",
+      "label": "Huge Logo Size (Desktop)",
+      "default": 13.5
+    },
+    {
+      "type": "range",
+      "id": "huge_logo_size_mobile",
+      "min": 5,
+      "max": 30,
+      "step": 0.5,
+      "unit": "vw",
+      "label": "Huge Logo Size (Mobile)",
+      "default": 18
+    },
+    {
       "type": "font_picker",
       "id": "font_menu",
       "label": "Menu & UI Font",
@@ -58,6 +78,36 @@
     },
     {
       "type": "range",
+      "id": "hero_logo_width_mobile",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Container Width (Mobile)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "hero_logo_max_width",
+      "min": 50,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Max Image Width (Desktop)",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "hero_logo_max_width_mobile",
+      "min": 50,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Max Image Width (Mobile)",
+      "default": 400
+    },
+    {
+      "type": "range",
       "id": "logo_vertical_position",
       "min": 0,
       "max": 100,
@@ -65,6 +115,16 @@
       "unit": "%",
       "label": "Vertical Position (Y)",
       "default": 40
+    },
+    {
+      "type": "range",
+      "id": "logo_horizontal_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Horizontal Position (X)",
+      "default": 50
     },
     {
       "type": "header",
@@ -145,6 +205,17 @@
     --font-huge-logo: {{ section.settings.font_huge_logo.family }}, {{ section.settings.font_huge_logo.fallback_families }};
     --font-menu: {{ section.settings.font_menu.family }}, {{ section.settings.font_menu.fallback_families }};
     --menu-text-color: {{ section.settings.menu_text_color }};
+
+    /* Dynamic Settings */
+    --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}%;
+    --logo-width-mobile: {{ section.settings.hero_logo_width_mobile }}%;
+    --logo-max-width: {{ section.settings.hero_logo_max_width }}px;
+    --logo-max-width-mobile: {{ section.settings.hero_logo_max_width_mobile }}px;
+    --logo-vertical-pos: {{ section.settings.logo_vertical_position }}vh;
+    --logo-horizontal-pos: {{ section.settings.logo_horizontal_position }}%;
+
+    --huge-logo-size-desktop: {{ section.settings.huge_logo_size_desktop }}vw;
+    --huge-logo-size-mobile: {{ section.settings.huge_logo_size_mobile }}vw;
   }
 
   /* 1. THE STICKY BAR (Interactive Layer) */
@@ -199,9 +270,11 @@
 
   .fresh-start-logo-wrapper {
     position: relative;
-    width: {{ section.settings.hero_logo_width_desktop }}%;
-    top: {{ section.settings.logo_vertical_position }}vh;
-    transform: translateY(-50%); /* Center on the top % point */
+    width: var(--logo-width-desktop);
+    max-width: var(--logo-max-width);
+    top: var(--logo-vertical-pos);
+    left: var(--logo-horizontal-pos); /* Applied Horizontal Position */
+    transform: translate(-50%, -50%); /* Centered on the point */
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
     will-change: transform, opacity;
     text-align: center;
@@ -216,7 +289,7 @@
 
   .fresh-start-logo-text {
     font-family: var(--font-huge-logo);
-    font-size: 13.5vw;
+    font-size: var(--huge-logo-size-desktop);
     line-height: 1;
     color: {{ section.settings.huge_logo_color }};
     text-transform: uppercase;
@@ -232,7 +305,8 @@
 
   .fresh-start-header-section.is-scrolled .fresh-start-logo-wrapper {
     /* Move up approx 35-40vh to match header position and shrink to icon size */
-    transform: translateY(calc(-50% - 36vh)) scale(0.25);
+    /* Adjust translate to account for horizontal positioning centering */
+    transform: translate(-50%, calc(-50% - 36vh)) scale(0.25);
     opacity: 0;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease 0.2s; /* Fade out AFTER moving */
   }
@@ -492,6 +566,17 @@
   .fresh-start-icon-btn.is-active .origin-hamburger-line:nth-child(1) { transform: rotate(45deg); }
   .fresh-start-icon-btn.is-active .origin-hamburger-line:nth-child(2) { opacity: 0; transform: translateX(10px); }
   .fresh-start-icon-btn.is-active .origin-hamburger-line:nth-child(3) { transform: rotate(-45deg); }
+
+  /* Mobile Overrides for Logo */
+  @media (max-width: 749px) {
+    .fresh-start-logo-wrapper {
+      width: var(--logo-width-mobile);
+      max-width: var(--logo-max-width-mobile);
+    }
+    .fresh-start-logo-text {
+      font-size: var(--huge-logo-size-mobile);
+    }
+  }
 {% endstyle %}
 
 <div
@@ -647,10 +732,7 @@
 
 <!-- Search Overlay -->
 <div class="fresh-start-drawer-base" id="fs-search-overlay" style="z-index: 2147483647 !important;">
-  <div
-    class="origin-search-container"
-    style="background: rgba(10,10,10,0.95); width: 100vw; height: 100vh; position: fixed; top: 0; left: 0;"
-  >
+  <div class="origin-search-container">
     <button
       class="origin-search-close"
       id="fs-search-close"
@@ -661,21 +743,48 @@
       </svg>
     </button>
 
-    <form
-      action="{{ routes.search_url }}"
-      method="get"
-      role="search"
-      class="origin-search-form"
-      style="width: 80%; max-width: 600px;"
-    >
+    {%- if settings.predictive_search_enabled -%}
+      <predictive-search class="origin-search-form" data-loading-text="{{ 'accessibility.loading' | t }}">
+    {%- else -%}
+      <div class="origin-search-form">
+    {%- endif -%}
+
+    <form action="{{ routes.search_url }}" method="get" role="search" style="width: 100%;">
       <input
         type="search"
         name="q"
+        id="fs-search-input"
         class="origin-search-input"
         placeholder="Search..."
+        {% if settings.predictive_search_enabled %}
+          role="combobox"
+          aria-expanded="false"
+          aria-owns="predictive-search-results"
+          aria-controls="predictive-search-results"
+          aria-haspopup="listbox"
+          aria-autocomplete="list"
+          autocorrect="off"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+        {% endif %}
         style="width: 100%; font-size: 32px; background: transparent; border: none; border-bottom: 2px solid white; color: white; padding: 10px;"
       >
+      <input type="hidden" name="type" value="product">
+
+      {%- if settings.predictive_search_enabled -%}
+        <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+          {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+        </div>
+        <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+      {%- endif -%}
     </form>
+
+    {%- if settings.predictive_search_enabled -%}
+      </predictive-search>
+    {%- else -%}
+      </div>
+    {%- endif -%}
   </div>
 </div>
 
