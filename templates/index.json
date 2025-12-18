@@ -52,9 +52,9 @@
         "hero_height_desktop": "h-screen"
       }
     },
-    "fresh_start_hero_2_L2jK9": {
-      "type": "fresh-start-hero-2",
-      "name": "Fresh Start Hero 2 (Ping-Pong)",
+    "gg_hero_bounce_XYz": {
+      "type": "gg-hero-bounce",
+      "name": "GG Bouncing Hero (Ping-Pong)",
       "settings": {
         "logo": "shopify://shop_images/updated_logo.svg",
         "logo_width_desktop": 30,
@@ -316,7 +316,7 @@
   "order": [
     "splash_page_B8RJPF",
     "fresh_start_hero_kHj8J7",
-    "fresh_start_hero_2_L2jK9",
+    "gg_hero_bounce_XYz",
     "fresh_start_marquee_R6YrzA",
     "editorial_spotlight_xjEVgn",
     "rich_text_XdggXL",
