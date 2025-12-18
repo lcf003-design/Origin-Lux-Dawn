@@ -106,6 +106,18 @@
     }
   }
 
+  /* FIX: Force container to start AFTER the fixed header (Offset) */
+  #shopify-section-{{ section.id }} {
+    padding-top: 140px; /* Match standard Origin header offset */
+  }
+
+  /* Adjust offset for mobile if header is smaller */
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: 100px; /* Approximate mobile header height */
+    }
+  }
+
   /* Force hero section content to be above header logo on homepage */
   body.template-index #shopify-section-{{ section.id }} {
     z-index: 150 !important;
