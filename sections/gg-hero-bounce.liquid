@@ -165,9 +165,8 @@
       {% endfor %}
     </div>
   </div>
-</div>
 
-<script>
+  <script>
   (function() {
     const sectionId = '{{ section.id }}';
     const wrapper = document.getElementById(`ping-pong-wrapper-${sectionId}`);
@@ -182,11 +181,11 @@
     
     let wrapperWidth, wrapperHeight, logoWidth, logoHeight;
 
-    // Squash & Stretch Variables
+    // Squash & Stretch Variables - DISABLED (No Mush)
     let scaleX = 1;
     let scaleY = 1;
-    const elasticity = 0.15;    // How fast it returns to normal
-    const squishFactor = 0.15;  // Impact distortion amount
+    const elasticity = 0.15;    
+    const squishFactor = 0;     // Impact distortion amount set to 0 (No Mush)
 
     function updateMetrics() {
       wrapperWidth = wrapper.offsetWidth;
@@ -206,7 +205,7 @@
       x += vx;
       y += vy;
 
-      // Restore shape (elasticity)
+      // Restore shape (elasticity) - effectively does nothing if squishFactor is 0
       scaleX += (1 - scaleX) * elasticity;
       scaleY += (1 - scaleY) * elasticity;
 
@@ -214,13 +213,13 @@
       if (x <= 0) {
         x = 0;
         vx *= -1;
-        // Hit Left: Squish Width, Stretch Height
+        // Hit Left
         scaleX = 1 - squishFactor;
         scaleY = 1 + squishFactor;
       } else if (x + logoWidth >= wrapperWidth) {
         x = wrapperWidth - logoWidth;
         vx *= -1;
-        // Hit Right: Squish Width, Stretch Height
+        // Hit Right
         scaleX = 1 - squishFactor;
         scaleY = 1 + squishFactor;
       }
@@ -229,18 +228,18 @@
       if (y <= 0) {
         y = 0;
         vy *= -1;
-        // Hit Top: Squish Height, Stretch Width
+        // Hit Top
         scaleX = 1 + squishFactor;
         scaleY = 1 - squishFactor;
       } else if (y + logoHeight >= wrapperHeight) {
         y = wrapperHeight - logoHeight;
         vy *= -1;
-        // Hit Bottom: Squish Height, Stretch Width
+        // Hit Bottom
         scaleX = 1 + squishFactor;
         scaleY = 1 - squishFactor;
       }
 
-      // Apply transform with Squash & Stretch
+      // Apply transform without deformation (scale will stay 1 because squishFactor is 0)
       logo.style.transform = `translate(${x}px, ${y}px) scale(${scaleX.toFixed(3)}, ${scaleY.toFixed(3)})`;
       requestAnimationFrame(animate);
     }
@@ -254,7 +253,8 @@
     }, 100);
 
   })();
-</script>
+  </script>
+</div>
 
 {% schema %}
 {
