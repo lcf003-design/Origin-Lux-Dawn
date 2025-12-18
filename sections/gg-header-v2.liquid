@@ -283,50 +283,212 @@
     .gg-shield-img-mobile { display: none; }
   }
 
-  /* --- DRAWER (Simplified for V2 Launch) --- */
-  .gg-drawer-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 200;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-    backdrop-filter: blur(5px);
-  }
-  .gg-drawer-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .gg-drawer {
-    position: absolute;
-    top: 0;
-    left: 0;
+  /* --- MENU DRAWER (Premium) --- */
+  .gg-menu-drawer {
+    background: linear-gradient(145deg, rgba(15,15,15,0.98) 0%, rgba(30,30,30,0.99) 100%);
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+    width: 380px;
+    max-width: 90vw;
     height: 100%;
-    width: 300px;
-    background: #111;
-    color: #fff;
-    transform: translateX(-100%);
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-    padding: 40px 30px;
+    padding: 40px 0;
+    transform: translateX(-102%);
+    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    color: #ffffff;
+    overflow-y: auto;
+    font-family: var(--font-menu, sans-serif);
+    z-index: 201;
+    position: fixed;
+    top: 0;
+    left: 0;
   }
-  .gg-drawer-overlay.active .gg-drawer {
+
+  .gg-drawer-overlay.active .gg-menu-drawer {
     transform: translateX(0);
   }
 
-  .gg-drawer-link {
+  .gg-menu-list {
+    list-style: none;
+    padding: 0 30px;
+    margin: 40px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .gg-menu-link-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .gg-menu-link-wrapper:hover { transform: translateX(10px); }
+
+  .gg-menu-link {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-grow: 1;
+  }
+
+  .gg-accordion-icon {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
+    opacity: 0.7;
+  }
+
+  /* Level 2 Submenu */
+  .gg-submenu {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(255,255,255,0.03);
+    border-radius: 4px;
+  }
+  .gg-submenu.is-open {
+    display: block;
+    animation: ggFadeIn 0.3s ease;
+  }
+  @keyframes ggFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .gg-submenu li { padding-left: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .gg-submenu li a {
+    font-size: 16px;
+    opacity: 0.8;
+    text-transform: none;
+    font-weight: 300;
+    display: block;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #fff;
+  }
+
+  /* Level 3 Submenu (The Pop) */
+  .gg-submenu .gg-submenu {
+    background: transparent;
+    margin: 5px 0 10px 10px;
+    border-left: 1px solid rgba(255,255,255,0.15);
+    padding-left: 0;
+  }
+  .gg-submenu .gg-submenu li { border: none; padding: 0; }
+  .gg-submenu .gg-submenu li a {
+    font-size: 15px;
+    opacity: 0.6;
+    padding: 8px 0 8px 15px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  /* The Dot */
+  .gg-submenu .gg-submenu li a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    background-color: currentColor;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+  .gg-submenu .gg-submenu li a:hover {
+    opacity: 1;
+    transform: translateX(5px);
+  }
+  .gg-submenu .gg-submenu li a:hover::before { opacity: 1; }
+
+  /* --- SEARCH OVERLAY --- */
+  .gg-search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(25px);
+    z-index: 250;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .gg-search-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .gg-search-container {
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    text-align: center;
+    color: #fff;
+  }
+
+  .gg-search-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #fff;
+    color: #fff;
+    font-size: clamp(24px, 4vw, 48px);
+    padding: 15px 0;
+    outline: none;
+    text-align: center;
+    font-family: var(--font-huge-logo, serif);
+    text-transform: uppercase;
+  }
+  .gg-search-input::placeholder { color: rgba(255,255,255,0.5); }
+
+  .gg-search-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    z-index: 260;
+  }
+
+  /* Custom Predictive Search Styles */
+  .predictive-search {
+    margin-top: 20px;
+    text-align: left;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .predictive-search-results-list {
+    list-style: none;
+    padding: 0;
+  }
+  .predictive-search-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
     color: #fff;
     text-decoration: none;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 15px;
   }
+  .predictive-search-item:hover { background: rgba(255,255,255,0.05); }
+  .predictive-search-item img { width: 50px; height: 50px; object-fit: cover; }
+  .predictive-search-item__content { display: flex; flex-direction: column; }
+  .predictive-search-item__title { font-weight: bold; }
 {% endstyle %}
 
 <!-- THE SHIELD -->
@@ -385,11 +547,20 @@
 
   <!-- Right: Actions -->
   <div class="gg-header-right">
-    <a href="{{ routes.search_url }}" class="gg-icon-btn" aria-label="Search">
+    <button class="gg-icon-btn" aria-label="Search" onclick="toggleGGSearch()">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
-    </a>
+    </button>
+
+    {% if shop.customer_accounts_enabled %}
+      <a href="{{ routes.account_url }}" class="gg-icon-btn" aria-label="Account">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+      </a>
+    {% endif %}
+
     <a href="{{ routes.cart_url }}" class="gg-icon-btn" aria-label="Cart">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -399,21 +570,112 @@
   </div>
 </header>
 
-<!-- DRAWER -->
+<!-- MENU DRAWER -->
 <div class="gg-drawer-overlay" id="gg-drawer-overlay" onclick="toggleGGDrawer()">
-  <div class="gg-drawer" onclick="event.stopPropagation()">
-    <button class="gg-icon-btn" onclick="toggleGGDrawer()" style="align-self: flex-end; margin-bottom: 20px;">
+  <div class="gg-menu-drawer" onclick="event.stopPropagation()">
+    <button
+      class="gg-icon-btn"
+      onclick="toggleGGDrawer()"
+      style="align-self: flex-end; margin-right: 20px; margin-bottom: 20px;"
+    >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
     </button>
 
-    <nav class="flex flex-col gap-4">
-      {% for link in linklists[section.settings.menu].links %}
-        <a href="{{ link.url }}" class="gg-drawer-link">{{ link.title }}</a>
-      {% endfor %}
+    <nav>
+      <ul class="gg-menu-list">
+        {% for link in linklists[section.settings.menu].links %}
+          <li class="gg-menu-item">
+            {% if link.links != blank %}
+              <div class="gg-menu-link-wrapper accordion-trigger">
+                <a href="{{ link.url }}" class="gg-menu-link">{{ link.title }}</a>
+                <svg class="gg-accordion-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 1v12M1 7h12"/>
+                </svg>
+              </div>
+              <!-- LEVEL 2 -->
+              <ul class="gg-submenu">
+                {% for child_link in link.links %}
+                  <li>
+                    {% if child_link.links != blank %}
+                      <div class="gg-menu-link-wrapper accordion-trigger" style="border:none; padding:5px 0;">
+                        <a href="{{ child_link.url }}" class="gg-menu-link" style="font-size:18px;">
+                          {{- child_link.title -}}
+                        </a>
+                        <svg
+                          class="gg-accordion-icon"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path d="M7 1v12M1 7h12"/>
+                        </svg>
+                      </div>
+                      <!-- LEVEL 3 -->
+                      <ul class="gg-submenu">
+                        {% for grandchild_link in child_link.links %}
+                          <li>
+                            <a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% else %}
+                      <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <!-- LEVEL 1 SIMPLE -->
+              <div class="gg-menu-link-wrapper">
+                <a href="{{ link.url }}" class="gg-menu-link">{{ link.title }}</a>
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+
+        {% if shop.customer_accounts_enabled %}
+          <li style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;">
+            <a href="{{ routes.account_url }}" class="gg-menu-link" style="font-size: 18px;">My Account</a>
+          </li>
+        {% endif %}
+      </ul>
     </nav>
+  </div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div class="gg-search-overlay" id="gg-search-overlay">
+  <button class="gg-search-close" onclick="toggleGGSearch()">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+  <div class="gg-search-container" onclick="event.stopPropagation()">
+    <predictive-search>
+      <form action="{{ routes.search_url }}" method="get" role="search">
+        <input
+          id="gg-search-input"
+          class="gg-search-input"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="SEARCH..."
+          role="combobox"
+          aria-expanded="false"
+          aria-owns="predictive-search-results"
+          aria-controls="predictive-search-results"
+          aria-haspopup="listbox"
+          aria-autocomplete="list"
+        >
+        <input type="hidden" name="type" value="product">
+        <div id="predictive-search" tabindex="-1"></div>
+      </form>
+    </predictive-search>
   </div>
 </div>
 
@@ -423,24 +685,69 @@
     const header = document.getElementById('shopify-section-{{ section.id }}');
     const stickyBar = document.getElementById('gg-sticky-bar');
 
-    // Add scroll listener
     window.addEventListener('scroll', () => {
       if (window.scrollY > 50) {
         stickyBar.classList.add('is-scrolled');
-        header.classList.add('scrolled'); // For shield fade
+        header.classList.add('scrolled');
       } else {
         stickyBar.classList.remove('is-scrolled');
         header.classList.remove('scrolled');
       }
     });
+
+    // Submenu Accordion Logic (Level 2 & 3)
+    document.querySelectorAll('.accordion-trigger').forEach((trigger) => {
+      trigger.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation(); // Stop bubble
+
+        const submenu = this.nextElementSibling;
+        const icon = this.querySelector('.gg-accordion-icon');
+
+        if (submenu) {
+          submenu.classList.toggle('is-open');
+          // Rotate Icon
+          if (icon) {
+            if (submenu.classList.contains('is-open')) {
+              icon.style.transform = 'rotate(45deg)';
+            } else {
+              icon.style.transform = 'rotate(0deg)';
+            }
+          }
+        }
+      });
+    });
   };
 
-  // Drawer Logic
+  // Drawer Toggle
   window.toggleGGDrawer = () => {
     const overlay = document.getElementById('gg-drawer-overlay');
     overlay.classList.toggle('active');
     document.body.style.overflow = overlay.classList.contains('active') ? 'hidden' : '';
   };
+
+  // Search Toggle
+  window.toggleGGSearch = () => {
+    const overlay = document.getElementById('gg-search-overlay');
+    const input = document.getElementById('gg-search-input');
+    overlay.classList.toggle('active');
+
+    if (overlay.classList.contains('active')) {
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => input.focus(), 100);
+    } else {
+      document.body.style.overflow = '';
+    }
+  };
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.getElementById('gg-drawer-overlay').classList.remove('active');
+      document.getElementById('gg-search-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
 
   document.addEventListener('DOMContentLoaded', ggHeaderObserver);
   if (Shopify.designMode) {
