@@ -1,36 +1,18 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "origin_ggheader_zynrDj": {
-      "type": "origin-ggheader",
-      "name": "Origin GG Header",
+    "gg_header_v2_main": {
+      "type": "gg-header-v2",
+      "name": "Origin GG Header V2",
       "settings": {
-        "logo_image": "shopify://shop_images/updated_logo.svg",
-        "logo_text": "origin intl",
-        "huge_logo_color": "#121212",
-        "font_huge_logo": "serif",
-        "font_menu": "system_ui_n4",
-        "full_width_logo": false,
-        "huge_logo_size_desktop": 12.5,
-        "huge_logo_size_mobile": 13,
-        "hero_logo_width_desktop": 70,
-        "hero_logo_width_mobile": 70,
-        "logo_vertical_position": 35,
-        "header_bg_color_shrunk": "#ffffff",
-        "header_text_color_shrunk": "#111111",
-        "header_text_color_initial": "#121212",
-        "menu_text_color": "#ffffff",
-        "menu": "orgin-lux"
+        "shield_logo_desktop": "shopify://shop_images/updated_logo.svg",
+        "shield_width_desktop": 70,
+        "shield_position_y": 35,
+        "sticky_logo": "shopify://shop_images/updated_logo.svg",
+        "enable_glass": true,
+        "glass_blur": 20,
+        "menu": "main-menu"
       }
     },
     "header": {
@@ -78,5 +60,5 @@
       }
     }
   },
-  "order": ["origin_ggheader_zynrDj", "header", "announcement_bar_Pmqzea"]
+  "order": ["gg_header_v2_main", "announcement_bar_Pmqzea"]
 }
