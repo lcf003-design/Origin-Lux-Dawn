@@ -225,13 +225,16 @@
 
   /* Scrolled Transform: Shrink and Fade Huge Logo */
   .fresh-start-header-section.is-scrolled .fresh-start-overlay {
-    opacity: 0;
-    visibility: hidden;
+    /* opacity: 0; Removed to allow inner logo to animate */
+    /* visibility: hidden; Removed */
     pointer-events: none;
   }
 
   .fresh-start-header-section.is-scrolled .fresh-start-logo-wrapper {
-    transform: translateY(-50%) scale(0.8);
+    /* Move up approx 35-40vh to match header position and shrink to icon size */
+    transform: translateY(calc(-50% - 36vh)) scale(0.25);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease 0.2s; /* Fade out AFTER moving */
   }
 
   /* 3. STICKY LOGO (Appears on scroll) */
@@ -278,6 +281,7 @@
   }
 
   /* --- MENU DRAWER --- */
+  /* --- MENU DRAWER (ORIGINAL PORT) --- */
   .fresh-start-drawer-base {
     position: fixed;
     top: 0;
@@ -290,15 +294,16 @@
     transition: opacity 0.4s ease, visibility 0.4s ease;
     z-index: 2147483646 !important;
     backdrop-filter: blur(5px);
-    pointer-events: none; /* Default none */
+    pointer-events: none;
   }
 
   .fresh-start-drawer-base.is-open {
     opacity: 1;
     visibility: visible;
-    pointer-events: auto; /* Active when open */
+    pointer-events: auto;
   }
 
+  /* Premium dark gradient */
   .fresh-start-drawer-content {
     background: linear-gradient(145deg, rgba(15,15,15,0.95) 0%, rgba(30,30,30,0.98) 100%);
     box-shadow: 10px 0 30px rgba(0,0,0,0.5);
@@ -319,28 +324,145 @@
     transform: translateX(0);
   }
 
-  /* Menu Items */
   .fresh-start-menu-list {
     list-style: none;
     padding: 0;
-    margin: 40px 0;
+    margin: 40px 0 0 0;
     display: flex;
     flex-direction: column;
     gap: 15px;
   }
 
-  .fresh-start-menu-link {
+  .fresh-start-menu-item {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  /* Staggered Animation Trigger */
+  .fresh-start-drawer-base.is-open .fresh-start-menu-item {
+    animation: fsFadeSlideUp 0.6s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  @keyframes fsFadeSlideUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fresh-start-drawer-base.is-open .fresh-start-menu-item:nth-child(1) { animation-delay: 0.1s; }
+  .fresh-start-drawer-base.is-open .fresh-start-menu-item:nth-child(2) { animation-delay: 0.15s; }
+  .fresh-start-drawer-base.is-open .fresh-start-menu-item:nth-child(3) { animation-delay: 0.2s; }
+  .fresh-start-drawer-base.is-open .fresh-start-menu-item:nth-child(4) { animation-delay: 0.25s; }
+  .fresh-start-drawer-base.is-open .fresh-start-menu-item:nth-child(5) { animation-delay: 0.3s; }
+  .fresh-start-drawer-base.is-open .fresh-start-menu-item:nth-child(6) { animation-delay: 0.35s; }
+
+  .fresh-start-menu-link-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .fresh-start-menu-link-wrapper:hover {
+    transform: translateX(10px);
+  }
+
+  .fresh-start-menu-list a {
     text-decoration: none;
-    color: inherit;
+    color: var(--menu-text-color);
     font-size: 22px;
+    font-weight: 400;
     text-transform: uppercase;
+    flex-grow: 1;
     letter-spacing: 0.05em;
-    display: block;
     transition: opacity 0.3s;
   }
 
-  .fresh-start-menu-link:hover {
+  .fresh-start-menu-link-wrapper:hover a {
     opacity: 0.7;
+  }
+
+  .fresh-start-menu-accordion-icon {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
+    opacity: 0.7;
+  }
+
+  /* --- SUBMENU STYLES (Level 2) --- */
+  .fresh-start-submenu {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(255,255,255,0.03);
+    border-radius: 4px;
+  }
+
+  .fresh-start-submenu.is-open {
+    display: block;
+    animation: fsFadeIn 0.3s ease;
+  }
+  @keyframes fsFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .fresh-start-submenu li {
+    padding-left: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .fresh-start-submenu li a {
+    font-size: 16px;
+    opacity: 0.8;
+    text-transform: none;
+    font-weight: 300;
+  }
+
+  /* --- LEVEL 3 STYLING (The new Sub-subcategory pop) --- */
+  .fresh-start-submenu .fresh-start-submenu {
+    background: transparent;
+    margin: 10px 0 10px 10px;
+    border-left: 1px solid rgba(255,255,255,0.15);
+    padding-left: 0;
+    border-radius: 0;
+  }
+
+  .fresh-start-submenu .fresh-start-submenu li {
+    padding: 0;
+    border-bottom: none;
+  }
+
+  .fresh-start-submenu .fresh-start-submenu li a {
+    font-size: 15px;
+    opacity: 0.6;
+    padding: 8px 0 8px 15px;
+    display: block;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .fresh-start-submenu .fresh-start-submenu li a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    background-color: currentColor;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+
+  .fresh-start-submenu .fresh-start-submenu li a:hover {
+    opacity: 1;
+    color: #fff;
+    transform: translateX(5px);
+  }
+
+  .fresh-start-submenu .fresh-start-submenu li a:hover::before {
+    opacity: 1;
   }
 
   /* --- HAMBURGER ANIMATION --- */
@@ -455,11 +577,69 @@
     <nav>
       <ul class="fresh-start-menu-list">
         {% for link in linklists[section.settings.menu].links %}
-          <li>
-            <a href="{{ link.url }}" class="fresh-start-menu-link">{{ link.title }}</a>
-            <!-- Submenu logic can be expanded here if needed -->
+          <li class="fresh-start-menu-item">
+            {% if link.links != blank %}
+              <div class="fresh-start-menu-link-wrapper accordion-trigger">
+                <a href="{{ link.url }}">{{ link.title }}</a>
+                <svg
+                  class="fresh-start-menu-accordion-icon"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M7 1v12M1 7h12"/>
+                </svg>
+              </div>
+              <ul class="fresh-start-submenu">
+                {% for child_link in link.links %}
+                  <li>
+                    {% if child_link.links != blank %}
+                      <div class="fresh-start-menu-link-wrapper accordion-trigger">
+                        <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        <svg
+                          class="fresh-start-menu-accordion-icon"
+                          width="12"
+                          height="12"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path d="M7 1v12M1 7h12"/>
+                        </svg>
+                      </div>
+                      <ul class="fresh-start-submenu">
+                        {% for grandchild_link in child_link.links %}
+                          <li>
+                            <a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% else %}
+                      <div class="fresh-start-menu-link-wrapper">
+                        <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                      </div>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <div class="fresh-start-menu-link-wrapper">
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </div>
+            {% endif %}
           </li>
         {% endfor %}
+        {% if shop.customer_accounts_enabled %}
+          <li class="fresh-start-menu-item" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+            <div class="fresh-start-menu-link-wrapper">
+              <a href="{{ routes.account_url }}">Account</a>
+            </div>
+          </li>
+        {% endif %}
       </ul>
     </nav>
   </div>
@@ -557,6 +737,28 @@
           toggleDrawer(menuOverlay, false);
           menuBtn.classList.remove('is-active');
         }
+      });
+
+      // --- ACCORDION LOGIC (Ported) ---
+      const accordionTriggers = menuOverlay.querySelectorAll('.accordion-trigger');
+      accordionTriggers.forEach((trigger) => {
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+
+          const submenu = trigger.nextElementSibling;
+          const icon = trigger.querySelector('.fresh-start-menu-accordion-icon');
+
+          if (submenu) {
+            const isOpen = submenu.classList.contains('is-open');
+            if (isOpen) {
+              submenu.classList.remove('is-open');
+              if (icon) icon.style.transform = 'rotate(0deg)';
+            } else {
+              submenu.classList.add('is-open');
+              if (icon) icon.style.transform = 'rotate(45deg)';
+            }
+          }
+        });
       });
     }
 
