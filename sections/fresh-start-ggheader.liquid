@@ -1,0 +1,266 @@
+{% schema %}
+{
+  "name": "Fresh Start GG Header",
+  "class": "fresh-start-header-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Branding"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text (Fallback)",
+      "default": "GUCCI"
+    },
+    {
+      "type": "header",
+      "content": "Huge Logo Settings"
+    },
+    {
+      "type": "range",
+      "id": "huge_logo_width",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Initial Width (Desktop)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "huge_logo_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical Position (%)",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Sticky Bar Settings"
+    },
+    {
+      "type": "color",
+      "id": "bar_bg",
+      "label": "Scrolled Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bar_text",
+      "label": "Scrolled Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "initial_text",
+      "label": "Initial Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fresh Start GG Header"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  /* --- CRITICAL ARCHITECTURE: GLASS WALL PROOF --- */
+  .fresh-start-header-section {
+    position: relative;
+    z-index: 100; /* High priority for the sticky bar */
+    height: 0; /* occupy no flow space initially */
+  }
+
+  /* 1. THE STICKY BAR (Interactive Layer) */
+  .fresh-start-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100; /* Top UI Layer */
+    transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+    pointer-events: none; /* Let clicks pass through empty space */
+  }
+
+  /* Enable clicks on actual interactive children */
+  .fresh-start-bar > * {
+    pointer-events: auto;
+  }
+
+  /* Scrolled State */
+  .fresh-start-header-section.is-scrolled .fresh-start-bar {
+    background-color: {{ section.settings.bar_bg }};
+    color: {{ section.settings.bar_text }};
+    box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+    pointer-events: auto; /* Bar becomes solid */
+  }
+
+  /* Initial State Colors */
+  .fresh-start-bar {
+    color: {{ section.settings.initial_text }};
+  }
+
+  /* 2. THE HUGE OVERLAY (Passive Layer) */
+  .fresh-start-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 40; /* Below Hero Buttons (Z-70) */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align based on top % */
+    pointer-events: none !important; /* CRITICAL: NEVER BLOCK CLICKS */
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+
+  .fresh-start-logo-wrapper {
+    position: relative;
+    width: {{ section.settings.huge_logo_width }}%;
+    top: {{ section.settings.huge_logo_top }}%;
+    transform: translateY(-50%); /* Center on the top % point */
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    will-change: transform, opacity;
+  }
+
+  .fresh-start-logo-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Scrolled Transform: Shrink and Fade Huge Logo */
+  .fresh-start-header-section.is-scrolled .fresh-start-overlay {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .fresh-start-header-section.is-scrolled .fresh-start-logo-wrapper {
+    transform: translateY(-50%) scale(0.8);
+  }
+
+  /* 3. STICKY LOGO (Appears on scroll) */
+  .fresh-start-sticky-logo {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .fresh-start-header-section.is-scrolled .fresh-start-sticky-logo {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Utils */
+  .fresh-start-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+{% endstyle %}
+
+<div
+  id="fresh-start-trigger"
+  style="position: absolute; top: 100px; left: 0; width: 1px; height: 1px; visibility: hidden; pointer-events: none;"
+></div>
+
+<!-- 1. Huge Passive Overlay -->
+<div class="fresh-start-overlay">
+  <div class="fresh-start-logo-wrapper">
+    {% if section.settings.logo != blank %}
+      <img
+        src="{{ section.settings.logo | image_url: width: 1200 }}"
+        class="fresh-start-logo-img"
+        alt="{{ section.settings.logo.alt }}"
+      >
+    {% else %}
+      <h1 style="font-size: 15vw; margin: 0; line-height: 1; text-transform: uppercase;">
+        {{ section.settings.logo_text }}
+      </h1>
+    {% endif %}
+  </div>
+</div>
+
+<!-- 2. Sticky Bar -->
+<header class="fresh-start-bar">
+  <div class="fresh-start-nav-left">
+    <div class="fresh-start-icon">
+      <!-- Menu Icon (Simple Hamburger) -->
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="fresh-start-sticky-logo">
+    {{ section.settings.logo_text }}
+  </div>
+
+  <div class="fresh-start-nav-right" style="display: flex; gap: 20px;">
+    <div class="fresh-start-icon">
+      <!-- Search Icon -->
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+      </svg>
+    </div>
+    <div class="fresh-start-icon">
+      <!-- Cart Icon -->
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<script>
+  (function () {
+    const section = document.querySelector('.fresh-start-header-section');
+    const trigger = document.getElementById('fresh-start-trigger');
+
+    if ('IntersectionObserver' in window && trigger && section) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            // When trigger is NOT intersecting (scrolled past), we are "scrolled"
+            if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+              section.classList.add('is-scrolled');
+            } else {
+              section.classList.remove('is-scrolled');
+            }
+          });
+        },
+        { threshold: 0 }
+      );
+
+      observer.observe(trigger);
+    } else {
+      // Fallback
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          section.classList.add('is-scrolled');
+        } else {
+          section.classList.remove('is-scrolled');
+        }
+      });
+    }
+  })();
+</script>
