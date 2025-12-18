@@ -1113,6 +1113,17 @@
     gap: 12px;
   }
 }
+/* Global Index Fix: Prevent first section overlap with fixed header */
+body.template-index main section:first-of-type {
+  padding-top: 140px; /* Offset for Origin Header */
+}
+
+@media screen and (max-width: 749px) {
+  body.template-index main section:first-of-type {
+    padding-top: 110px;
+  }
+}
+
 /* ================================
    ORIGIN – GUCCI HEADER OVERRIDES
    (sits on top of Dawn header)
@@ -1196,9 +1207,15 @@
 .origin-hero {
   position: relative;
   width: 100%;
-  min-height: 70vh;
-  max-height: 880px;
+  min-height: 100vh;
+  max-height: 1000px;
   overflow: hidden;
+}
+
+@media (max-width: 749px) {
+  .origin-hero {
+    min-height: 70vh;
+  }
 }
 
 .origin-hero__media {
@@ -4320,17 +4337,17 @@ a,
 .search-modal__form .field__input,
 .template-search .field__input,
 .predictive-search__input {
-    background: transparent !important;
-    border: none !important;
-    border-bottom: 2px solid rgba(var(--color-foreground), 1) !important;
-    border-radius: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 4rem !important; /* Make room for icon */
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 500;
-    box-shadow: none !important; /* Kill Dawn's focus ring */
-    color: rgba(var(--color-foreground), 1) !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid rgba(var(--color-foreground), 1) !important;
+  border-radius: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 4rem !important; /* Make room for icon */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  box-shadow: none !important; /* Kill Dawn's focus ring */
+  color: rgba(var(--color-foreground), 1) !important;
 }
 
 /* Focus States */
@@ -4338,82 +4355,84 @@ a,
 .search-modal__form .field__input:focus,
 .template-search .field__input:focus,
 .predictive-search__input:focus {
-    box-shadow: none !important;
-    outline: none !important;
-    border-bottom-color: rgba(var(--color-foreground), 1) !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-bottom-color: rgba(var(--color-foreground), 1) !important;
 }
 
 /* Adjust Labels (Floating) */
 .newsletter-form__field-wrapper .field__label,
 .search-modal__form .field__label,
 .template-search .field__label {
-    left: 0 !important;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 0.8rem !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    color: rgba(var(--color-foreground), 0.6);
+  left: 0 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.8rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: rgba(var(--color-foreground), 0.6);
 }
 
 /* Active/Focus Label State - Move up */
 .newsletter-form__field-wrapper .field__input:focus ~ .field__label,
-.newsletter-form__field-wrapper .field__input:not(:placeholder-shown) ~ .field__label,
+.newsletter-form__field-wrapper
+  .field__input:not(:placeholder-shown)
+  ~ .field__label,
 .search-modal__form .field__input:focus ~ .field__label,
 .search-modal__form .field__input:not(:placeholder-shown) ~ .field__label,
 .template-search .field__input:focus ~ .field__label,
 .template-search .field__input:not(:placeholder-shown) ~ .field__label {
-     top: 0 !important;
-     transform: translateY(-120%) !important;
-     font-size: 0.7rem !important;
+  top: 0 !important;
+  transform: translateY(-120%) !important;
+  font-size: 0.7rem !important;
 }
 
 /* Adjust Buttons */
 .newsletter-form__button,
 .search__button {
-    right: 0 !important; 
-    top: 0 !important;
-    height: 100% !important;
-    background: transparent !important;
-    color: rgba(var(--color-foreground), 1) !important;
-    border: none !important;
-    width: 4rem !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+  right: 0 !important;
+  top: 0 !important;
+  height: 100% !important;
+  background: transparent !important;
+  color: rgba(var(--color-foreground), 1) !important;
+  border: none !important;
+  width: 4rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* Predictive Search Results - Sharpen Up */
 .predictive-search {
-    border: 1px solid rgba(var(--color-foreground), 0.1) !important;
-    border-radius: 0 !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
+  border: 1px solid rgba(var(--color-foreground), 0.1) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
 .predictive-search__item-heading {
-    text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
-    font-size: 0.9rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-size: 0.9rem !important;
 }
 
 .predictive-search__item .price {
-    font-weight: 400 !important;
-    letter-spacing: 0.05em !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.05em !important;
 }
 
 /* Search Modal Close Button */
 .modal__close-button.link {
-    border: 1px solid rgba(var(--color-foreground), 0.2);
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
+  border: 1px solid rgba(var(--color-foreground), 0.2);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
 }
 
 .modal__close-button.link:hover {
-    border-color: rgba(var(--color-foreground), 1);
-    background: rgba(var(--color-foreground), 0.05);
+  border-color: rgba(var(--color-foreground), 1);
+  background: rgba(var(--color-foreground), 0.05);
 }
