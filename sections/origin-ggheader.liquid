@@ -213,16 +213,10 @@
   {{ section.settings.font_menu | font_face: font_display: 'swap' }}
 
   /* --- VARS --- */
-  /* Force the Shopify Section Wrapper to be below the Hero (Z-60) */
-  #shopify-section-{{ section.id }} {
-    position: relative !important;
-    z-index: 50 !important;
-  }
-
   .origin-gucci-header-section {
-    position: relative; /* Ensure stacking context */
-    z-index: auto; /* Allow children to interleave with page content */
-    pointer-events: none; /* Prevent wrapper from blocking clicks */
+    position: relative;
+    z-index: auto; 
+    pointer-events: none;
     --header-transition: all 0.4s ease-out;
     --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}%;
     --logo-width-mobile: {{ section.settings.hero_logo_width_mobile }}%;
@@ -246,14 +240,14 @@
     --font-menu: {{ section.settings.font_menu.family }}, {{ section.settings.font_menu.fallback_families }};
   }
 
-  /* --- WRAPPER (HOMEPAGE DEFAULT) --- */
+  /* --- WRAPPER --- */
   .origin-gucci-header {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 0;
-    z-index: 50; /* Base header layer (below Hero Buttons 60) */
+    height: auto;
+    z-index: auto;
     pointer-events: none;
   }
 
@@ -263,7 +257,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 100; /* Topmost UI element */
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
@@ -272,7 +266,7 @@
     transition: var(--header-transition);
     background-color: transparent;
     color: var(--header-text-initial);
-    pointer-events: none;
+    pointer-events: none; /* Let clicks pass through empty bar areas */
     font-family: var(--font-menu);
   }
 
@@ -281,8 +275,7 @@
     background-color: var(--header-bg-shrunk);
     color: var(--header-text-shrunk);
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    /* padding-top: 12px; REMOVED TO PREVENT LAYOUT SHIFT DURING MORPH */
-    /* padding-bottom: 12px; REMOVED TO PREVENT LAYOUT SHIFT DURING MORPH */
+    pointer-events: auto; /* Bar becomes solid/interactive when shrunk */
   }
 
   /* --- STICKY BAR LOGO --- */
@@ -290,11 +283,11 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
-    /* transition: var(--header-transition); Conflict with JS scroll logic */
+    transition: all 0.4s ease;
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: none;
+    pointer-events: auto; /* Logo is always clickable if visible */
   }
 
   .origin-sticky-bar__logo a {
@@ -302,7 +295,6 @@
     line-height: 0;
     text-decoration: none;
     color: inherit;
-    pointer-events: auto;
   }
 
   .origin-sticky-bar__logo img {
@@ -323,7 +315,6 @@
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-    pointer-events: auto;
   }
 
   /* --- HUGE LOGO OVERLAY --- */
@@ -332,32 +323,27 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 0; /* Collapsed to remove interaction shield */
-    overflow: visible; /* Allow absolute child to show */
-    z-index: 40;
-    /* VISIBILITY HACK: Hide the wrapper (removes hit-test) but show the child */
-    visibility: hidden; 
-    pointer-events: none !important;
+    height: 100vh;
+    z-index: 40; /* LAYER 40: Below Hero Buttons (50) */
+    pointer-events: none; /* Pass-through layer */
     display: flex;
     justify-content: center;
-    /* transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s; REPLACED BY JS SCROLL */
     transform-origin: center top;
     will-change: transform, opacity;
   }
 
   .origin-huge-logo-inner {
-    visibility: visible; /* Restore visibility for the content */
-    position: absolute; /* Changed from default flow to absolute for precise X/Y */
+    position: absolute;
     top: var(--logo-vertical-pos);
     left: var(--logo-horizontal-pos);
-    transform: translate(-50%, -50%); /* Centers it on the point defined by top/left */
+    transform: translate(-50%, -50%);
     width: var(--logo-width-desktop);
     max-width: var(--logo-max-width);
     text-align: center;
     padding: 0 20px;
-    backface-visibility: hidden; /* Fix for Safari flicker */
-    will-change: transform, opacity; /* Hint for browser optimization */
-    pointer-events: none !important;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+    pointer-events: none; /* Text is visually there but ghost-like */
   }
 
   .origin-huge-logo-inner.is-full-width {
@@ -371,7 +357,7 @@
     height: auto;
     display: block;
     margin: 0 auto;
-    pointer-events: none !important;
+    pointer-events: none;
   }
 
   .origin-huge-logo-text {
@@ -382,14 +368,7 @@
     margin: 0;
     white-space: nowrap;
     color: var(--huge-logo-text-color) !important;
-    pointer-events: none !important;
-  }
-
-  .origin-gucci-header.is-shrunk .origin-huge-logo-wrapper {
-    /* Handled by JS now */
-    /* opacity: 0;
-    visibility: hidden;
-    transform: scale(0.8) translateY(-100px); */
+    pointer-events: none;
   }
 
   /* --- SMART HEADER: STANDARD PAGE OVERRIDES --- */
@@ -407,13 +386,13 @@
     color: var(--header-text-shrunk);
     padding-top: 12px;
     padding-bottom: 12px;
+    pointer-events: auto;
   }
 
   .origin-gucci-header.is-standard-page .origin-sticky-bar__logo {
     opacity: 1;
     visibility: visible;
     transform: none;
-    pointer-events: auto;
   }
 
   .origin-gucci-header.is-standard-page .origin-huge-logo-wrapper {
@@ -427,7 +406,7 @@
     align-items: center;
     gap: 16px;
     z-index: 2147483647;
-    pointer-events: auto !important;
+    pointer-events: auto; /* Buttons are interactive */
     position: relative;
   }
 
@@ -1022,119 +1001,65 @@
       const stickyLogo = headerContainer.querySelector('.origin-sticky-bar__logo');
       const stickyBar = headerContainer.querySelector('.origin-sticky-bar');
 
-      if (!metrics || !hugeWrapper) return;
+      if (!hugeWrapper) return;
 
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      // Clean Scroll Handler
+      function handleScroll() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+        const threshold = 50; // Pixel threshold to switch modes
 
-      // Define the scroll distance over which the morph happens
-      // Short range for "fast" reaction? user said "disappears so quickly",
-      // but also "slow and glitchy" might refer to the previous implementation?
-      // User says: "look like the big text on scroll turns into the little text"
-      // Let's use 200px as a reasonable morph distance.
-      const range = 300;
-      const progress = Math.min(1, Math.max(0, scrollY / range));
+        if (scrollY > threshold) {
+          // SCROLLED DOWN: Hide Big, Show Small
+          hugeWrapper.style.opacity = '0';
+          hugeWrapper.style.visibility = 'hidden'; // Remove from hit-test completely
+          hugeWrapper.style.pointerEvents = 'none';
+          
+          if (stickyLogo) {
+            stickyLogo.style.opacity = '1';
+            stickyLogo.style.visibility = 'visible';
+            stickyLogo.style.transform = 'translateY(0)';
+          }
+          
+          headerContainer.classList.add('is-shrunk');
+          if (stickyBar) {
+            stickyBar.style.backgroundColor = 'var(--header-bg-shrunk)';
+            stickyBar.style.color = 'var(--header-text-shrunk)';
+            stickyBar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
+          }
 
-      // Ease the progress?
-      // const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress); // Exponential ease out?
-      // Linear is often more predictable for scroll-linked connection.
-      const p = progress;
-
-      // 1. Apply Morph to Big Logo
-      // We transform the Wrapper or Inner? Inner is better if Wrapper is full screen.
-      // But Wrapper was the one fixed. Inner has margin-top for vertical pos.
-      // Let's anim the INNER.
-
-      const currentScale = 1 + (metrics.scale - 1) * p;
-      const currentY = metrics.deltaY * p;
-
-      // We use the Inner for the transform.
-      // Note: hugeInner has `transform: translateY(-50%)` in CSS for centering.
-      // We must preserve that or account for it.
-      // BoundingBox calculation accounts for current transforms usually.
-      // Actually `transform` replaces previous transform.
-      // So we need to include `translateY(-50%)` if it was there?
-      // Let's just set properties explicitly.
-      // Wait, if we use the computed rects from Scroll 0, we are good.
-      // But we need to know the base transform.
-
-      // Simplified approach: Wrapper is the "Subject".
-      // But wrapper is 100vh.
-
-      // Let's stick to modifying `hugeWrapper` but we calculated deltas based on `hugeInner`.
-      // If `hugeWrapper` is 100% width/height fixed, and `hugeInner` is the child.
-      // If we scale `hugeWrapper`, we scale the whole screen. Bad.
-      // We MUST animate `hugeInner`.
-
-      // CSS base: transform: translateY(-50%);
-      // We append our morph: translate(0, currentY) scale(currentScale)
-      // Order matters.
-      // Correct composition: `translateY(calc(-50% + ${currentY}px)) scale(${currentScale})`
-
-      if (hugeInner) {
-        hugeInner.style.transform = `translateY(calc(-50% + ${currentY}px)) scale(${currentScale})`;
-
-        // Fix for "glitchy": if we are fully morphed (p=1), we hide it?
-        // User said "turns into the little text at the top of the header... and vice versa".
-        // So at p=1, Big is hidden, Little is shown.
-        // At p<1, Big is shown, Little is hidden.
-
-        if (p >= 0.99) {
-          hugeInner.style.opacity = 0;
-          if (stickyLogo) stickyLogo.style.opacity = 1;
-          if (stickyLogo) stickyLogo.style.visibility = 'visible';
         } else {
-          hugeInner.style.opacity = 1;
-          if (stickyLogo) stickyLogo.style.opacity = 0;
-          if (stickyLogo) stickyLogo.style.visibility = 'hidden';
+          // AT TOP: Show Big, Hide Small
+          hugeWrapper.style.opacity = '1';
+          hugeWrapper.style.visibility = 'visible';
+          hugeWrapper.style.pointerEvents = 'none'; // Always none for big logo wrapper
+
+          if (stickyLogo) {
+            stickyLogo.style.opacity = '0';
+            stickyLogo.style.visibility = 'hidden';
+            stickyLogo.style.transform = 'translateY(10px)';
+          }
+
+          headerContainer.classList.remove('is-shrunk');
+          if (stickyBar) {
+            stickyBar.style.backgroundColor = 'transparent';
+            stickyBar.style.color = 'var(--header-text-initial)';
+            stickyBar.style.boxShadow = 'none';
+          }
         }
       }
 
-      // 2. Background Logic (Sticky Bar)
-      // Turns solid when morph completes or starts?
-      // User: "turns into the little text at the top of the header"
-      // Usually background comes in as it hits the top.
-      if (p > 0.8) {
-        headerContainer.classList.add('is-shrunk');
-        if (stickyBar) {
-          stickyBar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-          stickyBar.style.backdropFilter = 'blur(10px)';
-          stickyBar.style.color = 'var(--header-text-shrunk)';
-        }
-      } else {
-        headerContainer.classList.remove('is-shrunk');
-        if (stickyBar) {
-          stickyBar.style.backgroundColor = 'transparent';
-          stickyBar.style.backdropFilter = 'none';
-          stickyBar.style.color = 'var(--header-text-initial)';
-        }
+      // Resize Handler (Recalc positions if needed, mostly handled by CSS now)
+      function handleResize() {
+        // No-op for now unless we need dynamic centering logic not handled by CSS
       }
-    }
 
-    // Init
-    window.addEventListener('scroll', () => requestAnimationFrame(updateMorph), { passive: true });
+      // Bind Events
+      window.addEventListener('scroll', () => window.requestAnimationFrame(handleScroll), { passive: true });
+      window.addEventListener('resize', handleResize, { passive: true });
 
-    // Recalc on resize
-    window.addEventListener('resize', () => {
-      // Reset transforms to get clean read?
-      // This is complex. For now, just Recalc might act on currently transformed elements...
-      // Ideally we reset, read, then re-apply.
-      const hugeInner = headerContainer.querySelector('.origin-huge-logo-inner');
-      if (hugeInner) hugeInner.style.transform = ''; // revert to CSS default
-      metrics = calculateMetrics();
-      updateMorph();
-    });
+      // Init
+      handleScroll();
 
-    // Initial Calc (Wait for layout)
-    setTimeout(() => {
-      metrics = calculateMetrics();
-      updateMorph();
-    }, 100);
-
-    // Also run on load just in case
-    window.addEventListener('load', () => {
-      metrics = calculateMetrics();
-      updateMorph();
-    });
 
     // --- 2. Overlay Manager ---
     const toggleOverlay = (overlayId, isOpen) => {
