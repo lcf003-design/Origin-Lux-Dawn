@@ -137,6 +137,15 @@
       wrapperHeight = wrapper.offsetHeight;
       logoWidth = logo.offsetWidth;
       logoHeight = logo.offsetHeight;
+
+      // CRITICAL FIX: Clamp position immediately on resize to prevent "teleporting"
+      // or getting stuck outside the box when screen shrinks.
+      if (x + logoWidth > wrapperWidth) {
+        x = Math.max(0, wrapperWidth - logoWidth);
+      }
+      if (y + logoHeight > wrapperHeight) {
+        y = Math.max(0, wrapperHeight - logoHeight);
+      }
     }
 
     function animate() {
