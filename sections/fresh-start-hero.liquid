@@ -68,11 +68,11 @@
     position: relative;
   }
 
-  /* Ensure buttons are clickable */
+  /* Ensure buttons are clickable - must be above header sticky bar */
   #hero-content-{{ section.id }} a {
     pointer-events: auto !important;
     position: relative;
-    z-index: 51 !important;
+    z-index: 101 !important; /* Above sticky bar which is z-index 100 */
   }
   @media (min-width: 768px) {
     #hero-content-{{ section.id }} {
@@ -84,7 +84,7 @@
   /* This ensures the entire Hero component sits above the Header's base layer */
   #shopify-section-{{ section.id }} {
     position: relative !important;
-    z-index: 2 !important; /* Above header logo (z-index: 1) but below sticky bar (z-index: 100) */
+    z-index: auto !important; /* Let natural stacking order work */
     pointer-events: none; /* Allow pass-through to header menu */
   }
 </style>
