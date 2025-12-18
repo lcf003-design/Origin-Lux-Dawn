@@ -437,6 +437,109 @@
     pointer-events: auto;
   }
 
+  /* --- NUCLEAR OVERRIDES FOR PREDICTIVE SEARCH (Fixing the White Box) --- */
+  #predictive-search-results {
+    background: transparent !important;
+    color: #fff !important;
+    text-align: left;
+    margin-top: 20px;
+    width: 100%;
+    /* Fix weird Shopify grid */
+    display: block !important;
+  }
+
+  .predictive-search__results-groups-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .predictive-search__result-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .predictive-search__heading {
+    color: rgba(255,255,255,0.6) !important;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.1rem;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 5px;
+  }
+
+  .predictive-search__list-item {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+  }
+
+  /* Items */
+  a.predictive-search__item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    padding: 10px 0 !important;
+    background: transparent !important;
+    color: #fff !important;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    text-decoration: none !important;
+    transition: opacity 0.2s;
+  }
+
+  a.predictive-search__item:hover {
+    opacity: 0.7;
+    background: rgba(255,255,255,0.05) !important;
+  }
+
+  /* Images */
+  .predictive-search__image {
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: cover !important;
+    border-radius: 0 !important;
+    display: block !important;
+  }
+
+  /* Text Content */
+  .predictive-search__item-content {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    text-align: left !important;
+  }
+
+  .predictive-search__item-heading {
+    margin: 0 !important;
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.05rem !important;
+    color: #fff !important;
+  }
+
+  .predictive-search__item-vendor {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  .predictive-search__price {
+    color: #fff !important;
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+
+  /* "Search for..." Button at bottom */
+  .predictive-search__search-for-button {
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  /* --- END OVERRIDES --- */
+
+
   .gg-search-container {
     width: 100%;
     height: 100%;
