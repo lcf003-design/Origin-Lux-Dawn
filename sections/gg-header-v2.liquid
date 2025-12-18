@@ -492,14 +492,26 @@
 
   /* Align Search Button properly */
   .gg-search-submit {
+    position: absolute; /* Re-affirm absolute */
     right: 0 !important;
     padding-left: 15px; /* Spacing */
     border-left: 1px solid rgba(255,255,255,0.3); /* Divider */
     height: 60%;
-    top: 20% !important;
-    transform: none !important;
+    top: 50% !important; /* Center in wrapper */
+    transform: translateY(-50%) !important;
     display: flex;
     align-items: center;
+    background: transparent;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: currentColor;
+    z-index: 5;
   }
 
   /* Additional cleanup */
@@ -883,28 +895,31 @@
 
     <predictive-search class="gg-search-form" data-loading-text="{{ 'accessibility.loading' | t }}">
       <form action="{{ routes.search_url }}" method="get" role="search" style="width: 100%;">
-        <input
-          type="search"
-          name="q"
-          id="gg-search-input"
-          value="{{ search.terms | escape }}"
-          placeholder="SEARCH..."
-          class="gg-search-input"
-          role="combobox"
-          aria-expanded="false"
-          aria-owns="predictive-search-results"
-          aria-controls="predictive-search-results"
-          aria-haspopup="listbox"
-          aria-autocomplete="list"
-          autocorrect="off"
-          autocomplete="off"
-          autocapitalize="off"
-          spellcheck="false"
-        >
-        <input type="hidden" name="type" value="product">
-        <button type="submit" class="gg-search-submit">{{ 'general.search.search' | t }}</button>
+        <!-- Input Wrapper to anchor the Search Button -->
+        <div class="gg-search-field-wrapper" style="position: relative; width: 100%;">
+          <input
+            type="search"
+            name="q"
+            id="gg-search-input"
+            value="{{ search.terms | escape }}"
+            placeholder="SEARCH..."
+            class="gg-search-input"
+            role="combobox"
+            aria-expanded="false"
+            aria-owns="predictive-search-results"
+            aria-controls="predictive-search-results"
+            aria-haspopup="listbox"
+            aria-autocomplete="list"
+            autocorrect="off"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+          >
+          <input type="hidden" name="type" value="product">
+          <button type="submit" class="gg-search-submit">{{ 'general.search.search' | t }}</button>
+        </div>
 
-        <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+        <div id="predictive-search" class="predictive-search" tabindex="-1" data-predictive-search>
           {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
         </div>
         <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
