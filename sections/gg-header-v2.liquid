@@ -435,7 +435,7 @@
 
   .gg-search-container {
     width: 90%;
-    max-width: 800px;
+    max-width: 1000px; /* Wider for premium feel */
     position: relative;
     text-align: center;
     color: #fff;
@@ -445,33 +445,36 @@
     width: 100%;
     background: transparent;
     border: none;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid rgba(255,255,255,0.3);
     color: #fff;
-    font-size: clamp(24px, 4vw, 48px);
-    padding: 15px 0;
+    font-size: clamp(32px, 5vw, 64px); /* MASSIVE input */
+    padding: 20px 0;
     outline: none;
-    text-align: center;
+    text-align: left; /* User prefers standard left align usually for lists */
     font-family: var(--font-huge-logo, serif);
     text-transform: uppercase;
+    transition: border-color 0.3s;
   }
-  .gg-search-input::placeholder { color: rgba(255,255,255,0.5); }
+  .gg-search-input:focus { border-bottom-color: #fff; }
+  .gg-search-input::placeholder { color: rgba(255,255,255,0.3); }
 
   .gg-search-close {
     position: absolute;
-    top: 30px;
-    right: 30px;
+    top: 40px;
+    right: 40px;
     background: none;
     border: none;
     color: #fff;
     cursor: pointer;
     z-index: 260;
+    transform: scale(1.2);
   }
 
   /* Custom Predictive Search Styles */
   .predictive-search {
-    margin-top: 20px;
+    margin-top: 30px;
     text-align: left;
-    max-height: 60vh;
+    max-height: 70vh;
     overflow-y: auto;
   }
   .predictive-search-results-list {
@@ -481,16 +484,19 @@
   .predictive-search-item {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    gap: 25px; /* More breathing room */
+    padding: 15px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
     color: #fff;
     text-decoration: none;
+    transition: background 0.2s;
   }
-  .predictive-search-item:hover { background: rgba(255,255,255,0.05); }
-  .predictive-search-item img { width: 50px; height: 50px; object-fit: cover; }
-  .predictive-search-item__content { display: flex; flex-direction: column; }
-  .predictive-search-item__title { font-weight: bold; }
+  .predictive-search-item:hover { background: rgba(255,255,255,0.1); }
+  .predictive-search-item img { width: 80px; height: 80px; object-fit: cover; } /* Larger thumbs */
+  .predictive-search-item__content { display: flex; flex-direction: column; gap: 5px; }
+  .predictive-search-item__title { font-size: 18px; font-weight: 500; letter-spacing: 0.05em; margin: 0; }
+  .predictive-search-item__vendor { font-size: 12px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.1em; }
+  .predictive-search-item__price { font-size: 14px; opacity: 0.8; }
 {% endstyle %}
 
 <!-- THE SHIELD -->
