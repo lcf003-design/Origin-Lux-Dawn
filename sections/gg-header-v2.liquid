@@ -410,23 +410,27 @@
   .gg-submenu .gg-submenu li a:hover::before { opacity: 1; }
 
   /* --- SEARCH OVERLAY --- */
+  /* --- SEARCH OVERLAY (Origin Clone) --- */
   .gg-search-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(10, 10, 10, 0.9);
+    background: rgba(10, 10, 10, 0.85); /* Origin opacity */
     backdrop-filter: blur(25px);
-    z-index: 250;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s;
+    z-index: 2147483647; /* Origin Z-Index logic */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
     pointer-events: none;
+    color: #fff; /* Default text color from vars */
   }
+
   .gg-search-overlay.active {
     opacity: 1;
     visibility: visible;
@@ -434,40 +438,65 @@
   }
 
   .gg-search-container {
-    width: 90%;
-    max-width: 1000px; /* Wider for premium feel */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    text-align: center;
-    color: #fff;
+  }
+
+  .gg-search-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    z-index: 10;
+  }
+
+  .gg-search-form {
+    width: 90%;
+    max-width: 600px; /* Origin Width */
+    position: relative;
   }
 
   .gg-search-input {
     width: 100%;
-    background: transparent;
     border: none;
-    border-bottom: 2px solid rgba(255,255,255,0.3);
-    color: #fff;
-    font-size: clamp(32px, 5vw, 64px); /* MASSIVE input */
-    padding: 20px 0;
+    border-bottom: 2px solid currentColor;
+    font-size: 32px; /* Origin Font Size */
+    padding: 10px 0;
+    background: transparent;
+    border-radius: 0;
     outline: none;
-    text-align: left; /* User prefers standard left align usually for lists */
-    font-family: var(--font-huge-logo, serif);
-    text-transform: uppercase;
-    transition: border-color 0.3s;
+    font-family: inherit;
+    color: currentColor;
+    text-align: left; /* Origin Alignment */
+    text-transform: none; /* Origin Case */
   }
-  .gg-search-input:focus { border-bottom-color: #fff; }
-  .gg-search-input::placeholder { color: rgba(255,255,255,0.3); }
 
-  .gg-search-close {
+  .gg-search-input::placeholder {
+    color: currentColor;
+    opacity: 0.6;
+  }
+
+  .gg-search-submit {
     position: absolute;
-    top: 40px;
-    right: 40px;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
-    color: #fff;
     cursor: pointer;
-    z-index: 260;
-    transform: scale(1.2);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: currentColor;
   }
 
   /* Custom Predictive Search Styles */
@@ -701,33 +730,41 @@
   </div>
 </div>
 
-<!-- SEARCH OVERLAY -->
+<!-- SEARCH OVERLAY (Origin Clone) -->
 <div class="gg-search-overlay" id="gg-search-overlay">
-  <button class="gg-search-close" onclick="toggleGGSearch()">
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <line x1="18" y1="6" x2="6" y2="18"></line>
-      <line x1="6" y1="6" x2="18" y2="18"></line>
-    </svg>
-  </button>
-  <div class="gg-search-container" onclick="event.stopPropagation()">
-    <predictive-search data-loading-text="{{ 'accessibility.loading' | t }}">
-      <form action="{{ routes.search_url }}" method="get" role="search">
+  <div class="gg-search-container">
+    <button class="gg-search-close" onclick="toggleGGSearch()" aria-label="Close search">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <predictive-search class="gg-search-form" data-loading-text="{{ 'accessibility.loading' | t }}">
+      <form action="{{ routes.search_url }}" method="get" role="search" style="width: 100%;">
         <input
-          id="gg-search-input"
-          class="gg-search-input"
           type="search"
           name="q"
+          id="gg-search-input"
           value="{{ search.terms | escape }}"
           placeholder="SEARCH..."
+          class="gg-search-input"
           role="combobox"
           aria-expanded="false"
           aria-owns="predictive-search-results"
           aria-controls="predictive-search-results"
           aria-haspopup="listbox"
           aria-autocomplete="list"
+          autocorrect="off"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
         >
         <input type="hidden" name="type" value="product">
-        <div id="predictive-search" class="predictive-search" tabindex="-1" data-predictive-search></div>
+        <button type="submit" class="gg-search-submit">{{ 'general.search.search' | t }}</button>
+
+        <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+          {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+        </div>
         <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
       </form>
     </predictive-search>
