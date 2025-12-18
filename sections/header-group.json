@@ -15,6 +15,7 @@
       "type": "origin-ggheader",
       "name": "Origin GG Header",
       "settings": {
+        "logo_image": "shopify://shop_images/updated_logo.svg",
         "logo_text": "origin intl",
         "huge_logo_color": "#121212",
         "font_huge_logo": "serif",
