@@ -136,7 +136,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 200; /* FIX: Must be higher than Hero (150) */
     pointer-events: none; /* CRITICAL: NUKE PROOF INTERACTION */
   }
 
@@ -171,9 +171,10 @@
   }
 
   /* Hide shield on scroll */
-  .scrolled .gg-shield-inner {
+  #shopify-section-{{ section.id }}.scrolled .gg-shield-inner {
     opacity: 0;
     transform: translate(-50%, -60%);
+    pointer-events: none;
   }
 
   /* --- STICKY BAR --- */
@@ -202,6 +203,13 @@
     {% endif %}
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
     pointer-events: auto; /* Bar becomes clickable only when scrolled/solid */
+  }
+
+  /* FIX: Ensure sticky logo is visible when scrolled */
+  .gg-sticky-bar.is-scrolled .gg-sticky-logo {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    pointer-events: auto;
   }
 
   /* --- INTERACTIVE ELEMENTS (Always Clickable) --- */
