@@ -62,7 +62,7 @@
 
   /* Responsive Position */
   #hero-content-{{ section.id }} {
-    margin-top: {{ section.settings.content_position_y_mobile }}%;
+    margin-top: {{ section.settings.content_position_y_mobile }}vh;
     pointer-events: auto !important;
     z-index: 50 !important;
     position: relative;
@@ -84,25 +84,25 @@
   }
   @media (min-width: 768px) {
     #hero-content-{{ section.id }} {
-      margin-top: {{ section.settings.content_position_y }}%;
+      margin-top: {{ section.settings.content_position_y }}vh;
     }
   }
 
   /* --- SECTION WRAPPER ELEVATION (Global Stack Fix) --- */
-  /* This ensures the entire Hero component sits above the Header's base layer */
+  /* This ensures the entire Hero component sits above the next section while remaining interactive */
   #shopify-section-{{ section.id }} {
     position: relative !important;
-    z-index: 2 !important; /* Above header logo (z-index: 1) but below sticky bar (z-index: 100) */
+    z-index: 150 !important; /* Above next section (origin-shop-look) but below sticky bar (z-index: 160) */
     pointer-events: none; /* Allow pass-through to header menu */
   }
 
   /* Force hero section content to be above header logo on homepage */
   body.template-index #shopify-section-{{ section.id }} {
-    z-index: 50 !important;
+    z-index: 150 !important;
   }
 </style>
 
-<div class="relative w-full bg-white font-sans text-black overflow-hidden">
+<div class="relative w-full bg-white font-sans text-black">
   <!-- Preloader -->
   {%- if section.settings.enable_preloader -%}
     <div
@@ -127,7 +127,7 @@
   ></div>
 
   <!-- Main Hero Section -->
-  <section class="relative w-full overflow-hidden flex flex-col items-center justify-start bg-white {% if section.settings.hero_height_mobile == 'adapt' %}h-auto min-h-[400px]{% else %}{{ section.settings.hero_height_mobile }}{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto min-h-[500px]{% else %}{{ section.settings.hero_height_desktop }}{% endif %}">
+  <section class="relative w-full flex flex-col items-center justify-start bg-white overflow-visible {% if section.settings.hero_height_mobile == 'adapt' %}h-auto min-h-[400px]{% else %}{{ section.settings.hero_height_mobile }}{% endif %} md:{% if section.settings.hero_height_desktop == 'adapt' %}h-auto min-h-[500px]{% else %}{{ section.settings.hero_height_desktop }}{% endif %}">
     <!-- Background Layer (Z-0) -->
     <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
       {%- if section.settings.bg_image != blank -%}
@@ -357,7 +357,7 @@
       "max": 100,
       "step": 1,
       "default": 75,
-      "unit": "%",
+      "unit": "vh",
       "label": "Vertical Position (Top to Bottom)"
     },
     {
@@ -367,7 +367,7 @@
       "max": 100,
       "step": 1,
       "default": 85,
-      "unit": "%",
+      "unit": "vh",
       "label": "Vertical Position (Mobile)"
     },
     { "type": "header", "content": "Section Layout" },
