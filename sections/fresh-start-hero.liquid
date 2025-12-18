@@ -105,6 +105,19 @@
       margin-top: {{ section.settings.content_position_y }}%;
     }
   }
+  /* --- SECTION WRAPPER ELEVATION --- */
+  #shopify-section-{{ section.id }} {
+    position: relative !important;
+    z-index: 60 !important; /* Sit ABOVE the Header (Z-50) */
+    pointer-events: none !important; /* Allow clicks to pass through to Header */
+  }
+
+  /* Ensure content is strictly positioned */
+  #hero-content-{{ section.id }} {
+    pointer-events: auto !important; /* Capture clicks on buttons */
+    position: relative;
+    z-index: 10; /* Local priority */
+  }
 </style>
 
 <div class="relative w-full bg-white font-sans text-black overflow-hidden">
@@ -242,7 +255,6 @@
       <div
         id="hero-content-{{ section.id }}"
         class="pointer-events-auto"
-        style="z-index: 60; position: relative;"
       >
         <div class="flex flex-col items-center gap-6">
           <p
