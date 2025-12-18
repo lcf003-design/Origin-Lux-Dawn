@@ -326,7 +326,8 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 0; /* Collapsed to remove interaction shield */
+    overflow: visible; /* Allow absolute child to show */
     z-index: 40;
     pointer-events: none !important;
     display: flex;
