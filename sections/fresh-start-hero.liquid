@@ -89,11 +89,11 @@
   }
 
   /* --- SECTION WRAPPER ELEVATION (Global Stack Fix) --- */
-  /* This ensures the entire Hero component sits above the next section while remaining interactive */
+  /* This ensures the entire Hero component sits above the next section while remaining interactive.
+     Removing 'pointer-events: none' fix for mobile touch-interception issues. */
   #shopify-section-{{ section.id }} {
     position: relative !important;
     z-index: 150 !important; /* Above next section (origin-shop-look) but below sticky bar (z-index: 160) */
-    pointer-events: none; /* Allow pass-through to header menu */
   }
 
   /* Force hero section content to be above header logo on homepage */
