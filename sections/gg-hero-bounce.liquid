@@ -185,8 +185,8 @@
     // Squash & Stretch Variables
     let scaleX = 1;
     let scaleY = 1;
-    const elasticity = 0.15;    // How fast it returns to normal
-    const squishFactor = 0.15;  // Impact distortion amount
+    const elasticity = 0.02;    // How fast it returns to normal (Lower = Slower recovery/Slow Mo Mush)
+    const squishFactor = 0.4;   // Impact distortion amount (Higher = More Mush)
 
     function updateMetrics() {
       wrapperWidth = wrapper.offsetWidth;
@@ -292,7 +292,7 @@
       "max": 15,
       "step": 0.5,
       "label": "Bounce Speed",
-      "default": 3
+      "default": 2
     },
     {
       "type": "checkbox",
