@@ -262,6 +262,15 @@
     .gg-header-right { gap: 15px; }
   }
 
+  /* --- DESKTOP VS MOBILE SHOW/HIDE (Vanilla CSS Fix) --- */
+  .gg-shield-img-desktop { display: none; }
+  .gg-shield-img-mobile { display: block; }
+
+  @media (min-width: 769px) {
+    .gg-shield-img-desktop { display: block; }
+    .gg-shield-img-mobile { display: none; }
+  }
+
   /* --- DRAWER (Simplified for V2 Launch) --- */
   .gg-drawer-overlay {
     position: fixed;
@@ -314,7 +323,7 @@
     {% if section.settings.shield_logo_desktop %}
       <img
         src="{{ section.settings.shield_logo_desktop | image_url: width: 1400 }}"
-        class="gg-shield-img hidden md:block"
+        class="gg-shield-img gg-shield-img-desktop"
         alt="Shield Logo"
         width="{{ section.settings.shield_logo_desktop.width }}"
         height="{{ section.settings.shield_logo_desktop.height }}"
@@ -323,7 +332,7 @@
     {% if section.settings.shield_logo_mobile %}
       <img
         src="{{ section.settings.shield_logo_mobile | image_url: width: 800 }}"
-        class="gg-shield-img block md:hidden"
+        class="gg-shield-img gg-shield-img-mobile"
         alt="Shield Logo"
         width="{{ section.settings.shield_logo_mobile.width }}"
         height="{{ section.settings.shield_logo_mobile.height }}"
