@@ -215,7 +215,7 @@
   /* --- VARS --- */
   .origin-gucci-header-section {
     position: relative;
-    z-index: auto; 
+    z-index: auto;
     pointer-events: none;
     --header-transition: all 0.4s ease-out;
     --logo-width-desktop: {{ section.settings.hero_logo_width_desktop }}%;
@@ -325,7 +325,7 @@
     width: 100%;
     height: 100vh;
     z-index: 40; /* LAYER 40: Below Hero Buttons (50) */
-    pointer-events: none; /* Pass-through layer */
+    pointer-events: none !important; /* Pass-through layer */
     display: flex;
     justify-content: center;
     transform-origin: center top;
@@ -343,7 +343,7 @@
     padding: 0 20px;
     backface-visibility: hidden;
     will-change: transform, opacity;
-    pointer-events: none; /* Text is visually there but ghost-like */
+    pointer-events: none !important; /* Text is visually there but ghost-like */
   }
 
   .origin-huge-logo-inner.is-full-width {
@@ -357,7 +357,7 @@
     height: auto;
     display: block;
     margin: 0 auto;
-    pointer-events: none;
+    pointer-events: none !important;
   }
 
   .origin-huge-logo-text {
@@ -368,7 +368,7 @@
     margin: 0;
     white-space: nowrap;
     color: var(--huge-logo-text-color) !important;
-    pointer-events: none;
+    pointer-events: none !important;
   }
 
   /* --- SMART HEADER: STANDARD PAGE OVERRIDES --- */
@@ -469,8 +469,8 @@
 
   /* --- MOBILE STYLES --- */
   @media (max-width: 749px) {
-    .origin-huge-logo-inner { 
-      width: var(--logo-width-mobile); 
+    .origin-huge-logo-inner {
+      width: var(--logo-width-mobile);
       max-width: var(--logo-max-width-mobile);
     }
     .origin-huge-logo-inner.is-full-width { width: 100vw; }
@@ -1013,20 +1013,19 @@
           hugeWrapper.style.opacity = '0';
           hugeWrapper.style.visibility = 'hidden'; // Remove from hit-test completely
           hugeWrapper.style.pointerEvents = 'none';
-          
+
           if (stickyLogo) {
             stickyLogo.style.opacity = '1';
             stickyLogo.style.visibility = 'visible';
             stickyLogo.style.transform = 'translateY(0)';
           }
-          
+
           headerContainer.classList.add('is-shrunk');
           if (stickyBar) {
             stickyBar.style.backgroundColor = 'var(--header-bg-shrunk)';
             stickyBar.style.color = 'var(--header-text-shrunk)';
             stickyBar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
           }
-
         } else {
           // AT TOP: Show Big, Hide Small
           hugeWrapper.style.opacity = '1';
@@ -1057,9 +1056,12 @@
       window.addEventListener('scroll', () => window.requestAnimationFrame(handleScroll), { passive: true });
       window.addEventListener('resize', handleResize, { passive: true });
 
-      // Init
+      // Init internal scroll handler
       handleScroll();
+    } // <--- End updateMorph
 
+    // Execute the function immediately
+    updateMorph();
 
     // --- 2. Overlay Manager ---
     const toggleOverlay = (overlayId, isOpen) => {
