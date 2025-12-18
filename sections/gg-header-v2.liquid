@@ -658,7 +658,7 @@
     </svg>
   </button>
   <div class="gg-search-container" onclick="event.stopPropagation()">
-    <predictive-search>
+    <predictive-search data-loading-text="{{ 'accessibility.loading' | t }}">
       <form action="{{ routes.search_url }}" method="get" role="search">
         <input
           id="gg-search-input"
@@ -676,6 +676,7 @@
         >
         <input type="hidden" name="type" value="product">
         <div id="predictive-search" tabindex="-1" data-predictive-search></div>
+        <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
       </form>
     </predictive-search>
   </div>
