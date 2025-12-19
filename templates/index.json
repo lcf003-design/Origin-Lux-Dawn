@@ -50,6 +50,7 @@
         "logo_width_desktop": 50,
         "logo_width_mobile": 60,
         "speed": 4,
+        "speed_mobile": 1,
         "enable_glass": true,
         "headline": "",
         "text_color": "#000000",
@@ -63,7 +64,8 @@
         "button_font_size": 15,
         "button_padding_x": 40,
         "button_padding_y": 10,
-        "button_margin_top": 200,
+        "button_margin_top_desktop": 40,
+        "button_margin_top_mobile": 40,
         "padding_top_mobile": 100,
         "padding_bottom_mobile": 60
       }
