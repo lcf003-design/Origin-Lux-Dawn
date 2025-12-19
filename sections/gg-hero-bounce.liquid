@@ -116,6 +116,19 @@
     text-align: center;
     max-width: 800px;
     padding: 20px;
+  /* Button Container Positioning */
+  .gg-hero-buttons-container {
+    margin-top: {{ section.settings.button_margin_top_desktop }}px;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media screen and (max-width: 749px) {
+    .gg-hero-buttons-container {
+      margin-top: {{ section.settings.button_margin_top_mobile }}px;
+    }
   }
 {% endstyle %}
 
@@ -141,7 +154,7 @@
       </h2>
     {% endif %}
 
-    <div class="flex gap-4 justify-center flex-wrap" style="margin-top: {{ section.settings.button_margin_top }}px;">
+    <div class="gg-hero-buttons-container">
       {% for block in section.blocks %}
         <a
           href="{{ block.settings.link }}"
@@ -163,8 +176,13 @@
 
     let x = Math.random() * 50;
     let y = Math.random() * 50;
-    let vx = {{ section.settings.speed }} * (Math.random() > 0.5 ? 1 : -1);
-    let vy = {{ section.settings.speed }} * (Math.random() > 0.5 ? 1 : -1);
+    const speedDesktop = {{ section.settings.speed }};
+    const speedMobile = {{ section.settings.speed_mobile }};
+    const isMobile = window.innerWidth < 750;
+    const currentSpeed = isMobile ? speedMobile : speedDesktop;
+
+    let vx = currentSpeed * (Math.random() > 0.5 ? 1 : -1);
+    let vy = currentSpeed * (Math.random() > 0.5 ? 1 : -1);
     
     let wrapperWidth, wrapperHeight, logoWidth, logoHeight;
 
@@ -280,6 +298,15 @@
       "step": 0.5,
       "label": "Bounce Speed",
       "default": 3
+    },
+    {
+      "type": "range",
+      "id": "speed_mobile",
+      "min": 0.5,
+      "max": 15,
+      "step": 0.5,
+      "label": "Bounce Speed (Mobile)",
+      "default": 1.5
     },
     {
       "type": "checkbox",
@@ -419,14 +446,25 @@
       "label": "Button Padding Vertical",
       "default": 20
     },
+
     {
       "type": "range",
-      "id": "button_margin_top",
+      "id": "button_margin_top_desktop",
       "min": 0,
-      "max": 200,
+      "max": 500,
       "step": 5,
       "unit": "px",
-      "label": "Button Margin Top (Move Down)",
+      "label": "Button Margin Top (Desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "button_margin_top_mobile",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "label": "Button Margin Top (Mobile)",
       "default": 40
     },
     {
