@@ -61,7 +61,7 @@
         "padding_top": 140,
         "padding_bottom": 80,
         "button_min_width": 100,
-        "button_font_size": 15,
+        "button_font_size": 20,
         "button_padding_x": 40,
         "button_padding_y": 10,
         "button_margin_top_desktop": 500,
