@@ -71,39 +71,96 @@
   }
 
   /* Button Styles */
+  /* Premium Button Styles */
   .gg-hero-button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    min-width: {{ section.settings.button_min_width }}px; /* Enforces equal width */
+    min-width: {{ section.settings.button_min_width }}px;
     padding: {{ section.settings.button_padding_y }}px {{ section.settings.button_padding_x }}px;
     font-size: {{ section.settings.button_font_size }}px;
-    background: #fff;
-    color: #000;
-    font-weight: 700;
+
+    /* Glassmorphism & Luxury Base */
+    background: rgba(255, 255, 255, 0.05); /* Ultra-subtle glass */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    color: {{ section.settings.text_color }};
+    font-weight: 500; /* Lighter weight for elegance */
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.2em; /* Premium spacing */
     text-align: center;
-    transition: all 0.3s ease;
     text-decoration: none;
-    line-height: 1.2;
+    line-height: 1;
     cursor: pointer;
-  }
-  .gg-hero-button:hover {
-    background: #000;
-    color: #fff;
-    transform: translateY(-2px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
   }
 
-  /* Overlay content */
+  .gg-hero-button:hover {
+    background: rgba(0, 0, 0, 0.7); /* Transparent Black Glass */
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    border-color: transparent;
+  }
+
+  /* Overlay content - Full Screen Overlay */
   .hero-v2-content {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 50;
-    color: {{ section.settings.text_color }};
-    pointer-events: auto;
+    pointer-events: none; /* Let clicks pass through empty space */
+  }
+
+  /* Headline Styles - Absolute Percent Position */
+  .hero-headline {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: {{ section.settings.headline_pos_y_desktop }}%;
+    transform: translateY(-50%);
     text-align: center;
-    max-width: 800px;
-    padding: 20px;
+    pointer-events: auto; /* Re-enable clicks */
+
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color }};
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero-headline {
+      top: {{ section.settings.headline_pos_y_mobile }}%;
+    }
+  }
+
+  /* Button Container Positioning - Absolute Percent Position */
+  .gg-hero-buttons-container {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: {{ section.settings.button_pos_y_desktop }}%;
+    transform: translateY(-50%);
+    pointer-events: auto; /* Re-enable clicks */
+
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media screen and (max-width: 749px) {
+    .gg-hero-buttons-container {
+      top: {{ section.settings.button_pos_y_mobile }}%;
+    }
   }
 {% endstyle %}
 
@@ -124,12 +181,12 @@
 
   <div class="hero-v2-content">
     {% if section.settings.headline != blank %}
-      <h2 style="font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; text-transform: uppercase;">
+      <h2 class="hero-headline">
         {{ section.settings.headline }}
       </h2>
     {% endif %}
 
-    <div class="flex gap-4 mt-8 justify-center flex-wrap">
+    <div class="gg-hero-buttons-container">
       {% for block in section.blocks %}
         <a
           href="{{ block.settings.link }}"
@@ -140,9 +197,8 @@
       {% endfor %}
     </div>
   </div>
-</div>
 
-<script>
+  <script>
   (function() {
     const sectionId = '{{ section.id }}';
     const wrapper = document.getElementById(`ping-pong-wrapper-${sectionId}`);
@@ -152,10 +208,21 @@
 
     let x = Math.random() * 50;
     let y = Math.random() * 50;
-    let vx = {{ section.settings.speed }} * (Math.random() > 0.5 ? 1 : -1);
-    let vy = {{ section.settings.speed }} * (Math.random() > 0.5 ? 1 : -1);
+    const speedDesktop = {{ section.settings.speed }};
+    const speedMobile = {{ section.settings.speed_mobile }};
+    const isMobile = window.innerWidth < 750;
+    const currentSpeed = isMobile ? speedMobile : speedDesktop;
+
+    let vx = currentSpeed * (Math.random() > 0.5 ? 1 : -1);
+    let vy = currentSpeed * (Math.random() > 0.5 ? 1 : -1);
     
     let wrapperWidth, wrapperHeight, logoWidth, logoHeight;
+
+    // Squash & Stretch Variables - DISABLED (No Mush)
+    let scaleX = 1;
+    let scaleY = 1;
+    const elasticity = 0.15;    
+    const squishFactor = 0;     // Impact distortion amount set to 0 (No Mush)
 
     function updateMetrics() {
       wrapperWidth = wrapper.offsetWidth;
@@ -163,8 +230,6 @@
       logoWidth = logo.offsetWidth;
       logoHeight = logo.offsetHeight;
 
-      // CRITICAL FIX: Clamp position immediately on resize to prevent "teleporting"
-      // or getting stuck outside the box when screen shrinks.
       if (x + logoWidth > wrapperWidth) {
         x = Math.max(0, wrapperWidth - logoWidth);
       }
@@ -177,39 +242,56 @@
       x += vx;
       y += vy;
 
+      // Restore shape (elasticity) - effectively does nothing if squishFactor is 0
+      scaleX += (1 - scaleX) * elasticity;
+      scaleY += (1 - scaleY) * elasticity;
+
       // Bounce horizontal
       if (x <= 0) {
         x = 0;
         vx *= -1;
+        // Hit Left
+        scaleX = 1 - squishFactor;
+        scaleY = 1 + squishFactor;
       } else if (x + logoWidth >= wrapperWidth) {
         x = wrapperWidth - logoWidth;
         vx *= -1;
+        // Hit Right
+        scaleX = 1 - squishFactor;
+        scaleY = 1 + squishFactor;
       }
 
       // Bounce vertical
       if (y <= 0) {
         y = 0;
         vy *= -1;
+        // Hit Top
+        scaleX = 1 + squishFactor;
+        scaleY = 1 - squishFactor;
       } else if (y + logoHeight >= wrapperHeight) {
         y = wrapperHeight - logoHeight;
         vy *= -1;
+        // Hit Bottom
+        scaleX = 1 + squishFactor;
+        scaleY = 1 - squishFactor;
       }
 
-      logo.style.transform = `translate(${x}px, ${y}px)`;
+      // Apply transform without deformation (scale will stay 1 because squishFactor is 0)
+      logo.style.transform = `translate(${x}px, ${y}px) scale(${scaleX.toFixed(3)}, ${scaleY.toFixed(3)})`;
       requestAnimationFrame(animate);
     }
 
     window.addEventListener('resize', updateMetrics);
     updateMetrics();
     
-    // Start animation after a brief delay to ensure metrics are ready
     setTimeout(() => {
       updateMetrics();
       animate();
     }, 100);
 
   })();
-</script>
+  </script>
+</div>
 
 {% schema %}
 {
@@ -250,6 +332,15 @@
       "default": 3
     },
     {
+      "type": "range",
+      "id": "speed_mobile",
+      "min": 0.5,
+      "max": 15,
+      "step": 0.5,
+      "label": "Bounce Speed (Mobile)",
+      "default": 1.5
+    },
+    {
       "type": "checkbox",
       "id": "enable_glass",
       "label": "Enable Soft Shadow/Glass Look",
@@ -264,6 +355,26 @@
       "id": "headline",
       "label": "Headline",
       "default": "Experimental Hero"
+    },
+    {
+      "type": "range",
+      "id": "headline_pos_y_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Headline Vertical Position % (Desktop)",
+      "default": 75
+    },
+    {
+      "type": "range",
+      "id": "headline_pos_y_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Headline Vertical Position % (Mobile)",
+      "default": 75
     },
     {
       "type": "color",
@@ -341,6 +452,72 @@
       "unit": "px",
       "label": "Padding Bottom (Desktop)",
       "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "range",
+      "id": "button_min_width",
+      "min": 100,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Button Minimum Width (Evenness)",
+      "default": 220,
+      "info": "Set this to ensure all buttons are the same width regardless of text length."
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_x",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Button Padding Horizontal",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "button_padding_y",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Padding Vertical",
+      "default": 20
+    },
+
+    {
+      "type": "range",
+      "id": "button_pos_y_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Button Vertical Position % (Desktop)",
+      "default": 85
+    },
+    {
+      "type": "range",
+      "id": "button_pos_y_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Button Vertical Position % (Mobile)",
+      "default": 85
     },
     {
       "type": "range",
