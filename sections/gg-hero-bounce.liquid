@@ -100,8 +100,8 @@
   }
 
   .gg-hero-button:hover {
-    background: {{ section.settings.text_color }};
-    color: {% if section.settings.text_color == '#ffffff' or section.settings.text_color == '#fff' %}#000000{% else %}#ffffff{% endif %};
+    background: rgba(0, 0, 0, 0.7); /* Transparent Black Glass */
+    color: #ffffff;
     transform: translateY(-2px);
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
     border-color: transparent;
