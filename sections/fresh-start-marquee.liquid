@@ -24,9 +24,24 @@
     animation: fs-marquee 30s linear infinite;
   }
 
-  .stroke-text-white {
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-    color: transparent;
+  /* Lightning Stroke Animation */
+  .lightning-text {
+    fill: transparent;
+    stroke: #00ffff; /* Cyan/Lightning Blue */
+    stroke-width: 2px;
+    stroke-dasharray: 50 400; /* Short dash (bolt), long gap */
+    animation: stroke-lightning 4s linear infinite;
+    font-size: 80px; /* SVG internal font size */
+    font-weight: 900;
+  }
+
+  @keyframes stroke-lightning {
+    0% {
+      stroke-dashoffset: 450;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
   }
 </style>
 
@@ -35,12 +50,26 @@
     | default: 'GUCCI PRADA BALENCIAGA CHANEL DIOR OFF-WHITE VERSACE'
   -%}
   <div class="animate-fs-marquee flex gap-16 items-center">
-    <span class="stroke-text-white text-4xl md:text-6xl font-black uppercase tracking-tighter opacity-70">
-      {{ marquee_content }}
-      {{ marquee_content }}
-      {{ marquee_content }}
-      {{ marquee_content }}
-    </span>
+    <!-- Lightning SVG Text -->
+    <svg class="h-24 md:h-32 w-auto" viewBox="0 0 1000 100" overflow="visible">
+      <defs>
+        <symbol id="marquee-text">
+          <text x="0" y="50%" dy=".35em" class="text-4xl md:text-6xl font-black uppercase tracking-tighter">
+            {{ marquee_content }}
+          </text>
+        </symbol>
+      </defs>
+      <use xlink:href="#marquee-text" class="lightning-text"></use>
+      <use xlink:href="#marquee-text" class="lightning-text" x="100%"></use>
+    </svg>
+    <svg class="h-24 md:h-32 w-auto" viewBox="0 0 1000 100" overflow="visible">
+      <use xlink:href="#marquee-text" class="lightning-text"></use>
+      <use xlink:href="#marquee-text" class="lightning-text" x="100%"></use>
+    </svg>
+    <svg class="h-24 md:h-32 w-auto" viewBox="0 0 1000 100" overflow="visible">
+      <use xlink:href="#marquee-text" class="lightning-text"></use>
+      <use xlink:href="#marquee-text" class="lightning-text" x="100%"></use>
+    </svg>
   </div>
 </div>
 
