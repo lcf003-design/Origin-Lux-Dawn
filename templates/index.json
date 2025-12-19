@@ -27,6 +27,7 @@
       "blocks": {
         "button_9JGhxY": {
           "type": "button",
+          "name": "Women",
           "settings": {
             "label": "Women",
             "link": "shopify://collections/womens-products"
@@ -34,6 +35,7 @@
         },
         "button_FPzbzw": {
           "type": "button",
+          "name": "Men",
           "settings": {
             "label": "Men",
             "link": "shopify://collections/mens-products"
