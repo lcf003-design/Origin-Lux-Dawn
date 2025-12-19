@@ -55,7 +55,9 @@
         "speed_mobile": 1,
         "enable_glass": true,
         "headline": "Vanguard of luxury",
-        "text_color": "#000000",
+        "headline_pos_y_desktop": 52,
+        "headline_pos_y_mobile": 47,
+        "text_color": "#121212",
         "bg_color": "rgba(0,0,0,0)",
         "hero_height": "adapt",
         "min_height_desktop": 80,
@@ -66,8 +68,8 @@
         "button_font_size": 20,
         "button_padding_x": 40,
         "button_padding_y": 10,
-        "button_margin_top_desktop": 500,
-        "button_margin_top_mobile": 275,
+        "button_pos_y_desktop": 60,
+        "button_pos_y_mobile": 60,
         "padding_top_mobile": 100,
         "padding_bottom_mobile": 60
       }
