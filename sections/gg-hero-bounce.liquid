@@ -71,53 +71,40 @@
   }
 
   /* Button Styles */
+  /* Premium Button Styles */
   .gg-hero-button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    min-width: {{ section.settings.button_min_width }}px; /* Enforces equal width */
+    min-width: {{ section.settings.button_min_width }}px;
     padding: {{ section.settings.button_padding_y }}px {{ section.settings.button_padding_x }}px;
     font-size: {{ section.settings.button_font_size }}px;
-    background: #fff;
-    color: #000;
-    font-weight: 700;
+
+    /* Glassmorphism & Luxury Base */
+    background: rgba(255, 255, 255, 0.05); /* Ultra-subtle glass */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    color: {{ section.settings.text_color }};
+    font-weight: 500; /* Lighter weight for elegance */
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.2em; /* Premium spacing */
     text-align: center;
-    transition: all 0.3s ease;
     text-decoration: none;
-    line-height: 1.2;
+    line-height: 1;
     cursor: pointer;
-  }
-  .gg-hero-button:hover {
-    background: #000;
-    color: #fff;
-    transform: translateY(-2px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
   }
 
-  /* Button Styles */
-  .gg-hero-button {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    min-width: {{ section.settings.button_min_width }}px; /* Enforces equal width */
-    padding: {{ section.settings.button_padding_y }}px {{ section.settings.button_padding_x }}px;
-    font-size: {{ section.settings.button_font_size }}px;
-    background: #fff;
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    text-align: center;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    line-height: 1.2;
-    cursor: pointer;
-  }
   .gg-hero-button:hover {
-    background: #000;
-    color: #fff;
+    background: {{ section.settings.text_color }};
+    color: {% if section.settings.text_color == '#ffffff' or section.settings.text_color == '#fff' %}#000000{% else %}#ffffff{% endif %};
     transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    border-color: transparent;
   }
 
   /* Overlay content */
@@ -154,7 +141,7 @@
       </h2>
     {% endif %}
 
-    <div class="flex gap-4 mt-8 justify-center flex-wrap">
+    <div class="flex gap-4 justify-center flex-wrap" style="margin-top: {{ section.settings.button_margin_top }}px;">
       {% for block in section.blocks %}
         <a
           href="{{ block.settings.link }}"
@@ -431,6 +418,16 @@
       "unit": "px",
       "label": "Button Padding Vertical",
       "default": 20
+    },
+    {
+      "type": "range",
+      "id": "button_margin_top",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Button Margin Top (Move Down)",
+      "default": 40
     },
     {
       "type": "range",
