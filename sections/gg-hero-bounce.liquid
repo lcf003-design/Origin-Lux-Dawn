@@ -130,6 +130,21 @@
       margin-top: {{ section.settings.button_margin_top_mobile }}px;
     }
   }
+  /* Headline Styles */
+  .hero-headline {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-top: {{ section.settings.headline_margin_top_desktop }}px;
+    margin-bottom: 0;
+    line-height: 1.1;
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero-headline {
+      margin-top: {{ section.settings.headline_margin_top_mobile }}px;
+    }
+  }
 {% endstyle %}
 
 <div class="ping-pong-container" id="ping-pong-wrapper-{{ section.id }}">
@@ -149,7 +164,7 @@
 
   <div class="hero-v2-content">
     {% if section.settings.headline != blank %}
-      <h2 style="font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; text-transform: uppercase;">
+      <h2 class="hero-headline">
         {{ section.settings.headline }}
       </h2>
     {% endif %}
@@ -323,6 +338,26 @@
       "id": "headline",
       "label": "Headline",
       "default": "Experimental Hero"
+    },
+    {
+      "type": "range",
+      "id": "headline_margin_top_desktop",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Headline Margin Top (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "headline_margin_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Headline Margin Top (Mobile)",
+      "default": 0
     },
     {
       "type": "color",
