@@ -5,7 +5,8 @@
   --alpha-badge-border: 0.1;
   --focused-base-outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
   --focused-base-outline-offset: 0.3rem;
-  --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
+  --focused-base-box-shadow:
+    0 0 0 0.3rem rgb(var(--color-background)),
     0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
@@ -763,14 +764,16 @@ summary::-webkit-details-marker {
 .focus-offset:focus-visible {
   outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
   outline-offset: 1rem;
-  box-shadow: 0 0 0 1rem rgb(var(--color-background)),
+  box-shadow:
+    0 0 0 1rem rgb(var(--color-background)),
     0 0 0.2rem 1.2rem rgba(var(--color-foreground), 0.3);
 }
 
 .focus-offset.focused {
   outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
   outline-offset: 1rem;
-  box-shadow: 0 0 0 1rem rgb(var(--color-background)),
+  box-shadow:
+    0 0 0 1rem rgb(var(--color-background)),
     0 0 0.2rem 1.2rem rgba(var(--color-foreground), 0.3);
 }
 
@@ -1265,7 +1268,8 @@ button.shopify-payment-button__button--unbranded {
   left: var(--buttons-border-width);
   z-index: 1;
   border-radius: var(--buttons-radius);
-  box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
+  box-shadow:
+    0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
       rgba(var(--color-button-text), var(--border-opacity)),
     0 0 0 var(--buttons-border-width)
       rgba(var(--color-button), var(--alpha-button-background));
@@ -1277,7 +1281,8 @@ button.shopify-payment-button__button--unbranded {
 .customer button:hover::after,
 .shopify-payment-button__button--unbranded:hover::after {
   --border-offset: 1.3px;
-  box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
+  box-shadow:
+    0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
       rgba(var(--color-button-text), var(--border-opacity)),
     0 0 0 calc(var(--buttons-border-width) + 1px)
       rgba(var(--color-button), var(--alpha-button-background));
@@ -1293,7 +1298,8 @@ button.shopify-payment-button__button--unbranded {
 .shopify-payment-button__button--unbranded:focus-visible,
 .shopify-payment-button__button--unbranded:focus {
   outline: 0;
-  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
+  box-shadow:
+    0 0 0 0.3rem rgb(var(--color-background)),
     0 0 0 0.5rem rgba(var(--color-foreground), 0.5),
     0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
@@ -1554,7 +1560,8 @@ details[open] > .share-button__fallback {
 .share-button__fallback .field__input:-webkit-autofill {
   outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
   outline-offset: 0.1rem;
-  box-shadow: 0 0 0 0.1rem rgb(var(--color-background)),
+  box-shadow:
+    0 0 0 0.1rem rgb(var(--color-background)),
     0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
@@ -1763,7 +1770,8 @@ details[open] > .share-button__fallback {
   margin-bottom: 0;
   pointer-events: none;
   position: absolute;
-  transition: top var(--duration-short) ease,
+  transition:
+    top var(--duration-short) ease,
     font-size var(--duration-short) ease;
   color: rgba(var(--color-foreground), 0.75);
   letter-spacing: 0.1rem;
@@ -2761,7 +2769,9 @@ details[open] .modal-overlay::after {
   position: absolute;
   opacity: 1;
   transform: scale(1);
-  transition: transform 150ms ease, opacity 150ms ease;
+  transition:
+    transform 150ms ease,
+    opacity 150ms ease;
 }
 
 details:not([open]) > .header__icon--menu .icon-close,
@@ -2876,7 +2886,8 @@ details[open] > .header__menu-item .icon-caret {
 }
 
 .header__submenu {
-  transition: opacity var(--duration-default) ease,
+  transition:
+    opacity var(--duration-default) ease,
     transform var(--duration-default) ease;
 }
 
@@ -3388,7 +3399,8 @@ details-disclosure > details {
   .animate--hover-3d-lift .customer button,
   .animate--hover-3d-lift .shopify-payment-button__button,
   .animate--hover-3d-lift .deferred-media .deferred-media__poster-button {
-    transition: transform var(--duration-long) ease,
+    transition:
+      transform var(--duration-long) ease,
       box-shadow var(--duration-long) ease;
     transform-origin: center;
   }
@@ -3400,10 +3412,12 @@ details-disclosure > details {
   .animate--hover-3d-lift .customer button:not([disabled]):hover,
   .animate--hover-3d-lift .shopify-payment-button__button:hover,
   .animate--hover-3d-lift .deferred-media:hover .deferred-media__poster-button {
-    transition: transform var(--duration-extended) ease,
+    transition:
+      transform var(--duration-extended) ease,
       box-shadow var(--duration-long) ease; /* Slow the card transition speed while hover is active. */
     transform: rotate(1deg);
-    box-shadow: -1rem -1rem 1rem -1rem rgba(0, 0, 0, 0.05),
+    box-shadow:
+      -1rem -1rem 1rem -1rem rgba(0, 0, 0, 0.05),
       1rem 1rem 1rem -1rem rgba(0, 0, 0, 0.05),
       0 0 0.5rem 0 rgba(255, 255, 255, 0),
       0 2rem 3.5rem -2rem rgba(0, 0, 0, 0.5);
@@ -3439,7 +3453,8 @@ details-disclosure > details {
     .card--shape.card--standard:not(.card--text)
     .card__inner {
     box-shadow: none;
-    transition: transform var(--duration-long) ease,
+    transition:
+      transform var(--duration-long) ease,
       filter var(--duration-long) ease;
   }
 
@@ -3447,7 +3462,8 @@ details-disclosure > details {
     .card-wrapper:hover
     .card--shape.card--standard:not(.card--text)
     .card__inner {
-    transition: transform calc(2 * var(--duration-extended)) ease,
+    transition:
+      transform calc(2 * var(--duration-extended)) ease,
       filter var(--duration-long) ease; /* Slow the card transition speed while hover is active. */
     filter: drop-shadow(0rem 2rem 2rem rgba(0, 0, 0, 0.15))
       drop-shadow(0rem 1rem 1rem rgba(0, 0, 0, 0.15));
@@ -3493,7 +3509,8 @@ details-disclosure > details {
     left: 0;
     opacity: 0;
     pointer-events: none;
-    transition: background-position calc(2 * var(--duration-extended)) ease,
+    transition:
+      background-position calc(2 * var(--duration-extended)) ease,
       opacity var(--duration-default) ease;
     mix-blend-mode: overlay;
     background-size: 400% 100%;
@@ -3513,7 +3530,9 @@ details-disclosure > details {
     .card--standard
     .card__media:after {
     opacity: 0.2;
-    transition: background-position 6s ease, opacity var(--duration-long) ease;
+    transition:
+      background-position 6s ease,
+      opacity var(--duration-long) ease;
     background-position: left;
     z-index: 2;
   }
@@ -3574,7 +3593,8 @@ details-disclosure > details {
   .animate--hover-vertical-lift
     .shopify-payment-button__button:not([disabled]):hover:after {
     --border-offset: 0.3px; /* Default is 1.3px as defined above in this file. This removes 1px to prevent the border from growing on buttons when this effect is on.  */
-    box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
+    box-shadow:
+      0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
         rgba(var(--color-button-text), var(--border-opacity)),
       0 0 0 var(--buttons-border-width)
         rgba(var(--color-button), var(--alpha-button-background));
@@ -3737,7 +3757,9 @@ details-disclosure > details {
 .section-header .header {
   background: transparent;
   border-bottom: none;
-  transition: background 0.35s ease, border-color 0.35s ease;
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease;
 }
 
 /* Text/icon color at top (over hero) */
@@ -3747,7 +3769,9 @@ details-disclosure > details {
 .section-header .header__icon svg {
   color: #ffffff;
   fill: #ffffff;
-  transition: color 0.35s ease, fill 0.35s ease;
+  transition:
+    color 0.35s ease,
+    fill 0.35s ease;
 }
 
 /* When you scroll, Dawn adds .scrolled-past-header */
@@ -3816,7 +3840,9 @@ details-disclosure > details {
   content: "+";
   font-size: 1rem;
   line-height: 1;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
   opacity: 0.7;
 }
 
@@ -3842,4 +3868,118 @@ details-disclosure > details {
 .origin-accordion summary:hover span,
 .origin-accordion summary:focus-visible span {
   opacity: 0.8;
+}
+
+/* =========================================
+   REUSABLE PRODUCT DESCRIPTION SYSTEM
+   ========================================= */
+
+/* Main Container */
+.product-desc-container {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #555555;
+  line-height: 1.8;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 50px;
+  text-align: center;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+/* Typography & Elements */
+.product-desc-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 24px;
+  color: #777777;
+  margin-bottom: 25px;
+  font-weight: normal;
+}
+
+.product-desc-divider {
+  height: 1px;
+  width: 50px;
+  background-color: #d4af37;
+  margin: 0 auto 30px auto;
+}
+
+.product-desc-text {
+  font-size: 14px;
+  color: #444444;
+  margin-bottom: 20px;
+}
+
+.product-desc-text.last {
+  margin-bottom: 40px;
+}
+
+/* Accordion / Details */
+.product-desc-details {
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.product-desc-details details {
+  border-bottom: 1px solid #eeeeee;
+  padding: 15px 0;
+}
+
+.product-desc-details summary {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 13px;
+  color: #111111;
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  padding-right: 30px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  outline: none;
+}
+
+.product-desc-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.product-desc-details summary::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  color: #d4af37;
+  font-weight: 400;
+  font-size: 18px;
+  top: -2px;
+}
+
+.product-desc-details details[open] summary::after {
+  content: "−";
+}
+
+.product-desc-details details[open] div {
+  animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* List Styles */
+.spec-list {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.spec-list li {
+  margin-bottom: 6px;
+  color: #555555;
+  font-size: 13.5px;
 }
