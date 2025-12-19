@@ -28,15 +28,15 @@
         "button_9JGhxY": {
           "type": "button",
           "settings": {
-            "label": "men",
-            "link": ""
+            "label": "Women",
+            "link": "shopify://collections/womens-products"
           }
         },
         "button_FPzbzw": {
           "type": "button",
           "settings": {
-            "label": "women",
-            "link": ""
+            "label": "Men",
+            "link": "shopify://collections/mens-products"
           }
         }
       },
