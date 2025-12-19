@@ -49,7 +49,7 @@
       "name": "GG Bouncing Hero (Ping-Pong)",
       "settings": {
         "logo": "shopify://shop_images/updated_logo.svg",
-        "logo_width_desktop": 50,
+        "logo_width_desktop": 40,
         "logo_width_mobile": 30,
         "speed": 2.5,
         "speed_mobile": 1,
