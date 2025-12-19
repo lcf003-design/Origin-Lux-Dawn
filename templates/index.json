@@ -64,7 +64,7 @@
         "button_font_size": 15,
         "button_padding_x": 40,
         "button_padding_y": 10,
-        "button_margin_top_desktop": 40,
+        "button_margin_top_desktop": 500,
         "button_margin_top_mobile": 40,
         "padding_top_mobile": 100,
         "padding_bottom_mobile": 60
