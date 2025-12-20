@@ -65,6 +65,10 @@
     width: 100%;
     height: auto;
     display: block;
+    border: 0; /* Fix for loading artifacts */
+    outline: none;
+    user-select: none;
+    -webkit-user-drag: none;
     {% if section.settings.enable_glass %}
       filter: drop-shadow(0 20px 50px rgba(0,0,0,0.3));
     {% endif %}
