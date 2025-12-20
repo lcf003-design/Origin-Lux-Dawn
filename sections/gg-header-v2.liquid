@@ -950,7 +950,7 @@
         e.preventDefault();
         e.stopPropagation(); // Stop bubble
 
-        const submenu = this.nextElementSibling;
+        const submenu = this.parentElement.querySelector('.gg-submenu');
         const icon = this.querySelector('.gg-accordion-icon');
 
         if (submenu) {
